@@ -52,7 +52,8 @@ export function AiSection({ route }: { route: string[] }) {
         </div>
       </nav>
       <div className="ai-main" ref={main}>
-        {content}
+        {/* keyed so the entrance animation replays on every navigation */}
+        <div key={key} className="ai-enter">{content}</div>
       </div>
     </div>
   )

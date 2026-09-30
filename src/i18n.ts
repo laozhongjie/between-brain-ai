@@ -91,7 +91,7 @@ export const UI = {
   overview: b('总览：对照阶梯', 'Overview: the ladder'),
   navAi: b('脑 ↔ AI', 'Brain ↔ AI'),
   aiTitle: b('从神经元到机器人大脑：大脑 ↔ AI 对照阶梯', 'From neurons to a robot brain: the brain ↔ AI ladder'),
-  aiIntro: b('逐层比较大脑与当今 AI：每张卡片写明大脑怎么做（含公式）、AI 中最接近的是什么、两者差在哪里、这是值得借鉴的原理还是生物约束，以及可以尝试的架构设计。世界模型只是整个“机器人大脑”中的一个模块。', 'A layer-by-layer comparison of the brain and today’s AI. Each card covers how the brain does it (with equations), the closest AI counterpart, how they differ, whether the feature is a principle worth borrowing or a biological constraint, and architecture ideas to try. The world model is only one module of a whole robot brain.'),
+  aiIntro: b('逐层比较大脑与当今 AI：每张卡片写明大脑怎么做（含公式）、AI 中最接近的是什么、两者差在哪里、这是值得借鉴的原理还是生物约束，以及可以尝试的架构设计。', 'A layer-by-layer comparison of the brain and today’s AI. Each card covers how the brain does it (with equations), the closest AI counterpart, how they differ, whether the feature is a principle worth borrowing or a biological constraint, and architecture ideas to try.'),
   howToRead: b('如何阅读', 'How to read'),
   correspondence: b('对应程度', 'Correspondence'),
   evidence: b('神经科学证据', 'Neuroscience evidence'),

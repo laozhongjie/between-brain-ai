@@ -513,3 +513,50 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
 }
+
+/* ── View controls: segmented options on an even grid ── */
+.controls .row .seg { display: grid; grid-template-columns: repeat(2, 1fr); width: 100%; }
+.controls .row .seg button { justify-content: center; padding-inline: 4px; }
+
+/* ── Brain ↔ AI: motion ── */
+/* Navigation: an accent bar slides in on hover and stays lit on the current page */
+.ai-nav button { position: relative; padding-left: 12px; transition: color .2s, background .25s, padding-left .25s var(--ease); }
+.ai-nav button::before {
+  content: ''; position: absolute; left: 2px; top: 22%; bottom: 22%; width: 2px; border-radius: 2px;
+  background: var(--accent); box-shadow: 0 0 8px var(--accent); transform: scaleY(0); transition: transform .25s var(--ease);
+}
+.ai-nav button:hover { padding-left: 16px; background: linear-gradient(90deg, rgba(125,211,252,0.08), transparent 80%); }
+.ai-nav button:hover::before { transform: scaleY(1); }
+.ai-nav button.on { color: var(--text-h); background: linear-gradient(90deg, rgba(125,211,252,0.14), transparent 90%); }
+.ai-nav button.on::before { transform: scaleY(1); top: 12%; bottom: 12%; }
+
+/* Page entrance: content rises in, ladder rungs one after another */
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+.ai-enter > .ai-page > * { animation: rise .5s var(--ease) both; }
+.ai-enter .ladder > .rung { animation: rise .55s var(--ease) both; }
+.ai-enter .ladder > .rung:nth-child(1) { animation-delay: .05s; }
+.ai-enter .ladder > .rung:nth-child(2) { animation-delay: .12s; }
+.ai-enter .ladder > .rung:nth-child(3) { animation-delay: .19s; }
+.ai-enter .ladder > .rung:nth-child(4) { animation-delay: .26s; }
+.ai-enter .ladder > .rung:nth-child(5) { animation-delay: .33s; }
+.ai-enter .two-col > .col:nth-child(2) { animation: rise .5s .08s var(--ease) both; }
+
+/* Cards: lift, glow and a light sweep on hover */
+.chip { position: relative; overflow: hidden; transition: transform .25s var(--ease), border-color .25s, background .25s, box-shadow .25s; }
+.chip::after {
+  content: ''; position: absolute; top: 0; bottom: 0; left: -60%; width: 50%; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(170,220,255,0.14), transparent); transform: skewX(-18deg);
+}
+.chip:hover { transform: translateY(-2px); border-color: var(--accent-line); background: rgba(125,211,252,0.07); box-shadow: 0 8px 22px -10px rgba(125,211,252,0.55); }
+.chip:hover::after { left: 120%; transition: left .7s var(--ease); }
+.chip .level-bar i.on { transition: filter .25s, box-shadow .25s; }
+.chip:hover .level-bar i.on { filter: brightness(1.35); box-shadow: 0 0 6px var(--accent); }
+.rung { transition: border-color .3s, transform .3s var(--ease); }
+.rung:hover { border-color: rgba(125,211,252,0.18); }
+.rung-no { transition: box-shadow .3s, color .3s, background .3s; }
+.rung:hover .rung-no { background: rgba(125,211,252,0.16); color: var(--text-h); box-shadow: inset 0 0 0 1px var(--accent), 0 0 16px rgba(125,211,252,0.35); }
+.fig { transition: border-color .3s, box-shadow .3s; }
+.fig:hover { border-color: var(--accent-line); box-shadow: 0 0 24px -10px rgba(125,211,252,0.5); }
+.ai-legend .badge, .card-badges .badge { transition: border-color .2s, box-shadow .2s; }
+.ai-legend .badge:hover, .card-badges .badge:hover { border-color: var(--accent-line); box-shadow: 0 0 12px -4px var(--accent); }
+.bp-module { position: relative; overflow: hidden; }
