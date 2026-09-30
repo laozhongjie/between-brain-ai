@@ -6,6 +6,7 @@ import { MODULES } from '../content/blueprint'
 import { LABS } from '../labs/registry'
 import { CorrBadge, Legend, LevelBar, RefList } from './common'
 import { Icon } from '../../ui/Icon'
+import { ComparisonText } from '../../ui/ComparisonText'
 
 const COV = [UI.cov0, UI.cov1, UI.cov2, UI.cov3]
 
@@ -42,7 +43,7 @@ export function AiHome() {
               <div className="rung-cards">
                 {cardsOfLayer(l.id).map((c) => (
                   <button key={c.id} className="chip" onClick={() => go(`/ai/card/${c.id}`)}>
-                    <span><Rich text={t(c.title)} /></span>
+                    <ComparisonText text={t(c.title)} />
                     <CorrBadge corr={c.corr} />
                   </button>
                 ))}

@@ -10,6 +10,7 @@ import { Rich, Tex } from '../Tex'
 import type { Card, Formula } from '../types'
 import { CorrBadge, EvidenceBadge, RefList } from './common'
 import { Icon } from '../../ui/Icon'
+import { ComparisonText } from '../../ui/ComparisonText'
 
 function Figure({ Fig, cap }: { Fig: import('../figs/types').FigPair['brain']; cap: import('../../data/types').Bi }) {
   const t = useT()
@@ -60,7 +61,7 @@ export function CardPage({ card }: { card: Card }) {
         <button onClick={() => go('/ai')}>{t(UI.backToLadder)}</button>
         <span>{t(UI.layer).replace('{n}', String(layer.id))} · {t(layer.name)}</span>
       </div>
-      <h1><Rich text={t(card.title)} /></h1>
+      <h1><ComparisonText text={t(card.title)} /></h1>
       <div className="card-badges">
         <CorrBadge corr={card.corr} />
         <EvidenceBadge ev={card.evidence} />
@@ -114,11 +115,11 @@ export function CardPage({ card }: { card: Card }) {
 
       <nav className="pager">
         {prev ? (
-          <button onClick={() => go(`/ai/card/${prev.id}`)}>{layerTag(prev)}<span>← <Rich text={t(prev.title)} /></span></button>
+          <button onClick={() => go(`/ai/card/${prev.id}`)}>{layerTag(prev)}<span>← <ComparisonText text={t(prev.title)} /></span></button>
         ) : (
           <button onClick={() => go('/ai/blueprint')}><small className="pager-layer">{t(UI.layer).replace('{n}', '5')}</small><span>← {t(UI.blueprintTitle).split('·')[1]?.trim()}</span></button>
         )}
-        {next ? <button className="next" onClick={() => go(`/ai/card/${next.id}`)}>{layerTag(next)}<span><Rich text={t(next.title)} /> →</span></button> : <span />}
+        {next ? <button className="next" onClick={() => go(`/ai/card/${next.id}`)}>{layerTag(next)}<span><ComparisonText text={t(next.title)} /> →</span></button> : <span />}
       </nav>
     </article>
   )

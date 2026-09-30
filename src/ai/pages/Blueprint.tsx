@@ -5,6 +5,7 @@ import { DIFFERENCES, MODULES, MODULE_BY_ID } from '../content/blueprint'
 import { Rich } from '../Tex'
 import { CorrBadge, LevelBar, RefList } from './common'
 import { Icon } from '../../ui/Icon'
+import { ComparisonText } from '../../ui/ComparisonText'
 
 const COV = [UI.cov0, UI.cov1, UI.cov2, UI.cov3]
 const COLS = [UI.colInput, UI.colModel, UI.colControl, UI.colValue, UI.colOutput]
@@ -57,7 +58,7 @@ export function Blueprint({ moduleId }: { moduleId?: string }) {
               <div className="rung-cards">
                 {sel.cards.map((id) => (
                   <button key={id} className="chip" onClick={() => go(`/ai/card/${id}`)}>
-                    <span><Rich text={t(CARD_BY_ID[id].title)} /></span>
+                    <ComparisonText text={t(CARD_BY_ID[id].title)} />
                     <CorrBadge corr={CARD_BY_ID[id].corr} />
                   </button>
                 ))}
@@ -87,7 +88,7 @@ export function Blueprint({ moduleId }: { moduleId?: string }) {
         <span />
         <button className="next" onClick={() => go(`/ai/card/${READING_ORDER[0].id}`)}>
           <small className="pager-layer">{t(UI.layer).replace('{n}', String(READING_ORDER[0].layer))}</small>
-          <span><Rich text={t(READING_ORDER[0].title)} /> →</span>
+          <span><ComparisonText text={t(READING_ORDER[0].title)} /> →</span>
         </button>
       </nav>
     </article>

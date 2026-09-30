@@ -17,7 +17,7 @@
 <p align="center">
   <a href="https://laozhongjie.github.io/between-brain-ai/"><b>Open the live site →</b></a>
   &nbsp;·&nbsp;
-  <a href="https://laozhongjie.github.io/between-brain-ai/#/ai">Brain ↔ AI ladder</a>
+  <a href="https://laozhongjie.github.io/between-brain-ai/#/ai">Brain &amp; AI ladder</a>
   &nbsp;·&nbsp;
   <a href="#run-it-locally">Run locally</a>
 </p>
@@ -32,7 +32,7 @@
 
 <br>
 
-<p align="center"><img src="docs/brain-ai.jpg" alt="A Brain ↔ AI card: the visual system next to CNNs and ViTs, each with a structure diagram"></p>
+<p align="center"><img src="docs/brain-ai.jpg" alt="A Brain &amp; AI card: the visual system next to CNNs and ViTs, each with a structure diagram"></p>
 
 ---
 
@@ -55,7 +55,7 @@ It is built for researchers and engineers who want a map of where AI already mat
 
 ## What's inside
 
-### 1 · The Brain ↔ AI ladder
+### 1 · The Brain & AI ladder
 
 The core of the project. Five layers, from molecules to a whole agent:
 
@@ -130,7 +130,7 @@ Every push to `main` builds, tests and deploys to GitHub Pages through `.github/
 
 ```
 src/
-  ai/          Brain ↔ AI ladder: card content, diagrams, labs, pages
+  ai/          Brain & AI ladder: card content, diagrams, labs, pages
   data/        regions, pathways, functional systems, the scripted day
   sim/         neural-mass model, pulse signals, scenario director
   scene/       3D brain, pathways, pulses, labels, camera

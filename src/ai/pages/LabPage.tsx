@@ -5,6 +5,7 @@ import { CARDS } from '../content'
 import { LABS } from '../labs/registry'
 import { CorrBadge } from './common'
 import { Icon } from '../../ui/Icon'
+import { ComparisonText } from '../../ui/ComparisonText'
 
 export function LabPage({ id }: { id: string }) {
   const t = useT()
@@ -19,7 +20,7 @@ export function LabPage({ id }: { id: string }) {
       <div className="rung-cards">
         {cards.map((c) => (
           <button key={c.id} className="chip" onClick={() => go(`/ai/card/${c.id}`)}>
-            <span><Rich text={t(c.title)} /></span>
+            <ComparisonText text={t(c.title)} />
             <CorrBadge corr={c.corr} />
           </button>
         ))}

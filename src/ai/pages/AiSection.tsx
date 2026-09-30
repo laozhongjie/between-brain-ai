@@ -1,4 +1,4 @@
-import { Rich } from '../../rich'
+import { Rich, splitComparison } from '../../rich'
 import { useEffect, useRef } from 'react'
 import { UI, useT } from '../../i18n'
 import { go } from '../../route'
@@ -39,7 +39,7 @@ export function AiSection({ route }: { route: string[] }) {
               <button className={active('blueprint')} onClick={() => go('/ai/blueprint')}>{t(UI.blueprintTitle).split('·')[1]?.trim()}</button>
             ) : (
               cardsOfLayer(l.id).map((c) => (
-                <button key={c.id} className={active(`card/${c.id}`)} onClick={() => go(`/ai/card/${c.id}`)}><Rich text={t(c.title).split(/\s*↔\s*/)[0]} /></button>
+                <button key={c.id} className={active(`card/${c.id}`)} onClick={() => go(`/ai/card/${c.id}`)}><Rich text={splitComparison(t(c.title))[0]} /></button>
               ))
             )}
           </div>

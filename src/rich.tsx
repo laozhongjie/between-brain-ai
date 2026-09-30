@@ -12,6 +12,8 @@ const OPS: Record<string, string> = {
   '↔': '\\leftrightarrow', '→': '\\rightarrow', '←': '\\leftarrow', '⇒': '\\Rightarrow', '≈': '\\approx', '≠': '\\neq',
   '≤': '\\le', '≥': '\\ge', '×': '\\times', '∝': '\\propto', '⊙': '\\odot', '⊣': '\\dashv', '÷': '\\div', '±': '\\pm', '∞': '\\infty',
 }
+
+export const splitComparison = (text: string) => text.split(/\s*↔\s*/)
 const SUB: Record<string, string> = {
   '₀': '0', '₁': '1', '₂': '2', '₃': '3', '₄': '4', '₅': '5', '₆': '6', '₇': '7', '₈': '8', '₉': '9', '₊': '+', '₋': '-',
   'ₐ': 'a', 'ₑ': 'e', 'ₒ': 'o', 'ₓ': 'x', 'ₕ': 'h', 'ₖ': 'k', 'ₗ': 'l', 'ₘ': 'm', 'ₙ': 'n', 'ₚ': 'p', 'ₛ': 's', 'ₜ': 't', 'ᵢ': 'i', 'ⱼ': 'j', 'ᵧ': 'y',

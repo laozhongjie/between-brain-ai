@@ -10,6 +10,7 @@ import { useStore } from '../store'
 import { ActivitySpark } from './ActivitySpark'
 import { Icon } from './Icon'
 import { DecodeText } from './DecodeText'
+import { ComparisonText } from './ComparisonText'
 
 function LinkList({ items, dir, hemi }: { items: Link[]; dir: 'in' | 'out'; hemi?: Hemi }) {
   const t = useT()
@@ -68,7 +69,7 @@ export function RegionPanel() {
           <Icon name="cpu" size={16} />
           <span className="ai-link-text">
             <small>{t(UI.aiLink)}</small>
-            <span><Rich text={t(aiCard.title)} /></span>
+            <span><ComparisonText text={t(aiCard.title)} /></span>
           </span>
           <Icon name="chevron" size={16} className="ai-link-go" />
         </button>

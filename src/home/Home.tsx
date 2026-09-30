@@ -3,6 +3,7 @@ import { UI, useT } from '../i18n'
 import { go } from '../route'
 import { useStore } from '../store'
 import { DecodeText } from '../ui/DecodeText'
+import { ComparisonText } from '../ui/ComparisonText'
 import { CHAPTERS, homeState } from './chapters'
 import { HomeAI } from './HomeAI'
 import { HeroField } from './HeroField'
@@ -231,7 +232,7 @@ export function Home() {
 
           {ch && (
             <div className="home-chapter">
-              <div className="hc-tag">{String(chapter + 1).padStart(2, '0')} / {String(CHAPTERS.length).padStart(2, '0')} · {ch.tag}</div>
+              <div className="hc-tag">{String(chapter + 1).padStart(2, '0')} / {String(CHAPTERS.length).padStart(2, '0')} · <ComparisonText text={ch.tag} /></div>
               <h2><SingleLineText text={t(ch.title)} perChar={34} trail={5} /></h2>
             </div>
           )}
