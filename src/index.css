@@ -1,0 +1,22 @@
+:root {
+  --bg: #07090f;
+  --panel: rgba(16, 20, 32, 0.82);
+  --panel-border: rgba(120, 140, 200, 0.18);
+  --text: #c9d1e4;
+  --text-dim: #7d879f;
+  --text-h: #f1f4fb;
+  --accent: #5ac8fa;
+  --warn: #ff9f43;
+  --danger: #ff5a6e;
+  --sans: system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+  font: 14px/1.5 var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; height: 100%; overflow: hidden; }
+button { font: inherit; color: inherit; }
