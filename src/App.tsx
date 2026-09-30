@@ -67,10 +67,10 @@ export default function App() {
     <header className="topbar">
       <div className="brand">
         <h1 onClick={() => go('/')} title="BETWEEN"><Logo /><span className="wordmark">{t(UI.title)}</span></h1>
-        <div className="seg nav-tabs">
-          <button className={section === 'atlas' ? 'on' : ''} onClick={() => go('/atlas')}><Icon name="brain" size={14} />{t(UI.navAtlas)}</button>
-          <button className={section === 'ai' ? 'on' : ''} onClick={() => go('/ai')}><Icon name="cpu" size={14} />{t(UI.navAi)}</button>
-        </div>
+        <nav className="nav-tabs" aria-label={t({ zh: '主导航', en: 'Main navigation' })}>
+          <button className={section === 'atlas' ? 'on' : ''} aria-current={section === 'atlas' ? 'page' : undefined} onClick={() => go('/atlas')}><Icon name="brain" size={14} />{t(UI.navAtlas)}</button>
+          <button className={section === 'ai' ? 'on' : ''} aria-current={section === 'ai' ? 'page' : undefined} onClick={() => go('/ai')}><Icon name="cpu" size={14} />{t(UI.navAi)}</button>
+        </nav>
         {/* after the nav so its changing length never moves the tabs */}
         <Tagline />
       </div>
