@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Pt } from './models'
-import { FONT } from '../../theme'
+import { FONT_MONO } from '../../theme'
 import { Rich } from '../Tex'
 
 export { SERIES } from '../../theme'
@@ -69,7 +69,7 @@ export function LinePlot({ series, xLabel, yLabel, xDomain, yDomain, height = 20
     const sx = (x: number) => M.l + ((x - xd[0]) / (xd[1] - xd[0])) * (W - M.l - M.r)
     const sy = (y: number) => H - M.b - ((y - yd[0]) / (yd[1] - yd[0])) * (H - M.t - M.b)
 
-    ctx.font = `11px ${FONT}`
+    ctx.font = `11px ${FONT_MONO}`
     ctx.fillStyle = INK.text
     ctx.strokeStyle = INK.grid
     ctx.lineWidth = 1

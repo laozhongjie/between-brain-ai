@@ -59,7 +59,7 @@ npm run compress-model   # meshopt compression: 6.6 MB → 1.4 MB
 
 ## Fonts
 
-Bundled via npm: [Geist](https://vercel.com/font) (SIL OFL) for Latin text and digits, [Noto Serif SC](https://fonts.google.com/noto/specimen/Noto+Serif+SC) (SIL OFL) for headings, and HarmonyOS Sans SC for Chinese body text. HarmonyOS Sans is © Huawei Device Co., Ltd. and is used under the HarmonyOS Sans Fonts License Agreement (web subsets from `harmonyos-sans-sc-webfont-splitted`).
+Bundled via npm (all SIL OFL): [Geist](https://vercel.com/font) for Latin text, [Noto Sans SC](https://fonts.google.com/noto/specimen/Noto+Sans+SC) for Chinese text, and [Geist Mono](https://vercel.com/font) for numbers, tags, metadata and code. Headings use weight 500, body text weight 400.
 
 ## Data license
 
