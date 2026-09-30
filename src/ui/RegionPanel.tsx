@@ -1,4 +1,7 @@
+import { cardForTour } from '../ai/content'
 import { NODE_BY_ID, resolveKey } from '../data/nodes'
+import { TOURS } from '../data/tours'
+import { go } from '../route'
 import { LOBES, REGION_BY_KEY, SYSTEMS } from '../data/regions'
 import type { Hemi, Link } from '../data/types'
 import { UI, useT } from '../i18n'
@@ -37,6 +40,9 @@ export function RegionPanel() {
   const info = node.info
   const sys = SYSTEMS[info.system]
   const side = node.hemi === 'lh' ? t(UI.left) : node.hemi === 'rh' ? t(UI.right) : null
+  // Link to the Brain ↔ AI card of the functional system this region belongs to
+  const tour = TOURS.find((x) => x.system === info.system)
+  const aiCard = tour ? cardForTour(tour.id) : undefined
 
   return (
     <aside className="panel region-panel">
@@ -53,6 +59,9 @@ export function RegionPanel() {
         <button className="icon-btn" aria-label={t(UI.close)} onClick={() => select(null)}>×</button>
       </header>
       <ActivitySpark index={node.index} color={sys.color} />
+      {aiCard && (
+        <button className="ai-link" onClick={() => go(`/ai/card/${aiCard.id}`)}>🤖 {t(UI.aiLink)}：{t(aiCard.title)} →</button>
+      )}
       <section>
         <h3>{t(UI.function)}</h3>
         <p>{t(info.func)}</p>

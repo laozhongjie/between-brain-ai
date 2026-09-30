@@ -19,6 +19,11 @@ An interactive 3D human brain in the browser: real anatomy, what each region doe
   - With no outside input, internal loops keep running on their own: mind-wandering (default mode network), hippocampal replay and dreaming.
 - **Explore one system**: 11 functional systems: vision, hearing, touch & pain, movement, language, memory, fear & emotion, reward, homeostasis & stress, sleep & wakefulness, and attention. Selecting one isolates its structures, fades everything else to a ghost and pauses the day. A step-by-step walkthrough (input → processing stages → output) can be stepped through, replayed or auto-played.
 - **Schematic view**: switch to a 2D layered flow diagram (senses → relay → cortical processing → decision & control → body outputs), with the brainstem and spinal cord drawn as buses. It shares the same simulation as the 3D view, so pulses flow along the arrows in real time. It supports zoom, pan and pinch, and works together with the single-system view.
+- **Brain ↔ AI ladder**: a separate section (`#/ai`) that compares the brain with today's AI across five layers: synapses, neurons, microcircuits, brain systems and the whole agent. Each card gives the biology with equations, the closest AI counterpart with equations, a correspondence rating (same principle / similar function / crude substitute / absent), how settled the neuroscience is, the key differences, whether the feature is a principle worth borrowing or a biological constraint, design ideas, and references.
+  - Layer 5 is a **humanlike robot-brain blueprint** with 14 modules coloured by how well today's AI covers them. The world model is only one of them. A table lists the differences that run across all layers, including where AI is ahead.
+  - **Interactive labs**: artificial vs LIF vs Izhikevich neurons, dendrites computing XOR, the STDP window, short-term depression and facilitation, and three-factor learning with eligibility traces.
+  - Layer-4 cards link both ways with the atlas's single-system view.
+  - All 96 references are checked against Crossref and arXiv with `npm run check-refs`, which confirms that each DOI or arXiv id resolves and that the returned title matches.
 - **A day in the life**: 17 events, from a dawn dream, the alarm, breakfast, a near miss crossing the road, speaking in a meeting, focused work, pulling away from a hot bowl, learning, a run, meeting a friend and music, through deep sleep and REM. Every step is narrated. The body panel shows actions, speech, heart and breathing rate, neuromodulators and hormones.
 
 ## Tech stack
@@ -32,6 +37,7 @@ npm install
 npm run dev      # dev server
 npm test         # unit tests
 npm run build    # production build
+npm run check-refs  # verify every reference via Crossref / arXiv (network)
 ```
 
 Every push to `main` deploys to GitHub Pages through `.github/workflows/deploy.yml`.

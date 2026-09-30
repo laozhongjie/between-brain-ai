@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { SYSTEMS } from '../data/regions'
+import { cardForTour } from '../ai/content'
 import { TOUR_BY_ID } from '../data/tours'
+import { go } from '../route'
 import { UI, useT } from '../i18n'
 import { exitFocus, replayFocusStep, setFocusStep } from '../sim/focus'
 import { useStore } from '../store'
@@ -37,6 +39,7 @@ export function FocusPanel() {
         <div className="focus-actions">
           <button className="btn-sm" onClick={replayFocusStep}>⟳ {t(UI.replay)}</button>
           <button className={`btn-sm ${auto ? 'on' : ''}`} onClick={() => setAuto(!auto)}>{auto ? '❚❚' : '▶'} {t(UI.autoPlay)}</button>
+          {cardForTour(tour.id) && <button className="btn-sm" onClick={() => go(`/ai/card/${cardForTour(tour.id)!.id}`)}>🤖 {t(UI.aiLink)}</button>}
           <button className="btn-sm" onClick={exitFocus}>✕ {t(UI.exitFocus)}</button>
         </div>
       </header>
