@@ -137,3 +137,27 @@ export function Tag({ x, y, s, fill = C.lav, color = C.lavD }: { x: number; y: n
     </g>
   )
 }
+
+export interface ChainItem {
+  label: string
+  fill?: string
+  stroke?: string
+}
+
+/** Boxes in a row joined by arrows (a processing pipeline). Returns the box centres for further wiring. */
+export function Chain({ id, items, x, y, w = 54, h = 30, gap = 14, color = 'ink', size = 10, labels }: {
+  id: string; items: ChainItem[]; x: number; y: number; w?: number; h?: number; gap?: number; color?: HeadColor; size?: number; labels?: string[]
+}) {
+  return (
+    <g>
+      {items.map((it, i) => (
+        <g key={i}>
+          <Box x={x + i * (w + gap)} y={y} w={w} h={h} label={it.label} fill={it.fill ?? C.lav} stroke={it.stroke ?? C.lavD} size={size} />
+          {i < items.length - 1 && (
+            <Arrow id={id} x1={x + i * (w + gap) + w} y1={y + h / 2} x2={x + (i + 1) * (w + gap) - 1} y2={y + h / 2} color={color} width={1.4} label={labels?.[i]} ly={-8} size={9} />
+          )}
+        </g>
+      ))}
+    </g>
+  )
+}
