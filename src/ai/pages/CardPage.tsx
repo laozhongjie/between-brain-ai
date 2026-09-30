@@ -4,10 +4,21 @@ import { go } from '../../route'
 import { enterFocus } from '../../sim/focus'
 import { useStore } from '../../store'
 import { LAYERS, cardsOfLayer } from '../content'
+import { FIGS } from '../figs'
 import { LABS } from '../labs/registry'
 import { Rich, Tex } from '../Tex'
 import type { Card, Formula } from '../types'
 import { CorrBadge, EvidenceBadge, RefList } from './common'
+
+function Figure({ Fig, cap }: { Fig: import('../figs/types').FigPair['brain']; cap: import('../../data/types').Bi }) {
+  const t = useT()
+  return (
+    <figure className="fig">
+      <Fig t={t} />
+      <figcaption><Rich text={t(cap)} /></figcaption>
+    </figure>
+  )
+}
 
 function Formulas({ list }: { list?: Formula[] }) {
   const t = useT()
@@ -32,6 +43,7 @@ export function CardPage({ card }: { card: Card }) {
   const prev = siblings[idx - 1]
   const next = siblings[idx + 1]
   const Lab = card.lab ? LABS[card.lab] : null
+  const figs = FIGS[card.id]
 
   const openInAtlas = () => {
     useStore.getState().setViewMode('3d')
@@ -58,11 +70,13 @@ export function CardPage({ card }: { card: Card }) {
       <div className="two-col">
         <section className="col brain-col">
           <h2>🧠 {t(UI.secBrain)}</h2>
+          {figs && <Figure Fig={figs.brain} cap={figs.brainCap} />}
           <p><Rich text={t(card.brain)} /></p>
           <Formulas list={card.brainMath} />
         </section>
         <section className="col ai-col">
           <h2>🤖 {t(UI.secAi)}</h2>
+          {figs && <Figure Fig={figs.ai} cap={figs.aiCap} />}
           <p><Rich text={t(card.ai)} /></p>
           <Formulas list={card.aiMath} />
         </section>

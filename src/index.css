@@ -412,3 +412,8 @@ button { font: inherit; color: inherit; }
   .ai-section { top: 92px; }
   .ai-page h1 { font-size: 21px; }
 }
+
+/* Structure diagrams on cards */
+.fig { margin: 4px 0 12px; background: #ffffff; border: 1px solid var(--panel-border); border-radius: 10px; padding: 8px 8px 6px; }
+.fig-svg { width: 100%; height: auto; display: block; }
+.fig figcaption { font-size: 12px; color: var(--text-dim); line-height: 1.55; padding: 4px 4px 0; }
