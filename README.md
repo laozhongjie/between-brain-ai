@@ -1,4 +1,4 @@
-# Human Brain 3D · 人脑三维动态模拟
+# Brain Dynamics Atlas · 人脑三维动态图谱
 
 浏览器中的 3D 人脑可视化：真实解剖结构 + 脑区功能/输入/输出标注 + 闭环动态模拟（神经群体振荡 + 事件驱动通路信号）+ “一个人的一天”剧本。
 
@@ -19,7 +19,7 @@ npm run build    # 生产构建
 
 ```bash
 conda env create -f pipeline/environment.yml
-conda run -n humanbrain python pipeline/build_brain.py
+conda run -n brain-atlas python pipeline/build_brain.py
 ```
 
 - 皮层：FreeSurfer `fsaverage` pial 表面，按 Desikan-Killiany 图谱（`aparc.annot`）每半球 34 区拆分。

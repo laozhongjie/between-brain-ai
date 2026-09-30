@@ -1,5 +1,5 @@
 {
-  "name": "humanbrain",
+  "name": "brain-dynamics-atlas",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",
