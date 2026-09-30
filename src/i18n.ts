@@ -14,8 +14,7 @@ export function useT() {
 const b = (zh: string, en: string): Bi => ({ zh, en })
 
 export const UI = {
-  title: b('人脑三维动态图谱', 'Brain Dynamics Atlas'),
-  subtitle: b('真实解剖 · 闭环动态 · 一个人的一天', 'Real anatomy · closed-loop dynamics · a day in a life'),
+  title: b('BETWEEN', 'BETWEEN'),
   function: b('功能', 'Function'),
   inputs: b('输入（从哪里来）', 'Inputs (from)'),
   outputs: b('输出（到哪里去）', 'Outputs (to)'),
@@ -131,3 +130,17 @@ export const UI = {
   rowLifetime: b('跨时间尺度：学习、维护与成长', 'Across timescales: learning, maintenance, growth'),
   pickModule: b('← 选择一个模块', '← Pick a module'),
 }
+
+/** Brand taglines, rotated in the top bar; the first one is the primary line. */
+export const TAGLINES: Bi[] = [
+  b('在大脑与 AI 之间', 'between brain and AI'),
+  b('在生物与计算之间', 'between biology and computation'),
+  b('在神经元与智能之间', 'between neurons and intelligence'),
+  b('在突触与权重之间', 'between synapses and weights'),
+  b('在记忆与决策之间', 'between memory and decision'),
+  b('在脉冲与词元之间', 'between spikes and tokens'),
+  b('在睡眠与学习之间', 'between sleep and learning'),
+  b('在可塑性与训练之间', 'between plasticity and training'),
+  b('在结构与功能之间', 'between structure and function'),
+  b('在已理解的与能构建的之间', 'between what we understand and what we can build'),
+]

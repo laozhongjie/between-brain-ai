@@ -1,6 +1,6 @@
 import { useProgress } from '@react-three/drei'
-import { Suspense, lazy, useState } from 'react'
-import { UI, useT } from './i18n'
+import { Suspense, lazy, useEffect, useState } from 'react'
+import { TAGLINES, UI, useT } from './i18n'
 import { go, useRoute } from './route'
 import { Schematic } from './schematic/Schematic'
 import { BrainScene } from './scene/BrainScene'
@@ -13,21 +13,32 @@ import { OutputPanel } from './ui/OutputPanel'
 import { RegionPanel } from './ui/RegionPanel'
 import { SystemPicker } from './ui/SystemPicker'
 import { Timeline } from './ui/Timeline'
+import { DecodeText } from './ui/DecodeText'
 import { Icon } from './ui/Icon'
 
 // The Brain ↔ AI section (with KaTeX) loads on demand so the atlas starts faster
 const AiSection = lazy(() => import('./ai/pages/AiSection').then((m) => ({ default: m.AiSection })))
 
-/** Brand mark: a ring with an orbit, in the accent gradient. */
+/** Brand mark, monochrome: a ring and a tilted orbit (two systems in relation) around a core. */
 function Logo() {
   return (
     <svg className="logo" viewBox="0 0 32 32" fill="none" aria-hidden>
-      <defs><linearGradient id="logo-g" x1="0" y1="0" x2="32" y2="32"><stop stopColor="#5eead4" /><stop offset="1" stopColor="#60a5fa" /></linearGradient></defs>
-      <circle cx="16" cy="16" r="14.5" stroke="url(#logo-g)" strokeWidth="1.2" />
-      <ellipse cx="16" cy="16" rx="14.5" ry="5.5" stroke="rgba(125,211,252,0.45)" transform="rotate(-30 16 16)" />
-      <circle cx="16" cy="16" r="3" fill="#7dd3fc" />
+      <circle cx="16" cy="16" r="14.5" stroke="#f2f4f7" strokeWidth="1.2" />
+      <ellipse cx="16" cy="16" rx="14.5" ry="5.5" stroke="rgba(242,244,247,0.45)" transform="rotate(-30 16 16)" />
+      <circle cx="16" cy="16" r="3" fill="#f2f4f7" />
     </svg>
   )
+}
+
+/** Rotating brand taglines, each decoding in. */
+function Tagline() {
+  const t = useT()
+  const [i, setI] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => setI((n) => (n + 1) % TAGLINES.length), 4200)
+    return () => clearInterval(id)
+  }, [])
+  return <DecodeText className="tagline" text={t(TAGLINES[i])} />
 }
 
 function Loader() {
@@ -54,11 +65,13 @@ export default function App() {
   const topbar = (
     <header className="topbar">
       <div className="brand">
-        <h1><Logo />{t(UI.title)}</h1>
+        <h1><Logo /><span className="wordmark">{t(UI.title)}</span></h1>
         <div className="seg nav-tabs">
           <button className={section === 'atlas' ? 'on' : ''} onClick={() => go('/')}><Icon name="brain" size={14} />{t(UI.navAtlas)}</button>
           <button className={section === 'ai' ? 'on' : ''} onClick={() => go('/ai')}><Icon name="cpu" size={14} />{t(UI.navAi)}</button>
         </div>
+        {/* after the nav so its changing length never moves the tabs */}
+        <Tagline />
       </div>
       <div className="top-actions">
         {section === 'atlas' && (

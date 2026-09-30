@@ -17,7 +17,7 @@ const overlap = (a: string, b: string) => {
 async function titleOf(url: string): Promise<string | null> {
   const doi = url.match(/doi\.org\/(.+)$/)?.[1]
   if (doi) {
-    const r = await fetch(`https://api.crossref.org/works/${encodeURIComponent(doi)}`, { headers: { 'User-Agent': 'brain-dynamics-atlas ref check' } })
+    const r = await fetch(`https://api.crossref.org/works/${encodeURIComponent(doi)}`, { headers: { 'User-Agent': 'between-brain-ai ref check' } })
     if (!r.ok) return null
     const j = await r.json()
     return (j.message.title?.[0] ?? '') as string
