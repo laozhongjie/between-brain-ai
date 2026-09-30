@@ -19,14 +19,21 @@ export interface ViewState {
   showPulses: boolean
 }
 
+export type ViewMode = '3d' | 'schematic'
+
 interface Store {
   lang: Lang
+  viewMode: ViewMode
+  /** functional-system tour being viewed on its own, or null */
+  focus: string | null
+  focusStep: number
   selected: string | null
   hovered: string | null
   view: ViewState
   /** bumps to request a camera reset */
   resetTick: number
   setLang: (l: Lang) => void
+  setViewMode: (m: ViewMode) => void
   select: (id: string | null) => void
   hover: (id: string | null) => void
   setView: (v: Partial<ViewState>) => void
@@ -35,6 +42,9 @@ interface Store {
 
 export const useStore = create<Store>((set) => ({
   lang: 'zh',
+  viewMode: '3d',
+  focus: null,
+  focusStep: 0,
   selected: null,
   hovered: null,
   view: {
@@ -52,6 +62,7 @@ export const useStore = create<Store>((set) => ({
   },
   resetTick: 0,
   setLang: (lang) => set({ lang }),
+  setViewMode: (viewMode) => set({ viewMode }),
   select: (selected) => set({ selected }),
   hover: (hovered) => set({ hovered }),
   setView: (v) => set((s) => ({ view: { ...s.view, ...v } })),

@@ -3,6 +3,7 @@ import { useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { NODE_BY_ID } from '../data/nodes'
+import { TOUR_BY_ID, tourSets } from '../data/tours'
 import { useStore } from '../store'
 import { BRAIN_CENTER, isCortex, nodePosition } from './layout'
 
@@ -14,6 +15,7 @@ export function CameraRig() {
   const selected = useStore((s) => s.selected)
   const resetTick = useStore((s) => s.resetTick)
   const aspect = useThree((s) => s.size.width / s.size.height)
+  const focus = useStore((s) => s.focus)
 
   useEffect(() => {
     const c = ref.current
@@ -46,6 +48,25 @@ export function CameraRig() {
     const p = target.clone().addScaledVector(dir, dist)
     c.setLookAt(p.x, p.y, p.z, target.x, target.y, target.z, true)
   }, [selected])
+
+  // Frame the focused system's brain structures (body organs may fall outside the frame)
+  useEffect(() => {
+    const c = ref.current
+    if (!c || !focus) return
+    const explode = useStore.getState().view.explode
+    const pts = [...tourSets(TOUR_BY_ID[focus]).nodes]
+      .map((id) => NODE_BY_ID[id])
+      .filter((n) => n.kind !== 'io')
+      .map((n) => nodePosition(n, explode))
+    if (!pts.length) return
+    const center = pts.reduce((a, p) => a.add(p), new THREE.Vector3()).divideScalar(pts.length)
+    const r = Math.max(0.35, ...pts.map((p) => p.distanceTo(center))) + 0.15
+    const halfFov = Math.atan(Math.tan((20 * Math.PI) / 180) * Math.min(1, aspect))
+    const dir = c.camera.position.clone().sub(center).normalize()
+    const p = center.clone().addScaledVector(dir, (1.5 * r) / Math.sin(halfFov))
+    c.setLookAt(p.x, p.y, p.z, center.x, center.y, center.z, true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- frame once per focus change
+  }, [focus])
 
   return <CameraControls ref={ref} makeDefault minDistance={0.4} maxDistance={9} dollyToCursor smoothTime={0.45} />
 }

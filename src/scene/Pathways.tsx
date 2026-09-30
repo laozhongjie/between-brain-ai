@@ -6,6 +6,7 @@ import { SYSTEMS } from '../data/regions'
 import { signals } from '../sim/signals'
 import { useStore } from '../store'
 import { pathCurves } from './curves'
+import { currentFocus } from './focusState'
 
 /** Faint tubes along every pathway; they light up with traffic or when touching the selected region. */
 export function Pathways() {
@@ -44,13 +45,22 @@ export function Pathways() {
 
   useFrame(() => {
     const sel = useStore.getState().selected
+    const f = currentFocus()
     for (let i = 0; i < mats.length; i++) {
+      // Focus mode: only the system's pathways, clearly visible; the current step's ones brighter
+      if (f) {
+        meshes[i].visible = f.all.paths.has(i)
+        mats[i].opacity = Math.min(0.9, (f.step.paths.has(i) ? 0.45 : 0.18) + 0.6 * signals.traffic[i])
+        continue
+      }
+      meshes[i].visible = true
       const touches = sel !== null && PATHWAYS[i].nodes.includes(sel)
       mats[i].opacity = Math.min(0.85, (touches ? 0.35 : 0.04) + 0.7 * signals.traffic[i])
     }
   })
 
-  if (!show) return null
+  const focus = useStore((s) => s.focus)
+  if (!show && !focus) return null
   return (
     <group>
       {meshes.map((m, i) => (

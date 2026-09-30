@@ -1,10 +1,7 @@
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
 import { Suspense, useEffect } from 'react'
 import * as THREE from 'three'
-import { director } from '../sim/director'
-import { engine } from '../sim/engine'
-import { signals } from '../sim/signals'
 import { useStore } from '../store'
 import { BrainModel } from './BrainModel'
 import { CameraRig } from './CameraRig'
@@ -13,17 +10,6 @@ import { Markers } from './Markers'
 import { Pathways } from './Pathways'
 import { Pulses } from './Pulses'
 import { updateClipPlane } from './picking'
-
-/** Advances the simulation once per frame, before anything reads it. */
-function EngineTicker() {
-  useFrame((_, delta) => {
-    const ms = delta * 1000
-    director.tick(ms)
-    engine.tick(ms)
-    signals.tick(ms)
-  })
-  return null
-}
 
 function ClipSync() {
   const axis = useStore((s) => s.view.clipAxis)
@@ -41,7 +27,6 @@ export function BrainScene() {
       onPointerMissed={() => useStore.getState().hover(null)}
       dpr={[1, 2]}
     >
-      <EngineTicker />
       <color attach="background" args={['#07090f']} />
       <hemisphereLight args={['#dfe8ff', '#2a1f24', 0.55]} />
       <directionalLight position={[-3, 4, -2]} intensity={1.1} />

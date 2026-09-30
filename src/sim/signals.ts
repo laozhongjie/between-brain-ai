@@ -50,6 +50,8 @@ class Signals {
   ambientRate = 3
   /** mean interval between spontaneous loop activations (ms); Infinity disables */
   spontaneousInterval = 1300
+  /** when set, only these pathway indices get ambient traffic (focus mode) */
+  ambientFilter: Set<number> | null = null
   private nextSpont = 0
   private queue: Scheduled[] = []
 
@@ -93,7 +95,7 @@ class Signals {
   }
 
   private spontaneous(now: number) {
-    if (now < this.nextSpont) return
+    if (!Number.isFinite(this.spontaneousInterval) || now < this.nextSpont) return
     const stage = engine.state.stage
     // Sleep is quieter: fewer, slower events
     const interval = this.spontaneousInterval * (stage === 'wake' ? 1 : 1.6)
@@ -117,7 +119,9 @@ class Signals {
     // Ambient traffic mirrors the network's own activity (internal closed loop)
     const k = (this.ambientRate * (1 - 0.85 * engine.state.sleep) * dtMs) / 1000
     const act = engine.activity
+    const filter = this.ambientFilter
     for (const h of HOPS) {
+      if (filter && !filter.has(h.path)) continue
       const a = act[h.src]
       if (a > 0.08 && Math.random() < k * a) this.emit(h.path, h.hop, 520, 0.35 + 0.4 * a)
     }

@@ -5,8 +5,11 @@ import * as THREE from 'three'
 import { NODES, type GraphNode } from '../data/nodes'
 import { engine } from '../sim/engine'
 import { useStore } from '../store'
+import { currentFocus } from './focusState'
 import { clipPlane, pickValid } from './picking'
 import { baseColor, glowColor, hemiOffset, isCortex } from './layout'
+
+const GHOST = new THREE.Color('#3b4252')
 
 export const MODEL_URL = `${import.meta.env.BASE_URL}models/brain.glb`
 
@@ -26,6 +29,7 @@ const BY_GLTF_NAME = Object.fromEntries(NODES.map((n) => [n.id.replace(/\./g, ''
 export function BrainModel() {
   const { scene } = useGLTF(MODEL_URL)
   const view = useStore((s) => s.view)
+  const focus = useStore((s) => s.focus)
 
   const parts = useMemo(() => {
     const list: Part[] = []
@@ -48,28 +52,47 @@ export function BrainModel() {
 
   // View-dependent material state
   useEffect(() => {
+    const f = currentFocus()
     for (const p of parts) {
-      p.mat.color.copy(baseColor(p.node, view.colorMode))
-      const opacity = p.cortex ? view.cortexOpacity : 1
+      // Focus mode: the system's structures are solid and coloured by function, everything else is a faint ghost
+      const inFocus = f?.all.nodes.has(p.node.id)
+      if (f && !inFocus) {
+        p.mat.color.copy(GHOST)
+        p.mat.transparent = true
+        p.mat.opacity = p.cortex ? 0.06 : 0.1
+        p.mat.depthWrite = false
+        p.mat.clippingPlanes = []
+        p.mat.needsUpdate = true
+        p.mesh.visible = true
+        p.mesh.position.x = p.mesh.userData.baseX + hemiOffset(p.node.hemi, view.explode)
+        p.mesh.renderOrder = 3
+        p.mesh.userData.pickable = false
+        continue
+      }
+      p.mat.color.copy(baseColor(p.node, f ? 'system' : view.colorMode))
+      const opacity = p.cortex && !f ? view.cortexOpacity : 1
       p.mat.transparent = opacity < 1
       p.mat.opacity = opacity
       p.mat.depthWrite = opacity >= 1
       p.mat.clippingPlanes = view.clipAxis === 'none' ? [] : [clipPlane]
       p.mat.needsUpdate = true
-      const visible = p.node.info.lobe === 'subcortical' ? view.showSubcortex : !p.cortex || opacity > 0.02
+      const visible = f ? true : p.node.info.lobe === 'subcortical' ? view.showSubcortex : !p.cortex || opacity > 0.02
       p.mesh.visible = visible
       p.mesh.position.x = p.mesh.userData.baseX + hemiOffset(p.node.hemi, view.explode)
       p.mesh.renderOrder = p.cortex ? 2 : 1
       // Let clicks pass through a faded cortex to the structures underneath
       p.mesh.userData.pickable = visible && (!p.cortex || opacity > 0.35)
     }
-  }, [parts, view])
+  }, [parts, view, focus])
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     const { hovered, selected } = useStore.getState()
+    const f = currentFocus()
+    const beat = 0.3 + 0.2 * Math.sin(clock.elapsedTime * 4)
     for (const p of parts) {
       const a = engine.activity[p.node.index]
       let k = a * 1.6
+      if (f?.step.nodes.has(p.node.id)) k += beat
       if (p.node.id === hovered) k += 0.25
       if (p.node.id === selected) k += 0.45
       p.mat.emissive.copy(tmp.copy(p.glow).multiplyScalar(k))

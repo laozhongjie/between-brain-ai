@@ -5,6 +5,7 @@ import { NODES } from '../data/nodes'
 import { engine } from '../sim/engine'
 import { useStore } from '../store'
 import { glowColor, nodePosition } from './layout'
+import { currentFocus } from './focusState'
 import { pickValid } from './picking'
 
 const nucleusGeo = new THREE.SphereGeometry(0.022, 16, 12)
@@ -14,6 +15,7 @@ const tmp = new THREE.Color()
 /** Small nuclei (inside the brain) and body organs (outside) rendered as glowing markers. */
 export function Markers() {
   const view = useStore((s) => s.view)
+  const focus = useStore((s) => s.focus)
 
   const items = useMemo(
     () =>
@@ -31,17 +33,21 @@ export function Markers() {
   useEffect(() => {
     for (const it of items) {
       nodePosition(it.node, view.explode, false, it.mesh.position)
-      it.mesh.visible = it.node.kind === 'io' ? view.showBody : view.showNuclei
+      const f = currentFocus()
+      it.mesh.visible = f ? f.all.nodes.has(it.node.id) : it.node.kind === 'io' ? view.showBody : view.showNuclei
       // Nuclei sit inside the brain: once the cortex is faded, draw them on top so they stay visible
-      it.mat.depthTest = it.node.kind === 'io' || view.cortexOpacity >= 0.99
+      it.mat.depthTest = it.node.kind === 'io' || (!f && view.cortexOpacity >= 0.99)
       it.mesh.renderOrder = it.node.kind === 'io' ? 0 : 10
     }
-  }, [items, view])
+  }, [items, view, focus])
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     const { hovered, selected } = useStore.getState()
+    const f = currentFocus()
+    const beat = 0.6 + 0.4 * Math.sin(clock.elapsedTime * 4)
     for (const it of items) {
       let k = 0.25 + engine.activity[it.node.index] * 2.2
+      if (f?.step.nodes.has(it.node.id)) k += beat
       if (it.node.id === hovered) k += 0.4
       if (it.node.id === selected) k += 0.8
       it.mat.emissive.copy(tmp.copy(it.glow).multiplyScalar(k))

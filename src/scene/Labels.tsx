@@ -1,10 +1,11 @@
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useMemo } from 'react'
 import * as THREE from 'three'
-import { NODES, type GraphNode } from '../data/nodes'
+import { NODES, NODE_BY_ID, type GraphNode } from '../data/nodes'
 import { LOBES } from '../data/regions'
 import type { Bi } from '../data/types'
 import { useStore } from '../store'
+import { currentFocus } from './focusState'
 import { BRAIN_CENTER, hemiOffset, isCortex, nodePosition } from './layout'
 
 /** DOM layer the labels are rendered into (set by App). */
@@ -25,6 +26,8 @@ interface Label {
 const LOBE_KEYS = ['frontal', 'parietal', 'temporal', 'occipital'] as const
 const FAR = 3.6 // camera distance beyond which only lobe labels show
 const v = new THREE.Vector3()
+const tmpP = new THREE.Vector3()
+const tmpQ = new THREE.Vector3()
 const toCam = new THREE.Vector3()
 
 /** Centre of one hemisphere: outward direction from here approximates the cortical surface normal. */
@@ -93,19 +96,34 @@ export function Labels() {
     const far = dist > FAR
     const seeInside = view.cortexOpacity < 0.6
     const placed: [number, number, number, number][] = []
+    const f = currentFocus()
+    // Focus mode: one label per structure (the hemisphere nearer the camera), current step first
+    const nearer = new Map<string, string>()
+    if (f) {
+      for (const id of f.all.nodes) {
+        const n = NODE_BY_ID[id]
+        const prev = nearer.get(n.key)
+        const d = nodePosition(n, view.explode, true, tmpP).distanceTo(camera.position)
+        if (!prev || d < nodePosition(NODE_BY_ID[prev], view.explode, true, tmpQ).distanceTo(camera.position)) nearer.set(n.key, id)
+      }
+    }
 
-    // Selected and hovered first so they always win overlap tests
+    // Selected, hovered and current-step labels first so they win overlap tests
     const order = labels.slice().sort((a, b) => rank(b) - rank(a))
     function rank(l: Label) {
       if (!l.node) return 0
-      return l.node.id === selected ? 3 : l.node.id === hovered ? 2 : 0
+      if (l.node.id === selected) return 4
+      if (l.node.id === hovered) return 3
+      return f?.step.nodes.has(l.node.id) ? 2 : 0
     }
 
     for (const l of order) {
       const id = l.node?.id
       const forced = id !== undefined && (id === selected || id === hovered)
       let show = forced
-      if (!forced && view.showLabels) {
+      if (f) {
+        show = forced || (!!l.node && nearer.get(l.node.key) === l.node.id)
+      } else if (!forced && view.showLabels) {
         if (l.lobeLevel) show = far && view.cortexOpacity > 0.3 && camera.position.x * (l.hemi === 'lh' ? -1 : 1) > -0.3
         else if (l.node) show = (!far || l.node.kind === 'io') && visibleKind(l.node, view, seeInside)
       }
@@ -113,7 +131,7 @@ export function Labels() {
       if (show) {
         if (l.node) nodePosition(l.node, view.explode, true, l.pos)
         else l.pos.copy(l.base).setX(l.base.x + hemiOffset(l.hemi, view.explode))
-        if (!forced && l.normal && !l.lobeLevel && !(seeInside && l.node?.kind !== 'io')) {
+        if (!forced && !f && l.normal && !l.lobeLevel && !(seeInside && l.node?.kind !== 'io')) {
           toCam.copy(camera.position).sub(l.pos).normalize()
           if (toCam.dot(l.normal) < 0.3) show = false
         }
@@ -129,7 +147,7 @@ export function Labels() {
         if (show) {
           placed.push([x, y, w, h])
           l.el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`
-          l.el.classList.toggle('active', forced)
+          l.el.classList.toggle('active', forced || !!(f && l.node && f.step.nodes.has(l.node.id)))
         }
       }
       l.el.style.display = show ? '' : 'none'

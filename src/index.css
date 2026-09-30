@@ -146,11 +146,10 @@ button { font: inherit; color: inherit; }
 @media (max-width: 1100px) {
   .mobile-toggle { display: inline-block; }
   .left-col { width: 290px; bottom: auto; max-height: calc(100% - 300px); }
-  .left-col .controls, .left-col .legend { display: none; }
-  .show-controls .left-col .controls { display: block; }
+  .left-col .controls, .left-col .systems { display: none; }
+  .show-controls .left-col .controls, .show-controls .left-col .systems { display: block; }
 }
 @media (max-width: 760px) {
-  .topbar h1 { font-size: 17px; }
   .right-col { display: none; left: 16px; right: 16px; width: auto; bottom: 356px; }
   .show-output .right-col { display: flex; }
   .show-output .left-col { display: none; }
@@ -160,4 +159,98 @@ button { font: inherit; color: inherit; }
   .timeline { height: auto; gap: 6px; }
   .clock { font-size: 18px; }
   .tl-title { width: 100%; }
+}
+
+/* ── View toggle ── */
+.view-toggle { background: var(--panel); }
+.view-toggle button { padding: 4px 10px; }
+
+/* ── System picker ── */
+.systems-hint { margin: -2px 0 8px; font-size: 11.5px; color: var(--text-dim); }
+.system-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.system-btn {
+  display: flex; align-items: center; gap: 6px; text-align: left; font-size: 12.5px; cursor: pointer;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); border-left: 3px solid var(--c);
+  border-radius: 6px; padding: 5px 7px;
+}
+.system-btn:hover { background: rgba(255,255,255,0.08); }
+.system-btn.on { background: color-mix(in srgb, var(--c) 22%, transparent); border-color: var(--c); color: var(--text-h); }
+.system-icon { font-size: 14px; }
+
+/* ── Focus (single system) panel ── */
+.focusing .bottom { grid-template-columns: 1fr; }
+.focus-panel { border-top: 2px solid var(--c); display: flex; flex-direction: column; gap: 8px; }
+.focus-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+.focus-name { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; flex: 1; min-width: 260px; }
+.focus-name strong { font-size: 17px; color: var(--c); }
+.focus-summary { font-size: 12.5px; color: var(--text-dim); }
+.focus-actions { display: flex; gap: 6px; }
+.btn-sm { background: rgba(255,255,255,0.05); border: 1px solid var(--panel-border); border-radius: 6px; padding: 3px 9px; font-size: 12px; cursor: pointer; white-space: nowrap; }
+.btn-sm:hover, .btn-sm.on { border-color: var(--c); color: var(--text-h); }
+.focus-steps { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; flex-wrap: wrap; }
+.focus-steps button {
+  display: flex; align-items: center; gap: 6px; font-size: 12px; cursor: pointer; padding: 3px 10px 3px 3px;
+  border-radius: 999px; border: 1px solid var(--panel-border); background: rgba(255,255,255,0.03); color: var(--text-dim);
+}
+.focus-steps button.done { color: var(--text); }
+.focus-steps button.on { border-color: var(--c); color: var(--text-h); background: color-mix(in srgb, var(--c) 20%, transparent); }
+.step-no { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; background: rgba(255,255,255,0.08); }
+.focus-steps button.on .step-no { background: var(--c); color: #0b0d14; }
+.focus-body { display: grid; grid-template-columns: 36px 1fr 36px; gap: 10px; align-items: center; }
+.step-nav { height: 60px; border-radius: 8px; border: 1px solid var(--panel-border); background: rgba(255,255,255,0.04); cursor: pointer; font-size: 14px; }
+.step-nav:hover:not(:disabled) { border-color: var(--c); }
+.step-nav:disabled { opacity: 0.3; cursor: default; }
+.focus-step-title { font-size: 14.5px; color: var(--text-h); font-weight: 600; margin-bottom: 3px; }
+.focus-text p { margin: 0; font-size: 13.5px; line-height: 1.55; }
+
+/* ── Schematic ── */
+.schematic { position: absolute; top: 112px; left: 16px; right: 332px; bottom: 212px; }
+.schematic svg { width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
+.schematic svg:active { cursor: grabbing; }
+.systems.compact { position: absolute; top: 64px; left: 16px; right: 332px; display: flex; align-items: center; gap: 10px; padding: 6px 10px; z-index: 2; }
+.systems.compact h3 { margin: 0; white-space: nowrap; }
+.systems.compact .system-grid { display: flex; flex-wrap: wrap; gap: 5px; }
+.systems.compact .system-btn { padding: 3px 8px; font-size: 12px; white-space: nowrap; }
+.view-schematic .left-col { top: 150px; }
+.schem-reset { position: absolute; right: 8px; bottom: 8px; }
+.scol { fill: var(--text-dim); font-size: 13px; letter-spacing: 0.05em; }
+.snode { cursor: pointer; transition: opacity 0.3s; }
+.snode .sbox { fill: rgba(14, 18, 30, 0.92); stroke-width: 1.5; }
+.snode text { fill: var(--text-h); font-size: 12.5px; pointer-events: none; }
+.snode .shalo { opacity: 0; pointer-events: none; }
+.snode:hover .sbox { fill: rgba(40, 50, 75, 0.95); }
+.snode.sel .sbox { stroke-width: 3; }
+.snode.dim { opacity: 0.12; }
+.snode.step .sbox { stroke-width: 3; animation: stepPulse 1.2s ease-in-out infinite; }
+@keyframes stepPulse { 50% { stroke-width: 5; } }
+.sedge { fill: none; --tr: 0; stroke-opacity: calc(0.16 + var(--tr) * 0.8); stroke-width: calc(1.2px + var(--tr) * 2.4px); transition: opacity 0.3s; }
+.sedge.inhib { stroke-dasharray: 5 4; }
+.sedge.faint { opacity: 0.25; }
+.sedge.sel { stroke-opacity: 0.8; stroke-width: 2px; }
+.sedge.step { stroke-opacity: calc(0.55 + var(--tr) * 0.45); stroke-width: calc(2px + var(--tr) * 2px); }
+.sedge.hidden { display: none; }
+.sbus { cursor: pointer; }
+.sbus-bar { fill: rgba(46, 196, 182, 0.12); stroke: rgba(46, 196, 182, 0.6); stroke-width: 1.5; }
+.sbus .shalo { fill: #2ec4b6; opacity: 0; pointer-events: none; }
+.sbus text { fill: #9fe7df; font-size: 12px; pointer-events: none; }
+.sbus.sel .sbus-bar { stroke-width: 3; }
+.sbus.dim { opacity: 0.15; }
+.spulses circle { pointer-events: none; filter: drop-shadow(0 0 4px currentColor); }
+
+@media (max-width: 1100px) {
+  .schematic, .systems.compact { right: 16px; }
+}
+@media (max-width: 760px) {
+  .view-toggle .vt-text { display: none; }
+  .topbar h1 { font-size: 15px; white-space: nowrap; }
+  .top-actions { gap: 4px; }
+  .seg { flex-wrap: nowrap; }
+  .view-schematic .mobile-toggle:first-of-type { display: none; }
+  .topbar .subtitle { display: none; }
+  .view-schematic .left-col { top: 100px; }
+  .systems.compact { top: 52px; overflow-x: auto; }
+  .systems.compact .system-grid { flex-wrap: nowrap; }
+  .systems.compact h3 { display: none; }
+  .schematic { top: 100px; bottom: 340px; }
+  .focusing .schematic { bottom: 430px; }
 }
