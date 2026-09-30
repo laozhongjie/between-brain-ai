@@ -29,9 +29,13 @@ const SKY_GRADIENT = (() => {
 })()
 
 /** Events closer than ~35 min are staggered vertically so their markers don't overlap. */
-/** 0..1: how close the playhead is to a marker (full within a few minutes, fading out over ~45 min). */
-const NEAR = 45
-const nearness = (tl: number, at: number) => Math.max(0, 1 - Math.max(0, Math.abs(tl - at) - 3) / NEAR)
+/**
+ * A marker pops as the playhead touches its edge (px before its centre) and shrinks once the playhead has
+ * fully left the enlarged marker (px past its centre, ≈ its radius at 1.45×).
+ */
+const HIT_BEFORE = 12
+const HIT_AFTER = 17
+const isHit = (dxPx: number) => dxPx > -HIT_BEFORE && dxPx < HIT_AFTER
 
 const crowded = (i: number) =>
   (i > 0 && EVENTS[i].tl - EVENTS[i - 1].tl < 35) || (i + 1 < EVENTS.length && EVENTS[i + 1].tl - EVENTS[i].tl < 35)
@@ -99,6 +103,7 @@ export function Timeline() {
   }
 
   const ev = current >= 0 ? DAY[current] : null
+  const pxPerMin = (bar.current?.clientWidth ?? 1000) / 1440
   const hours = Array.from({ length: 8 }, (_, i) => i * 3 * 60 + (9 * 60 - DAY_START)) // 09:00, 12:00, …
 
   return (
@@ -139,8 +144,8 @@ export function Timeline() {
         {EVENTS.map((e, i) => (
           <button
             key={e.index}
-            className={`tl-event ${current === e.index ? 'on' : ''}`}
-            style={{ left: pct(e.tl), marginTop: crowded(i) ? (i % 2 ? -15 : 15) : 0, '--near': nearness(tl, e.tl).toFixed(3) } as React.CSSProperties}
+            className={`tl-event ${current === e.index ? 'on' : ''} ${isHit((tl - e.tl) * pxPerMin) ? 'hit' : ''}`}
+            style={{ left: pct(e.tl), marginTop: crowded(i) ? (i % 2 ? -15 : 15) : 0 }}
             title={`${DAY[e.index].time} ${t(DAY[e.index].title)}`}
             onPointerDown={(x) => {
               x.stopPropagation()
