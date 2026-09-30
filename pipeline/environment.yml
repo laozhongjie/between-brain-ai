@@ -1,0 +1,15 @@
+name: humanbrain
+channels: [conda-forge]
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - mne
+      - nibabel
+      - trimesh
+      - scikit-image
+      - scipy
+      - numpy
+      - fast-simplification
+      - pooch
+      - tqdm
