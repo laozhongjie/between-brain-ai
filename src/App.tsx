@@ -18,6 +18,7 @@ import { Icon } from './ui/Icon'
 
 // The Brain ↔ AI section (with KaTeX) loads on demand so the atlas starts faster
 const AiSection = lazy(() => import('./ai/pages/AiSection').then((m) => ({ default: m.AiSection })))
+const Home = lazy(() => import('./home/Home').then((m) => ({ default: m.Home })))
 
 /** Brand mark: a disc split by a thin gap into two halves (brain | AI). White, no background. */
 function Logo() {
@@ -59,14 +60,15 @@ export default function App() {
   const [panel, setPanel] = useState<'none' | 'controls' | 'output'>('none')
   const toggle = (p: typeof panel) => setPanel(panel === p ? 'none' : p)
   const route = useRoute()
-  const section = route[0] === 'ai' ? 'ai' : 'atlas'
+  // #/ → landing page, #/atlas → the atlas, #/ai/… → the Brain ↔ AI section
+  const section = route[0] === 'ai' ? 'ai' : route[0] === 'atlas' ? 'atlas' : 'home'
 
   const topbar = (
     <header className="topbar">
       <div className="brand">
-        <h1><Logo /><span className="wordmark">{t(UI.title)}</span></h1>
+        <h1 onClick={() => go('/')} title="BETWEEN"><Logo /><span className="wordmark">{t(UI.title)}</span></h1>
         <div className="seg nav-tabs">
-          <button className={section === 'atlas' ? 'on' : ''} onClick={() => go('/')}><Icon name="brain" size={14} />{t(UI.navAtlas)}</button>
+          <button className={section === 'atlas' ? 'on' : ''} onClick={() => go('/atlas')}><Icon name="brain" size={14} />{t(UI.navAtlas)}</button>
           <button className={section === 'ai' ? 'on' : ''} onClick={() => go('/ai')}><Icon name="cpu" size={14} />{t(UI.navAi)}</button>
         </div>
         {/* after the nav so its changing length never moves the tabs */}
@@ -90,6 +92,14 @@ export default function App() {
       </div>
     </header>
   )
+
+  if (section === 'home') {
+    return (
+      <Suspense fallback={<div className="loader">…</div>}>
+        <Home />
+      </Suspense>
+    )
+  }
 
   if (section === 'ai') {
     return (

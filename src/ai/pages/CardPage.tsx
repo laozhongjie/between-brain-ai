@@ -50,7 +50,7 @@ export function CardPage({ card }: { card: Card }) {
 
   const openInAtlas = () => {
     useStore.getState().setViewMode('3d')
-    go('/')
+    go('/atlas')
     enterFocus(card.tour!)
   }
 
