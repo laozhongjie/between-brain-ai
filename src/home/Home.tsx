@@ -80,7 +80,7 @@ function Hero({ g }: { g: ReturnType<typeof heroGeom> }) {
 
       <div className="hero-copy" style={{ top: cy + g.r + 46 }}>
         <div className="hero-wordmark">BETWEEN</div>
-        <p className="hero-lede">Exploring what lies between brains and machines.</p>
+        <p className="hero-lede">Exploring what lies between brains and machines</p>
         <p className="hero-lede zh">探索人脑与人工智能之间</p>
       </div>
 
