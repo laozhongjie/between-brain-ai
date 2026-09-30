@@ -23,6 +23,8 @@ export function Schematic() {
   const focusStep = useStore((s) => s.focusStep)
   const select = useStore((s) => s.select)
   const svg = useRef<SVGSVGElement>(null)
+  // Pulses live in their own overlay SVG (own compositing layer) so moving dots don't repaint the whole diagram
+  const pulseSvg = useRef<SVGSVGElement>(null)
   const dragged = useRef(false)
   const pick = (id: string | undefined) => {
     if (!dragged.current && id) select(id)
@@ -42,14 +44,49 @@ export function Schematic() {
   }
 
   // Zoom (wheel, around the cursor) and pan (drag); double-click resets. viewBox is managed here, not by React.
+  // While a gesture runs the already-rasterised diagram is moved with a CSS transform (compositor only);
+  // the new viewBox is committed once the gesture ends, so the SVG re-rasterises once instead of every frame.
   useEffect(() => {
     const el = svg.current!
-    const vb = { x: 0, y: 0, w: W, h: H }
-    const apply = () => el.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`)
-    const toSvg = (cx: number, cy: number) => new DOMPoint(cx, cy).matrixTransform(el.getScreenCTM()!.inverse())
+    const overlay = pulseSvg.current!
+    const view = el.parentElement as HTMLDivElement
+    const box = view.parentElement as HTMLDivElement
+    const vb = { x: 0, y: 0, w: W, h: H } // live view
+    let shown = { ...vb } // view currently rendered into the SVGs
+    // viewBox → local pixels under preserveAspectRatio="xMidYMid meet"
+    const map = (v: typeof vb) => {
+      const cw = box.clientWidth
+      const ch = box.clientHeight
+      const s = Math.min(cw / v.w, ch / v.h)
+      return { s, ox: (cw - v.w * s) / 2 - v.x * s, oy: (ch - v.h * s) / 2 - v.y * s }
+    }
+    const commit = () => {
+      clearTimeout(settle)
+      const v = `${vb.x} ${vb.y} ${vb.w} ${vb.h}`
+      el.setAttribute('viewBox', v)
+      overlay.setAttribute('viewBox', v)
+      shown = { ...vb }
+      view.style.transform = ''
+      view.classList.remove('moving')
+    }
+    let settle = 0
+    const apply = () => {
+      const a = map(shown)
+      const b = map(vb)
+      const k = b.s / a.s
+      view.classList.add('moving')
+      view.style.transform = `translate(${b.ox - k * a.ox}px, ${b.oy - k * a.oy}px) scale(${k})`
+    }
+    const toSvg = (cx: number, cy: number) => {
+      const r = box.getBoundingClientRect()
+      const m = map(vb)
+      return { x: (cx - r.left - m.ox) / m.s, y: (cy - r.top - m.oy) / m.s }
+    }
     const onWheel = (e: WheelEvent) => {
       e.preventDefault()
       zoomAt(e.clientX, e.clientY, Math.exp(e.deltaY * 0.0015))
+      clearTimeout(settle)
+      settle = window.setTimeout(commit, 140)
     }
     const zoomAt = (cx: number, cy: number, k: number) => {
       const p = toSvg(cx, cy)
@@ -86,7 +123,7 @@ export function Schematic() {
         return
       }
       if (!last || !e.buttons) return
-      const scale = 1 / el.getScreenCTM()!.a
+      const scale = 1 / map(vb).s
       const dx = e.clientX - last.x
       const dy = e.clientY - last.y
       moved += Math.abs(dx) + Math.abs(dy)
@@ -99,13 +136,14 @@ export function Schematic() {
     const onUp = (e: PointerEvent) => {
       touches.delete(e.pointerId)
       pinchDist = 0
+      if (last && moved > 0) commit()
       last = null
     }
     // Narrow screens start zoomed in on the input side; users pan/pinch from there
     const home = () => {
       const narrow = el.clientWidth < 600
       Object.assign(vb, narrow ? { x: 0, y: 30, w: W / 2.2, h: H / 2.2 } : { x: 0, y: 0, w: W, h: H })
-      apply()
+      commit()
     }
     const reset = home
     home()
@@ -122,6 +160,7 @@ export function Schematic() {
       window.removeEventListener('pointerup', onUp)
       window.removeEventListener('pointercancel', onUp)
       el.removeEventListener('dblclick', reset)
+      clearTimeout(settle)
     }
   }, [])
 
@@ -134,24 +173,43 @@ export function Schematic() {
     const paths = new Map<string, { el: SVGPathElement; len: number }>()
     root.querySelectorAll<SVGPathElement>('[data-edge]').forEach((el) => paths.set(el.dataset.edge!, { el, len: el.getTotalLength() }))
     const edgeGlow = SEDGES.map((e) => paths.get(e.id)!.el)
-    const layer = root.querySelector<SVGGElement>('.spulses')!
-    const dots: SVGCircleElement[] = []
+    const layer = pulseSvg.current!.querySelector<SVGGElement>('.spulses')!
+    // Each pulse is a bright core plus a faint wide halo: a glow without per-dot filters
+    const dots: { halo: SVGCircleElement; core: SVGCircleElement; on: boolean }[] = []
     for (let i = 0; i < MAX_PULSES; i++) {
-      const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
-      c.setAttribute('r', '4')
-      c.style.display = 'none'
-      layer.appendChild(c)
-      dots.push(c)
+      const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
+      const core = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
+      halo.setAttribute('class', 'sp-halo')
+      core.setAttribute('class', 'sp-core')
+      halo.style.display = core.style.display = 'none'
+      layer.append(halo, core)
+      dots.push({ halo, core, on: false })
     }
+
+    // Only touch the diagram when a value visibly changes: every write repaints the whole SVG
+    const q = (x: number, step: number) => Math.round(Math.min(1, x) / step) * step
+    const lastHalo = new Map<SVGRectElement, number>()
+    const setHalo = (el: SVGRectElement, key: string) => {
+      const o = q(keyActivity(key) * 1.3, 0.05)
+      if (lastHalo.get(el) !== o) {
+        lastHalo.set(el, o)
+        el.style.opacity = String(o)
+      }
+    }
+    const lastTr = new Float32Array(SEDGES.length).fill(-1)
 
     let raf = 0
     const frame = () => {
-      for (const [key, el] of halos) el.style.opacity = String(Math.min(1, keyActivity(key) * 1.3))
-      for (const [key, el] of busHalos) el.style.opacity = String(Math.min(1, keyActivity(key) * 1.3))
+      for (const [key, el] of halos) setHalo(el, key)
+      for (const [key, el] of busHalos) setHalo(el, key)
       SEDGES.forEach((e, i) => {
         let tr = 0
         for (const p of e.paths) tr = Math.max(tr, signals.traffic[p])
-        edgeGlow[i].style.setProperty('--tr', tr.toFixed(3))
+        tr = q(tr, 0.05)
+        if (lastTr[i] !== tr) {
+          lastTr[i] = tr
+          edgeGlow[i].style.setProperty('--tr', tr.toFixed(2))
+        }
       })
       let n = 0
       const now = engine.simTime
@@ -161,20 +219,32 @@ export function Schematic() {
         const edge = paths.get(HOP_EDGE[p.path][p.hop])
         if (!edge || fr < 0 || fr > 1) continue
         const pt = edge.el.getPointAtLength(fr * edge.len)
-        const dot = dots[n++]
-        dot.setAttribute('cx', pt.x.toFixed(1))
-        dot.setAttribute('cy', pt.y.toFixed(1))
-        dot.setAttribute('r', (2.5 + 2.5 * p.strength).toFixed(1))
-        dot.style.fill = edge.el.style.stroke
-        dot.style.display = ''
+        const d = dots[n++]
+        const x = pt.x.toFixed(1)
+        const y = pt.y.toFixed(1)
+        const r = 2.5 + 2.5 * p.strength
+        const color = edge.el.style.stroke
+        d.core.setAttribute('cx', x); d.core.setAttribute('cy', y); d.core.setAttribute('r', r.toFixed(1))
+        d.halo.setAttribute('cx', x); d.halo.setAttribute('cy', y); d.halo.setAttribute('r', (r * 2.6).toFixed(1))
+        d.core.style.fill = d.halo.style.fill = color
+        if (!d.on) {
+          d.on = true
+          d.core.style.display = d.halo.style.display = ''
+        }
       }
-      for (let i = n; i < MAX_PULSES; i++) if (dots[i].style.display !== 'none') dots[i].style.display = 'none'
+      for (let i = n; i < MAX_PULSES; i++) {
+        const d = dots[i]
+        if (d.on) {
+          d.on = false
+          d.core.style.display = d.halo.style.display = 'none'
+        }
+      }
       raf = requestAnimationFrame(frame)
     }
     frame()
     return () => {
       cancelAnimationFrame(raf)
-      dots.forEach((d) => d.remove())
+      dots.forEach((d) => { d.halo.remove(); d.core.remove() })
     }
   }, [])
 
@@ -182,57 +252,71 @@ export function Schematic() {
 
   return (
     <div className="schematic">
-      <svg ref={svg} preserveAspectRatio="xMidYMid meet">
-        <defs>
-          <filter id="sglow" x="-40%" y="-80%" width="180%" height="260%">
-            <feGaussianBlur stdDeviation="6" />
-          </filter>
-          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" fill="context-stroke" />
-          </marker>
-        </defs>
+      <div className="schem-view">
+        <svg ref={svg} preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <filter id="sglow" x="-3%" y="-6%" width="106%" height="112%">
+              <feGaussianBlur stdDeviation="6" />
+            </filter>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="context-stroke" />
+            </marker>
+          </defs>
 
-        {COLUMNS.map((c, i) => (
-          <text key={i} className="scol" x={(c.x0 + c.x1) / 2} y={20} textAnchor="middle">{t(c.label)}</text>
-        ))}
-
-        {(Object.keys(BUSES) as BusKey[]).map((k) => {
-          const b = BUSES[k]
-          const id = resolveKey(k)!
-          return (
-            <g key={k} className={`sbus ${busVisible(k) ? '' : 'dim'} ${selKey === k ? 'sel' : ''}`} onClick={() => pick(id)}>
-              <rect data-bushalo={k} x={b.x0} y={b.y - 9} width={b.x1 - b.x0} height={18} rx={9} className="shalo" filter="url(#sglow)" />
-              <rect x={b.x0} y={b.y - 9} width={b.x1 - b.x0} height={18} rx={9} className="sbus-bar" />
-              <text x={b.x0 + 14} y={b.y + 4}>{t(k === 'brainstem' ? UI.brainstemBus : UI.spinalBus)}</text>
-            </g>
-          )
-        })}
-
-        <g className="sedges">
-          {SEDGES.map((e) => (
-            <path
-              key={e.id}
-              data-edge={e.id}
-              d={e.d}
-              className={`${edgeClass(e.paths, e.from, e.to)} ${e.inhib ? 'inhib' : ''}`}
-              style={{ stroke: e.color }}
-              markerEnd="url(#arrow)"
-            />
+          {COLUMNS.map((c, i) => (
+            <text key={i} className="scol" x={(c.x0 + c.x1) / 2} y={20} textAnchor="middle">{t(c.label)}</text>
           ))}
-        </g>
 
-        <g className="snodes">
-          {SNODES.map((n) => (
-            <g key={n.key} className={nodeClass(n.key)} transform={`translate(${n.x},${n.y})`} onClick={() => pick(resolveKey(n.key))}>
-              <rect data-halo={n.key} x={-NODE_W / 2} y={-NODE_H / 2} width={NODE_W} height={NODE_H} rx={12} className="shalo" style={{ fill: n.color }} filter="url(#sglow)" />
-              <rect x={-NODE_W / 2} y={-NODE_H / 2} width={NODE_W} height={NODE_H} rx={12} className="sbox" style={{ stroke: n.ink, fill: n.color + '33' }} />
-              <text y={4} textAnchor="middle">{t(n.label)}</text>
-            </g>
-          ))}
-        </g>
+          {(Object.keys(BUSES) as BusKey[]).map((k) => {
+            const b = BUSES[k]
+            const id = resolveKey(k)!
+            return (
+              <g key={k} className={`sbus ${busVisible(k) ? '' : 'dim'} ${selKey === k ? 'sel' : ''}`} onClick={() => pick(id)}>
+                <rect x={b.x0} y={b.y - 9} width={b.x1 - b.x0} height={18} rx={9} className="sbus-bar" />
+                <text x={b.x0 + 14} y={b.y + 4}>{t(k === 'brainstem' ? UI.brainstemBus : UI.spinalBus)}</text>
+              </g>
+            )
+          })}
 
-        <g className="spulses" />
-      </svg>
+          {/* All activity halos share one blur pass (a filter per halo would re-blur ~75 surfaces every repaint) */}
+          <g className="shalos" filter="url(#sglow)">
+            {(Object.keys(BUSES) as BusKey[]).map((k) => {
+              const b = BUSES[k]
+              return <rect key={k} data-bushalo={k} x={b.x0} y={b.y - 9} width={b.x1 - b.x0} height={18} rx={9} className={`shalo bus ${busVisible(k) ? '' : 'dim'}`} />
+            })}
+            {SNODES.map((n) => (
+              <rect key={n.key} data-halo={n.key} x={n.x - NODE_W / 2} y={n.y - NODE_H / 2} width={NODE_W} height={NODE_H} rx={12}
+                className={`shalo ${nodeClass(n.key).includes('dim') ? 'dim' : ''}`} style={{ fill: n.color }} />
+            ))}
+          </g>
+
+          <g className="sedges">
+            {SEDGES.map((e) => (
+              <path
+                key={e.id}
+                data-edge={e.id}
+                d={e.d}
+                className={`${edgeClass(e.paths, e.from, e.to)} ${e.inhib ? 'inhib' : ''}`}
+                style={{ stroke: e.color }}
+                markerEnd="url(#arrow)"
+              />
+            ))}
+          </g>
+
+          <g className="snodes">
+            {SNODES.map((n) => (
+              <g key={n.key} className={nodeClass(n.key)} transform={`translate(${n.x},${n.y})`} onClick={() => pick(resolveKey(n.key))}>
+                <rect x={-NODE_W / 2} y={-NODE_H / 2} width={NODE_W} height={NODE_H} rx={12} className="sbox" style={{ stroke: n.ink, fill: n.color + '33' }} />
+                <text y={4} textAnchor="middle">{t(n.label)}</text>
+              </g>
+            ))}
+          </g>
+
+        </svg>
+        <svg ref={pulseSvg} className="spulse-layer" preserveAspectRatio="xMidYMid meet" aria-hidden>
+          <g className="spulses" />
+        </svg>
+      </div>
     </div>
   )
 }
