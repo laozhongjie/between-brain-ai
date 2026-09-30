@@ -329,6 +329,9 @@ button { font: inherit; color: inherit; }
 .nav-tabs button { padding: 4px 12px; font-size: 13px; }
 .ai-link { display: flex; align-items: center; gap: 6px; width: 100%; text-align: left; margin: -2px 0 8px; background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 8px; padding: 6px 9px; font-size: 12px; cursor: pointer; color: var(--text-h); transition: box-shadow .2s, border-color .2s; }
 .ai-link svg { width: 14px; height: 14px; color: var(--accent); flex: none; }
+.ai-link { align-items: flex-start; }
+.ai-link svg { margin-top: 2px; }
+.ai-link-text { flex: 1; min-width: 0; line-height: 1.5; }
 .ai-link:hover { border-color: var(--accent); box-shadow: 0 0 16px -4px var(--accent); }
 
 /* ── Brain ↔ AI section ── */

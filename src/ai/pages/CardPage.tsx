@@ -102,7 +102,7 @@ export function CardPage({ card }: { card: Card }) {
 
       {Lab && (
         <section className="lab-section">
-          <h2><Icon name="flask" />{t(UI.secLab)} · <Rich text={t(Lab.title)} /></h2>
+          <h2><Icon name="flask" /><span>{t(UI.secLab)} · <Rich text={t(Lab.title)} /></span></h2>
           <Lab.component />
         </section>
       )}
