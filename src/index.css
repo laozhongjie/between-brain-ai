@@ -665,7 +665,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   .view-schematic .tl-shape path { fill: #0d121b; stroke: var(--panel-border); stroke-width: 1; }
   .view-schematic .timeline .icon-btn { align-self: center; }
   .view-schematic .timeline .clock { margin-left: 0; }
-  .view-schematic .timeline .tl-title { flex: 1; min-width: 0; justify-content: flex-end; }
+  .view-schematic .timeline .tl-title { flex: 1; min-width: 0; justify-content: flex-start; margin-left: 14px; }
   .view-schematic .tl-title > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .view-schematic .tl-bar { height: 56px; margin: 0 4px 16px; }
   .view-schematic .tl-event { width: 22px; height: 22px; }
