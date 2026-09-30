@@ -9,7 +9,8 @@ import { HomeAI } from './HomeAI'
 import { HeroField } from './HeroField'
 import { HomeBrain } from './HomeBrain'
 
-const GAP = 8 // px, the slit between the two halves (the logo's gap, scaled up)
+const PANEL_GAP = 8
+const MARK_GAP_RATIO = 0.11
 const clamp = (x: number) => Math.max(0, Math.min(1, x))
 const ease = (x: number) => x * x * (3 - 2 * x)
 
@@ -31,8 +32,8 @@ const heroGeom = (w: number, h: number) => ({
 function Mark() {
   return (
     <svg className="home-mark" viewBox="0 0 32 32" aria-hidden>
-      <path d="M15.35 1.014A15 15 0 0 0 15.35 30.986Z" />
-      <path d="M16.65 1.014A15 15 0 0 1 16.65 30.986Z" />
+      <path d="M14.35 1.091026A15 15 0 0 0 14.35 30.908974Z" />
+      <path d="M17.65 1.091026A15 15 0 0 1 17.65 30.908974Z" />
     </svg>
   )
 }
@@ -142,12 +143,13 @@ export function Home() {
       const fill = 1 - clamp((p - FILL[0]) / (FILL[1] - FILL[0]))
       const open = ease(clamp((p - OPEN[0]) / (OPEN[1] - OPEN[0])))
       const g = heroGeom(st.clientWidth, st.clientHeight)
-      const cover = Math.hypot(st.clientWidth / 2, st.clientHeight / 2) + GAP
+      const cover = Math.hypot(st.clientWidth / 2, st.clientHeight / 2) + PANEL_GAP
       const cta = clamp((p - CTA) / 0.07)
       for (const el of [sc, st]) el.style.setProperty('--hero', h.toFixed(3))
       st.style.setProperty('--fill', fill.toFixed(3))
       st.style.setProperty('--reveal', (1 - fill).toFixed(3))
       st.style.setProperty('--open', open.toFixed(3))
+      st.style.setProperty('--half-gap', `${g.r * MARK_GAP_RATIO * (1 - open) + PANEL_GAP / 2 * open}px`)
       st.style.setProperty('--r', `${(g.r + open * open * (cover - g.r)).toFixed(1)}px`)
       st.style.setProperty('--cta', cta.toFixed(3))
       st.classList.toggle('cta-on', cta > 0.5)

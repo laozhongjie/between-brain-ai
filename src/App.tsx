@@ -24,8 +24,8 @@ const Home = lazy(() => import('./home/Home').then((m) => ({ default: m.Home }))
 function Logo() {
   return (
     <svg className="logo" viewBox="0 0 32 32" aria-hidden>
-      <path d="M15.35 1.014A15 15 0 0 0 15.35 30.986Z" fill="#f2f4f7" />
-      <path d="M16.65 1.014A15 15 0 0 1 16.65 30.986Z" fill="#f2f4f7" />
+      <path d="M14.35 1.091026A15 15 0 0 0 14.35 30.908974Z" fill="#f5f5f5" />
+      <path d="M17.65 1.091026A15 15 0 0 1 17.65 30.908974Z" fill="#f5f5f5" />
     </svg>
   )
 }
