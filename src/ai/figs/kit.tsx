@@ -1,14 +1,15 @@
 import type { ReactNode } from 'react'
+import { FONT } from '../../theme'
 
 /** Macaron diagram palette: pastel fills with a deeper tone for strokes and arrows. */
 export const C = {
   pink: '#fbd3dc', pinkD: '#d0607a',
   peach: '#ffe0c9', peachD: '#c77436',
   mint: '#d3f2e5', mintD: '#2c9a86',
-  lav: '#e6dcf5', lavD: '#7d63c2',
+  lav: '#eee6de', lavD: '#8c7b6e',
   sky: '#d6ebf7', skyD: '#3f88b5',
   lemon: '#fdf6c7', lemonD: '#a88a0c',
-  ink: '#4a4453', dim: '#8a8194', line: '#b9adc6', white: '#ffffff', ghost: '#f3eef6',
+  ink: '#4b423c', dim: '#8f847b', line: '#cdbfb3', white: '#ffffff', ghost: '#f4eee8',
 }
 
 const HEADS = { ink: C.ink, dim: C.dim, pink: C.pinkD, lav: C.lavD, mint: C.mintD, sky: C.skyD, peach: C.peachD, lemon: C.lemonD }
@@ -17,7 +18,7 @@ export type HeadColor = keyof typeof HEADS
 /** SVG canvas with arrow markers in every palette colour (ids are namespaced per figure). */
 export function Svg({ id, w = 360, h = 230, label, children }: { id: string; w?: number; h?: number; label: string; children: ReactNode }) {
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} role="img" aria-label={label} className="fig-svg" fontFamily="system-ui, -apple-system, 'PingFang SC', sans-serif">
+    <svg viewBox={`0 0 ${w} ${h}`} role="img" aria-label={label} className="fig-svg" fontFamily={FONT}>
       <defs>
         {Object.entries(HEADS).map(([k, col]) => (
           <marker key={k} id={`${id}-a-${k}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Pt } from './models'
+import { FONT } from '../../theme'
 import { Rich } from '../Tex'
 
 export { SERIES } from '../../theme'
@@ -29,7 +30,7 @@ interface Props {
 }
 
 const M = { l: 58, r: 16, t: 12, b: 34 }
-const INK = { axis: '#cbbfd6', grid: '#efe8f2', text: '#8a8194', strong: '#2f2a38' }
+const INK = { axis: '#d4c8bd', grid: '#f1eae3', text: '#8a8194', strong: '#2f2a38' }
 
 function niceTicks(lo: number, hi: number, n = 5) {
   const span = hi - lo || 1
@@ -68,7 +69,7 @@ export function LinePlot({ series, xLabel, yLabel, xDomain, yDomain, height = 20
     const sx = (x: number) => M.l + ((x - xd[0]) / (xd[1] - xd[0])) * (W - M.l - M.r)
     const sy = (y: number) => H - M.b - ((y - yd[0]) / (yd[1] - yd[0])) * (H - M.t - M.b)
 
-    ctx.font = '11px system-ui, sans-serif'
+    ctx.font = `11px ${FONT}`
     ctx.fillStyle = INK.text
     ctx.strokeStyle = INK.grid
     ctx.lineWidth = 1
@@ -191,8 +192,8 @@ export function LinePlot({ series, xLabel, yLabel, xDomain, yDomain, height = 20
   )
 }
 
-// Sequential lavender ramp (light surface): low values recede toward the ground, high values are deep.
-const RAMP = ['#f7f2fb', '#e4d8f5', '#c9b6ec', '#a88ddc', '#8467c7', '#5d3fa6'].map((h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)))
+// Sequential terracotta ramp (light surface): low values recede toward the ground, high values are deep.
+const RAMP = ['#fbf5ef', '#f3dfcc', '#e9c2a2', '#d99f79', '#bf7a56', '#935539'].map((h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)))
 function rampColor(v: number) {
   const x = Math.max(0, Math.min(1, v)) * (RAMP.length - 1)
   const i = Math.min(RAMP.length - 2, Math.floor(x))

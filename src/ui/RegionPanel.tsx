@@ -1,3 +1,4 @@
+import { Rich } from '../rich'
 import { cardForTour } from '../ai/content'
 import { NODE_BY_ID, resolveKey } from '../data/nodes'
 import { TOURS } from '../data/tours'
@@ -23,7 +24,7 @@ function LinkList({ items, dir, hemi }: { items: Link[]; dir: 'in' | 'out'; hemi
               {dir === 'in' ? '← ' : '→ '}
               {other ? t(other.name) : x.key}
             </button>
-            <div className="link-what">{t(x.what)}</div>
+            <div className="link-what"><Rich text={t(x.what)} /></div>
           </li>
         )
       })}
@@ -60,12 +61,12 @@ export function RegionPanel() {
       </header>
       <ActivitySpark index={node.index} color={sys.color} />
       {aiCard && (
-        <button className="ai-link" onClick={() => go(`/ai/card/${aiCard.id}`)}>🤖 {t(UI.aiLink)}：{t(aiCard.title)} →</button>
+        <button className="ai-link" onClick={() => go(`/ai/card/${aiCard.id}`)}>🤖 {t(UI.aiLink)}：<Rich text={t(aiCard.title)} /> →</button>
       )}
       <section>
         <h3>{t(UI.function)}</h3>
-        <p>{t(info.func)}</p>
-        {info.note && <p className="note">{t(info.note)}</p>}
+        <p><Rich text={t(info.func)} /></p>
+        {info.note && <p className="note"><Rich text={t(info.note)} /></p>}
       </section>
       {info.inputs.length > 0 && (
         <section>

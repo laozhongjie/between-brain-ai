@@ -57,7 +57,7 @@ export function CardPage({ card }: { card: Card }) {
         <button onClick={() => go('/ai')}>{t(UI.backToLadder)}</button>
         <span>{t(UI.layer).replace('{n}', String(layer.id))} · {t(layer.name)}</span>
       </div>
-      <h1>{t(card.title)}</h1>
+      <h1><Rich text={t(card.title)} /></h1>
       <div className="card-badges">
         <CorrBadge corr={card.corr} />
         <EvidenceBadge ev={card.evidence} />
@@ -99,7 +99,7 @@ export function CardPage({ card }: { card: Card }) {
 
       {Lab && (
         <section className="lab-section">
-          <h2>🧪 {t(UI.secLab)} · {t(Lab.title)}</h2>
+          <h2>🧪 {t(UI.secLab)} · <Rich text={t(Lab.title)} /></h2>
           <Lab.component />
         </section>
       )}
@@ -110,8 +110,8 @@ export function CardPage({ card }: { card: Card }) {
       </section>
 
       <nav className="pager">
-        {prev ? <button onClick={() => go(`/ai/card/${prev.id}`)}>← {t(prev.title)}</button> : <span />}
-        {next ? <button onClick={() => go(`/ai/card/${next.id}`)}>{t(next.title)} →</button> : <span />}
+        {prev ? <button onClick={() => go(`/ai/card/${prev.id}`)}>← <Rich text={t(prev.title)} /></button> : <span />}
+        {next ? <button onClick={() => go(`/ai/card/${next.id}`)}><Rich text={t(next.title)} /> →</button> : <span />}
       </nav>
     </article>
   )

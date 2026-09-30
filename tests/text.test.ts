@@ -6,6 +6,7 @@ import { REGIONS } from '../src/data/regions'
 import { DAY } from '../src/data/scenario'
 import { TOURS } from '../src/data/tours'
 import { UI } from '../src/i18n'
+import { tokenToTex, toSegments } from '../src/rich'
 
 /** Collect every string reachable from an object (bilingual texts, captions, …). */
 function strings(x: unknown, out: string[] = []): string[] {
@@ -35,5 +36,21 @@ describe('site text', () => {
   it('no plain-text subscripts that should be math', () => {
     const bad = ALL.filter((s) => /(^|[^$\\{\w])[A-Za-zτθ]_[A-Za-z]/.test(s.replace(/\$[^$]+\$/g, '')))
     expect(bad).toEqual([])
+  })
+
+  it('stray symbols are converted to TeX', () => {
+    const cases: [string, string][] = [
+      ['x₁', 'x_{1}'], ['hₜ₋₁', 'h_{t-1}'], ['Wᵀ', 'W^{\\top}'], ['10¹⁴', '10^{14}'], ['Ca²⁺', '\\mathrm{Ca}^{2+}'],
+      ['Δt', '\\Delta t'], ['→', '\\rightarrow'], ['↔', '\\leftrightarrow'], ['θ', '\\theta'],
+    ]
+    for (const [a, b] of cases) expect(tokenToTex(a)).toBe(b)
+    expect(toSegments('视网膜 → LGN').map((x) => x.tex)).toEqual([false, true, false])
+    expect(toSegments('V1 和 M1 不变').every((x) => !x.tex)).toBe(true)
+  })
+
+  it('every piece of site text renders through the auto-TeX converter', () => {
+    for (const s of ALL)
+      for (const seg of toSegments(s))
+        if (seg.tex) expect(() => katex.renderToString(seg.s, { throwOnError: true }), `${seg.s} in ${s.slice(0, 40)}`).not.toThrow()
   })
 })

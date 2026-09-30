@@ -9,7 +9,7 @@ import { currentFocus } from './focusState'
 import { clipPlane, pickValid } from './picking'
 import { baseColor, glowColor, hemiOffset, isCortex } from './layout'
 
-const GHOST = new THREE.Color('#cfc4d8')
+const GHOST = new THREE.Color('#d8ccc2')
 
 export const MODEL_URL = `${import.meta.env.BASE_URL}models/brain.glb`
 

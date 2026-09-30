@@ -56,7 +56,7 @@ export function Blueprint({ moduleId }: { moduleId?: string }) {
               <div className="rung-cards">
                 {sel.cards.map((id) => (
                   <button key={id} className="chip" onClick={() => go(`/ai/card/${id}`)}>
-                    <span>{t(CARD_BY_ID[id].title)}</span>
+                    <span><Rich text={t(CARD_BY_ID[id].title)} /></span>
                     <CorrBadge corr={CARD_BY_ID[id].corr} />
                   </button>
                 ))}

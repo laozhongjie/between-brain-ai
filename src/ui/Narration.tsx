@@ -1,3 +1,4 @@
+import { Rich } from '../rich'
 import { useEffect, useRef } from 'react'
 import { fmtClock } from '../data/scenario'
 import { UI, useT } from '../i18n'
@@ -18,7 +19,7 @@ export function Narration() {
         {log.slice(-12).map((l, i, arr) => (
           <p key={l.id} className={`${l.event ? 'narr-event' : ''} ${i === arr.length - 1 ? 'latest' : ''}`}>
             {l.event && <span className="narr-time">{fmtClock(DAY_START + l.tl)}</span>}
-            {t(l.text)}
+            <Rich text={t(l.text)} />
           </p>
         ))}
       </div>

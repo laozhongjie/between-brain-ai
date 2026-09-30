@@ -1,3 +1,4 @@
+import { Rich } from '../../rich'
 import { UI, useT } from '../../i18n'
 import { go } from '../../route'
 import { INTRO_REFS, LAYERS, cardsOfLayer } from '../content'
@@ -23,7 +24,7 @@ export function AiHome() {
               <span className="rung-no">{l.id}</span>
               <div>
                 <h2>{t(l.name)} <small>{t(l.scale)}</small></h2>
-                <p>{t(l.desc)}</p>
+                <p><Rich text={t(l.desc)} /></p>
               </div>
             </header>
             {l.id === 5 ? (
@@ -40,7 +41,7 @@ export function AiHome() {
               <div className="rung-cards">
                 {cardsOfLayer(l.id).map((c) => (
                   <button key={c.id} className="chip" onClick={() => go(`/ai/card/${c.id}`)}>
-                    <span>{t(c.title)}</span>
+                    <span><Rich text={t(c.title)} /></span>
                     <CorrBadge corr={c.corr} />
                   </button>
                 ))}
@@ -53,7 +54,7 @@ export function AiHome() {
       <h3>{t(UI.labs)}</h3>
       <div className="rung-cards">
         {Object.entries(LABS).map(([id, lab]) => (
-          <button key={id} className="chip" onClick={() => go(`/ai/lab/${id}`)}>🧪 {t(lab.title)}</button>
+          <button key={id} className="chip" onClick={() => go(`/ai/lab/${id}`)}>🧪 <Rich text={t(lab.title)} /></button>
         ))}
       </div>
 

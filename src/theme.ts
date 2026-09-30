@@ -1,23 +1,25 @@
 /** Macaron theme constants shared by canvas/SVG/WebGL code (CSS uses the matching custom properties). */
+export const FONT = "'Nunito Variable', 'LXGW WenKai Screen', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif"
+
 export const THEME = {
   bg: '#fbf7f2',
   surface: '#fdfbf8',
-  text: '#4a4453',
-  textDim: '#8a8194',
-  textH: '#2f2a38',
-  accent: '#7d63c2',
-  grid: '#efe8f2',
-  axis: '#cbbfd6',
+  text: '#4b423c',
+  textDim: '#8f847b',
+  textH: '#2f2723',
+  accent: '#8c7b6e',
+  grid: '#f1eae3',
+  axis: '#d4c8bd',
   pink: '#f4a7b9',
   mint: '#a8e6cf',
-  lavender: '#c3b1e1',
+  lavender: '#d6c8bb',
   lemon: '#fdf3a7',
   peach: '#ffc8a2',
   sky: '#a0d2eb',
 }
 
-/** Chart series, validated on the light surface (CVD & contrast): raspberry, lavender, teal, honey. */
-export const SERIES = ['#e0627f', '#7d63c2', '#2c9a86', '#b67a12'] as const
+/** Chart series, validated on the warm light surface (CVD & contrast): coral, teal, honey, mist blue. */
+export const SERIES = ['#d95f5f', '#2c9a86', '#c07c10', '#4f86c6'] as const
 
 function hexToHsl(hex: string): [number, number, number] {
   const n = parseInt(hex.slice(1), 16)

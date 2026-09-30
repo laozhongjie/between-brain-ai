@@ -1,3 +1,4 @@
+import { Rich } from '../rich'
 import { useEffect, useState } from 'react'
 import { SYSTEMS } from '../data/regions'
 import { ink } from '../theme'
@@ -35,7 +36,7 @@ export function FocusPanel() {
         <div className="focus-name">
           <span className="system-icon">{tour.icon}</span>
           <strong>{t(tour.name)}</strong>
-          <span className="focus-summary">{t(tour.summary)}</span>
+          <span className="focus-summary"><Rich text={t(tour.summary)} /></span>
         </div>
         <div className="focus-actions">
           <button className="btn-sm" onClick={replayFocusStep}>⟳ {t(UI.replay)}</button>
@@ -49,7 +50,7 @@ export function FocusPanel() {
           <li key={i}>
             <button className={i === step ? 'on' : i < step ? 'done' : ''} onClick={() => setFocusStep(i)}>
               <span className="step-no">{i + 1}</span>
-              {t(s.title)}
+              <Rich text={t(s.title)} />
             </button>
           </li>
         ))}
@@ -58,9 +59,9 @@ export function FocusPanel() {
         <button className="step-nav" disabled={step === 0} onClick={() => setFocusStep(step - 1)} aria-label="previous">◀</button>
         <div className="focus-text">
           <div className="focus-step-title">
-            {t(UI.step)} {step + 1} / {n} · {t(cur.title)}
+            {t(UI.step)} {step + 1} / {n} · <Rich text={t(cur.title)} />
           </div>
-          <p>{t(cur.text)}</p>
+          <p><Rich text={t(cur.text)} /></p>
         </div>
         <button className="step-nav" disabled={step === n - 1} onClick={() => setFocusStep(step + 1)} aria-label="next">▶</button>
       </div>

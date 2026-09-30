@@ -1,5 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+// Fonts (bundled, OFL): Nunito for Latin/digits, LXGW WenKai Screen (GB glyphs) for Chinese
+import '@fontsource-variable/nunito'
+import 'lxgw-wenkai-screen-webfont/lxgwwenkaigbscreen.css'
 import './index.css'
 import App from './App.tsx'
 import { startSimulation } from './sim/loop'

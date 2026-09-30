@@ -7,7 +7,7 @@ import { useTicker } from './useTicker'
 
 const LEVELS = [
   ['NE', '#f5b27a'],
-  ['DA', '#b89be0'],
+  ['DA', '#e5a3b8'],
   ['HT', '#7fd3b4'],
   ['ACh', '#8cc8e8'],
   ['cortisol', '#f08fa3'],

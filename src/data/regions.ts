@@ -579,10 +579,10 @@ export const SYSTEMS: Record<SystemId, { name: Bi; color: string }> = {
   emotion: { name: b('情绪', 'Emotion'), color: '#f28ca0' },
   reward: { name: b('奖赏', 'Reward'), color: '#c3b1e1' },
   autonomic: { name: b('稳态 / 自主神经', 'Homeostasis / autonomic'), color: '#94dcc8' },
-  arousal: { name: b('觉醒 / 调质', 'Arousal / neuromodulation'), color: '#d6c9e6' },
+  arousal: { name: b('觉醒 / 调质', 'Arousal / neuromodulation'), color: '#dccfc3' },
   relay: { name: b('中继', 'Relay'), color: '#d8cbbd' },
   integration: { name: b('多感觉整合', 'Multimodal integration'), color: '#cfe3a4' },
-  structure: { name: b('结构', 'Structure'), color: '#e2dbe6' },
+  structure: { name: b('结构', 'Structure'), color: '#e6ddd4' },
 }
 
 export const LOBES: Record<Lobe, Bi> = {

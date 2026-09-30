@@ -12,7 +12,7 @@ export function EEG() {
       const w = (cv.width = cv.clientWidth * devicePixelRatio)
       const h = (cv.height = cv.clientHeight * devicePixelRatio)
       ctx.clearRect(0, 0, w, h)
-      ctx.strokeStyle = '#efe8f2'
+      ctx.strokeStyle = '#f1eae3'
       ctx.beginPath()
       ctx.moveTo(0, h / 2)
       ctx.lineTo(w, h / 2)

@@ -27,9 +27,9 @@ export function BrainScene() {
       dpr={[1, 2]}
     >
       {/* Transparent canvas: the macaron gradient behind it comes from CSS (.stage) */}
-      <hemisphereLight args={['#fffaf7', '#efe6f5', 1.35]} />
+      <hemisphereLight args={['#fffaf7', '#f2e7dc', 1.35]} />
       <directionalLight position={[-3, 4, -2]} intensity={1.15} />
-      <directionalLight position={[3, -1, 3]} intensity={0.4} color="#dcd0ff" />
+      <directionalLight position={[3, -1, 3]} intensity={0.4} color="#ffe6d2" />
       <directionalLight position={[2, 1, -4]} intensity={0.45} color="#ffe6ec" />
       <ClipSync />
       <Suspense fallback={null}>

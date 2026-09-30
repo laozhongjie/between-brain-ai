@@ -1,3 +1,4 @@
+import { Rich } from '../../rich'
 import { CORR_INFO, EVIDENCE_INFO, LEVEL_COLORS } from '../content'
 import { REF_BY_ID } from '../content/refs'
 import { UI, useT } from '../../i18n'
@@ -51,7 +52,7 @@ export function Legend() {
       <div>
         <strong>{t(UI.correspondence)}</strong>
         {(Object.keys(CORR_INFO) as Corr[]).map((k) => (
-          <span key={k} className="legend-item"><CorrBadge corr={k} /> <small>{t(CORR_INFO[k].desc)}</small></span>
+          <span key={k} className="legend-item"><CorrBadge corr={k} /> <small><Rich text={t(CORR_INFO[k].desc)} /></small></span>
         ))}
       </div>
       <div>
