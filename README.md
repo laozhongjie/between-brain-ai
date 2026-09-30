@@ -59,7 +59,7 @@ npm run compress-model   # meshopt compression: 6.6 MB → 1.4 MB
 
 ## Fonts
 
-Bundled via npm (all SIL OFL): [Geist](https://vercel.com/font) for Latin text, [Noto Sans SC](https://fonts.google.com/noto/specimen/Noto+Sans+SC) for Chinese text, and [Geist Mono](https://vercel.com/font) for numbers, tags, metadata and code. Headings use weight 500, body text weight 400.
+Bundled via npm: [Inter](https://rsms.me/inter/) (SIL OFL) for Latin text, [MiSans](https://hyperos.mi.com/font/) for Chinese text, and [JetBrains Mono](https://www.jetbrains.com/lp/mono/) (SIL OFL) for numbers, tags, metadata and code. Headings use weight 500, body text weight 400. MiSans is © Beijing Xiaomi Mobile Software Co., Ltd. and is used under the MiSans Font Intellectual Property License Agreement, which permits free commercial use (web subsets from `misans-vf-4web`).
 
 ## Data license
 

@@ -21,8 +21,8 @@
   --danger: #d9506e;
   --ok: #2c9a86;
   --well: #f8f3ee;            /* inset wells for charts, formulas */
-  --sans: 'Geist Variable', 'Noto Sans SC Variable', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
-  --mono: 'Geist Mono Variable', 'Noto Sans SC Variable', ui-monospace, Menlo, monospace;
+  --sans: 'Inter Variable', 'MiSans VF', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --mono: 'JetBrains Mono Variable', 'MiSans VF', ui-monospace, Menlo, monospace;
   font: 14px/1.5 var(--sans);
   color: var(--text);
   background: var(--bg);
@@ -422,11 +422,11 @@ button { font: inherit; color: inherit; }
 .tex-inline .katex { font-size: 1.04em; }
 h1 .tex-inline .katex, h2 .tex-inline .katex { font-size: 0.95em; }
 
-/* Type scale: headings 500, body 400 (Geist + Noto Sans SC) */
+/* Type scale: headings 500, body 400 (Inter + MiSans) */
 h1, h2, h3, h4, strong, b { font-weight: 500; }
 h1, h2, .topbar h1, .ai-page h1, .ai-page h2 { letter-spacing: -0.01em; }
 
-/* Numbers, tags and metadata in Geist Mono */
+/* Numbers, tags and metadata in JetBrains Mono */
 code, kbd, .tag, .badge, .stage-chip, .step-no, .rung-no, .rung h2 small, .tl-hour, .narr-time, .clock, .vital-value, .crumbs, .spark-label, .refs em {
   font-family: var(--mono);
   font-weight: 400;

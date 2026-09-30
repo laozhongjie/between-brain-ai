@@ -1,6 +1,6 @@
 /** Macaron theme constants shared by canvas/SVG/WebGL code (CSS uses the matching custom properties). */
-export const FONT = "'Geist Variable', 'Noto Sans SC Variable', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif"
-export const FONT_MONO = "'Geist Mono Variable', 'Noto Sans SC Variable', ui-monospace, Menlo, monospace"
+export const FONT = "'Inter Variable', 'MiSans VF', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif"
+export const FONT_MONO = "'JetBrains Mono Variable', 'MiSans VF', ui-monospace, Menlo, monospace"
 
 export const THEME = {
   bg: '#fbf7f2',

@@ -1,9 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-// Fonts (bundled): Geist for Latin text, Noto Sans SC for Chinese, Geist Mono for numbers / tags / code
-import '@fontsource-variable/geist'
-import '@fontsource-variable/noto-sans-sc'
-import '@fontsource-variable/geist-mono'
+// Fonts (bundled): Inter for Latin text, MiSans for Chinese, JetBrains Mono for numbers / tags / code
+import '@fontsource-variable/inter'
+import 'misans-vf-4web/dist/result.css'
+import '@fontsource-variable/jetbrains-mono'
 import './index.css'
 import App from './App.tsx'
 import { startSimulation } from './sim/loop'
