@@ -12,7 +12,7 @@ export function EEG() {
       const w = (cv.width = cv.clientWidth * devicePixelRatio)
       const h = (cv.height = cv.clientHeight * devicePixelRatio)
       ctx.clearRect(0, 0, w, h)
-      ctx.strokeStyle = 'rgba(255,255,255,0.06)'
+      ctx.strokeStyle = '#efe8f2'
       ctx.beginPath()
       ctx.moveTo(0, h / 2)
       ctx.lineTo(w, h / 2)
@@ -26,7 +26,7 @@ export function EEG() {
         if (i) ctx.lineTo(x, y)
         else ctx.moveTo(x, y)
       }
-      ctx.strokeStyle = '#7fe3c4'
+      ctx.strokeStyle = '#2c9a86'
       ctx.lineWidth = 1.2 * devicePixelRatio
       ctx.stroke()
       raf = requestAnimationFrame(draw)

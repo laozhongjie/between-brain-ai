@@ -4,7 +4,7 @@ import type { Module } from '../types'
 const b = (zh: string, en: string): Bi => ({ zh, en })
 
 /**
- * Layer 5 — the whole agent: a humanlike robot brain. The world model is one module among many.
+ * Layer 5: the whole agent, a humanlike robot brain. The world model is one module among many.
  * Grid: columns flow input → processing → output; the bottom row holds processes that span timescales.
  */
 export const MODULES: Module[] = [
@@ -12,7 +12,7 @@ export const MODULES: Module[] = [
     id: 'perception', pos: [0, 0], coverage: 3,
     name: b('感知', 'Perception'),
     brain: b('视觉、听觉、触觉等感觉皮层层级；主动采样（眼动、触摸探索）；多感官融合。', 'Sensory cortical hierarchies; active sampling (saccades, haptic exploration); multisensory fusion.'),
-    ai: b('CNN、ViT、音频网络、多模态编码器，在许多基准上已达到或超过人类。', 'CNNs, ViTs, audio networks and multimodal encoders — at or above human level on many benchmarks.'),
+    ai: b('CNN、ViT、音频网络、多模态编码器，在许多基准上已达到或超过人类。', 'CNNs, ViTs, audio networks and multimodal encoders, at or above human level on many benchmarks.'),
     gaps: b('主动感知、少样本学习、对分布变化和对抗扰动的稳健性、触觉与本体感觉。', 'Active perception, few-shot learning, robustness to shift and adversarial perturbation, touch and proprioception.'),
     directions: b('由不确定性驱动的主动感知；事件驱动传感器；触觉大模型。', 'Uncertainty-driven active perception; event-driven sensors; tactile foundation models.'),
     cards: ['sys-vision', 'sys-hearing', 'sys-touch', 'normalization'], refs: ['yamins2014', 'kell2018'],
@@ -57,7 +57,7 @@ export const MODULES: Module[] = [
     id: 'language', pos: [2, 2], coverage: 3,
     name: b('语言', 'Language'),
     brain: b('左侧颞叶-额叶语言网络，与感知、行动、社会互动紧密相连。', 'Left temporo-frontal language network, tightly linked with perception, action and social interaction.'),
-    ai: b('大语言模型，语言能力很强。', 'Large language models — highly capable.'),
+    ai: b('大语言模型，语言能力很强。', 'Large language models: highly capable.'),
     gaps: b('接地（词与感知、行动相连）、数据效率、在对话中持续学习。', 'Grounding (words tied to perception and action), data efficiency, continual learning through dialogue.'),
     directions: b('具身语言学习；把语言作为规划与社会协作的接口而非全部。', 'Embodied language learning; language as an interface for planning and collaboration, not the whole mind.'),
     cards: ['sys-language'], refs: ['schrimpf2021', 'hickok2007', 'lake2017'],
@@ -143,7 +143,7 @@ export const DIFFERENCES: { dim: Bi; brain: Bi; ai: Bi }[] = [
   { dim: b('学习方式', 'Learning'), brain: b('终身、在线、少样本；局部规则 + 神经调质', 'Lifelong, online, few-shot; local rules + neuromodulators'), ai: b('离线大批量训练；反向传播；部署后基本固定', 'Offline large-batch training; backprop; mostly frozen after deployment') },
   { dim: b('计算方式', 'Computation'), brain: b('稀疏、事件驱动、异步、连续时间、循环为主', 'Sparse, event-driven, asynchronous, continuous-time, recurrent'), ai: b('稠密、时钟同步、以前馈为主', 'Dense, clocked, mostly feedforward') },
   { dim: b('基本单元', 'Units'), brain: b('有状态、有树突、有几十种类型的神经元；动态、随机的突触', 'Stateful neurons with dendrites and dozens of types; dynamic, stochastic synapses'), ai: b('无状态的同质单元；静态标量权重', 'Stateless uniform units; static scalar weights') },
-  { dim: b('目标', 'Objectives'), brain: b('多个驱力、稳态需求和社会目标，没有单一损失函数', 'Multiple drives, homeostatic needs and social goals — no single loss'), ai: b('单一、外部给定的目标函数', 'A single externally specified objective') },
+  { dim: b('目标', 'Objectives'), brain: b('多个驱力、稳态需求和社会目标，没有单一损失函数', 'Multiple drives, homeostatic needs and social goals, no single loss'), ai: b('单一、外部给定的目标函数', 'A single externally specified objective') },
   { dim: b('数据', 'Data'), brain: b('自己通过行动采集，具身、主动、连续', 'Self-collected through action; embodied, active, continuous'), ai: b('被动的海量静态语料', 'Passive, massive, static corpora') },
   { dim: b('架构', 'Architecture'), brain: b('异质的专门系统 + 广播式神经调质 + 多时间尺度', 'Heterogeneous specialised systems + broadcast neuromodulation + many timescales'), ai: b('同质模块的大规模堆叠', 'Large stacks of uniform blocks') },
   { dim: b('能耗', 'Energy'), brain: b('约 20 W', '~20 W'), ai: b('训练与推理功耗高出许多个数量级', 'Many orders of magnitude more for training and inference') },

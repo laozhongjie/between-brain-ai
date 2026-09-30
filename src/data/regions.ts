@@ -198,7 +198,7 @@ export const REGIONS: RegionInfo[] = [
 
   r('middletemporal', b('颞中回', 'Middle temporal gyrus'), 'MTG', 'language', 'temporal',
     b('储存词义和概念知识，是“心理词典”所在。',
-      'Stores word meanings and conceptual knowledge — the mental lexicon.'),
+      'Stores word meanings and conceptual knowledge, the mental lexicon.'),
     [l('superiortemporal', '语音', 'Speech sounds'),
      l('inferiortemporal', '物体概念', 'Object concepts')],
     [l('parstriangularis', '词义', 'Word meanings'),
@@ -415,7 +415,7 @@ export const REGIONS: RegionInfo[] = [
 
   r('hypothalamus', b('下丘脑', 'Hypothalamus'), 'HTH', 'autonomic', 'subcortical',
     b('稳态总司令：调控体温、饥饿、口渴、昼夜节律、睡眠和应激激素，连接神经与内分泌。',
-      'Master of homeostasis: temperature, hunger, thirst, circadian rhythm, sleep and stress hormones — the neural–endocrine bridge.'),
+      'Master of homeostasis: temperature, hunger, thirst, circadian rhythm, sleep and stress hormones, the neural–endocrine bridge.'),
     [l('scn', '生物钟', 'Circadian clock'),
      l('amygdala', '威胁', 'Threat'),
      l('insula', '身体状态', 'Bodily state'),
@@ -479,7 +479,7 @@ export const REGIONS: RegionInfo[] = [
      l('hippocampus', '新奇事件更容易被记住', 'Novelty → better memory')]),
 
   r('lc', b('蓝斑', 'Locus coeruleus'), 'LC', 'arousal', 'brainstem',
-    b('全脑去甲肾上腺素的来源，像“音量旋钮”一样调节警觉、专注和应激。', 'Source of brain noradrenaline — a volume knob for alertness, focus and stress.'),
+    b('全脑去甲肾上腺素的来源，像“音量旋钮”一样调节警觉、专注和应激。', 'Source of brain noradrenaline, a volume knob for alertness, focus and stress.'),
     [l('amygdala', '威胁', 'Threat'), l('caudalanteriorcingulate', '任务需求', 'Task demand')],
     [l('thalamus', '提高感觉增益', 'Raises sensory gain'), l('rostralmiddlefrontal', '专注', 'Focus'), l('spinalcord', '交感激活', 'Sympathetic drive')]),
 
@@ -519,7 +519,7 @@ export const REGIONS: RegionInfo[] = [
 
   r('nose', b('鼻子 · 嗅上皮', 'Nose · Olfactory epithelium'), undefined, 'emotion', 'body',
     b('嗅觉是唯一不经丘脑、直达边缘系统的感觉，所以气味特别能唤起回忆和情绪。',
-      'Smell is the only sense that bypasses the thalamus and goes straight to the limbic system — why scents evoke memories.'),
+      'Smell is the only sense that bypasses the thalamus and goes straight to the limbic system, why scents evoke memories.'),
     [], [l('entorhinal', '嗅觉 → 记忆', 'Smell → memory'), l('amygdala', '嗅觉 → 情绪', 'Smell → emotion'), l('lateralorbitofrontal', '气味识别', 'Odour identity')]),
 
   r('tongue', b('舌头 · 味蕾', 'Tongue · Taste buds'), undefined, 'autonomic', 'body',
@@ -568,21 +568,21 @@ export const REGIONS: RegionInfo[] = [
 export const REGION_BY_KEY: Record<string, RegionInfo> = Object.fromEntries(REGIONS.map((x) => [x.key, x]))
 
 export const SYSTEMS: Record<SystemId, { name: Bi; color: string }> = {
-  visual: { name: b('视觉', 'Vision'), color: '#7b8cff' },
-  auditory: { name: b('听觉', 'Hearing'), color: '#f78fb3' },
-  somatosensory: { name: b('躯体感觉', 'Body sense'), color: '#ffc46b' },
-  motor: { name: b('运动', 'Motor'), color: '#ff8c42' },
-  language: { name: b('语言', 'Language'), color: '#f4e04d' },
-  executive: { name: b('执行 / 注意', 'Executive / attention'), color: '#4cc9f0' },
-  default: { name: b('默认模式', 'Default mode'), color: '#90b4d8' },
-  memory: { name: b('记忆', 'Memory'), color: '#52d69f' },
-  emotion: { name: b('情绪', 'Emotion'), color: '#ff5e5b' },
-  reward: { name: b('奖赏', 'Reward'), color: '#c77dff' },
-  autonomic: { name: b('稳态 / 自主神经', 'Homeostasis / autonomic'), color: '#2ec4b6' },
-  arousal: { name: b('觉醒 / 调质', 'Arousal / neuromodulation'), color: '#c0c8d8' },
-  relay: { name: b('中继', 'Relay'), color: '#9aa5b8' },
-  integration: { name: b('多感觉整合', 'Multimodal integration'), color: '#b5c99a' },
-  structure: { name: b('结构', 'Structure'), color: '#5a6275' },
+  visual: { name: b('视觉', 'Vision'), color: '#9fb8ef' },
+  auditory: { name: b('听觉', 'Hearing'), color: '#f4a7b9' },
+  somatosensory: { name: b('躯体感觉', 'Body sense'), color: '#ffc8a2' },
+  motor: { name: b('运动', 'Motor'), color: '#ff9f8f' },
+  language: { name: b('语言', 'Language'), color: '#f6dc6e' },
+  executive: { name: b('执行 / 注意', 'Executive / attention'), color: '#8fd3e8' },
+  default: { name: b('默认模式', 'Default mode'), color: '#b9c6ea' },
+  memory: { name: b('记忆', 'Memory'), color: '#a8e6cf' },
+  emotion: { name: b('情绪', 'Emotion'), color: '#f28ca0' },
+  reward: { name: b('奖赏', 'Reward'), color: '#c3b1e1' },
+  autonomic: { name: b('稳态 / 自主神经', 'Homeostasis / autonomic'), color: '#94dcc8' },
+  arousal: { name: b('觉醒 / 调质', 'Arousal / neuromodulation'), color: '#d6c9e6' },
+  relay: { name: b('中继', 'Relay'), color: '#d8cbbd' },
+  integration: { name: b('多感觉整合', 'Multimodal integration'), color: '#cfe3a4' },
+  structure: { name: b('结构', 'Structure'), color: '#e2dbe6' },
 }
 
 export const LOBES: Record<Lobe, Bi> = {

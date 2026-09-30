@@ -9,7 +9,7 @@ import { currentFocus } from './focusState'
 import { clipPlane, pickValid } from './picking'
 import { baseColor, glowColor, hemiOffset, isCortex } from './layout'
 
-const GHOST = new THREE.Color('#3b4252')
+const GHOST = new THREE.Color('#cfc4d8')
 
 export const MODEL_URL = `${import.meta.env.BASE_URL}models/brain.glb`
 
@@ -18,6 +18,8 @@ interface Part {
   node: GraphNode
   mat: THREE.MeshStandardMaterial
   glow: THREE.Color
+  /** resting colour for the current view; activity blends from here toward `glow` */
+  base: THREE.Color
   cortex: boolean
 }
 
@@ -45,7 +47,7 @@ export function BrainModel() {
       o.userData.baseX ??= o.position.x
       o.material = mat
       o.userData.nodeId = node.id
-      list.push({ mesh: o, node, mat, glow: glowColor(node), cortex: isCortex(node) })
+      list.push({ mesh: o, node, mat, glow: glowColor(node), base: new THREE.Color(), cortex: isCortex(node) })
     })
     return list
   }, [scene])
@@ -58,6 +60,7 @@ export function BrainModel() {
       const inFocus = f?.all.nodes.has(p.node.id)
       if (f && !inFocus) {
         p.mat.color.copy(GHOST)
+        p.base.copy(GHOST)
         p.mat.transparent = true
         p.mat.opacity = p.cortex ? 0.06 : 0.1
         p.mat.depthWrite = false
@@ -69,7 +72,8 @@ export function BrainModel() {
         p.mesh.userData.pickable = false
         continue
       }
-      p.mat.color.copy(baseColor(p.node, f ? 'system' : view.colorMode))
+      p.base.copy(baseColor(p.node, f ? 'system' : view.colorMode))
+      p.mat.color.copy(p.base)
       const opacity = p.cortex && !f ? view.cortexOpacity : 1
       p.mat.transparent = opacity < 1
       p.mat.opacity = opacity
@@ -95,7 +99,10 @@ export function BrainModel() {
       if (f?.step.nodes.has(p.node.id)) k += beat
       if (p.node.id === hovered) k += 0.25
       if (p.node.id === selected) k += 0.45
-      p.mat.emissive.copy(tmp.copy(p.glow).multiplyScalar(k))
+      // Light theme: activity tints the surface toward a deeper system colour (plus a faint emissive lift)
+      const mix = Math.min(1, k)
+      p.mat.color.copy(p.base).lerp(p.glow, mix * 0.6)
+      p.mat.emissive.copy(tmp.copy(p.glow).multiplyScalar(0.12 * mix))
     }
   })
 

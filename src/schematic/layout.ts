@@ -2,6 +2,7 @@ import { NODE_BY_ID } from '../data/nodes'
 import { PATHWAYS } from '../data/pathways'
 import { SYSTEMS } from '../data/regions'
 import type { Bi } from '../data/types'
+import { ink } from '../theme'
 
 /** Schematic canvas (SVG viewBox units). Information flows left (senses) → right (body outputs). */
 export const W = 1230
@@ -95,11 +96,13 @@ export interface SNode {
   y: number
   label: Bi
   color: string
+  /** deeper tone for strokes on the light ground */
+  ink: string
 }
 
 export const SNODES: SNode[] = TABLE.map(([key, c, y, zh, en]) => {
   const n = NODE_BY_ID[key] ?? NODE_BY_ID[`lh.${key}`]
-  return { key, x: colX(c), y, label: { zh, en }, color: SYSTEMS[n.info.system].color }
+  return { key, x: colX(c), y, label: { zh, en }, color: SYSTEMS[n.info.system].color, ink: ink(SYSTEMS[n.info.system].color, 0.3) }
 })
 export const SNODE_BY_KEY: Record<string, SNode> = Object.fromEntries(SNODES.map((n) => [n.key, n]))
 
@@ -182,7 +185,7 @@ function buildEdges(): SEdge[] {
       const id = `${from}>${to}`
       let e = map.get(id)
       if (!e) {
-        e = { id, from, to, paths: [], color: SYSTEMS[p.system].color, inhib: p.kind === 'inhib', d: edgePath(from, to) }
+        e = { id, from, to, paths: [], color: ink(SYSTEMS[p.system].color, 0.3), inhib: p.kind === 'inhib', d: edgePath(from, to) }
         map.set(id, e)
       }
       e.paths.push(pi)

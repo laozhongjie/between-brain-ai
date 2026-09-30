@@ -4,7 +4,7 @@ import type { Card } from '../types'
 const b = (zh: string, en: string): Bi => ({ zh, en })
 const t = String.raw
 
-/** Layer 2 — single neurons. */
+/** Layer 2: single neurons. */
 export const LAYER2: Card[] = [
   {
     id: 'neuron-models', layer: 2,
@@ -20,18 +20,18 @@ export const LAYER2: Card[] = [
     ],
     ai: b(
       'McCulloch–Pitts（1943）神经元是一个阈值逻辑单元；感知机（1958）为其加上可学习的权重。现代深度学习的单元是“加权求和 + ReLU/GELU”，可以看作脉冲神经元“频率-电流曲线”的平滑近似，但没有内部状态。状态空间模型（S4、Mamba）重新为每个单元引入了线性动力学和时间常数。',
-      'The McCulloch–Pitts (1943) neuron is a threshold logic unit; the perceptron (1958) added learnable weights. Modern units are “weighted sum + ReLU/GELU” — a smooth stand-in for a spiking neuron’s rate–current curve, with no internal state. State-space models (S4, Mamba) reintroduce per-unit linear dynamics and time constants.'),
+      'The McCulloch–Pitts (1943) neuron is a threshold logic unit; the perceptron (1958) added learnable weights. Modern units are “weighted sum + ReLU/GELU”, a smooth stand-in for a spiking neuron’s rate–current curve, with no internal state. State-space models (S4, Mamba) reintroduce per-unit linear dynamics and time constants.'),
     aiMath: [
       { tex: t`y = H\Big(\sum_i w_i x_i - \theta\Big)\quad\to\quad y = \mathrm{ReLU}(w^{\top}x + b)`, caption: b('从 McCulloch–Pitts 阈值单元到现代 ReLU 单元', 'From the McCulloch–Pitts threshold unit to the ReLU unit') },
       { tex: t`h_t = \bar A\,h_{t-1} + \bar B\,x_t,\qquad y_t = C\,h_t`, caption: b('状态空间模型：每个通道带有线性动力学（Mamba 中 A、B 随输入变化）', 'State-space model: each channel has linear dynamics (input-dependent in Mamba)') },
     ],
     corr: 'crude', evidence: 'established',
     diffs: [
-      b('时间：生物神经元有膜时间常数、不应期和适应，本身就是动力系统；人工单元是无状态的瞬时函数。', 'Time: biological neurons have membrane time constants, refractoriness and adaptation — dynamical systems; artificial units are stateless instantaneous functions.'),
+      b('时间：生物神经元有膜时间常数、不应期和适应，本身就是动力系统；人工单元是无状态的瞬时函数。', 'Time: biological neurons have membrane time constants, refractoriness and adaptation, which makes them dynamical systems; artificial units are stateless instantaneous functions.'),
       b('输出：生物输出离散脉冲，携带时间信息；人工输出连续数值。', 'Output: discrete spikes carrying timing vs continuous values.'),
       b('多样性：生物有几十种放电模式；人工网络通常只用一种激活函数。', 'Diversity: dozens of firing patterns vs a single activation function.'),
     ],
-    principle: b('“频率编码 → 连续激活”是合理的抽象，适合大规模训练。值得补回的原理是“单元自带状态与时间常数”，这正是 SSM 与 LSTM 有效的原因之一。放电模式的多样性可能在时间处理上有用，但仍缺乏系统证据。', 'Rate coding → continuous activations is a sensible abstraction for large-scale training. The principle worth restoring is per-unit state and time constants — part of why SSMs and LSTMs work. Diverse firing patterns may help temporal processing but lack systematic evidence.'),
+    principle: b('“频率编码 → 连续激活”是合理的抽象，适合大规模训练。值得补回的原理是“单元自带状态与时间常数”，这正是 SSM 与 LSTM 有效的原因之一。放电模式的多样性可能在时间处理上有用，但仍缺乏系统证据。', 'Rate coding → continuous activations is a sensible abstraction for large-scale training. The principle worth restoring is per-unit state and time constants, part of why SSMs and LSTMs work. Diverse firing patterns may help temporal processing but lack systematic evidence.'),
     ideas: [
       b('在单元层面引入适应变量（类似 Izhikevich 的 u），作为廉价的局部记忆。', 'Add an adaptation variable per unit (like Izhikevich’s u) as cheap local memory.'),
       b('让不同单元拥有异质的时间常数，覆盖多种时间尺度。', 'Use heterogeneous time constants across units to cover many timescales.'),
@@ -52,7 +52,7 @@ export const LAYER2: Card[] = [
     ],
     ai: b(
       '标准人工单元是“点神经元”。最接近树突的是乘性门控：GLU、LSTM 门、以及“主动树突”网络（Iyer 2022），用上下文向量选择每个单元的哪个树突段起作用，从而在多任务中减少遗忘。',
-      'Standard units are point neurons. The closest analogues are multiplicative gates — GLU, LSTM gates, and active-dendrite networks (Iyer 2022), where a context vector selects which dendritic segment drives each unit, reducing forgetting across tasks.'),
+      'Standard units are point neurons. The closest analogues are multiplicative gates: GLU, LSTM gates, and active-dendrite networks (Iyer 2022), where a context vector selects which dendritic segment drives each unit, reducing forgetting across tasks.'),
     aiMath: [
       { tex: t`y = \big(W x\big) \odot \sigma\big(U c\big)`, caption: b('上下文门控：c 是上下文（类比顶树突输入）', 'Context gating: c is context (cf. apical input)') },
       { tex: t`y = (W_1x)\odot\sigma(W_2x)`, caption: b('GLU：前馈信号自身的乘性门控', 'GLU: multiplicative self-gating') },
@@ -63,7 +63,7 @@ export const LAYER2: Card[] = [
       b('输入分区：生物把前馈与上下文输入物理分开（基底/顶端）；AI 通常把所有输入混在一起加权。', 'Input segregation: biology physically separates feedforward and context (basal/apical); AI mixes all inputs in one sum.'),
       b('树突非线性在活体中如何被利用仍在研究中。', 'How dendritic nonlinearities are used in vivo is still under study.'),
     ],
-    principle: b('原理：把“内容”与“上下文/反馈”分开输入，并用乘性方式结合。这可以同时服务于持续学习（按任务门控子网络）和信用分配（顶树突携带误差或教学信号，见 Payeur 2021）。', 'Principle: separate content from context/feedback and combine them multiplicatively — serving continual learning (task-gated subnetworks) and credit assignment (apical compartments carrying teaching signals, cf. Payeur 2021).'),
+    principle: b('原理：把“内容”与“上下文/反馈”分开输入，并用乘性方式结合。这可以同时服务于持续学习（按任务门控子网络）和信用分配（顶树突携带误差或教学信号，见 Payeur 2021）。', 'Principle: separate content from context/feedback and combine them multiplicatively, serving continual learning (task-gated subnetworks) and credit assignment (apical compartments carrying teaching signals, cf. Payeur 2021).'),
     ideas: [
       b('用“双区室单元”构建网络：基底输入做表征，顶端输入做门控或误差。', 'Build networks of two-compartment units: basal input for representation, apical input for gating or error.'),
       b('多任务机器人：用任务/情境向量通过主动树突选择子网络，减少任务间干扰。', 'Multi-task robots: select sub-networks through active dendrites driven by a task/context vector to reduce interference.'),
@@ -88,7 +88,7 @@ export const LAYER2: Card[] = [
     aiMath: [{ tex: t`\frac{\partial S}{\partial V} \approx \frac{1}{\big(1 + \beta\,|V - \theta|\big)^2}`, caption: b('替代梯度：用平滑函数代替阶跃函数的导数', 'Surrogate gradient: a smooth stand-in for the step-function derivative') }],
     corr: 'crude', evidence: 'debated',
     diffs: [
-      b('事件驱动 vs 时钟驱动：没有变化就没有计算，是大脑节能的关键之一。', 'Event-driven vs clocked: no change, no computation — a key to the brain’s efficiency.'),
+      b('事件驱动 vs 时钟驱动：没有变化就没有计算，是大脑节能的关键之一。', 'Event-driven vs clocked: no change, no computation, a key to the brain’s efficiency.'),
       b('时间编码：生物可以利用精确时间；主流 AI 几乎不用。', 'Temporal codes: biology can exploit precise timing; mainstream AI barely does.'),
       b('脉冲时间编码在多大程度上被大脑普遍使用，仍有争议。', 'How widely the brain uses precise spike timing is still debated.'),
     ],
@@ -105,7 +105,7 @@ export const LAYER2: Card[] = [
     summary: b('大脑有几十种分工明确的神经元，抑制性中间神经元专门负责增益控制和门控。', 'The brain has dozens of specialised cell types; inhibitory interneurons handle gain control and gating.'),
     brain: b(
       '皮层中大约 80% 是兴奋性锥体神经元，约 20% 是抑制性中间神经元（比例因物种和脑区而异），后者又分为 PV（快速抑制、同步振荡）、SST（抑制树突、调节输入）、VIP（抑制其他抑制神经元，即“去抑制”，打开信息通道）等类型。兴奋与抑制保持动态平衡，使网络既灵敏又不失控。',
-      'Roughly 80% of cortical neurons are excitatory pyramidal cells and ~20% inhibitory interneurons (varying by species and area) — PV (fast inhibition, gamma oscillations), SST (dendritic inhibition, input control), VIP (inhibiting other interneurons, i.e. disinhibition that opens a channel), and more. Excitation and inhibition stay dynamically balanced, keeping the network sensitive but stable.'),
+      'Roughly 80% of cortical neurons are excitatory pyramidal cells and ~20% inhibitory interneurons (varying by species and area): PV (fast inhibition, gamma oscillations), SST (dendritic inhibition, input control), VIP (inhibiting other interneurons, i.e. disinhibition that opens a channel), and more. Excitation and inhibition stay dynamically balanced, keeping the network sensitive but stable.'),
     brainMath: [
       { tex: t`\tau_E\dot r_E = -r_E + f(W_{EE}r_E - W_{EI}r_I + I_E),\qquad \tau_I\dot r_I = -r_I + f(W_{IE}r_E - W_{II}r_I + I_I)`, caption: b('兴奋-抑制群体模型（本网站的后台动态就用这种 Wilson–Cowan 形式）', 'E–I population model (the Wilson–Cowan form this site’s background dynamics use)') },
     ],
@@ -128,7 +128,7 @@ export const LAYER2: Card[] = [
   {
     id: 'noise', layer: 2,
     title: b('噪声与随机性 ↔ Dropout / 采样', 'Noise & stochasticity ↔ dropout / sampling'),
-    summary: b('大脑充满噪声，但噪声可能被用来探索和表示不确定性。', 'The brain is noisy — and may use noise for exploration and representing uncertainty.'),
+    summary: b('大脑充满噪声，但噪声可能被用来探索和表示不确定性。', 'The brain is noisy, and may use noise for exploration and representing uncertainty.'),
     brain: b(
       '离子通道开闭、递质释放、突触整合都是随机的，同一刺激引起的放电每次不同。这种变异性可能被用于概率推断（放电模式代表后验分布的样本）和行为探索，而神经调质（如去甲肾上腺素）会改变这种变异性。',
       'Channel gating, transmitter release and synaptic integration are all stochastic; the same stimulus evokes different spikes each time. This variability may serve probabilistic inference (activity as samples from a posterior) and behavioural exploration, and neuromodulators such as noradrenaline alter it.'),
@@ -149,10 +149,10 @@ export const LAYER2: Card[] = [
   {
     id: 'energy-sparsity', layer: 2,
     title: b('能耗与稀疏编码 ↔ 稠密计算 / MoE', 'Energy & sparse coding ↔ dense compute / MoE'),
-    summary: b('整个大脑约 20 瓦，任一时刻只有少数神经元活跃；这是能量约束塑造出的高效编码。', 'The whole brain runs on ~20 W with only a few neurons active at once — efficient coding shaped by energy limits.'),
+    summary: b('整个大脑约 20 瓦，任一时刻只有少数神经元活跃；这是能量约束塑造出的高效编码。', 'The whole brain runs on ~20 W with only a few neurons active at once, efficient coding shaped by energy limits.'),
     brain: b(
       '信号传递（动作电位与突触传递）占据了大脑能量预算的主要部分（Attwell & Laughlin 2001），因此大脑倾向于稀疏放电：用少数活跃神经元表示信息。Olshausen & Field（1996）表明，只要要求编码稀疏，就能从自然图像中自动学出与 V1 简单细胞相似的感受野。',
-      'Signalling (spikes and synaptic transmission) dominates the brain’s energy budget (Attwell & Laughlin 2001), so the brain favours sparse firing — few active neurons per representation. Olshausen & Field (1996) showed that demanding sparsity alone makes V1-like simple-cell receptive fields emerge from natural images.'),
+      'Signalling (spikes and synaptic transmission) dominates the brain’s energy budget (Attwell & Laughlin 2001), so the brain favours sparse firing: few active neurons per representation. Olshausen & Field (1996) showed that demanding sparsity alone makes V1-like simple-cell receptive fields emerge from natural images.'),
     brainMath: [{ tex: t`\min_{\Phi,\,a}\ \big\|x - \Phi a\big\|_2^2 + \lambda \sum_i |a_i|`, caption: b('稀疏编码：用尽量少的激活重建输入', 'Sparse coding: reconstruct the input with as few active units as possible') }],
     ai: b(
       '主流网络是稠密计算，训练与推理耗能巨大。条件计算提供了部分稀疏：MoE 每个 token 只激活少数专家（Switch Transformer），ReLU 网络也有天然的激活稀疏。',

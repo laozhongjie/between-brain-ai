@@ -6,13 +6,13 @@ import { EEG } from './EEG'
 import { useTicker } from './useTicker'
 
 const LEVELS = [
-  ['NE', '#ffb454'],
-  ['DA', '#c77dff'],
-  ['HT', '#52d69f'],
-  ['ACh', '#4cc9f0'],
-  ['cortisol', '#ff7a59'],
-  ['melatonin', '#8e9bff'],
-  ['adenosine', '#a0a8b8'],
+  ['NE', '#f5b27a'],
+  ['DA', '#b89be0'],
+  ['HT', '#7fd3b4'],
+  ['ACh', '#8cc8e8'],
+  ['cortisol', '#f08fa3'],
+  ['melatonin', '#9fb8ef'],
+  ['adenosine', '#c9bfd2'],
 ] as const
 
 export function OutputPanel() {

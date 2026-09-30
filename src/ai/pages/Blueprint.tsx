@@ -2,6 +2,7 @@ import { UI, useT } from '../../i18n'
 import { go } from '../../route'
 import { CARD_BY_ID, LEVEL_COLORS } from '../content'
 import { DIFFERENCES, MODULES, MODULE_BY_ID } from '../content/blueprint'
+import { Rich } from '../Tex'
 import { CorrBadge, LevelBar, RefList } from './common'
 
 const COV = [UI.cov0, UI.cov1, UI.cov2, UI.cov3]
@@ -44,13 +45,13 @@ export function Blueprint({ moduleId }: { moduleId?: string }) {
             <>
               <h2>{t(sel.name)} <LevelBar level={sel.coverage} label={t(COV[sel.coverage])} /></h2>
               <h3>🧠 {t(UI.brainCol)}</h3>
-              <p>{t(sel.brain)}</p>
+              <p><Rich text={t(sel.brain)} /></p>
               <h3>🤖 {t(UI.aiCol)}</h3>
-              <p>{t(sel.ai)}</p>
+              <p><Rich text={t(sel.ai)} /></p>
               <h3>≠ {t(UI.gaps)}</h3>
-              <p>{t(sel.gaps)}</p>
+              <p><Rich text={t(sel.gaps)} /></p>
               <h3>💡 {t(UI.directions)}</h3>
-              <p>{t(sel.directions)}</p>
+              <p><Rich text={t(sel.directions)} /></p>
               <h3>{t(UI.relatedCards)}</h3>
               <div className="rung-cards">
                 {sel.cards.map((id) => (
@@ -75,7 +76,7 @@ export function Blueprint({ moduleId }: { moduleId?: string }) {
         <tbody>
           {DIFFERENCES.map((d, i) => (
             <tr key={i} className={i === DIFFERENCES.length - 1 ? 'ai-ahead' : ''}>
-              <th>{t(d.dim)}</th><td>{t(d.brain)}</td><td>{t(d.ai)}</td>
+              <th>{t(d.dim)}</th><td><Rich text={t(d.brain)} /></td><td><Rich text={t(d.ai)} /></td>
             </tr>
           ))}
         </tbody>

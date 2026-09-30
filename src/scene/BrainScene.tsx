@@ -1,5 +1,4 @@
 import { Canvas } from '@react-three/fiber'
-import { Bloom, EffectComposer } from '@react-three/postprocessing'
 import { Suspense, useEffect } from 'react'
 import * as THREE from 'three'
 import { useStore } from '../store'
@@ -22,16 +21,16 @@ export function BrainScene() {
   return (
     <Canvas
       camera={{ fov: 40, near: 0.05, far: 60, position: [-3, 1.3, -2] }}
-      gl={{ antialias: true, toneMapping: THREE.NeutralToneMapping }}
+      gl={{ antialias: true, alpha: true, toneMapping: THREE.NeutralToneMapping }}
       onCreated={({ gl }) => (gl.localClippingEnabled = true)}
       onPointerMissed={() => useStore.getState().hover(null)}
       dpr={[1, 2]}
     >
-      <color attach="background" args={['#07090f']} />
-      <hemisphereLight args={['#dfe8ff', '#2a1f24', 0.55]} />
-      <directionalLight position={[-3, 4, -2]} intensity={1.1} />
-      <directionalLight position={[3, -1, 3]} intensity={0.45} color="#9fb4ff" />
-      <directionalLight position={[2, 1, -4]} intensity={0.5} />
+      {/* Transparent canvas: the macaron gradient behind it comes from CSS (.stage) */}
+      <hemisphereLight args={['#fffaf7', '#efe6f5', 1.35]} />
+      <directionalLight position={[-3, 4, -2]} intensity={1.15} />
+      <directionalLight position={[3, -1, 3]} intensity={0.4} color="#dcd0ff" />
+      <directionalLight position={[2, 1, -4]} intensity={0.45} color="#ffe6ec" />
       <ClipSync />
       <Suspense fallback={null}>
         <BrainModel />
@@ -41,9 +40,6 @@ export function BrainScene() {
       <Pulses />
       <Labels />
       <CameraRig />
-      <EffectComposer>
-        <Bloom mipmapBlur intensity={0.9} luminanceThreshold={0.55} luminanceSmoothing={0.2} />
-      </EffectComposer>
     </Canvas>
   )
 }

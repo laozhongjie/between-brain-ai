@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Pt } from './models'
+import { Rich } from '../Tex'
 
-/** Validated dark-surface categorical slots (dataviz reference palette, checked against #101522). */
-export const SERIES = ['#3987e5', '#d95926', '#199e70', '#c98500'] as const
+export { SERIES } from '../../theme'
 
 export interface Series {
   name: string
@@ -29,7 +29,7 @@ interface Props {
 }
 
 const M = { l: 58, r: 16, t: 12, b: 34 }
-const INK = { axis: 'rgba(160,172,200,0.35)', grid: 'rgba(160,172,200,0.08)', text: '#9aa5bd', strong: '#e6eaf4' }
+const INK = { axis: '#cbbfd6', grid: '#efe8f2', text: '#8a8194', strong: '#2f2a38' }
 
 function niceTicks(lo: number, hi: number, n = 5) {
   const span = hi - lo || 1
@@ -133,7 +133,7 @@ export function LinePlot({ series, xLabel, yLabel, xDomain, yDomain, height = 20
 
     if (mark) {
       ctx.fillStyle = INK.strong
-      ctx.strokeStyle = '#101522'
+      ctx.strokeStyle = '#ffffff'
       ctx.lineWidth = 2
       ctx.beginPath()
       ctx.arc(sx(mark.x), sy(mark.y), 5, 0, Math.PI * 2)
@@ -144,7 +144,7 @@ export function LinePlot({ series, xLabel, yLabel, xDomain, yDomain, height = 20
     }
 
     if (hover) {
-      ctx.strokeStyle = 'rgba(230,234,244,0.35)'
+      ctx.strokeStyle = 'rgba(74,68,83,0.35)'
       ctx.beginPath()
       ctx.moveTo(hover.px, M.t)
       ctx.lineTo(hover.px, H - M.b)
@@ -168,11 +168,11 @@ export function LinePlot({ series, xLabel, yLabel, xDomain, yDomain, height = 20
 
   return (
     <div className="plot">
-      {series.length === 1 && <div className="plot-legend plot-title">{series[0].name}</div>}
+      {series.length === 1 && <div className="plot-legend plot-title"><Rich text={series[0].name} /></div>}
       {series.length > 1 && (
         <div className="plot-legend">
           {series.map((s) => (
-            <span key={s.name}><i style={{ background: s.color, opacity: s.dashed ? 0.7 : 1 }} />{s.name}</span>
+            <span key={s.name}><i style={{ background: s.color, opacity: s.dashed ? 0.7 : 1 }} /><Rich text={s.name} /></span>
           ))}
         </div>
       )}
@@ -182,7 +182,7 @@ export function LinePlot({ series, xLabel, yLabel, xDomain, yDomain, height = 20
           <div className="plot-tip" style={{ left: Math.min(hover.px + 12, 9999), top: 8 }}>
             <div className="plot-tip-x">{xLabel}: {fmtX(nearest(series[0], hover.x)[0])}</div>
             {series.map((s) => (
-              <div key={s.name}><i style={{ background: s.color }} />{s.name}: <b>{fmtY(nearest(s, hover.x)[1])}</b></div>
+              <div key={s.name}><i style={{ background: s.color }} /><Rich text={s.name} />: <b>{fmtY(nearest(s, hover.x)[1])}</b></div>
             ))}
           </div>
         )}
@@ -191,8 +191,8 @@ export function LinePlot({ series, xLabel, yLabel, xDomain, yDomain, height = 20
   )
 }
 
-// Sequential blue ramp (dark surface): low values recede toward the surface, high values are light.
-const RAMP = ['#0d366b', '#184f95', '#2a78d6', '#5598e7', '#86b6ef', '#cde2fb'].map((h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)))
+// Sequential lavender ramp (light surface): low values recede toward the ground, high values are deep.
+const RAMP = ['#f7f2fb', '#e4d8f5', '#c9b6ec', '#a88ddc', '#8467c7', '#5d3fa6'].map((h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)))
 function rampColor(v: number) {
   const x = Math.max(0, Math.min(1, v)) * (RAMP.length - 1)
   const i = Math.min(RAMP.length - 2, Math.floor(x))

@@ -4,7 +4,7 @@ import type { Card } from '../types'
 const b = (zh: string, en: string): Bi => ({ zh, en })
 const t = String.raw
 
-/** Layer 4 — brain systems; each card is linked to the matching atlas tour. */
+/** Layer 4: brain systems; each card is linked to the matching atlas tour. */
 export const LAYER4: Card[] = [
   {
     id: 'sys-vision', layer: 4, tour: 'vision',
@@ -29,7 +29,7 @@ export const LAYER4: Card[] = [
     title: b('听觉系统 ↔ 语音/音频网络', 'Auditory system ↔ speech/audio networks'),
     summary: b('任务训练的音频网络同样能复现人类听觉行为和皮层层级。', 'Task-trained audio networks likewise reproduce human hearing behaviour and cortical hierarchy.'),
     brain: b('耳蜗把声音分解成频率通道（类似滤波器组），脑干比较双耳时间与强度差来定位声源，听觉皮层逐级处理音高、音色和语音。注意可以在嘈杂环境中“挑出”一个说话人（鸡尾酒会效应）。', 'The cochlea splits sound into frequency channels (a filter bank); the brainstem compares interaural time and level to localise sources; auditory cortex processes pitch, timbre and speech hierarchically. Attention can pick one voice out of a crowd (the cocktail-party effect).'),
-    brainMath: [{ tex: t`\Delta t_{\text{ITD}} \approx \frac{d}{c}\sin\theta`, caption: b('双耳时间差定位声源方向 θ（d 为双耳间距，c 为声速）', 'Interaural time difference locates direction θ (d = ear distance, c = speed of sound)') }],
+    brainMath: [{ tex: t`\Delta t_{\text{ITD}} \approx \frac{d}{c}\sin\theta`, caption: b('双耳时间差定位声源方向 $\\theta$（$d$ 为双耳间距，$c$ 为声速）', 'Interaural time difference locates direction $\\theta$ ($d$ = ear distance, $c$ = speed of sound)') }],
     ai: b('音频模型通常从频谱图（短时傅里叶或梅尔滤波）出发；Kell 等（2018）训练的网络自然形成了与听觉皮层对应的处理层级。', 'Audio models usually start from spectrograms (STFT or mel filter banks); networks trained by Kell et al. (2018) spontaneously developed a hierarchy matching auditory cortex.'),
     aiMath: [{ tex: t`X(t,f) = \Big|\sum_n x[n]\,w[n - t]\,e^{-i2\pi f n}\Big|`, caption: b('短时傅里叶变换：工程版的“耳蜗”', 'Short-time Fourier transform: an engineering “cochlea”') }],
     corr: 'similar', evidence: 'established',
@@ -51,7 +51,7 @@ export const LAYER4: Card[] = [
     corr: 'crude', evidence: 'established',
     diffs: [
       b('人的全身触觉密集、多模态；机器人通常只在指尖有少量传感器。', 'Human touch is dense and multimodal across the body; robots usually have a few fingertip sensors.'),
-      b('痛不只是负奖励，还带来注意、学习和保护行为的全局改变。', 'Pain is not just negative reward — it globally reshapes attention, learning and protective behaviour.'),
+      b('痛不只是负奖励，还带来注意、学习和保护行为的全局改变。', 'Pain is not just negative reward: it globally reshapes attention, learning and protective behaviour.'),
       b('快速反射与慢速认知的分层控制在机器人中很少见。', 'Layered fast-reflex/slow-cognition control is rare in robots.'),
     ],
     principle: b('原理：拓扑化的身体地图、分层（反射 → 皮层）的保护控制，以及把“伤害”变成全局学习信号。', 'Principle: topographic body maps, layered protective control (reflex → cortex) and turning harm into a global learning signal.'),
@@ -84,7 +84,7 @@ export const LAYER4: Card[] = [
   {
     id: 'sys-language', layer: 4, tour: 'language',
     title: b('语言系统 ↔ 大语言模型', 'Language system ↔ large language models'),
-    summary: b('大语言模型的内部表示能预测大脑语言区的反应，但它的学习方式与人截然不同。', 'LLM representations predict brain responses in language areas — but they learn in a very different way.'),
+    summary: b('大语言模型的内部表示能预测大脑语言区的反应，但它的学习方式与人截然不同。', 'LLM representations predict brain responses in language areas, but they learn in a very different way.'),
     brain: b('语言网络以左侧颞叶和额下回为核心：Wernicke 区理解语音，颞中回存储词义，弓状束连接到 Broca 区组织产出（Hickok & Poeppel 2007）。儿童在与人互动、指物、行动中学会语言，接触的语言量比大模型的训练语料少几个数量级。', 'The language network centres on left temporal cortex and inferior frontal gyrus: Wernicke’s area for speech, middle temporal gyrus for meaning, the arcuate fasciculus to Broca’s area for production (Hickok & Poeppel 2007). Children learn through interaction, pointing and action, from orders of magnitude less language than LLM training corpora.'),
     brainMath: [{ tex: t`r_{\text{brain}}(w_t) \approx A\,h_{\text{LLM}}(w_{\le t})`, caption: b('Schrimpf 等（2021）：下一个词预测越好的模型，越能预测大脑语言区的反应', 'Schrimpf et al. (2021): models better at next-word prediction better predict language-area responses') }],
     ai: b('大语言模型用 Transformer 做下一个词预测，在语言理解与生成上已接近或超过人类的许多基准。', 'LLMs do next-token prediction with Transformers and approach or exceed humans on many language benchmarks.'),
@@ -95,7 +95,7 @@ export const LAYER4: Card[] = [
       b('数据效率：人用少得多的语言输入学会语言。', 'Data efficiency: humans learn language from far less input.'),
       b('学习方式：人在对话与社会互动中持续学习；LLM 预训练后基本固定。', 'Learning: humans learn continually through dialogue and social interaction; LLMs are largely fixed after pretraining.'),
     ],
-    principle: b('“预测下一个词”与大脑语言区的预测性处理一致，这是被证实的原理。需要补上的是接地、社会互动学习和持续学习。', 'Next-word prediction aligns with predictive processing in language areas — a validated principle. Missing: grounding, social-interactive learning and continual learning.'),
+    principle: b('“预测下一个词”与大脑语言区的预测性处理一致，这是被证实的原理。需要补上的是接地、社会互动学习和持续学习。', 'Next-word prediction aligns with predictive processing in language areas, a validated principle. Missing: grounding, social-interactive learning and continual learning.'),
     ideas: [b('把语言模型接到具身智能体上，用行动的结果作为语言学习的监督信号。', 'Attach language models to embodied agents and use action outcomes as supervision for language learning.')],
     refs: ['hickok2007', 'schrimpf2021', 'vaswani2017', 'lake2017'],
   },
@@ -124,7 +124,7 @@ export const LAYER4: Card[] = [
     title: b('情绪系统 ↔（基本缺失）', 'Emotion system ↔ (largely absent)'),
     summary: b('情绪是快速切换全身状态、调节学习和决策的机制；AI 基本没有对应物。', 'Emotion rapidly switches the whole-body state and tunes learning and decisions; AI has almost no counterpart.'),
     brain: b('杏仁核通过快速的“低通路”检测威胁，立即改变全脑与身体状态：注意收窄、心率上升、记忆增强、行为倾向改变（LeDoux 2000）。躯体标记假说（Damasio 1996）认为，情绪信号帮助前额叶在复杂选择中快速排除不利选项。恐惧学习本身也可以用预测误差描述。', 'The amygdala detects threat via a fast low road and instantly shifts brain and body state: narrowed attention, higher heart rate, stronger memory, changed action tendencies (LeDoux 2000). The somatic-marker hypothesis (Damasio 1996) proposes emotional signals help prefrontal cortex prune bad options quickly. Fear learning itself follows prediction-error rules.'),
-    brainMath: [{ tex: t`\Delta V = \alpha\,(\lambda - V)`, caption: b('Rescorla–Wagner 规则描述的恐惧条件化：V 是对威胁的预期，λ 是实际结果', 'Fear conditioning under the Rescorla–Wagner rule: V is the expected threat, λ the actual outcome') }],
+    brainMath: [{ tex: t`\Delta V = \alpha\,(\lambda - V)`, caption: b('Rescorla–Wagner 规则描述的恐惧条件化：$V$ 是对威胁的预期，$\\lambda$ 是实际结果', 'Fear conditioning under the Rescorla–Wagner rule: $V$ is the expected threat, $\\lambda$ the actual outcome') }],
     ai: b('AI 中最接近的是负奖励和安全约束；少数工作研究“情绪”作为元控制信号。大语言模型能识别和表达情绪词汇，但没有功能性的情绪状态。', 'The closest AI analogues are negative rewards and safety constraints; a few works treat “emotion” as a meta-control signal. LLMs recognise and express emotion words but have no functional emotional state.'),
     corr: 'absent', evidence: 'debated',
     diffs: [
@@ -139,7 +139,7 @@ export const LAYER4: Card[] = [
     id: 'sys-reward', layer: 4, tour: 'reward',
     title: b('奖赏系统 ↔ 时序差分强化学习', 'Reward system ↔ temporal-difference RL'),
     summary: b('神经科学与 AI 对应最好的例子：多巴胺神经元编码的正是 TD 误差。', 'The best neuroscience–AI match: dopamine neurons encode the TD error.'),
-    brain: b('中脑多巴胺神经元在意外奖赏时爆发放电，在奖赏被完全预测时不再反应，在预期奖赏缺失时降低放电——与 TD 学习的误差信号完全一致（Schultz, Dayan & Montague 1997）。后来发现不同多巴胺神经元编码不同乐观程度的预测，构成奖赏的分布（Dabney 2020），与分布式强化学习对应。', 'Midbrain dopamine neurons burst for unexpected reward, stop responding once reward is predicted, and dip when an expected reward is missing — exactly the TD error (Schultz, Dayan & Montague 1997). Later work showed different dopamine neurons encode predictions of different optimism, forming a distribution over reward (Dabney 2020), matching distributional RL.'),
+    brain: b('中脑多巴胺神经元在意外奖赏时爆发放电，在奖赏被完全预测时不再反应，在预期奖赏缺失时降低放电，与 TD 学习的误差信号完全一致（Schultz, Dayan & Montague 1997）。后来发现不同多巴胺神经元编码不同乐观程度的预测，构成奖赏的分布（Dabney 2020），与分布式强化学习对应。', 'Midbrain dopamine neurons burst for unexpected reward, stop responding once reward is predicted, and dip when an expected reward is missing, exactly the TD error (Schultz, Dayan & Montague 1997). Later work showed different dopamine neurons encode predictions of different optimism, forming a distribution over reward (Dabney 2020), matching distributional RL.'),
     brainMath: [{ tex: t`\delta_t = r_t + \gamma\,V(s_{t+1}) - V(s_t),\qquad V(s_t) \leftarrow V(s_t) + \alpha\,\delta_t`, caption: b('时序差分误差 ≈ 多巴胺信号', 'TD error ≈ dopamine signal') }],
     ai: b('TD 学习、actor-critic（基底节中纹状体 ≈ critic/actor）、DQN 等构成了现代强化学习的核心；分布式强化学习反过来启发了神经科学研究。', 'TD learning, actor-critic (striatum ≈ critic/actor) and DQN form the core of modern RL; distributional RL in turn inspired neuroscience.'),
     corr: 'iso', evidence: 'established',
@@ -163,7 +163,7 @@ export const LAYER4: Card[] = [
       b('目标来源：人的目标由身体需求产生；AI 的目标由人给定。', 'Goal source: human goals arise from bodily needs; AI goals are given by people.'),
       b('自我模型：人对自己的身体有持续更新的内部模型；AI 没有。', 'Self-model: humans maintain a continuously updated model of their own body; AI does not.'),
     ],
-    principle: b('原理：智能体要有需要维持的内部变量，价值来自这些变量的调节。这可能是产生自主目标、自主学习的关键。', 'Principle: an agent should have internal variables to keep in range, with value arising from regulating them — possibly key to autonomous goals and learning.'),
+    principle: b('原理：智能体要有需要维持的内部变量，价值来自这些变量的调节。这可能是产生自主目标、自主学习的关键。', 'Principle: an agent should have internal variables to keep in range, with value arising from regulating them, possibly key to autonomous goals and learning.'),
     ideas: [b('为机器人定义内部变量（电量、温度、磨损、不确定性），用稳态强化学习产生内在奖励，并与外部任务奖励组合。', 'Give robots internal variables (battery, temperature, wear, uncertainty), derive intrinsic reward with homeostatic RL, and combine it with task reward.')],
     refs: ['craig2002', 'keramati2014', 'pathak2017'],
   },

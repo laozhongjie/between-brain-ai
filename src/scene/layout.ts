@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import type { GraphNode, Vec3 } from '../data/nodes'
 import { SYSTEMS } from '../data/regions'
 import type { ColorMode } from '../store'
+import { ink } from '../theme'
 
 /** Centre of the cortex bounding box in three.js coordinates (fsaverage surface RAS origin). */
 export const BRAIN_CENTER = new THREE.Vector3(0, 0.05, 0.18)
@@ -16,11 +17,11 @@ export function nodePosition(n: GraphNode, explode: number, useAnchor = false, o
 }
 
 const ANATOMY: Record<string, string> = {
-  cortex: '#c98f84',
-  cerebellum: '#b98276',
-  brainstem: '#a8796d',
-  subcortical: '#b08a76',
-  medialwall: '#8f7a78',
+  cortex: '#f8d3d8',
+  cerebellum: '#f1c5d2',
+  brainstem: '#e9c2cf',
+  subcortical: '#f0cfd3',
+  medialwall: '#d9ccd3',
 }
 
 export function baseColor(n: GraphNode, mode: ColorMode): THREE.Color {
@@ -36,7 +37,8 @@ export function baseColor(n: GraphNode, mode: ColorMode): THREE.Color {
   return new THREE.Color(ANATOMY.cortex)
 }
 
-export const glowColor = (n: GraphNode) => new THREE.Color(SYSTEMS[n.info.system].color)
+/** Activation colour: a deeper tone of the system's pastel so activity reads on the light ground. */
+export const glowColor = (n: GraphNode) => new THREE.Color(ink(SYSTEMS[n.info.system].color, 0.15))
 
 export const isCortex = (n: GraphNode) =>
   n.kind === 'mesh' && ['frontal', 'parietal', 'temporal', 'occipital', 'limbic', 'insula'].includes(n.info.lobe)

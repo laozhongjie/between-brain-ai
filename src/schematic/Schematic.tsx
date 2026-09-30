@@ -225,7 +225,7 @@ export function Schematic() {
           {SNODES.map((n) => (
             <g key={n.key} className={nodeClass(n.key)} transform={`translate(${n.x},${n.y})`} onClick={() => pick(resolveKey(n.key))}>
               <rect data-halo={n.key} x={-NODE_W / 2} y={-NODE_H / 2} width={NODE_W} height={NODE_H} rx={12} className="shalo" style={{ fill: n.color }} filter="url(#sglow)" />
-              <rect x={-NODE_W / 2} y={-NODE_H / 2} width={NODE_W} height={NODE_H} rx={12} className="sbox" style={{ stroke: n.color }} />
+              <rect x={-NODE_W / 2} y={-NODE_H / 2} width={NODE_W} height={NODE_H} rx={12} className="sbox" style={{ stroke: n.ink, fill: n.color + '33' }} />
               <text y={4} textAnchor="middle">{t(n.label)}</text>
             </g>
           ))}

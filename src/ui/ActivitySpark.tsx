@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { UI, useT } from '../i18n'
 import { engine } from '../sim/engine'
+import { ink } from '../theme'
 
 const LEN = 240
 
@@ -27,7 +28,7 @@ export function ActivitySpark({ index, color }: { index: number; color: string }
         if (i) ctx.lineTo(x, y)
         else ctx.moveTo(x, y)
       }
-      ctx.strokeStyle = color
+      ctx.strokeStyle = ink(color, 0.3)
       ctx.lineWidth = 1.5 * devicePixelRatio
       ctx.stroke()
       raf = requestAnimationFrame(draw)

@@ -5,6 +5,7 @@ import { NODES } from '../data/nodes'
 import { engine } from '../sim/engine'
 import { useStore } from '../store'
 import { glowColor, nodePosition } from './layout'
+import { SYSTEMS } from '../data/regions'
 import { currentFocus } from './focusState'
 import { pickValid } from './picking'
 
@@ -21,11 +22,12 @@ export function Markers() {
     () =>
       NODES.filter((n) => n.kind !== 'mesh').map((node) => {
         const glow = glowColor(node)
-        const mat = new THREE.MeshStandardMaterial({ color: glow, roughness: 0.4 })
+        const base = new THREE.Color(SYSTEMS[node.info.system].color)
+        const mat = new THREE.MeshStandardMaterial({ color: base, roughness: 0.45 })
         const mesh = new THREE.Mesh(node.kind === 'io' ? ioGeo : nucleusGeo, mat)
         mesh.userData.nodeId = node.id
         mesh.userData.pickable = true
-        return { node, mesh, mat, glow }
+        return { node, mesh, mat, glow, base }
       }),
     [],
   )
@@ -46,11 +48,13 @@ export function Markers() {
     const f = currentFocus()
     const beat = 0.6 + 0.4 * Math.sin(clock.elapsedTime * 4)
     for (const it of items) {
-      let k = 0.25 + engine.activity[it.node.index] * 2.2
+      let k = engine.activity[it.node.index] * 2
       if (f?.step.nodes.has(it.node.id)) k += beat
       if (it.node.id === hovered) k += 0.4
       if (it.node.id === selected) k += 0.8
-      it.mat.emissive.copy(tmp.copy(it.glow).multiplyScalar(k))
+      const mix = Math.min(1, k)
+      it.mat.color.copy(it.base).lerp(it.glow, mix)
+      it.mat.emissive.copy(tmp.copy(it.base).multiplyScalar(0.25 + 0.2 * mix))
       const s = it.node.id === selected || it.node.id === hovered ? 1.35 : 1
       it.mesh.scale.setScalar(s)
     }

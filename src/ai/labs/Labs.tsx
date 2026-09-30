@@ -5,7 +5,9 @@ import {
   IZH_PRESETS, STP_PRESETS, dendriticNeuron, eligibility, grid, pointNeuron, rateOf, simulateIzhikevich,
   simulateLIF, spikeTrain, stdpPairing, stdpWindow, threeFactorDw, tsodyksMarkram, type DendriteMode, type Pt,
 } from './models'
-import { Heatmap, LinePlot, RampLegend, SERIES } from './Plot'
+import { SERIES } from '../../theme'
+import { Heatmap, LinePlot, RampLegend } from './Plot'
+import { Rich } from '../Tex'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
 
@@ -14,7 +16,7 @@ function Slider({ label, value, min, max, step, onChange, fmt = (v: number) => S
 }) {
   return (
     <label className="lab-slider">
-      <span>{label}</span>
+      <span><Rich text={label} /></span>
       <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(+e.target.value)} />
       <output>{fmt(value)}</output>
     </label>
@@ -59,9 +61,9 @@ export function NeuronLab() {
 
   return (
     <div className="lab">
-      <p className="lab-intro">{t(b(
+      <p className="lab-intro"><Rich text={t(b(
         '同一个阶跃输入（20 ms 开始）分别送进三种神经元。人工神经元只输出一个恒定的“频率”；LIF 会积分、放电、重置；Izhikevich 模型还能产生适应、爆发等模式。右下图比较三者的频率-输入曲线：ReLU 正是这条曲线的平滑近似，但丢掉了时间过程。',
-        'The same step input (from 20 ms) drives three neuron models. The artificial unit outputs a constant “rate”; LIF integrates, fires and resets; Izhikevich adds adaptation and bursting. The bottom-right plot compares rate–input curves: ReLU approximates this curve but discards the time course.'))}</p>
+        'The same step input (from 20 ms) drives three neuron models. The artificial unit outputs a constant “rate”; LIF integrates, fires and resets; Izhikevich adds adaptation and bursting. The bottom-right plot compares rate–input curves: ReLU approximates this curve but discards the time course.'))} /></p>
       <div className="lab-controls">
         <Slider label={t(b('输入强度（归一化）', 'Input (normalised)'))} value={s} min={0} max={1} step={0.01} onChange={setS} fmt={(v) => v.toFixed(2)} />
         <Seg value={preset} options={Object.keys(IZH_PRESETS).map((k) => [k, t(IZH_NAMES[k])])} onChange={setPreset} />
@@ -101,11 +103,11 @@ export function DendriteLab() {
 
   return (
     <div className="lab">
-      <p className="lab-intro">{t(b(
-        '两个输入 x₁、x₂。左边是“点神经元”（线性求和 + 阈值），无论阈值怎么调都算不出异或（XOR）。右边是带树突非线性的神经元：同一分支上的输入被超线性放大（绑定），人类皮层神经元的树突钙峰对“中等强度”响应最强，因此单个神经元就能算 XOR（Gidon 2020）。',
-        'Two inputs x₁, x₂. Left: a point neuron (linear sum + threshold) cannot compute XOR at any threshold. Right: a neuron with dendritic nonlinearities — inputs on the same branch are amplified supralinearly (binding), and human cortical dendritic Ca²⁺ spikes respond most to intermediate drive, so one neuron computes XOR (Gidon 2020).'))}</p>
+      <p className="lab-intro"><Rich text={t(b(
+        '两个输入 $x_1$、$x_2$。左边是“点神经元”（线性求和 + 阈值），无论阈值怎么调都算不出异或（XOR）。右边是带树突非线性的神经元：同一分支上的输入被超线性放大（绑定），人类皮层神经元的树突钙峰对“中等强度”响应最强，因此单个神经元就能算 XOR（Gidon 2020）。',
+        'Two inputs $x_1$, $x_2$. Left: a point neuron (linear sum + threshold) cannot compute XOR at any threshold. Right: a neuron with dendritic nonlinearities: inputs on the same branch are amplified supralinearly (binding), and human cortical dendritic Ca²⁺ spikes respond most to intermediate drive, so one neuron computes XOR (Gidon 2020).'))} /></p>
       <div className="lab-controls">
-        <Slider label={t(b('点神经元阈值 θ', 'Point-neuron threshold θ'))} value={theta} min={0.2} max={1.9} step={0.05} onChange={setTheta} fmt={(v) => v.toFixed(2)} />
+        <Slider label={t(b('点神经元阈值 $\\theta$', 'Point-neuron threshold $\\theta$'))} value={theta} min={0.2} max={1.9} step={0.05} onChange={setTheta} fmt={(v) => v.toFixed(2)} />
         <Seg value={mode} options={(Object.keys(modeNames) as DendriteMode[]).map((k) => [k, modeNames[k]])} onChange={setMode} />
       </div>
       <div className="lab-grid two">
@@ -114,7 +116,7 @@ export function DendriteLab() {
       </div>
       <RampLegend lo={t(b('输出 0', 'output 0'))} hi="1" />
       <table className="lab-table">
-        <thead><tr><th>x₁</th><th>x₂</th><th>XOR</th><th>{t(b('点神经元', 'Point'))}</th><th>{t(b('树突', 'Dendritic'))}</th></tr></thead>
+        <thead><tr><th><Rich text="$x_1$" /></th><th><Rich text="$x_2$" /></th><th>XOR</th><th>{t(b('点神经元', 'Point'))}</th><th>{t(b('树突', 'Dendritic'))}</th></tr></thead>
         <tbody>
           {corners.map(([a, c]) => {
             const p = pointNeuron(a, c, theta) > 0.5 ? 1 : 0
@@ -147,16 +149,16 @@ export function StdpLab() {
 
   return (
     <div className="lab">
-      <p className="lab-intro">{t(b(
-        '左图是 STDP 时间窗：突触后比突触前晚放电（Δt > 0，前者“导致”了后者）则增强，反之削弱。右图把一对神经元以固定的 Δt 反复配对 60 次，观察权重如何变化（软边界：权重保持在 0–1 之间）。',
-        'Left: the STDP window — post after pre (Δt > 0, pre “caused” post) potentiates, the reverse depresses. Right: pair two neurons 60 times at a fixed Δt and watch the weight evolve (soft bounds keep it in 0–1).'))}</p>
+      <p className="lab-intro"><Rich text={t(b(
+        '左图是 STDP 时间窗：突触后比突触前晚放电（$\\Delta t > 0$，前者“导致”了后者）则增强，反之削弱。右图把一对神经元以固定的 $\\Delta t$ 反复配对 60 次，观察权重如何变化（软边界：权重保持在 0–1 之间）。',
+        'Left: the STDP window. Post after pre ($\\Delta t > 0$, pre “caused” post) potentiates, the reverse depresses. Right: pair two neurons 60 times at a fixed $\\Delta t$ and watch the weight evolve (soft bounds keep it in 0–1).'))} /></p>
       <div className="lab-controls">
-        <Slider label="Δt = t_post − t_pre (ms)" value={dt} min={-80} max={80} step={1} onChange={setDt} />
-        <Slider label="A₊" value={Aplus} min={0.01} max={0.1} step={0.005} onChange={setAplus} fmt={(v) => v.toFixed(3)} />
-        <Slider label="τ₊ (ms)" value={tauPlus} min={5} max={40} step={1} onChange={setTauPlus} />
+        <Slider label="$\Delta t = t_{\text{post}} - t_{\text{pre}}$ (ms)" value={dt} min={-80} max={80} step={1} onChange={setDt} />
+        <Slider label="$A_+$" value={Aplus} min={0.01} max={0.1} step={0.005} onChange={setAplus} fmt={(v) => v.toFixed(3)} />
+        <Slider label="$\tau_+$ (ms)" value={tauPlus} min={5} max={40} step={1} onChange={setTauPlus} />
       </div>
       <div className="lab-grid two">
-        <LinePlot series={[{ name: 'Δw(Δt)', color: SERIES[0], points: win }]} xLabel="Δt (ms)" yLabel="Δw" height={200} mark={{ x: dt, y: stdpWindow(dt, p), label: `Δt=${dt}` }} fmtY={(y) => y.toFixed(3)} />
+        <LinePlot series={[{ name: '$\\Delta w(\\Delta t)$', color: SERIES[0], points: win }]} xLabel="Δt (ms)" yLabel="Δw" height={200} mark={{ x: dt, y: stdpWindow(dt, p), label: `Δt=${dt}` }} fmtY={(y) => y.toFixed(3)} />
         <LinePlot series={[{ name: 'w', color: SERIES[1], points: traj }]} xLabel={t(b('配对次数', 'Pairings'))} yLabel="w" yDomain={[0, 1]} height={200} />
       </div>
     </div>
@@ -175,16 +177,16 @@ export function StpLab() {
 
   return (
     <div className="lab">
-      <p className="lab-intro">{t(b(
+      <p className="lab-intro"><Rich text={t(b(
         '突触前以固定频率连续放电 8 次，然后隔 500 ms 再放一次（第 9 个点，看恢复）。抑制型突触（U 大，恢复慢）越来越弱，像一个“变化检测器”；易化型突触（U 小，易化慢衰减）越来越强，像一个“连发检测器”。这就是一种写在突触里的短时记忆，类似 AI 的快权重。',
-        'The presynaptic neuron fires 8 spikes at a fixed rate, then once more 500 ms later (point 9, recovery). A depressing synapse (large U, slow recovery) weakens — a change detector; a facilitating one (small U, slow facilitation decay) strengthens — a burst detector. A short-term memory written into the synapse, like AI fast weights.'))}</p>
+        'The presynaptic neuron fires 8 spikes at a fixed rate, then once more 500 ms later (point 9, recovery). A depressing synapse (large U, slow recovery) weakens, acting as a change detector; a facilitating one (small U, slow facilitation decay) strengthens, acting as a burst detector. A short-term memory written into the synapse, like AI fast weights.'))} /></p>
       <div className="lab-controls">
         <Slider label={t(b('放电频率 (Hz)', 'Firing rate (Hz)'))} value={freq} min={2} max={100} step={1} onChange={setFreq} />
       </div>
       <LinePlot
         series={[
-          { name: t(b('抑制型 U=0.5, τ_rec=800ms', 'Depressing U=0.5, τ_rec=800ms')), color: SERIES[0], points: toPts(dep), dots: true },
-          { name: t(b('易化型 U=0.1, τ_f=1000ms', 'Facilitating U=0.1, τ_f=1000ms')), color: SERIES[1], points: toPts(fac), dots: true },
+          { name: t(b('抑制型 $U{=}0.5,\\ \\tau_{\\text{rec}}{=}800$ ms', 'Depressing $U{=}0.5,\\ \\tau_{\\text{rec}}{=}800$ ms')), color: SERIES[0], points: toPts(dep), dots: true },
+          { name: t(b('易化型 $U{=}0.1,\\ \\tau_f{=}1000$ ms', 'Facilitating $U{=}0.1,\\ \\tau_f{=}1000$ ms')), color: SERIES[1], points: toPts(fac), dots: true },
         ]}
         xLabel={t(b('第几个脉冲（9 = 恢复脉冲）', 'Spike number (9 = recovery)'))} yLabel={t(b('相对 PSC 幅度', 'Relative PSC'))}
         xDomain={[0.5, 9.5]} height={230} fmtX={(x) => x.toFixed(0)}
@@ -212,23 +214,23 @@ export function ThreeFactorLab() {
 
   return (
     <div className="lab">
-      <p className="lab-intro">{t(b(
-        '在 t = 0 时，突触前后同时放电，留下一个逐渐衰减的“资格迹”（蓝）。几百毫秒到几秒后，多巴胺等神经调质信号（橙）到来，只有当资格迹还没衰减完时，突触才会真正改变。右图显示权重变化随奖赏延迟的衰减：资格迹越长，能跨越的时间越久。这正是大脑把“几秒后的结果”分配给“当时的突触”的一种可能方式。',
-        'At t = 0 pre and post fire together, leaving a decaying eligibility trace (blue). Hundreds of ms to seconds later a neuromodulator such as dopamine arrives (orange); the synapse changes only if the trace has not yet faded. Right: weight change vs reward delay — longer traces bridge longer gaps. One way the brain may assign an outcome seconds later to the synapses that caused it.'))}</p>
+      <p className="lab-intro"><Rich text={t(b(
+        '在 $t = 0$ 时，突触前后同时放电，留下一个逐渐衰减的“资格迹”（蓝）。几百毫秒到几秒后，多巴胺等神经调质信号（橙）到来，只有当资格迹还没衰减完时，突触才会真正改变。右图显示权重变化随奖赏延迟的衰减：资格迹越长，能跨越的时间越久。这正是大脑把“几秒后的结果”分配给“当时的突触”的一种可能方式。',
+        'At $t = 0$ pre and post fire together, leaving a decaying eligibility trace (blue). Hundreds of ms to seconds later a neuromodulator such as dopamine arrives (orange); the synapse changes only if the trace has not yet faded. Right: weight change vs reward delay: longer traces bridge longer gaps. One way the brain may assign an outcome seconds later to the synapses that caused it.'))} /></p>
       <div className="lab-controls">
         <Slider label={t(b('奖赏延迟 (ms)', 'Reward delay (ms)'))} value={delay} min={0} max={4800} step={50} onChange={setDelay} />
-        <Slider label={t(b('资格迹时间常数 τₑ (ms)', 'Trace time constant τₑ (ms)'))} value={tauE} min={100} max={3000} step={50} onChange={setTauE} />
+        <Slider label={t(b('资格迹时间常数 $\\tau_e$ (ms)', 'Trace time constant $\\tau_e$ (ms)'))} value={tauE} min={100} max={3000} step={50} onChange={setTauE} />
       </div>
       <div className="lab-grid two">
         <LinePlot
           series={[
-            { name: t(b('资格迹 e(t)', 'Eligibility e(t)')), color: SERIES[0], points: course.e },
-            { name: t(b('神经调质 M(t)', 'Neuromodulator M(t)')), color: SERIES[1], points: course.m },
+            { name: t(b('资格迹 $e(t)$', 'Eligibility $e(t)$')), color: SERIES[0], points: course.e },
+            { name: t(b('神经调质 $M(t)$', 'Neuromodulator $M(t)$')), color: SERIES[1], points: course.m },
           ]}
           xLabel="t (ms)" yLabel={t(b('强度', 'Level'))} yDomain={[0, 1.1]} height={200}
         />
         <LinePlot
-          series={[{ name: 'Δw', color: SERIES[2], points: curve }]}
+          series={[{ name: '$\\Delta w$', color: SERIES[2], points: curve }]}
           xLabel={t(b('奖赏延迟 (ms)', 'Reward delay (ms)'))} yLabel="Δw" yDomain={[0, 1.05]} height={200}
           mark={{ x: delay, y: threeFactorDw(delay, tauE), label: `Δw=${threeFactorDw(delay, tauE).toFixed(2)}` }}
         />

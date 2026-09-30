@@ -25,7 +25,7 @@ function level(part: BodyPart, cued: BodyPart[]) {
 export function Body({ cued, heartRate }: { cued: BodyPart[]; heartRate: number }) {
   const g = (p: BodyPart) => {
     const a = level(p, cued)
-    return { fill: `rgba(90, 220, 255, ${0.08 + 0.75 * a})`, filter: a > 0.35 ? 'url(#glow)' : undefined }
+    return { fill: `rgba(125, 99, 194, ${0.1 + 0.75 * a})`, filter: a > 0.35 ? 'url(#glow)' : undefined }
   }
   const beat = `${(60 / Math.max(40, heartRate)).toFixed(2)}s`
   return (

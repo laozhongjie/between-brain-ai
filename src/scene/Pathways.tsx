@@ -3,6 +3,7 @@ import { useEffect, useMemo } from 'react'
 import * as THREE from 'three'
 import { PATHWAYS } from '../data/pathways'
 import { SYSTEMS } from '../data/regions'
+import { ink } from '../theme'
 import { signals } from '../sim/signals'
 import { useStore } from '../store'
 import { pathCurves } from './curves'
@@ -18,10 +19,9 @@ export function Pathways() {
       PATHWAYS.map(
         (p) =>
           new THREE.MeshBasicMaterial({
-            color: SYSTEMS[p.system].color,
+            color: ink(SYSTEMS[p.system].color, 0.3),
             transparent: true,
             opacity: 0.05,
-            blending: THREE.AdditiveBlending,
             depthTest: false,
             depthWrite: false,
             toneMapped: false,

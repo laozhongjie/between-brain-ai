@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { SYSTEMS } from '../data/regions'
+import { ink } from '../theme'
 import { cardForTour } from '../ai/content'
 import { TOUR_BY_ID } from '../data/tours'
 import { go } from '../route'
@@ -29,7 +30,7 @@ export function FocusPanel() {
   const cur = tour.steps[step]
 
   return (
-    <div className="panel focus-panel" style={{ '--c': color } as React.CSSProperties}>
+    <div className="panel focus-panel" style={{ '--c': color, '--ci': ink(color, 0.35) } as React.CSSProperties}>
       <header className="focus-head">
         <div className="focus-name">
           <span className="system-icon">{tour.icon}</span>
