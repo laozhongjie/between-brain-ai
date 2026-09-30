@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { resolveKey } from '../data/nodes'
 import { UI, useT } from '../i18n'
 import { currentFocus } from '../scene/focusState'
 import { engine } from '../sim/engine'
 import { signals } from '../sim/signals'
 import { useStore } from '../store'
-import { BUSES, COLUMNS, H, HOP_EDGE, LANES, NODE_H, NODE_W, SEDGES, SNODES, W, ZONES, type BusKey } from './layout'
+import { BASE_H, HOP_EDGE, NODE_H, NODE_W, STAGES, W, makeLayout, type BusKey } from './layout'
 import type { Pulse } from '../sim/signals'
 
 const MAX_PULSES = 220
@@ -31,6 +31,25 @@ export function Schematic() {
     if (!dragged.current && id) select(id)
   }
 
+  // Stretch the layout vertically so the diagram fills its panel exactly (node and text sizes stay fixed)
+  const box = useRef<HTMLDivElement>(null)
+  const [k, setK] = useState(1)
+  useEffect(() => {
+    const el = box.current!
+    const fit = () => {
+      if (!el.clientWidth || !el.clientHeight) return
+      const target = (W * el.clientHeight) / el.clientWidth // viewBox height matching the panel's aspect
+      const next = Math.round(Math.min(1.8, Math.max(0.75, (target - 30) / (BASE_H - 30))) * 50) / 50
+      setK(next)
+    }
+    const ro = new ResizeObserver(fit)
+    ro.observe(el)
+    fit()
+    return () => ro.disconnect()
+  }, [])
+  const layout = useMemo(() => makeLayout(k), [k])
+  const { H, buses, zones, lanes, nodes, edges } = layout
+
   const selKey = selected ? selected.replace(/^(lh|rh)\./, '') : null
   const f = useMemo(() => currentFocus(), [focus, focusStep]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -51,13 +70,13 @@ export function Schematic() {
     const el = svg.current!
     const overlay = pulseSvg.current!
     const view = el.parentElement as HTMLDivElement
-    const box = view.parentElement as HTMLDivElement
+    const panel = view.parentElement as HTMLDivElement
     const vb = { x: 0, y: 0, w: W, h: H } // live view
     let shown = { ...vb } // view currently rendered into the SVGs
     // viewBox → local pixels under preserveAspectRatio="xMidYMid meet"
     const map = (v: typeof vb) => {
-      const cw = box.clientWidth
-      const ch = box.clientHeight
+      const cw = panel.clientWidth
+      const ch = panel.clientHeight
       const s = Math.min(cw / v.w, ch / v.h)
       return { s, ox: (cw - v.w * s) / 2 - v.x * s, oy: (ch - v.h * s) / 2 - v.y * s }
     }
@@ -79,7 +98,7 @@ export function Schematic() {
       view.style.transform = `translate(${b.ox - k * a.ox}px, ${b.oy - k * a.oy}px) scale(${k})`
     }
     const toSvg = (cx: number, cy: number) => {
-      const r = box.getBoundingClientRect()
+      const r = panel.getBoundingClientRect()
       const m = map(vb)
       return { x: (cx - r.left - m.ox) / m.s, y: (cy - r.top - m.oy) / m.s }
     }
@@ -163,7 +182,7 @@ export function Schematic() {
       el.removeEventListener('dblclick', reset)
       clearTimeout(settle)
     }
-  }, [])
+  }, [H])
 
   useEffect(() => {
     const root = svg.current!
@@ -254,12 +273,12 @@ export function Schematic() {
       cancelAnimationFrame(raf)
       dots.forEach((d) => { d.halo.remove(); d.core.remove() })
     }
-  }, [])
+  }, [layout])
 
   const busVisible = (k: BusKey) => !f || f.all.keys.has(k)
 
   return (
-    <div className="schematic">
+    <div className="schematic" ref={box}>
       <div className="schem-view">
         <svg ref={svg} preserveAspectRatio="xMidYMid meet">
           <defs>
@@ -269,25 +288,16 @@ export function Schematic() {
           </defs>
 
           {/* Zones: input · the brain's internal loop · output */}
-          {ZONES.map((z, i) => (
+          {zones.map((z, i) => (
             <g key={i}>
               <rect className="szone" x={z.x0} y={z.y0} width={z.x1 - z.x0} height={z.y1 - z.y0} rx={16} />
               <text className="szone-title" x={(z.x0 + z.x1) / 2} y={18} textAnchor="middle" dominantBaseline="central">{t(z.label)}</text>
             </g>
           ))}
-          {/* Stage labels, each centred over a bracket that spans its columns */}
-          {COLUMNS.map((c, i) => {
-            const x0 = c.x0 - NODE_W / 2
-            const x1 = c.x1 + NODE_W / 2
-            return (
-              <g key={i}>
-                <text className="scol" x={(x0 + x1) / 2} y={46} textAnchor="middle" dominantBaseline="central">{t(c.label)}</text>
-                <path className="scol-bracket" d={`M${x0},62 L${x0},57 L${x1},57 L${x1},62`} />
-              </g>
-            )
-          })}
+          {/* Stages of the internal loop, one centred line under the brain zone's title */}
+          <text className="scol" x={(zones[1].x0 + zones[1].x1) / 2} y={48} textAnchor="middle" dominantBaseline="central">{t(STAGES)}</text>
           {/* Functional lanes, labelled on their top edge */}
-          {LANES.map((l, i) => {
+          {lanes.map((l, i) => {
             const cx = (l.x0 + l.x1) / 2
             const label = t(l.label)
             const tw = label.length * 10 + 24
@@ -300,19 +310,19 @@ export function Schematic() {
             )
           })}
 
-          {(Object.keys(BUSES) as BusKey[]).map((k) => {
-            const b = BUSES[k]
-            const id = resolveKey(k)!
+          {(Object.keys(buses) as BusKey[]).map((key) => {
+            const b = buses[key]
+            const id = resolveKey(key)!
             return (
-              <g key={k} className={`sbus ${busVisible(k) ? '' : 'dim'} ${selKey === k ? 'sel' : ''}`} onClick={() => pick(id)}>
+              <g key={key} className={`sbus ${busVisible(key) ? '' : 'dim'} ${selKey === key ? 'sel' : ''}`} onClick={() => pick(id)}>
                 <rect x={b.x0} y={b.y - 9} width={b.x1 - b.x0} height={18} rx={9} className="sbus-bar" />
-                <text x={(b.x0 + b.x1) / 2} y={b.y} textAnchor="middle" dominantBaseline="central">{t(k === 'brainstem' ? UI.brainstemBus : UI.spinalBus)}</text>
+                <text x={(b.x0 + b.x1) / 2} y={b.y} textAnchor="middle" dominantBaseline="central">{t(key === 'brainstem' ? UI.brainstemBus : UI.spinalBus)}</text>
               </g>
             )
           })}
 
           <g className="sedges">
-            {SEDGES.map((e) => (
+            {edges.map((e) => (
               <path
                 key={e.id}
                 data-edge={e.id}
@@ -325,7 +335,7 @@ export function Schematic() {
           </g>
 
           <g className="snodes">
-            {SNODES.map((n) => (
+            {nodes.map((n) => (
               <g key={n.key} className={nodeClass(n.key)} transform={`translate(${n.x},${n.y})`} onClick={() => pick(resolveKey(n.key))}>
                 <rect x={-NODE_W / 2} y={-NODE_H / 2} width={NODE_W} height={NODE_H} rx={12} className="sbox" style={{ stroke: n.ink, fill: n.color + '33' }} />
                 <text y={0} textAnchor="middle" dominantBaseline="central">{t(n.label)}</text>
@@ -344,12 +354,12 @@ export function Schematic() {
           </defs>
           {/* only flashing outlines are displayed, so the blur covers just those few nodes */}
           <g filter="url(#sflash)">
-            {(Object.keys(BUSES) as BusKey[]).map((k) => {
-              const b = BUSES[k]
-              return <rect key={k} data-flash={k} x={b.x0} y={b.y - 9} width={b.x1 - b.x0} height={18} rx={9}
-                className={`sflash ${busVisible(k) ? '' : 'dim'}`} style={{ stroke: 'var(--mint)', display: 'none' }} />
+            {(Object.keys(buses) as BusKey[]).map((key) => {
+              const b = buses[key]
+              return <rect key={key} data-flash={key} x={b.x0} y={b.y - 9} width={b.x1 - b.x0} height={18} rx={9}
+                className={`sflash ${busVisible(key) ? '' : 'dim'}`} style={{ stroke: 'var(--mint)', display: 'none' }} />
             })}
-            {SNODES.map((n) => (
+            {nodes.map((n) => (
               <rect key={n.key} data-flash={n.key} x={n.x - NODE_W / 2} y={n.y - NODE_H / 2} width={NODE_W} height={NODE_H} rx={12}
                 className={`sflash ${nodeClass(n.key).includes('dim') ? 'dim' : ''}`} style={{ stroke: n.color, display: 'none' }} />
             ))}

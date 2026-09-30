@@ -114,7 +114,6 @@ export default function App() {
       </div>
       <div className="right-col">
         <OutputPanel />
-        {viewMode === 'schematic' && !focus && <Timeline part="controls" />}
       </div>
       <div className="bottom">
         {focus ? (
@@ -122,7 +121,7 @@ export default function App() {
         ) : (
           <>
             {viewMode === '3d' && <Narration />}
-            <Timeline part={viewMode === 'schematic' ? 'track' : 'all'} />
+            <Timeline />
           </>
         )}
         <footer className="hint">{t(viewMode === '3d' ? UI.hint : UI.hintSchematic)} · {t(UI.disclaimer)}</footer>

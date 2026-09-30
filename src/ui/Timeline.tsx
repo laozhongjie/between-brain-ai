@@ -13,11 +13,7 @@ const NIGHT_FROM = (22.5 * 60 - DAY_START + 1440) % 1440
 const crowded = (i: number) =>
   (i > 0 && EVENTS[i].tl - EVENTS[i - 1].tl < 35) || (i + 1 < EVENTS.length && EVENTS[i + 1].tl - EVENTS[i].tl < 35)
 
-/**
- * Day timeline. `part` renders only the playback controls or only the event track, so a layout can
- * place them apart (the schematic view puts the controls under the output panel).
- */
-export function Timeline({ part = 'all' }: { part?: 'all' | 'controls' | 'track' }) {
+export function Timeline() {
   const t = useT()
   const { tl, playing, speed, current } = useScenario()
   const bar = useRef<HTMLDivElement>(null)
@@ -31,8 +27,8 @@ export function Timeline({ part = 'all' }: { part?: 'all' | 'controls' | 'track'
   const hours = Array.from({ length: 8 }, (_, i) => i * 3 * 60 + (9 * 60 - DAY_START)) // 09:00, 12:00, …
 
   return (
-    <div className={`panel timeline tl-part-${part}`}>
-      {part !== 'track' && <div className="tl-controls">
+    <div className="panel timeline">
+      <div className="tl-controls">
         <button className="icon-btn sm" title={t(UI.prevEvent)} onClick={() => director.jump(-1)}><Icon name="skip-back" /></button>
         <button className="play-btn" title={t(playing ? UI.pause : UI.play)} onClick={() => useScenario.setState({ playing: !playing })}>
           <Icon name={playing ? 'pause' : 'play'} size={16} />
@@ -45,8 +41,8 @@ export function Timeline({ part = 'all' }: { part?: 'all' | 'controls' | 'track'
         </div>
         <span className="clock">{fmtClock(DAY_START + tl)}</span>
         <span className="tl-title">{ev ? <><Icon name={ev.icon} size={16} /><span>{t(ev.title)}</span></> : <span>{t(UI.between)}</span>}</span>
-      </div>}
-      {part !== 'controls' && <div
+      </div>
+      <div
         className="tl-bar"
         ref={bar}
         onPointerDown={(e) => {
@@ -76,7 +72,7 @@ export function Timeline({ part = 'all' }: { part?: 'all' | 'controls' | 'track'
           </button>
         ))}
         <div className="tl-head" style={{ left: pct(tl) }} />
-      </div>}
+      </div>
     </div>
   )
 }

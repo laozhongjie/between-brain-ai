@@ -2,28 +2,32 @@ import { NODE_BY_ID } from '../data/nodes'
 import { PATHWAYS } from '../data/pathways'
 import { SYSTEMS } from '../data/regions'
 import type { Bi } from '../data/types'
+import { ink } from '../theme'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
-import { ink } from '../theme'
 
 /**
  * Schematic canvas (SVG viewBox units). Information flows left (senses) → right (body outputs).
  * Three zones (input · the brain's internal loop · output) separated by gutters; inside the brain,
  * functional lanes run horizontally so each system's nodes sit together in one framed band.
+ *
+ * The layout is built for a vertical stretch `k`: row positions spread to fill the panel's height while
+ * node and text sizes stay fixed. Edges are routed orthogonally: vertical runs in the channels between
+ * columns, horizontal runs in the corridors between rows, so no line crosses a node.
  */
-export const NODE_W = 126
+export const NODE_W = 118
 export const NODE_H = 28
-const colX = (c: number) => 75 + c * 136 + (c >= 1 ? 28 : 0) + (c >= 8 ? 28 : 0)
+const STEP = 140
+const GUTTER = 28
+const colX = (c: number) => 75 + c * STEP + (c >= 1 ? GUTTER : 0) + (c >= 8 ? GUTTER : 0)
 export const W = colX(8) + 80
-export const H = 862
+/** Height of the unstretched layout; the header above TOP is never stretched. */
+export const BASE_H = 862
+const TOP = 30
+const ROW = 42 // row pitch inside a lane (unstretched)
 
-/** Buses for structures that everything passes through (inside the brain zone). */
-export const BUSES = {
-  brainstem: { y: 796, x0: colX(1) - NODE_W / 2, x1: colX(7) + NODE_W / 2 },
-  spinalcord: { y: 832, x0: colX(1) - NODE_W / 2, x1: colX(7) + NODE_W / 2 },
-} as const
-export type BusKey = keyof typeof BUSES
-export const isBus = (k: string): k is BusKey => k in BUSES
+export type BusKey = 'brainstem' | 'spinalcord'
+export const isBus = (k: string): k is BusKey => k === 'brainstem' || k === 'spinalcord'
 
 // [key, column, y, short zh, short en]; rows are grouped into the functional lanes below
 const TABLE: [string, number, number, string, string][] = [
@@ -89,7 +93,7 @@ const TABLE: [string, number, number, string, string][] = [
 
   // Arousal · neuromodulators
   ['aras', 1, 742, '网状激活系统', 'ARAS'],
-  ['scn', 2, 742, '视交叉上核·生物钟', 'SCN · clock'],
+  ['scn', 2, 742, '生物钟 · SCN', 'SCN · clock'],
   ['pineal', 3, 742, '松果体', 'Pineal'],
   ['lc', 4, 742, '蓝斑 · NE', 'LC · NE'],
   ['vta', 5, 742, '腹侧被盖区 · DA', 'VTA · DA'],
@@ -97,56 +101,17 @@ const TABLE: [string, number, number, string, string][] = [
   ['raphe', 7, 742, '中缝核 · 5-HT', 'Raphe · 5-HT'],
 ]
 
+
 export interface SNode {
   key: string
+  col: number
   x: number
   y: number
   label: Bi
   color: string
-  /** deeper tone for strokes on the light ground */
+  /** brighter tone for strokes */
   ink: string
 }
-
-export const SNODES: SNode[] = TABLE.map(([key, c, y, zh, en]) => {
-  const n = NODE_BY_ID[key] ?? NODE_BY_ID[`lh.${key}`]
-  return { key, x: colX(c), y, label: { zh, en }, color: SYSTEMS[n.info.system].color, ink: ink(SYSTEMS[n.info.system].color, 0.3) }
-})
-export const SNODE_BY_KEY: Record<string, SNode> = Object.fromEntries(SNODES.map((n) => [n.key, n]))
-
-const PAD = 76 // zone edge to column centre
-/** Input · the brain's internal loop · output. */
-export const ZONES: { x0: number; x1: number; y0: number; y1: number; label: Bi }[] = [
-  { x0: colX(0) - PAD, x1: colX(0) + PAD, y0: 30, y1: 700, label: { zh: '输入 · 感觉器官', en: 'Input · senses' } },
-  { x0: colX(1) - PAD, x1: colX(7) + PAD, y0: 30, y1: H - 4, label: { zh: '大脑内部 · 处理回路', en: 'Inside the brain · processing loop' } },
-  { x0: colX(8) - PAD, x1: colX(8) + PAD, y0: 30, y1: 700, label: { zh: '输出 · 身体', en: 'Output · body' } },
-]
-
-/** Stage labels across the brain zone; each spans x0..x1 (column centres) and is drawn with a bracket. */
-export const COLUMNS: { x0: number; x1: number; label: Bi }[] = [
-  { x0: colX(1), x1: colX(1), label: { zh: '中继', en: 'Relay' } },
-  { x0: colX(2), x1: colX(5), label: { zh: '皮层处理与整合 →', en: 'Cortical processing →' } },
-  { x0: colX(6), x1: colX(7), label: { zh: '决策与控制', en: 'Decision & control' } },
-]
-
-/** Functional lanes inside the brain zone: a framed band around each group's rows. */
-export const LANES: { y0: number; y1: number; x0: number; x1: number; label: Bi; color: string }[] = (
-  [
-    [102, 186, b('视觉 · 注意', 'Vision · attention'), 'visual'],
-    [262, 304, b('听觉 · 语言', 'Hearing · language'), 'language'],
-    [380, 506, b('躯体感觉 · 运动', 'Body sense · movement'), 'motor'],
-    [582, 666, b('情绪 · 记忆 · 稳态', 'Emotion · memory · homeostasis'), 'emotion'],
-    [742, 742, b('觉醒 · 神经调质', 'Arousal · neuromodulators'), 'arousal'],
-  ] as [number, number, Bi, keyof typeof SYSTEMS][]
-).map(([top, bottom, label, sys]) => ({
-  y0: top - NODE_H / 2 - 16,
-  y1: bottom + NODE_H / 2 + 12,
-  x0: colX(1) - PAD + 8,
-  x1: colX(7) + PAD - 8,
-  label,
-  color: SYSTEMS[sys].color,
-}))
-
-const keyOf = (id: string) => NODE_BY_ID[id].key
 
 export interface SEdge {
   id: string
@@ -159,55 +124,172 @@ export interface SEdge {
   d: string
 }
 
-type Pt = [number, number]
-const clampBus = (b: BusKey, x: number) => Math.max(BUSES[b].x0 + 10, Math.min(BUSES[b].x1 - 10, x))
+export interface Zone { x0: number; x1: number; y0: number; y1: number; label: Bi }
+export interface Lane { x0: number; x1: number; y0: number; y1: number; label: Bi; color: string }
+export interface Bus { y: number; x0: number; x1: number }
 
-/** SVG path from one schematic element to another (node↔node, node↔bus, bus↔bus). */
-function edgePath(from: string, to: string): string {
+export interface Layout {
+  k: number
+  H: number
+  nodes: SNode[]
+  byKey: Record<string, SNode>
+  buses: Record<BusKey, Bus>
+  zones: Zone[]
+  lanes: Lane[]
+  edges: SEdge[]
+}
+
+/** Stage names across the brain zone, shown as one centred line under its title. */
+export const STAGES: Bi = b('中继 → 皮层处理与整合 → 决策与控制', 'Relay → cortical processing → decision & control')
+
+const PAD = 72 // zone edge to column centre
+const LANE_DEFS: [number, number, Bi, keyof typeof SYSTEMS][] = [
+  [102, 186, b('视觉 · 注意', 'Vision · attention'), 'visual'],
+  [262, 304, b('听觉 · 语言', 'Hearing · language'), 'language'],
+  [380, 506, b('躯体感觉 · 运动', 'Body sense · movement'), 'motor'],
+  [582, 666, b('情绪 · 记忆 · 稳态', 'Emotion · memory · homeostasis'), 'emotion'],
+  [742, 742, b('觉醒 · 神经调质', 'Arousal · neuromodulators'), 'arousal'],
+]
+
+const keyOf = (id: string) => NODE_BY_ID[id].key
+
+type Pt = [number, number]
+
+/** Polyline with rounded corners (radius r, shortened on tight segments). */
+function rounded(pts: Pt[], r = 6): string {
+  const p = pts.filter((q, i) => i === 0 || q[0] !== pts[i - 1][0] || q[1] !== pts[i - 1][1])
+  let d = `M${p[0][0]},${p[0][1]}`
+  for (let i = 1; i < p.length - 1; i++) {
+    const [ax, ay] = p[i - 1]
+    const [bx, by] = p[i]
+    const [cx, cy] = p[i + 1]
+    const l1 = Math.hypot(bx - ax, by - ay)
+    const l2 = Math.hypot(cx - bx, cy - by)
+    const rr = Math.min(r, l1 / 2, l2 / 2)
+    d += ` L${bx - ((bx - ax) / l1) * rr},${by - ((by - ay) / l1) * rr} Q${bx},${by} ${bx + ((cx - bx) / l2) * rr},${by + ((cy - by) / l2) * rr}`
+  }
+  const last = p[p.length - 1]
+  return `${d} L${last[0]},${last[1]}`
+}
+
+export function makeLayout(k = 1): Layout {
+  const sy = (y: number) => TOP + (y - TOP) * k
+  const H = Math.round(sy(BASE_H))
   const hw = NODE_W / 2
   const hh = NODE_H / 2
-  if (isBus(from) && isBus(to)) {
-    const x = from === 'brainstem' ? BUSES.brainstem.x1 - 60 : BUSES.brainstem.x0 + 50 // descending on the right, ascending on the left
-    return `M${x},${BUSES[from].y + 6} L${x},${BUSES[to].y - 6}`
-  }
-  if (isBus(to)) {
-    const a = SNODE_BY_KEY[from]
-    const bx = clampBus(to, a.x)
-    const by = BUSES[to].y - 6
-    return curveV([a.x, a.y + hh], [bx, by])
-  }
-  if (isBus(from)) {
-    const b = SNODE_BY_KEY[to]
-    const ax = clampBus(from, b.x)
-    return curveV([ax, BUSES[from].y - 6], [b.x, b.y + hh])
-  }
-  const a = SNODE_BY_KEY[from]
-  const b = SNODE_BY_KEY[to]
-  if (b.x > a.x + 20) {
-    const s: Pt = [a.x + hw, a.y]
-    const e: Pt = [b.x - hw, b.y]
-    const mx = (s[0] + e[0]) / 2
-    return `M${s[0]},${s[1]} C${mx},${s[1]} ${mx},${e[1]} ${e[0]},${e[1]}`
-  }
-  if (Math.abs(b.x - a.x) <= 20) {
-    // same column: bulge out to the right
-    const side = a.x + hw
-    return `M${side},${a.y} C${side + 45},${a.y} ${side + 45},${b.y} ${side},${b.y}`
-  }
-  // backward (feedback loop): arc underneath
-  const s: Pt = [a.x, a.y + hh]
-  const e: Pt = [b.x, b.y + hh]
-  const dip = Math.max(s[1], e[1]) + 28 + Math.abs(a.x - b.x) * 0.08
-  return `M${s[0]},${s[1]} C${s[0]},${dip} ${e[0]},${dip} ${e[0]},${e[1]}`
-}
 
-function curveV(s: Pt, e: Pt) {
-  const my = (s[1] + e[1]) / 2
-  return `M${s[0]},${s[1]} C${s[0]},${my} ${e[0]},${my} ${e[0]},${e[1]}`
-}
+  const nodes: SNode[] = TABLE.map(([key, c, y, zh, en]) => {
+    const n = NODE_BY_ID[key] ?? NODE_BY_ID[`lh.${key}`]
+    const color = SYSTEMS[n.info.system].color
+    return { key, col: c, x: colX(c), y: sy(y), label: { zh, en }, color, ink: ink(color, 0.3) }
+  })
+  const byKey: Record<string, SNode> = Object.fromEntries(nodes.map((n) => [n.key, n]))
 
-/** Pathway hops collapsed across hemispheres into unique schematic edges. */
-function buildEdges(): SEdge[] {
+  const busX0 = colX(1) - hw
+  const busX1 = colX(7) + hw
+  const buses: Record<BusKey, Bus> = {
+    brainstem: { y: sy(796), x0: busX0, x1: busX1 },
+    spinalcord: { y: sy(832), x0: busX0, x1: busX1 },
+  }
+
+  const ioBottom = sy(700)
+  const zones: Zone[] = [
+    { x0: colX(0) - PAD, x1: colX(0) + PAD, y0: TOP, y1: ioBottom, label: b('输入 · 感觉器官', 'Input · senses') },
+    { x0: colX(1) - PAD, x1: colX(7) + PAD, y0: TOP, y1: H - 4, label: b('大脑内部 · 处理回路', 'Inside the brain · processing loop') },
+    { x0: colX(8) - PAD, x1: colX(8) + PAD, y0: TOP, y1: ioBottom, label: b('输出 · 身体', 'Output · body') },
+  ]
+  const lanes: Lane[] = LANE_DEFS.map(([top, bottom, label, sys]) => ({
+    y0: sy(top) - hh - 16,
+    y1: sy(bottom) + hh + 12,
+    x0: colX(1) - PAD + 8,
+    x1: colX(7) + PAD - 8,
+    label,
+    color: SYSTEMS[sys].color,
+  }))
+
+  // Parallel runs sharing a channel or corridor are spread a few units apart
+  const slots = new Map<string, number>()
+  const spread = (channel: string) => {
+    const i = slots.get(channel) ?? 0
+    slots.set(channel, i + 1)
+    return [0, -4, 4, -8, 8, -12, 12][i % 7]
+  }
+  /** x of the channel right of column c (between c and c+1) */
+  const chan = (c: number) => (colX(c) + hw + colX(c + 1) - hw) / 2
+  /** is any node strictly between columns ca and cb on the row at y? */
+  const rowBlocked = (y: number, ca: number, cb: number) => nodes.some((n) => n.y === y && n.col > Math.min(ca, cb) && n.col < Math.max(ca, cb))
+  /** corridor between rows, on the side of the target */
+  const corridor = (y: number, towardY: number) => y + (towardY >= y ? 1 : -1) * (ROW * k) / 2
+
+  function route(from: string, to: string): string {
+    const bs = buses
+    if (isBus(from) && isBus(to)) {
+      // ascending (spinal cord → brainstem) on the left end, descending on the right end
+      if (from === 'spinalcord') {
+        const x = busX0 - 12
+        return rounded([[busX0, bs.spinalcord.y], [x, bs.spinalcord.y], [x, bs.brainstem.y], [busX0 + 2, bs.brainstem.y]], 8)
+      }
+      const x = busX1 + 12
+      return rounded([[busX1, bs.brainstem.y], [x, bs.brainstem.y], [x, bs.spinalcord.y], [busX1 - 2, bs.spinalcord.y]], 8)
+    }
+    if (isBus(to)) {
+      const a = byKey[from]
+      const bus = bs[to]
+      const top = bus.y - 9
+      if (a.col === 0) {
+        // senses: down the input gutter, into the bus from its left end
+        const x = chan(0) + spread('c0')
+        return rounded([[a.x + hw, a.y], [x, a.y], [x, bus.y], [bus.x0, bus.y]])
+      }
+      if (a.col === 8) {
+        // body feedback: back down the output gutter, into the bus from its right end
+        const x = chan(7) + spread('c7')
+        return rounded([[a.x - hw, a.y], [x, a.y], [x, bus.y], [bus.x1, bus.y]])
+      }
+      const x = chan(a.col) + spread(`c${a.col}`)
+      return rounded([[a.x + hw, a.y], [x, a.y], [x, top]])
+    }
+    if (isBus(from)) {
+      const b2 = byKey[to]
+      const bus = bs[from]
+      if (b2.col === 0) {
+        const x = chan(0) + spread('c0')
+        return rounded([[bus.x0, bus.y], [x, bus.y], [x, b2.y], [b2.x + hw, b2.y]])
+      }
+      if (b2.col === 8) {
+        // body outputs: out of the bus's right end, up the output gutter
+        const x = chan(7) + spread('c7')
+        return rounded([[bus.x1, bus.y], [x, bus.y], [x, b2.y], [b2.x - hw, b2.y]])
+      }
+      const x = chan(b2.col - 1) + spread(`c${b2.col - 1}`)
+      return rounded([[x, bus.y - 9], [x, b2.y], [b2.x - hw, b2.y]])
+    }
+    const a = byKey[from]
+    const b2 = byKey[to]
+    if (b2.col > a.col) {
+      // forward: out of the right edge, enter the left edge
+      if (b2.col === a.col + 1 || (a.y === b2.y && !rowBlocked(a.y, a.col, b2.col))) {
+        const x = chan(a.col) + (a.y === b2.y ? 0 : spread(`c${a.col}`))
+        return rounded([[a.x + hw, a.y], [x, a.y], [x, b2.y], [b2.x - hw, b2.y]])
+      }
+      const x1 = chan(a.col) + spread(`c${a.col}`)
+      const x2 = chan(b2.col - 1) + spread(`c${b2.col - 1}`)
+      const cy = corridor(a.y, b2.y) + spread(`r${Math.round(corridor(a.y, b2.y))}`)
+      return rounded([[a.x + hw, a.y], [x1, a.y], [x1, cy], [x2, cy], [x2, b2.y], [b2.x - hw, b2.y]])
+    }
+    if (b2.col === a.col) {
+      // same column: a bracket along the right-hand channel, entering from the right
+      const x = chan(a.col) + spread(`c${a.col}`)
+      return rounded([[a.x + hw, a.y], [x, a.y], [x, b2.y], [b2.x + hw, b2.y]])
+    }
+    // backward (feedback): out of the left edge, enter the target's right edge
+    const x1 = chan(a.col - 1) + spread(`c${a.col - 1}`)
+    const x2 = chan(b2.col) + spread(`c${b2.col}`)
+    if (b2.col === a.col - 1) return rounded([[a.x - hw, a.y], [x1, a.y], [x1, b2.y], [b2.x + hw, b2.y]])
+    const cy = corridor(a.y, b2.y) + spread(`r${Math.round(corridor(a.y, b2.y))}`)
+    return rounded([[a.x - hw, a.y], [x1, a.y], [x1, cy], [x2, cy], [x2, b2.y], [b2.x + hw, b2.y]])
+  }
+
   const map = new Map<string, SEdge>()
   PATHWAYS.forEach((p, pi) => {
     for (let h = 0; h + 1 < p.nodes.length; h++) {
@@ -217,16 +299,21 @@ function buildEdges(): SEdge[] {
       const id = `${from}>${to}`
       let e = map.get(id)
       if (!e) {
-        e = { id, from, to, paths: [], color: ink(SYSTEMS[p.system].color, 0.3), inhib: p.kind === 'inhib', d: edgePath(from, to) }
+        e = { id, from, to, paths: [], color: ink(SYSTEMS[p.system].color, 0.3), inhib: p.kind === 'inhib', d: route(from, to) }
         map.set(id, e)
       }
       e.paths.push(pi)
     }
   })
-  return [...map.values()]
+
+  return { k, H, nodes, byKey, buses, zones, lanes, edges: [...map.values()] }
 }
 
-export const SEDGES = buildEdges()
+/** Unstretched layout (used by tests and as the initial render). */
+export const BASE_LAYOUT = makeLayout(1)
+export const SNODES = BASE_LAYOUT.nodes
+export const SNODE_BY_KEY = BASE_LAYOUT.byKey
+export const SEDGES = BASE_LAYOUT.edges
 export const SEDGE_BY_ID: Record<string, SEdge> = Object.fromEntries(SEDGES.map((e) => [e.id, e]))
 /** For each pathway hop: the schematic edge id it maps to. */
 export const HOP_EDGE: string[][] = PATHWAYS.map((p) => p.nodes.slice(0, -1).map((id, h) => `${keyOf(id)}>${keyOf(p.nodes[h + 1])}`))
