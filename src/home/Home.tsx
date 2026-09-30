@@ -65,12 +65,12 @@ function Hero({ g }: { g: ReturnType<typeof heroGeom> }) {
       </svg>
 
       <div className="hero-label left" style={{ right: `calc(50% + ${g.d - 12}px)`, top: top - 76 }}>
-        <span className="hl-k">01 · HUMAN</span>
+        <span className="hl-k">HUMAN</span>
         <span className="hl-name">Brain</span>
         <span className="hl-fact">86 billion neurons · 20 W</span>
       </div>
       <div className="hero-label right" style={{ left: `calc(50% + ${g.d - 12}px)`, top: top - 76 }}>
-        <span className="hl-k">02 · MACHINE</span>
+        <span className="hl-k">MACHINE</span>
         <span className="hl-name">AI</span>
         <span className="hl-fact" title={t({
           zh: 'Kimi K3：2.8 万亿总参数，每个 token 激活 1040 亿参数。推理配置：一台 DGX B300（8 张 B300 GPU）。15,000 W 为整机额定功耗上限，并非模型实测推理功耗；实际功耗随负载变化。数据核对于 2026-09-30。',
