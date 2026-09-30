@@ -60,7 +60,7 @@ export const UI = {
   ACh: b('乙酰胆碱', 'Acetylcholine'),
   cortisol: b('皮质醇', 'Cortisol'),
   melatonin: b('褪黑素', 'Melatonin'),
-  adenosine: b('腺苷（睡眠压力）', 'Adenosine (sleep pressure)'),
+  adenosine: b('腺苷（睡眠压力）', 'Adenosine\n(sleep pressure)'),
   stageWakeRelaxed: b('清醒 · α 波', 'Awake · alpha'),
   stageWakeFocus: b('专注 · β 波', 'Focused · beta'),
   stageNrem: b('深睡 · δ 慢波', 'Deep sleep · delta'),

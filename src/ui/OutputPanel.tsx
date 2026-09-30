@@ -57,7 +57,7 @@ export function OutputPanel() {
       <ul className="levels">
         {LEVELS.map(([k, color]) => (
           <li key={k} style={{ '--c': color } as React.CSSProperties}>
-            <span>{t(UI[k])}</span>
+            <span className={k === 'adenosine' ? 'adenosine-label' : undefined}>{t(UI[k])}</span>
             <div className="bar"><div style={{ width: `${(st.levels[k] * 100).toFixed(0)}%` }} /></div>
           </li>
         ))}
