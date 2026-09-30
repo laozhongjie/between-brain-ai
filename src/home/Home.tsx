@@ -5,18 +5,27 @@ import { useStore } from '../store'
 import { DecodeText } from '../ui/DecodeText'
 import { CHAPTERS, homeState } from './chapters'
 import { HomeAI } from './HomeAI'
+import { HeroField } from './HeroField'
 import { HomeBrain } from './HomeBrain'
 
 const GAP = 8 // px, the slit between the two halves (the logo's gap, scaled up)
-const R0 = 7 // px, radius of the split disc when it first forms
 const clamp = (x: number) => Math.max(0, Math.min(1, x))
 const ease = (x: number) => x * x * (3 - 2 * x)
 
 // Scroll timeline (fractions of the whole page)
-const HERO_END = 0.1 // labels drift apart, the two dots close in
-const OPEN = [0.12, 0.32] // the split disc grows until it fills the screen
+const HERO_END = 0.09 // the hero's labels, lines and wordmark fade away
+const FILL = [0.02, 0.13] // the white disc turns into a window onto brain | AI
+const OPEN = [0.03, 0.32] // the disc grows until it fills the screen
 const CH = [0.32, 0.9] // five chapters
 const CTA = 0.9 // closing call to action
+
+/** Hero geometry from the stage size: disc radius and how far out the two labels sit. */
+const heroGeom = (w: number, h: number) => ({
+  r: Math.round(Math.max(38, Math.min(70, Math.min(w, h) * 0.075))),
+  d: Math.round(Math.max(150, Math.min(440, w * 0.29))),
+  w,
+  h,
+})
 
 function Mark() {
   return (
@@ -27,31 +36,53 @@ function Mark() {
   )
 }
 
-/** The opening composition, after the sketch: HUMAN BRAIN and MACHINE AI converging on BETWEEN. */
-function HeroFigure() {
+/**
+ * The opening: HUMAN BRAIN and MACHINE AI on either side, hairlines carrying signals from each toward the
+ * split disc at the centre, the BETWEEN wordmark beneath. Geometry follows the stage size.
+ */
+function Hero({ g }: { g: ReturnType<typeof heroGeom> }) {
+  const cx = g.w / 2
+  const cy = g.h / 2
+  const top = cy - g.r - 96 // label baseline area
+  const lines = [
+    `M${cx - g.d},${top + 22} L${cx - g.r - 22},${cy}`,
+    `M${cx + g.d},${top + 22} L${cx + g.r + 22},${cy}`,
+  ]
   return (
-    <svg className="home-figure" viewBox="0 0 400 230" aria-hidden>
-      <g className="hf-left">
-        <text x="128" y="46">HUMAN</text>
-        <text x="136" y="76">BRAIN</text>
-        <text x="144" y="108">\</text>
-        <text x="150" y="136">\</text>
-        <text x="156" y="164">\</text>
-      </g>
-      <g className="hf-right">
-        <text x="272" y="46">MACHINE</text>
-        <text x="264" y="76">AI</text>
-        <text x="256" y="108">/</text>
-        <text x="250" y="136">/</text>
-        <text x="244" y="164">/</text>
-      </g>
-      <text className="hf-mid" x="200" y="76">·</text>
-      <g className="hf-dots">
-        <circle className="hf-dot l" cx="146" cy="190" r="5" />
-        <circle className="hf-dot r" cx="254" cy="190" r="5" />
-      </g>
-      <text className="hf-between" x="200" y="190">BETWEEN</text>
-    </svg>
+    <div className="home-hero">
+      <svg className="hero-lines" viewBox={`0 0 ${g.w} ${g.h}`} aria-hidden>
+        {lines.map((d, i) => (
+          <g key={i}>
+            <path className="hl-base" d={d} pathLength={1} />
+            <path className="hl-signal" d={d} pathLength={1} style={{ animationDelay: `${2 + i * 0.9}s` }} />
+          </g>
+        ))}
+        <circle className="hl-node" cx={cx - g.d} cy={top + 22} r="2.5" />
+        <circle className="hl-node" cx={cx + g.d} cy={top + 22} r="2.5" />
+        <circle className="hl-end" cx={cx - g.r - 22} cy={cy} r="3.5" />
+        <circle className="hl-end" cx={cx + g.r + 22} cy={cy} r="3.5" />
+      </svg>
+
+      <div className="hero-label left" style={{ right: `calc(50% + ${g.d - 12}px)`, top: top - 76 }}>
+        <span className="hl-k">01 · HUMAN</span>
+        <span className="hl-name">Brain</span>
+        <span className="hl-fact">≈ 86 billion neurons · ≈ 20 W</span>
+      </div>
+      <div className="hero-label right" style={{ left: `calc(50% + ${g.d - 12}px)`, top: top - 76 }}>
+        <span className="hl-k">02 · MACHINE</span>
+        <span className="hl-name">AI</span>
+        <span className="hl-fact">≈ 10¹² parameters · MW-scale</span>
+      </div>
+
+      <div className="hero-copy" style={{ top: cy + g.r + 46 }}>
+        <div className="hero-wordmark">BETWEEN</div>
+        <p className="hero-lede">Exploring what lies between brains and machines.</p>
+        <p className="hero-lede zh">探索人脑与人工智能之间</p>
+      </div>
+
+      <div className="hero-foot left">05 LAYERS · 28 CARDS · 05 LABS · 93 REFERENCES</div>
+      <div className="hero-foot right">SCROLL TO OPEN</div>
+    </div>
   )
 }
 
@@ -62,6 +93,7 @@ export function Home() {
   const scroller = useRef<HTMLDivElement>(null)
   const stage = useRef<HTMLDivElement>(null)
   const [chapter, setChapter] = useState(-1)
+  const [geom, setGeom] = useState(() => heroGeom(window.innerWidth, window.innerHeight))
 
   // Scroll drives CSS variables directly (no re-render per frame); only the chapter index is React state
   useEffect(() => {
@@ -73,30 +105,36 @@ export function Home() {
       const max = sc.scrollHeight - sc.clientHeight
       const p = max > 0 ? sc.scrollTop / max : 0
       const h = clamp(p / HERO_END)
+      const fill = 1 - clamp((p - FILL[0]) / (FILL[1] - FILL[0]))
       const open = ease(clamp((p - OPEN[0]) / (OPEN[1] - OPEN[0])))
-      const cover = Math.hypot(sc.clientWidth / 2, sc.clientHeight / 2) + GAP
+      const g = heroGeom(st.clientWidth, st.clientHeight)
+      const cover = Math.hypot(st.clientWidth / 2, st.clientHeight / 2) + GAP
       const cta = clamp((p - CTA) / 0.07)
-      st.style.setProperty('--hero', h.toFixed(3))
+      for (const el of [sc, st]) el.style.setProperty('--hero', h.toFixed(3))
+      st.style.setProperty('--fill', fill.toFixed(3))
+      st.style.setProperty('--reveal', (1 - fill).toFixed(3))
       st.style.setProperty('--open', open.toFixed(3))
-      st.style.setProperty('--r', `${(p < OPEN[0] ? 0 : R0 + open * open * cover).toFixed(1)}px`)
+      st.style.setProperty('--r', `${(g.r + open * open * (cover - g.r)).toFixed(1)}px`)
       st.style.setProperty('--cta', cta.toFixed(3))
-      st.classList.toggle('opened', p >= OPEN[0])
       st.classList.toggle('cta-on', cta > 0.5)
+      homeState.hero = h
       const c = p < CH[0] ? -1 : Math.min(CHAPTERS.length - 1, Math.floor(((p - CH[0]) / (CH[1] - CH[0])) * CHAPTERS.length))
       homeState.chapter = c
       homeState.open = open
       setChapter(c)
     }
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update) }
+    const onResize = () => { setGeom(heroGeom(st.clientWidth, st.clientHeight)); onScroll() }
     sc.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
+    window.addEventListener('resize', onResize)
     update()
     return () => {
       sc.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
+      window.removeEventListener('resize', onResize)
       cancelAnimationFrame(raf)
       homeState.chapter = -1
       homeState.open = 0
+      homeState.hero = 0
     }
   }, [])
 
@@ -136,7 +174,7 @@ export function Home() {
 
       <div className="home-track">
         <div className="home-stage" ref={stage}>
-          {/* the two worlds, revealed through the split disc */}
+          {/* the two worlds, seen through the split disc */}
           <div className="home-half left">
             <HomeBrain />
             <div className="home-caption">
@@ -152,12 +190,11 @@ export function Home() {
             </div>
           </div>
 
-          <div className="home-hero">
-            <HeroFigure />
-            <p className="home-lede">Exploring what lies between<br />brains and machines.</p>
-            <p className="home-lede zh">探索人脑与人工智能之间。</p>
-            <div className="home-scroll">SCROLL</div>
-          </div>
+          {/* the mark itself: white halves that turn into windows as the page scrolls */}
+          <div className="hero-fill left" />
+          <div className="hero-fill right" />
+          <HeroField />
+          <Hero g={geom} />
 
           {ch && (
             <div className="home-chapter">

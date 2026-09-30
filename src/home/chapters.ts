@@ -4,9 +4,9 @@ const b = (zh: string, en: string): Bi => ({ zh, en })
 
 /**
  * Shared between the scroll handler and the render loops: which chapter is on screen (−1 before the first)
- * and how far the split disc has opened (0..1).
+ * how far the split disc has opened, and how far the hero has scrolled away (both 0..1).
  */
-export const homeState = { chapter: -1, open: 0 }
+export const homeState = { chapter: -1, open: 0, hero: 0 }
 
 export interface Chapter {
   /** layer tag, e.g. "SYNAPSE ↔ WEIGHT" */
