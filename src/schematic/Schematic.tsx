@@ -5,7 +5,7 @@ import { currentFocus } from '../scene/focusState'
 import { engine } from '../sim/engine'
 import { signals } from '../sim/signals'
 import { useStore } from '../store'
-import { BUSES, COLUMNS, H, HOP_EDGE, NODE_H, NODE_W, SEDGES, SNODES, W, type BusKey } from './layout'
+import { BUSES, COLUMNS, H, HOP_EDGE, LANES, NODE_H, NODE_W, SEDGES, SNODES, W, ZONES, type BusKey } from './layout'
 import type { Pulse } from '../sim/signals'
 
 const MAX_PULSES = 220
@@ -268,9 +268,29 @@ export function Schematic() {
             </marker>
           </defs>
 
-          {COLUMNS.map((c, i) => (
-            <text key={i} className="scol" x={(c.x0 + c.x1) / 2} y={20} textAnchor="middle">{t(c.label)}</text>
+          {/* Zones: input · the brain's internal loop · output */}
+          {ZONES.map((z, i) => (
+            <g key={i}>
+              <rect className="szone" x={z.x0} y={z.y0} width={z.x1 - z.x0} height={z.y1 - z.y0} rx={16} />
+              <text className="szone-title" x={(z.x0 + z.x1) / 2} y={18} textAnchor="middle" dominantBaseline="central">{t(z.label)}</text>
+            </g>
           ))}
+          {COLUMNS.map((c, i) => (
+            <text key={i} className="scol" x={(c.x0 + c.x1) / 2} y={50} textAnchor="middle" dominantBaseline="central">{t(c.label)}</text>
+          ))}
+          {/* Functional lanes, labelled on their top edge */}
+          {LANES.map((l, i) => {
+            const cx = (l.x0 + l.x1) / 2
+            const label = t(l.label)
+            const tw = label.length * 10 + 24
+            return (
+              <g key={i} className="slane" style={{ '--c': l.color } as React.CSSProperties}>
+                <rect className="slane-box" x={l.x0} y={l.y0} width={l.x1 - l.x0} height={l.y1 - l.y0} rx={12} />
+                <rect className="slane-tag" x={cx - tw / 2} y={l.y0 - 8} width={tw} height={16} rx={8} />
+                <text className="slane-text" x={cx} y={l.y0} textAnchor="middle" dominantBaseline="central">{label}</text>
+              </g>
+            )
+          })}
 
           {(Object.keys(BUSES) as BusKey[]).map((k) => {
             const b = BUSES[k]
@@ -278,7 +298,7 @@ export function Schematic() {
             return (
               <g key={k} className={`sbus ${busVisible(k) ? '' : 'dim'} ${selKey === k ? 'sel' : ''}`} onClick={() => pick(id)}>
                 <rect x={b.x0} y={b.y - 9} width={b.x1 - b.x0} height={18} rx={9} className="sbus-bar" />
-                <text x={b.x0 + 14} y={b.y + 4}>{t(k === 'brainstem' ? UI.brainstemBus : UI.spinalBus)}</text>
+                <text x={(b.x0 + b.x1) / 2} y={b.y} textAnchor="middle" dominantBaseline="central">{t(k === 'brainstem' ? UI.brainstemBus : UI.spinalBus)}</text>
               </g>
             )
           })}
@@ -300,7 +320,7 @@ export function Schematic() {
             {SNODES.map((n) => (
               <g key={n.key} className={nodeClass(n.key)} transform={`translate(${n.x},${n.y})`} onClick={() => pick(resolveKey(n.key))}>
                 <rect x={-NODE_W / 2} y={-NODE_H / 2} width={NODE_W} height={NODE_H} rx={12} className="sbox" style={{ stroke: n.ink, fill: n.color + '33' }} />
-                <text y={4} textAnchor="middle">{t(n.label)}</text>
+                <text y={0} textAnchor="middle" dominantBaseline="central">{t(n.label)}</text>
               </g>
             ))}
           </g>
