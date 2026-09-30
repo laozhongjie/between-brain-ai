@@ -5,6 +5,9 @@ import { labelLayer } from './scene/Labels'
 import { useStore } from './store'
 import { Controls } from './ui/Controls'
 import { Legend } from './ui/Legend'
+import { Narration } from './ui/Narration'
+import { OutputPanel } from './ui/OutputPanel'
+import { Timeline } from './ui/Timeline'
 import { RegionPanel } from './ui/RegionPanel'
 
 function Loader() {
@@ -18,6 +21,7 @@ export default function App() {
   const t = useT()
   const lang = useStore((s) => s.lang)
   const setLang = useStore((s) => s.setLang)
+  const selected = useStore((s) => s.selected)
 
   return (
     <div className="app">
@@ -38,12 +42,16 @@ export default function App() {
       </header>
       <div className="left-col">
         <Controls />
-        <Legend />
+        {selected ? <RegionPanel /> : <Legend />}
       </div>
       <div className="right-col">
-        <RegionPanel />
+        <OutputPanel />
       </div>
-      <footer className="hint">{t(UI.hint)} · {t(UI.disclaimer)}</footer>
+      <div className="bottom">
+        <Narration />
+        <Timeline />
+        <footer className="hint">{t(UI.hint)} · {t(UI.disclaimer)}</footer>
+      </div>
     </div>
   )
 }

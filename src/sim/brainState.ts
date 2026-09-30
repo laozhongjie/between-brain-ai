@@ -75,6 +75,16 @@ export function circadianMelatonin(dayMin: number) {
   return h >= 21.5 || h < 7 ? 0.9 : 0.05
 }
 
+/**
+ * Sleep pressure (adenosine) for this day's schedule: builds from waking at 07:00 until bedtime (~23:00),
+ * then is cleared during the night. Derived from the clock so it stays consistent when seeking.
+ */
+export function sleepPressure(dayMin: number) {
+  const h = (((dayMin - 7 * 60) % 1440) + 1440) % 1440 / 60 // hours since 07:00
+  const awake = 16
+  return h <= awake ? 0.08 + 0.057 * h : Math.max(0.05, 0.08 + 0.057 * awake - 0.13 * (h - awake))
+}
+
 export class BrainState {
   targets: StateTargets = { stage: 'wake', focus: 0.2, exertion: 0, light: 1 }
   /** smoothed stage weights, sum to 1 */
@@ -83,7 +93,6 @@ export class BrainState {
   exertion = 0
   levels: Levels = { NE: 0.5, DA: 0.4, HT: 0.5, ACh: 0.55, cortisol: 0.5, melatonin: 0.05, adenosine: 0.1 }
   vitals = { heartRate: 70, breathRate: 14 }
-  private lastDayMin: number | null = null
 
   get stage(): Stage {
     return this.w.nrem > 0.5 ? 'nrem' : this.w.rem > 0.5 ? 'rem' : 'wake'
@@ -109,16 +118,7 @@ export class BrainState {
     L.cortisol = approach(L.cortisol, clamp01(circadianCortisol(dayMin) + 3 * ph.adrenal + 0.1 * this.exertion), dtMs, 2500)
     L.melatonin = approach(L.melatonin, clamp01(circadianMelatonin(dayMin) * (1 - 0.8 * T.light)), dtMs, 3000)
 
-    // Sleep pressure builds while awake and is cleared during sleep (per simulated day-minute)
-    if (this.lastDayMin !== null) {
-      let dMin = dayMin - this.lastDayMin
-      if (dMin < 0) dMin += 1440
-      if (dMin > 0 && dMin < 240) {
-        const rate = this.sleep > 0.5 ? -0.14 / 60 : 0.06 / 60
-        L.adenosine = clamp01(L.adenosine + rate * dMin)
-      }
-    }
-    this.lastDayMin = dayMin
+    L.adenosine = approach(L.adenosine, clamp01(sleepPressure(dayMin)), dtMs, 1500)
 
     const hb = this.w.wake * HEART_BASE.wake + this.w.nrem * HEART_BASE.nrem + this.w.rem * HEART_BASE.rem
     const bb = this.w.wake * BREATH_BASE.wake + this.w.nrem * BREATH_BASE.nrem + this.w.rem * BREATH_BASE.rem

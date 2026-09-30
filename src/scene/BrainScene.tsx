@@ -2,6 +2,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
 import { Suspense, useEffect } from 'react'
 import * as THREE from 'three'
+import { director } from '../sim/director'
 import { engine } from '../sim/engine'
 import { signals } from '../sim/signals'
 import { useStore } from '../store'
@@ -17,6 +18,7 @@ import { updateClipPlane } from './picking'
 function EngineTicker() {
   useFrame((_, delta) => {
     const ms = delta * 1000
+    director.tick(ms)
     engine.tick(ms)
     signals.tick(ms)
   })

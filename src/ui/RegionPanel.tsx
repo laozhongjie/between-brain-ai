@@ -1,24 +1,17 @@
 import { NODE_BY_ID, resolveKey } from '../data/nodes'
 import { LOBES, REGION_BY_KEY, SYSTEMS } from '../data/regions'
-import type { Link } from '../data/types'
+import type { Hemi, Link } from '../data/types'
 import { UI, useT } from '../i18n'
 import { useStore } from '../store'
 import { ActivitySpark } from './ActivitySpark'
 
-export function RegionPanel() {
+function LinkList({ items, dir, hemi }: { items: Link[]; dir: 'in' | 'out'; hemi?: Hemi }) {
   const t = useT()
-  const selected = useStore((s) => s.selected)
   const select = useStore((s) => s.select)
-  const node = selected ? NODE_BY_ID[selected] : null
-  if (!node) return null
-  const info = node.info
-  const sys = SYSTEMS[info.system]
-  const side = node.hemi === 'lh' ? t(UI.left) : node.hemi === 'rh' ? t(UI.right) : null
-
-  const LinkList = ({ items, dir }: { items: Link[]; dir: 'in' | 'out' }) => (
+  return (
     <ul className="links">
       {items.map((x, i) => {
-        const id = resolveKey(x.key, node.hemi)
+        const id = resolveKey(x.key, hemi)
         const other = REGION_BY_KEY[x.key]
         return (
           <li key={i}>
@@ -33,6 +26,17 @@ export function RegionPanel() {
       })}
     </ul>
   )
+}
+
+export function RegionPanel() {
+  const t = useT()
+  const selected = useStore((s) => s.selected)
+  const select = useStore((s) => s.select)
+  const node = selected ? NODE_BY_ID[selected] : null
+  if (!node) return null
+  const info = node.info
+  const sys = SYSTEMS[info.system]
+  const side = node.hemi === 'lh' ? t(UI.left) : node.hemi === 'rh' ? t(UI.right) : null
 
   return (
     <aside className="panel region-panel">
@@ -57,13 +61,13 @@ export function RegionPanel() {
       {info.inputs.length > 0 && (
         <section>
           <h3>{t(UI.inputs)}</h3>
-          <LinkList items={info.inputs} dir="in" />
+          <LinkList items={info.inputs} dir="in" hemi={node.hemi} />
         </section>
       )}
       {info.outputs.length > 0 && (
         <section>
           <h3>{t(UI.outputs)}</h3>
-          <LinkList items={info.outputs} dir="out" />
+          <LinkList items={info.outputs} dir="out" hemi={node.hemi} />
         </section>
       )}
     </aside>
