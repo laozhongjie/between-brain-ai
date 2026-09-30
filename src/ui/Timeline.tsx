@@ -29,6 +29,10 @@ const SKY_GRADIENT = (() => {
 })()
 
 /** Events closer than ~35 min are staggered vertically so their markers don't overlap. */
+/** 0..1: how close the playhead is to a marker (full within a few minutes, fading out over ~45 min). */
+const NEAR = 45
+const nearness = (tl: number, at: number) => Math.max(0, 1 - Math.max(0, Math.abs(tl - at) - 3) / NEAR)
+
 const crowded = (i: number) =>
   (i > 0 && EVENTS[i].tl - EVENTS[i - 1].tl < 35) || (i + 1 < EVENTS.length && EVENTS[i + 1].tl - EVENTS[i].tl < 35)
 
@@ -136,7 +140,7 @@ export function Timeline() {
           <button
             key={e.index}
             className={`tl-event ${current === e.index ? 'on' : ''}`}
-            style={{ left: pct(e.tl), marginTop: crowded(i) ? (i % 2 ? -15 : 15) : 0 }}
+            style={{ left: pct(e.tl), marginTop: crowded(i) ? (i % 2 ? -15 : 15) : 0, '--near': nearness(tl, e.tl).toFixed(3) } as React.CSSProperties}
             title={`${DAY[e.index].time} ${t(DAY[e.index].title)}`}
             onPointerDown={(x) => {
               x.stopPropagation()

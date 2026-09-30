@@ -148,10 +148,18 @@ button { font: inherit; color: inherit; }
 .tl-head { position: absolute; top: -7px; bottom: -7px; width: 1px; background: linear-gradient(var(--accent), rgba(125,211,252,0.15)); box-shadow: 0 0 10px var(--accent); pointer-events: none; z-index: 2; }
 .tl-head::before { content: ''; position: absolute; top: -3px; left: -3px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
 .tl-hour { position: absolute; bottom: -17px; transform: translateX(-50%); font-size: 10px; color: var(--text-dim); font-family: var(--mono); pointer-events: none; }
-.tl-event { position: absolute; top: 50%; transform: translate(-50%, -50%); background: var(--panel-solid); border: 1px solid var(--line-hi); border-radius: 50%; width: 26px; height: 26px; cursor: pointer; padding: 0; display: grid; place-items: center; color: var(--text-dim); transition: transform .25s var(--ease), color .2s, border-color .2s, box-shadow .25s; }
+.tl-event {
+  /* --near (0..1, set per frame from the playhead distance): markers swell and glow as the playhead passes */
+  --near: 0; --s: calc(1 + var(--near) * 0.45);
+  position: absolute; top: 50%; transform: translate(-50%, -50%) scale(var(--s)); z-index: calc(1 + round(var(--near) * 2));
+  background: var(--panel-solid); border: 1px solid var(--line-hi); border-radius: 50%; width: 26px; height: 26px; cursor: pointer; padding: 0;
+  display: grid; place-items: center; color: var(--text-dim);
+  box-shadow: 0 0 calc(var(--near) * 16px) rgba(125,211,252, calc(var(--near) * 0.55));
+  transition: transform .18s var(--ease), color .2s, border-color .2s, box-shadow .18s;
+}
 .tl-event svg { width: 13px; height: 13px; }
 .tl-event.on { color: var(--accent); border-color: rgba(125,211,252,0.7); box-shadow: 0 0 12px rgba(125,211,252,0.35); }
-.tl-event:hover { transform: translate(-50%, -50%) scale(1.2); color: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px rgba(125,211,252,0.12), 0 0 18px rgba(125,211,252,0.5); z-index: 3; }
+.tl-event:hover { transform: translate(-50%, -50%) scale(calc(var(--s) + 0.2)); color: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px rgba(125,211,252,0.12), 0 0 18px rgba(125,211,252,0.5); z-index: 3; }
 
 /* ── Output panel ── */
 .output-head { display: flex; justify-content: space-between; align-items: center; }
