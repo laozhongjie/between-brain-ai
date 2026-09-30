@@ -15,7 +15,7 @@ npm run build    # 生产构建
 
 ## 大脑模型数据管线
 
-`public/models/brain.glb` 和 `region_meta.json` 由 `pipeline/build_brain.py` 生成（产物已提交，一般无需重跑）：
+`public/models/brain.glb` 和 `src/data/region_meta.json` 由 `pipeline/build_brain.py` 生成（产物已提交，一般无需重跑）：
 
 ```bash
 conda env create -f pipeline/environment.yml

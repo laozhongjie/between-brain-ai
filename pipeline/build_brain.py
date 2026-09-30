@@ -5,9 +5,9 @@ Source: FreeSurfer `fsaverage` template (downloaded via MNE).
   - Subcortex: marching cubes on aseg.mgz labels.
   - Hypothalamus: no aseg label -> small ellipsoid placed at its anatomical location (approximation).
 
-Output (written to ../public/models):
-  brain.glb          one mesh per region, mesh name == region id (e.g. "lh.precentral", "rh.thalamus")
-  region_meta.json   per region: centroid, surface anchor point, bbox, triangle count
+Output:
+  public/models/brain.glb      one mesh per region, mesh name == region id (e.g. "lh.precentral", "rh.thalamus")
+  src/data/region_meta.json    per region: centroid, surface anchor point, bbox, triangle count
 
 Coordinates: FreeSurfer surface RAS (mm) converted to three.js (Y-up) and scaled to decimeters:
   three.x = R, three.y = S, three.z = -A   (x 0.01)
@@ -30,6 +30,7 @@ from skimage.measure import marching_cubes
 ROOT = Path(__file__).resolve().parent
 CACHE = ROOT / ".cache"
 OUT = ROOT.parent / "public" / "models"
+META_OUT = ROOT.parent / "src" / "data" / "region_meta.json"
 
 SCALE = 0.01
 CORTEX_FACES_PER_HEMI = 90_000
@@ -172,7 +173,7 @@ def main() -> None:
     (OUT / "brain.glb").write_bytes(glb)
 
     meta = region_meta(meshes)
-    (OUT / "region_meta.json").write_text(json.dumps(meta, indent=1))
+    META_OUT.write_text(json.dumps(meta, indent=1))
 
     total = sum(v["triangles"] for v in meta.values())
     for rid in sorted(meta):
