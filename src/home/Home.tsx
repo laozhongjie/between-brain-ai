@@ -67,7 +67,7 @@ function Hero({ g }: { g: ReturnType<typeof heroGeom> }) {
       <div className="hero-label left" style={{ right: `calc(50% + ${g.d - 12}px)`, top: top - 76 }}>
         <span className="hl-k">01 · HUMAN</span>
         <span className="hl-name">Brain</span>
-        <span className="hl-fact">≈ 86 billion neurons · ≈ 20 W</span>
+        <span className="hl-fact">86 billion neurons · 20 W</span>
       </div>
       <div className="hero-label right" style={{ left: `calc(50% + ${g.d - 12}px)`, top: top - 76 }}>
         <span className="hl-k">02 · MACHINE</span>
