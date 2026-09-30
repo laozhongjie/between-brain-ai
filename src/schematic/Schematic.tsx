@@ -5,7 +5,7 @@ import { currentFocus } from '../scene/focusState'
 import { engine } from '../sim/engine'
 import { signals } from '../sim/signals'
 import { useStore } from '../store'
-import { BASE_H, HOP_EDGE, NODE_H, NODE_W, STAGES, W, makeLayout, type BusKey } from './layout'
+import { BASE_H, HOP_EDGE, NODE_H, NODE_W, W, makeLayout, type BusKey } from './layout'
 import type { Pulse } from '../sim/signals'
 
 const MAX_PULSES = 220
@@ -48,7 +48,7 @@ export function Schematic() {
     return () => ro.disconnect()
   }, [])
   const layout = useMemo(() => makeLayout(k), [k])
-  const { H, buses, zones, lanes, nodes, edges } = layout
+  const { H, buses, zones, lanes, stages, nodes, edges } = layout
 
   const selKey = selected ? selected.replace(/^(lh|rh)\./, '') : null
   const f = useMemo(() => currentFocus(), [focus, focusStep]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -282,7 +282,7 @@ export function Schematic() {
       <div className="schem-view">
         <svg ref={svg} preserveAspectRatio="xMidYMid meet">
           <defs>
-            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
               <path d="M0,0 L10,5 L0,10 z" fill="context-stroke" />
             </marker>
           </defs>
@@ -294,8 +294,19 @@ export function Schematic() {
               <text className="szone-title" x={(z.x0 + z.x1) / 2} y={18} textAnchor="middle" dominantBaseline="central">{t(z.label)}</text>
             </g>
           ))}
-          {/* Stages of the internal loop, one centred line under the brain zone's title */}
-          <text className="scol" x={(zones[1].x0 + zones[1].x1) / 2} y={48} textAnchor="middle" dominantBaseline="central">{t(STAGES)}</text>
+          {/* Processing stages: faint vertical bands over their columns, labelled on the top edge */}
+          {stages.map((st, i) => {
+            const cx = (st.x0 + st.x1) / 2
+            const label = t(st.label)
+            const tw = label.length * 11 + 24
+            return (
+              <g key={i} className="sstage">
+                <rect className="sstage-box" x={st.x0} y={st.y0} width={st.x1 - st.x0} height={st.y1 - st.y0} rx={12} />
+                <rect className="sstage-tag" x={cx - tw / 2} y={st.y0 - 9} width={tw} height={18} rx={9} />
+                <text className="scol" x={cx} y={st.y0} textAnchor="middle" dominantBaseline="central">{label}</text>
+              </g>
+            )
+          })}
           {/* Functional lanes, labelled on their top edge */}
           {lanes.map((l, i) => {
             const cx = (l.x0 + l.x1) / 2

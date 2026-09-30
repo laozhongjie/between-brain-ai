@@ -110,7 +110,7 @@ export default function App() {
       <div className="left-col">
         {viewMode === '3d' && <Controls />}
         {/* Schematic view: the narration takes the left column, mirroring the output panel */}
-        {selected ? <RegionPanel /> : viewMode === '3d' ? <SystemPicker /> : !focus && <Narration />}
+        {selected ? <RegionPanel /> : viewMode === '3d' ? <SystemPicker /> : <Narration />}
       </div>
       <div className="right-col">
         <OutputPanel />
