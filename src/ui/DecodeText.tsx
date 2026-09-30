@@ -23,15 +23,17 @@ export function DecodeText({ text, className, perChar, trail, animate = true, on
 }) {
   const done = useRef<HTMLSpanElement>(null)
   const noise = useRef<HTMLSpanElement>(null)
-  const shown = useRef<string | null>(null) // text the first animation was for
+  const first = useRef<string | null>(null) // text of the first run
+  const changed = useRef(false) // has the text changed since (then `once` never animates again)
 
   useEffect(() => {
     const a = done.current!
     const b = noise.current!
-    // `once`: a different text after the first one swaps instantly (the same text re-running, as in
-    // StrictMode's double effect, still animates)
-    const skip = !animate || (once && shown.current !== null && shown.current !== text) || matchMedia('(prefers-reduced-motion: reduce)').matches
-    shown.current ??= text
+    // `once`: after the first text, any change swaps instantly in either direction (switching language and
+    // back included); the same text re-running, as in StrictMode's double effect, still animates
+    if (first.current === null) first.current = text
+    else if (first.current !== text) changed.current = true
+    const skip = !animate || (once && changed.current) || matchMedia('(prefers-reduced-motion: reduce)').matches
     if (skip) {
       a.textContent = text
       b.textContent = ''
