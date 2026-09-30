@@ -35,7 +35,7 @@ export function FocusPanel() {
     <div className="panel focus-panel" style={{ '--c': color, '--ci': ink(color, 0.35) } as React.CSSProperties}>
       <header className="focus-head">
         <div className="focus-name">
-          <span className="system-icon">{tour.icon}</span>
+          <span className="system-icon"><Icon name={tour.icon} size={17} /></span>
           <strong>{t(tour.name)}</strong>
           <span className="focus-summary"><Rich text={t(tour.summary)} /></span>
         </div>
