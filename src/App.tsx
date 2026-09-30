@@ -91,7 +91,7 @@ export default function App() {
   }
 
   return (
-    <div className={`app show-${panel} view-${viewMode} ${focus ? 'focusing' : ''}`}>
+    <div className={`app show-${panel} view-${viewMode} ${focus ? 'focusing' : ''} ${selected ? 'selecting' : ''}`}>
       <div className="stage">
         {viewMode === '3d' ? (
           <>
@@ -109,7 +109,8 @@ export default function App() {
       {topbar}
       <div className="left-col">
         {viewMode === '3d' && <Controls />}
-        {selected ? <RegionPanel /> : viewMode === '3d' && <SystemPicker />}
+        {/* Schematic view: the narration takes the left column, mirroring the output panel */}
+        {selected ? <RegionPanel /> : viewMode === '3d' ? <SystemPicker /> : !focus && <Narration />}
       </div>
       <div className="right-col">
         <OutputPanel />
@@ -119,7 +120,7 @@ export default function App() {
           <FocusPanel />
         ) : (
           <>
-            <Narration />
+            {viewMode === '3d' && <Narration />}
             <Timeline />
           </>
         )}
