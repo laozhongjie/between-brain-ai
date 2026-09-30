@@ -41,6 +41,7 @@ function Mark() {
  * split disc at the centre, the BETWEEN wordmark beneath. Geometry follows the stage size.
  */
 function Hero({ g }: { g: ReturnType<typeof heroGeom> }) {
+  const t = useT()
   const cx = g.w / 2
   const cy = g.h / 2
   const top = cy - g.r - 96 // label baseline area
@@ -71,7 +72,10 @@ function Hero({ g }: { g: ReturnType<typeof heroGeom> }) {
       <div className="hero-label right" style={{ left: `calc(50% + ${g.d - 12}px)`, top: top - 76 }}>
         <span className="hl-k">02 · MACHINE</span>
         <span className="hl-name">AI</span>
-        <span className="hl-fact">≈ 10¹² parameters · MW-scale</span>
+        <span className="hl-fact" title={t({
+          zh: 'Kimi K3：2.8 万亿总参数，每个 token 激活 1040 亿参数。推理配置：一台 DGX B300（8 张 B300 GPU）。15,000 W 为整机额定功耗上限，并非模型实测推理功耗；实际功耗随负载变化。数据核对于 2026-09-30。',
+          en: 'Kimi K3: 2.8 trillion total parameters, 104 billion active per token. Inference configuration: one DGX B300 (8 B300 GPUs). 15,000 W is the rated whole-system maximum, not measured model inference power; actual draw varies with workload. Checked 2026-09-30.',
+        })}>2.8 trillion parameters · 15,000 W max</span>
       </div>
 
       <div className="hero-copy" style={{ top: cy + g.r + 46 }}>
