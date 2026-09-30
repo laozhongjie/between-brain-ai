@@ -3,7 +3,7 @@ import { UI, useT } from '../../i18n'
 import { go } from '../../route'
 import { enterFocus } from '../../sim/focus'
 import { useStore } from '../../store'
-import { LAYERS, cardsOfLayer } from '../content'
+import { LAYERS, READING_ORDER } from '../content'
 import { FIGS } from '../figs'
 import { LABS } from '../labs/registry'
 import { Rich, Tex } from '../Tex'
@@ -39,10 +39,12 @@ function Formulas({ list }: { list?: Formula[] }) {
 export function CardPage({ card }: { card: Card }) {
   const t = useT()
   const layer = LAYERS.find((l) => l.id === card.layer)!
-  const siblings = cardsOfLayer(card.layer)
-  const idx = siblings.findIndex((c) => c.id === card.id)
-  const prev = siblings[idx - 1]
-  const next = siblings[idx + 1]
+  // Paging runs across layers: the first card of a layer goes back to the previous layer's last one,
+  // and the first card overall goes back to the layer-5 blueprint
+  const idx = READING_ORDER.findIndex((c) => c.id === card.id)
+  const prev = READING_ORDER[idx - 1]
+  const next = READING_ORDER[idx + 1]
+  const layerTag = (c: Card) => c.layer !== card.layer && <small className="pager-layer">{t(UI.layer).replace('{n}', String(c.layer))}</small>
   const Lab = card.lab ? LABS[card.lab] : null
   const figs = FIGS[card.id]
 
@@ -111,8 +113,12 @@ export function CardPage({ card }: { card: Card }) {
       </section>
 
       <nav className="pager">
-        {prev ? <button onClick={() => go(`/ai/card/${prev.id}`)}>← <Rich text={t(prev.title)} /></button> : <span />}
-        {next ? <button onClick={() => go(`/ai/card/${next.id}`)}><Rich text={t(next.title)} /> →</button> : <span />}
+        {prev ? (
+          <button onClick={() => go(`/ai/card/${prev.id}`)}>{layerTag(prev)}<span>← <Rich text={t(prev.title)} /></span></button>
+        ) : (
+          <button onClick={() => go('/ai/blueprint')}><small className="pager-layer">{t(UI.layer).replace('{n}', '5')}</small><span>← {t(UI.blueprintTitle).split('·')[1]?.trim()}</span></button>
+        )}
+        {next ? <button className="next" onClick={() => go(`/ai/card/${next.id}`)}>{layerTag(next)}<span><Rich text={t(next.title)} /> →</span></button> : <span />}
       </nav>
     </article>
   )

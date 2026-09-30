@@ -1,6 +1,6 @@
 import { UI, useT } from '../../i18n'
 import { go } from '../../route'
-import { CARD_BY_ID, LEVEL_COLORS } from '../content'
+import { CARD_BY_ID, LEVEL_COLORS, READING_ORDER } from '../content'
 import { DIFFERENCES, MODULES, MODULE_BY_ID } from '../content/blueprint'
 import { Rich } from '../Tex'
 import { CorrBadge, LevelBar, RefList } from './common'
@@ -82,6 +82,14 @@ export function Blueprint({ moduleId }: { moduleId?: string }) {
           ))}
         </tbody>
       </table>
+
+      <nav className="pager">
+        <span />
+        <button className="next" onClick={() => go(`/ai/card/${READING_ORDER[0].id}`)}>
+          <small className="pager-layer">{t(UI.layer).replace('{n}', String(READING_ORDER[0].layer))}</small>
+          <span><Rich text={t(READING_ORDER[0].title)} /> →</span>
+        </button>
+      </nav>
     </article>
   )
 }

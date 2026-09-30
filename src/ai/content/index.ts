@@ -9,6 +9,8 @@ export const CARDS: Card[] = [...LAYER1, ...LAYER2, ...LAYER3, ...LAYER4]
 export const CARD_BY_ID: Record<string, Card> = Object.fromEntries(CARDS.map((c) => [c.id, c]))
 export const cardsOfLayer = (l: Layer) => CARDS.filter((c) => c.layer === l)
 export const cardForTour = (tour: string) => CARDS.find((c) => c.tour === tour)
+/** Cards in the order the section nav lists them (layer 4 down to layer 1), for prev/next paging across layers. */
+export const READING_ORDER: Card[] = ([4, 3, 2, 1] as Layer[]).flatMap(cardsOfLayer)
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
 

@@ -1,8 +1,8 @@
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useMemo } from 'react'
 import * as THREE from 'three'
-import { NODES, NODE_BY_ID, type GraphNode } from '../data/nodes'
-import { LOBES } from '../data/regions'
+import { NODES, NODE_BY_ID, REGION_META, type GraphNode } from '../data/nodes'
+import { LOBES, SYSTEMS } from '../data/regions'
 import type { Bi } from '../data/types'
 import { useStore } from '../store'
 import { currentFocus } from './focusState'
@@ -33,6 +33,39 @@ const toCam = new THREE.Vector3()
 /** Centre of one hemisphere: outward direction from here approximates the cortical surface normal. */
 const hemiCenter = (hemi?: string) => BRAIN_CENTER.clone().setX(hemi === 'lh' ? -0.35 : hemi === 'rh' ? 0.35 : 0)
 
+/** Brain bounding box in three.js coordinates (union of all mesh regions), used to find free space around it on screen. */
+const BOX_MIN = new THREE.Vector3(Infinity, Infinity, Infinity)
+const BOX_MAX = new THREE.Vector3(-Infinity, -Infinity, -Infinity)
+for (const m of Object.values(REGION_META)) {
+  BOX_MIN.min(new THREE.Vector3(...m.bboxMin))
+  BOX_MAX.max(new THREE.Vector3(...m.bboxMax))
+}
+const corner = new THREE.Vector3()
+const clamp = (x: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, x))
+
+/**
+ * Hover callout: a card placed in the free space outside the brain's silhouette, joined to the hovered
+ * structure by a dashed elbow leader. Falls back to the small inline label when zoomed in too far.
+ */
+function makeCallout() {
+  const root = document.createElement('div')
+  root.className = 'callout'
+  root.innerHTML =
+    '<svg class="co-svg"><polyline class="co-draw" pathLength="1"/><polyline class="co-dash"/>' +
+    '<circle class="co-ring" r="7"/><circle class="co-dot" r="2.6"/><circle class="co-joint" r="2"/></svg>' +
+    '<div class="co-card"><div class="co-inner"><div class="co-title"></div><div class="co-sub"><i></i><span></span></div></div></div>'
+  const q = <T extends Element>(sel: string) => root.querySelector(sel) as T
+  return {
+    root,
+    draw: q<SVGPolylineElement>('.co-draw'), dash: q<SVGPolylineElement>('.co-dash'),
+    ring: q<SVGCircleElement>('.co-ring'), dot: q<SVGCircleElement>('.co-dot'), joint: q<SVGCircleElement>('.co-joint'),
+    card: q<HTMLDivElement>('.co-card'), title: q<HTMLDivElement>('.co-title'), swatch: q<HTMLElement>('.co-sub i'), sub: q<HTMLSpanElement>('.co-sub span'),
+    key: '', w: 0, h: 0, fresh: true,
+    // smoothed elbow and card position
+    ex: 0, ey: 0, cx: 0, cy: 0,
+  }
+}
+
 function makeEl(cls: string) {
   const el = document.createElement('div')
   el.className = cls
@@ -43,6 +76,7 @@ function makeEl(cls: string) {
 export function Labels() {
   const { camera, size } = useThree()
   const lang = useStore((s) => s.lang)
+  const co = useMemo(makeCallout, [])
 
   const labels = useMemo(() => {
     const list: Label[] = []
@@ -75,6 +109,7 @@ export function Labels() {
     const layer = labelLayer.el
     if (!layer) return
     for (const l of labels) layer.appendChild(l.el)
+    layer.appendChild(co.root)
     const onClick = (e: MouseEvent) => {
       const id = (e.target as HTMLElement).dataset.id
       if (id) useStore.getState().select(id)
@@ -83,8 +118,9 @@ export function Labels() {
     return () => {
       layer.removeEventListener('click', onClick)
       for (const l of labels) l.el.remove()
+      co.root.remove()
     }
-  }, [labels])
+  }, [labels, co])
 
   useEffect(() => {
     for (const l of labels) l.el.textContent = l.text[lang]
@@ -108,6 +144,9 @@ export function Labels() {
       }
     }
 
+    const calloutRect = updateCallout(hovered !== selected ? hovered : null, view.explode, lang)
+    if (calloutRect) placed.push(calloutRect)
+
     // Selected, hovered and current-step labels first so they win overlap tests
     const order = labels.slice().sort((a, b) => rank(b) - rank(a))
     function rank(l: Label) {
@@ -119,6 +158,11 @@ export function Labels() {
 
     for (const l of order) {
       const id = l.node?.id
+      // The hovered structure is shown by the callout instead of its small label
+      if (calloutRect && id === hovered) {
+        l.el.style.display = 'none'
+        continue
+      }
       const forced = id !== undefined && (id === selected || id === hovered)
       let show = forced
       if (f) {
@@ -153,6 +197,105 @@ export function Labels() {
       l.el.style.display = show ? '' : 'none'
     }
   })
+
+  /** Places the callout for `id`; returns its screen rect (centre x, centre y, w, h) or null when not shown. */
+  function updateCallout(id: string | null, explode: number, lang: 'zh' | 'en'): [number, number, number, number] | null {
+    const n = id ? NODE_BY_ID[id] : null
+    const hide = () => {
+      co.root.classList.remove('show')
+      co.key = ''
+      return null
+    }
+    if (!n || (n.kind !== 'mesh' && n.kind !== 'nucleus')) return hide()
+
+    const W = size.width
+    const H = size.height
+    const toScreen = (p: THREE.Vector3) => {
+      v.copy(p).project(camera)
+      return [(v.x * 0.5 + 0.5) * W, (-v.y * 0.5 + 0.5) * H, v.z] as const
+    }
+    const [px, py, pz] = toScreen(nodePosition(n, explode, true, tmpP))
+    if (pz > 1) return hide()
+
+    // Brain silhouette ≈ ellipse inscribed in the projected bounding box
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity
+    for (let i = 0; i < 8; i++) {
+      corner.set(i & 1 ? BOX_MAX.x + explode : BOX_MIN.x - explode, i & 2 ? BOX_MAX.y : BOX_MIN.y, i & 4 ? BOX_MAX.z : BOX_MIN.z)
+      const [sx, sy, sz] = toScreen(corner)
+      if (sz > 1) return hide() // camera is at or inside the brain
+      x0 = Math.min(x0, sx); x1 = Math.max(x1, sx); y0 = Math.min(y0, sy); y1 = Math.max(y1, sy)
+    }
+    const cx = (x0 + x1) / 2
+    const cy = (y0 + y1) / 2
+    const a = ((x1 - x0) / 2) * 0.86
+    const b = ((y1 - y0) / 2) * 0.86
+    // Zoomed in so the brain fills the view: no free space, keep the small label
+    if (a > W * 0.45 || b > H * 0.45) return hide()
+
+    const key = `${n.id}|${lang}`
+    if (key !== co.key) {
+      co.key = key
+      const sys = SYSTEMS[n.info.system]
+      co.title.textContent = n.info.name[lang]
+      co.sub.textContent = sys.name[lang]
+      co.swatch.style.background = sys.color
+      co.swatch.style.boxShadow = `0 0 8px ${sys.color}`
+      co.w = co.card.offsetWidth
+      co.h = co.card.offsetHeight
+      co.fresh = true
+      // restart the entrance animation
+      co.root.classList.remove('in')
+      void co.root.offsetWidth
+      co.root.classList.add('in')
+    }
+
+    // Free space: step out of the silhouette along the centre → structure direction
+    let dx = px - cx
+    let dy = py - cy
+    const len = Math.hypot(dx, dy)
+    if (len < 1) { dx = 1; dy = -0.3 } else { dx /= len; dy /= len }
+    const rim = 1 / Math.sqrt((dx / a) ** 2 + (dy / b) ** 2)
+    const inside = (x: number, y: number) => ((x - cx) / a) ** 2 + ((y - cy) / b) ** 2 < 1
+
+    // Keep clear of the side and bottom panels on wide screens
+    const wide = W > 1100
+    const box = wide ? { l: 292, r: W - 332, t: 70, b: H - 222 } : { l: 10, r: W - 10, t: 10, b: H - 10 }
+    const side = dx >= 0 ? 1 : -1
+
+    // Walk outward from the rim (at least 40 px past the structure) until the whole card clears the silhouette
+    let ex = 0, ey = 0, cardX = 0
+    for (let r = Math.max(rim + 26, len + 40), i = 0; i < 24; r += 12, i++) {
+      ex = cx + dx * r
+      ey = clamp(cy + dy * r, box.t + co.h / 2, box.b - co.h / 2)
+      cardX = clamp(side > 0 ? ex + 44 : ex - 44 - co.w, box.l, box.r - co.w)
+      const top = ey - co.h / 2
+      if (![[cardX, top], [cardX + co.w, top], [cardX, top + co.h], [cardX + co.w, top + co.h]].some(([x, y]) => inside(x, y))) break
+    }
+    // Zoomed in so far that the free space is off screen: use the small label instead
+    if (ex < box.l - 30 || ex > box.r + 30 || cy + dy * rim < box.t - 30 || cy + dy * rim > box.b + 30) return hide()
+    const tail = side > 0 ? cardX - 4 : cardX + co.w + 4
+    ex = side > 0 ? Math.min(ex, tail - 14) : Math.max(ex, tail + 14)
+
+    // Ease toward the target so the callout glides as the camera moves
+    const k = co.fresh ? 1 : 0.3
+    co.fresh = false
+    co.ex += (ex - co.ex) * k
+    co.ey += (ey - co.ey) * k
+    co.cx += (cardX - co.cx) * k
+    co.cy += (ey - co.cy) * k
+    const tx = side > 0 ? co.cx - 4 : co.cx + co.w + 4
+
+    const pts = `${px},${py} ${co.ex},${co.ey} ${tx},${co.cy}`
+    co.draw.setAttribute('points', pts)
+    co.dash.setAttribute('points', pts)
+    co.ring.setAttribute('cx', String(px)); co.ring.setAttribute('cy', String(py))
+    co.dot.setAttribute('cx', String(px)); co.dot.setAttribute('cy', String(py))
+    co.joint.setAttribute('cx', String(co.ex)); co.joint.setAttribute('cy', String(co.ey))
+    co.card.style.transform = `translate(${co.cx}px, ${co.cy - co.h / 2}px)`
+    co.root.classList.toggle('left', side < 0)
+    co.root.classList.add('show')
+    return [co.cx + co.w / 2, co.cy, co.w + 8, co.h + 8]
+  }
 
   return null
 }
