@@ -6,8 +6,26 @@ import { Icon } from './Icon'
 
 const SPEEDS = [1, 2, 4]
 const pct = (tl: number) => `${(tl / 1440) * 100}%`
-// Night band on the timeline: 22:30 → 06:30 (end of the 24 h strip)
-const NIGHT_FROM = (22.5 * 60 - DAY_START + 1440) % 1440
+/** Sky tint by clock hour: bright around midday, warm at sunset, darkest after midnight. */
+const SKY: [number, string][] = [
+  [6.5, 'rgba(84,100,160,0.30)'], // the strip starts at dawn
+  [7.5, 'rgba(130,160,215,0.24)'],
+  [9, 'rgba(160,212,248,0.32)'],
+  [12.5, 'rgba(190,228,255,0.46)'], // midday, brightest
+  [16, 'rgba(160,212,248,0.32)'],
+  [18.5, 'rgba(230,165,120,0.20)'], // sunset
+  [20.5, 'rgba(70,80,140,0.26)'],
+  [22.5, 'rgba(22,30,64,0.55)'],
+  [2, 'rgba(10,15,38,0.66)'], // deepest night
+  [5, 'rgba(40,52,105,0.45)'],
+]
+/** The sky tints as a gradient laid out on the strip (which starts at DAY_START and wraps after 24 h). */
+const SKY_GRADIENT = (() => {
+  const at = (h: number) => (((h * 60 - DAY_START) % 1440) + 1440) % 1440 / 1440
+  const stops = SKY.map(([h, c]) => [at(h), c] as const).sort((a, b) => a[0] - b[0])
+  const first = stops[0][1]
+  return `linear-gradient(90deg, ${[...stops.map(([p, c]) => `${c} ${(p * 100).toFixed(1)}%`), `${first} 100%`].join(', ')})`
+})()
 
 /** Events closer than ~35 min are staggered vertically so their markers don't overlap. */
 const crowded = (i: number) =>
@@ -108,8 +126,7 @@ export function Timeline() {
         }}
         onPointerMove={(e) => e.buttons && seekFromPointer(e)}
       >
-        <div className="tl-night" style={{ left: pct(NIGHT_FROM), right: 0 }} />
-        <div className="tl-night" style={{ left: 0, width: pct(0) }} />
+        <div className="tl-sky" style={{ background: SKY_GRADIENT }} />
         <div className="tl-fill" style={{ width: pct(tl) }} />
         {hours.map((h) => (
           <span key={h} className="tl-hour" style={{ left: pct(h) }}>{fmtClock(DAY_START + h)}</span>
