@@ -83,7 +83,7 @@ function Hero({ g }: { g: ReturnType<typeof heroGeom> }) {
 
       <div className="hero-copy" style={{ top: cy + g.r + 46 }}>
         <div className="hero-wordmark">BETWEEN</div>
-        <p className="hero-lede">Exploring what lies between brains and machines</p>
+        <p className="hero-lede">Exploring what lies between the brain and AI</p>
         <p className="hero-lede zh">探索人脑与人工智能的异同</p>
       </div>
 
@@ -93,16 +93,16 @@ function Hero({ g }: { g: ReturnType<typeof heroGeom> }) {
   )
 }
 
-function ChapterCaption({ text }: { text: string }) {
-  const paragraph = useRef<HTMLParagraphElement>(null)
+function SingleLineText({ text, perChar, trail }: { text: string; perChar: number; trail: number }) {
+  const wrapper = useRef<HTMLSpanElement>(null)
   const measure = useRef<HTMLSpanElement>(null)
 
   useLayoutEffect(() => {
-    const container = paragraph.current!
+    const container = wrapper.current!
     const content = measure.current!
     const fit = () => {
       const width = content.getBoundingClientRect().width
-      container.style.setProperty('--caption-scale', String(width ? Math.min(1, container.clientWidth / width) : 1))
+      container.style.setProperty('--text-scale', String(width ? Math.min(1, container.getBoundingClientRect().width / width) : 1))
     }
     const observer = new ResizeObserver(fit)
     observer.observe(container)
@@ -112,10 +112,10 @@ function ChapterCaption({ text }: { text: string }) {
   }, [text])
 
   return (
-    <p ref={paragraph}>
-      <span ref={measure} className="caption-measure" aria-hidden>{text}</span>
-      <DecodeText className="caption-text" text={text} perChar={16} trail={4} />
-    </p>
+    <span ref={wrapper} className="single-line-text">
+      <span ref={measure} className="text-measure" aria-hidden>{text}</span>
+      <DecodeText className="text-fit" text={text} perChar={perChar} trail={trail} />
+    </span>
   )
 }
 
@@ -212,14 +212,14 @@ export function Home() {
             <HomeBrain />
             <div className="home-caption">
               <span className="hc-side">BRAIN</span>
-              {ch && <ChapterCaption text={t(ch.brain)} />}
+              {ch && <p><SingleLineText text={t(ch.brain)} perChar={16} trail={4} /></p>}
             </div>
           </div>
           <div className="home-half right">
             <HomeAI />
             <div className="home-caption">
               <span className="hc-side">AI</span>
-              {ch && <ChapterCaption text={t(ch.ai)} />}
+              {ch && <p><SingleLineText text={t(ch.ai)} perChar={16} trail={4} /></p>}
             </div>
           </div>
 
@@ -232,7 +232,7 @@ export function Home() {
           {ch && (
             <div className="home-chapter">
               <div className="hc-tag">{String(chapter + 1).padStart(2, '0')} / {String(CHAPTERS.length).padStart(2, '0')} · {ch.tag}</div>
-              <h2><DecodeText text={t(ch.title)} perChar={34} trail={5} /></h2>
+              <h2><SingleLineText text={t(ch.title)} perChar={34} trail={5} /></h2>
             </div>
           )}
 
