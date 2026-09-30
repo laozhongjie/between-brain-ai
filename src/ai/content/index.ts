@@ -37,4 +37,4 @@ export const EVIDENCE_INFO: Record<Evidence, { name: Bi; icon: string }> = {
 }
 
 /** Ordinal lavender ramp for correspondence / coverage (0 = absent … 3 = strong) on the light ground. */
-export const LEVEL_COLORS = ['transparent', '#e2d6cb', '#bba898', '#8c7b6e'] as const
+export const LEVEL_COLORS = ['transparent', '#2c4a63', '#4f8db3', '#7dd3fc'] as const

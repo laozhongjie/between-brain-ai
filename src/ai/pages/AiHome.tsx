@@ -5,6 +5,7 @@ import { INTRO_REFS, LAYERS, cardsOfLayer } from '../content'
 import { MODULES } from '../content/blueprint'
 import { LABS } from '../labs/registry'
 import { CorrBadge, Legend, LevelBar, RefList } from './common'
+import { Icon } from '../../ui/Icon'
 
 const COV = [UI.cov0, UI.cov1, UI.cov2, UI.cov3]
 
@@ -54,7 +55,7 @@ export function AiHome() {
       <h3>{t(UI.labs)}</h3>
       <div className="rung-cards">
         {Object.entries(LABS).map(([id, lab]) => (
-          <button key={id} className="chip" onClick={() => go(`/ai/lab/${id}`)}>🧪 <Rich text={t(lab.title)} /></button>
+          <button key={id} className="chip" onClick={() => go(`/ai/lab/${id}`)}><Icon name="flask" size={14} /><Rich text={t(lab.title)} /></button>
         ))}
       </div>
 

@@ -17,7 +17,8 @@ function Slider({ label, value, min, max, step, onChange, fmt = (v: number) => S
   return (
     <label className="lab-slider">
       <span><Rich text={label} /></span>
-      <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(+e.target.value)} />
+      <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(+e.target.value)}
+        style={{ '--v': `${((value - min) / (max - min)) * 100}%` } as React.CSSProperties} />
       <output>{fmt(value)}</output>
     </label>
   )

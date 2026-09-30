@@ -8,6 +8,7 @@ import { go } from '../route'
 import { UI, useT } from '../i18n'
 import { exitFocus, replayFocusStep, setFocusStep } from '../sim/focus'
 import { useStore } from '../store'
+import { Icon } from './Icon'
 
 const AUTO_MS = 6500
 
@@ -39,10 +40,10 @@ export function FocusPanel() {
           <span className="focus-summary"><Rich text={t(tour.summary)} /></span>
         </div>
         <div className="focus-actions">
-          <button className="btn-sm" onClick={replayFocusStep}>⟳ {t(UI.replay)}</button>
-          <button className={`btn-sm ${auto ? 'on' : ''}`} onClick={() => setAuto(!auto)}>{auto ? '❚❚' : '▶'} {t(UI.autoPlay)}</button>
-          {cardForTour(tour.id) && <button className="btn-sm" onClick={() => go(`/ai/card/${cardForTour(tour.id)!.id}`)}>🤖 {t(UI.aiLink)}</button>}
-          <button className="btn-sm" onClick={exitFocus}>✕ {t(UI.exitFocus)}</button>
+          <button className="btn-sm" onClick={replayFocusStep}>{t(UI.replay)}</button>
+          <button className={`btn-sm ${auto ? 'on' : ''}`} onClick={() => setAuto(!auto)}><Icon name={auto ? 'pause' : 'play'} />{t(UI.autoPlay)}</button>
+          {cardForTour(tour.id) && <button className="btn-sm" onClick={() => go(`/ai/card/${cardForTour(tour.id)!.id}`)}><Icon name="cpu" />{t(UI.aiLink)}</button>}
+          <button className="btn-sm" onClick={exitFocus}><Icon name="x" />{t(UI.exitFocus)}</button>
         </div>
       </header>
       <ol className="focus-steps">

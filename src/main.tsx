@@ -10,6 +10,16 @@ import { startSimulation } from './sim/loop'
 
 startSimulation()
 
+// Glass surfaces light up around the cursor: publish its position relative to the hovered surface
+const GLASS = '.panel, .rung, .col, .lab-section, .system-btn'
+document.addEventListener('pointermove', (e) => {
+  const el = (e.target as Element | null)?.closest?.(GLASS) as HTMLElement | null
+  if (!el) return
+  const r = el.getBoundingClientRect()
+  el.style.setProperty('--mx', `${e.clientX - r.left}px`)
+  el.style.setProperty('--my', `${e.clientY - r.top}px`)
+}, { passive: true })
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />

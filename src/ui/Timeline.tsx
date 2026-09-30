@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { DAY, fmtClock } from '../data/scenario'
 import { UI, useT } from '../i18n'
 import { DAY_START, EVENTS, director, useScenario } from '../sim/director'
+import { Icon } from './Icon'
 
 const SPEEDS = [1, 2, 4]
 const pct = (tl: number) => `${(tl / 1440) * 100}%`
@@ -28,18 +29,18 @@ export function Timeline() {
   return (
     <div className="panel timeline">
       <div className="tl-controls">
-        <button className="icon-btn sm" title={t(UI.prevEvent)} onClick={() => director.jump(-1)}>⏮</button>
+        <button className="icon-btn sm" title={t(UI.prevEvent)} onClick={() => director.jump(-1)}><Icon name="skip-back" /></button>
         <button className="play-btn" title={t(playing ? UI.pause : UI.play)} onClick={() => useScenario.setState({ playing: !playing })}>
-          {playing ? '❚❚' : '▶'}
+          <Icon name={playing ? 'pause' : 'play'} size={16} />
         </button>
-        <button className="icon-btn sm" title={t(UI.nextEvent)} onClick={() => director.jump(1)}>⏭</button>
+        <button className="icon-btn sm" title={t(UI.nextEvent)} onClick={() => director.jump(1)}><Icon name="skip-forward" /></button>
         <div className="seg">
           {SPEEDS.map((s) => (
             <button key={s} className={speed === s ? 'on' : ''} onClick={() => useScenario.setState({ speed: s })}>{s}×</button>
           ))}
         </div>
         <span className="clock">{fmtClock(DAY_START + tl)}</span>
-        <span className="tl-title">{ev ? `${ev.icon} ${t(ev.title)}` : t(UI.between)}</span>
+        <span className="tl-title">{ev ? <><Icon name={ev.icon} size={16} />{t(ev.title)}</> : t(UI.between)}</span>
       </div>
       <div
         className="tl-bar"
@@ -67,7 +68,7 @@ export function Timeline() {
               director.seek(e.tl)
             }}
           >
-            {DAY[e.index].icon}
+            <Icon name={DAY[e.index].icon} />
           </button>
         ))}
         <div className="tl-head" style={{ left: pct(tl) }} />

@@ -9,6 +9,7 @@ import { LABS } from '../labs/registry'
 import { Rich, Tex } from '../Tex'
 import type { Card, Formula } from '../types'
 import { CorrBadge, EvidenceBadge, RefList } from './common'
+import { Icon } from '../../ui/Icon'
 
 function Figure({ Fig, cap }: { Fig: import('../figs/types').FigPair['brain']; cap: import('../../data/types').Bi }) {
   const t = useT()
@@ -62,20 +63,20 @@ export function CardPage({ card }: { card: Card }) {
         <CorrBadge corr={card.corr} />
         <EvidenceBadge ev={card.evidence} />
         {card.tour && (
-          <button className="btn-sm" onClick={openInAtlas}>🧠 {t(UI.viewInAtlas)}：{t(TOUR_BY_ID[card.tour].name)}</button>
+          <button className="btn-sm" onClick={openInAtlas}><Icon name="brain" />{t(UI.viewInAtlas)}：{t(TOUR_BY_ID[card.tour].name)}</button>
         )}
       </div>
       <p className="lead"><Rich text={t(card.summary)} /></p>
 
       <div className="two-col">
         <section className="col brain-col">
-          <h2>🧠 {t(UI.secBrain)}</h2>
+          <h2><Icon name="brain" />{t(UI.secBrain)}</h2>
           {figs && <Figure Fig={figs.brain} cap={figs.brainCap} />}
           <p><Rich text={t(card.brain)} /></p>
           <Formulas list={card.brainMath} />
         </section>
         <section className="col ai-col">
-          <h2>🤖 {t(UI.secAi)}</h2>
+          <h2><Icon name="cpu" />{t(UI.secAi)}</h2>
           {figs && <Figure Fig={figs.ai} cap={figs.aiCap} />}
           <p><Rich text={t(card.ai)} /></p>
           <Formulas list={card.aiMath} />
@@ -88,24 +89,24 @@ export function CardPage({ card }: { card: Card }) {
       </section>
 
       <section className="principle">
-        <h2>⚖ {t(UI.secPrinciple)}</h2>
+        <h2><Icon name="scale" />{t(UI.secPrinciple)}</h2>
         <p><Rich text={t(card.principle)} /></p>
       </section>
 
       <section>
-        <h2>💡 {t(UI.secIdeas)}</h2>
+        <h2><Icon name="lightbulb" />{t(UI.secIdeas)}</h2>
         <ul className="ideas">{card.ideas.map((d, i) => <li key={i}><Rich text={t(d)} /></li>)}</ul>
       </section>
 
       {Lab && (
         <section className="lab-section">
-          <h2>🧪 {t(UI.secLab)} · <Rich text={t(Lab.title)} /></h2>
+          <h2><Icon name="flask" />{t(UI.secLab)} · <Rich text={t(Lab.title)} /></h2>
           <Lab.component />
         </section>
       )}
 
       <section>
-        <h2>📚 {t(UI.secRefs)}</h2>
+        <h2><Icon name="library" />{t(UI.secRefs)}</h2>
         <RefList ids={card.refs} />
       </section>
 

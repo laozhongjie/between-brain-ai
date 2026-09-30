@@ -23,7 +23,8 @@ export function Markers() {
       NODES.filter((n) => n.kind !== 'mesh').map((node) => {
         const glow = glowColor(node)
         const base = new THREE.Color(SYSTEMS[node.info.system].color)
-        const mat = new THREE.MeshStandardMaterial({ color: base, roughness: 0.45 })
+        // Body organs are wireframe beacons; nuclei stay small solid glowing points
+        const mat = new THREE.MeshStandardMaterial({ color: base, roughness: 0.45, wireframe: node.kind === 'io' })
         const mesh = new THREE.Mesh(node.kind === 'io' ? ioGeo : nucleusGeo, mat)
         mesh.userData.nodeId = node.id
         mesh.userData.pickable = true
@@ -54,7 +55,7 @@ export function Markers() {
       if (it.node.id === selected) k += 0.8
       const mix = Math.min(1, k)
       it.mat.color.copy(it.base).lerp(it.glow, mix)
-      it.mat.emissive.copy(tmp.copy(it.base).multiplyScalar(0.25 + 0.2 * mix))
+      it.mat.emissive.copy(tmp.copy(it.glow).multiplyScalar(0.45 + 0.9 * mix))
       const s = it.node.id === selected || it.node.id === hovered ? 1.35 : 1
       it.mesh.scale.setScalar(s)
     }

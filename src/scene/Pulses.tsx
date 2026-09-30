@@ -12,7 +12,7 @@ import { pathCurves } from './curves'
 const TRAIL = 4
 const MAX = 1200 * TRAIL
 const PATH_COLORS = PATHWAYS.map((p) => new THREE.Color(ink(SYSTEMS[p.system].color, 0.35)))
-const WHITE = new THREE.Color('#ffffff')
+const BLACK = new THREE.Color('#000000')
 
 /** Glowing particles travelling along pathways (head + fading trail), drawn as one instanced mesh. */
 export function Pulses() {
@@ -22,7 +22,7 @@ export function Pulses() {
   const { geo, mat } = useMemo(
     () => ({
       geo: new THREE.SphereGeometry(1, 10, 8),
-      mat: new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.9, depthTest: false, depthWrite: false, toneMapped: false }),
+      mat: new THREE.MeshBasicMaterial({ transparent: true, opacity: 1, blending: THREE.AdditiveBlending, depthTest: false, depthWrite: false, toneMapped: false }),
     }),
     [],
   )
@@ -46,8 +46,8 @@ export function Pulses() {
         tmp.s.setScalar(size)
         tmp.m.compose(tmp.p, tmp.q, tmp.s)
         mesh.setMatrixAt(n, tmp.m)
-        // head is the path colour, the trail fades toward white (the light ground)
-        tmp.c.copy(PATH_COLORS[pulse.path]).lerp(WHITE, (k / TRAIL) * 0.85)
+        // head is an over-bright path colour (so it blooms), the trail fades out into the dark ground
+        tmp.c.copy(PATH_COLORS[pulse.path]).multiplyScalar(k === 0 ? 1.8 : 1).lerp(BLACK, (k / TRAIL) * 0.8)
         mesh.setColorAt(n, tmp.c)
         n++
       }

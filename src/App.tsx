@@ -13,9 +13,22 @@ import { OutputPanel } from './ui/OutputPanel'
 import { RegionPanel } from './ui/RegionPanel'
 import { SystemPicker } from './ui/SystemPicker'
 import { Timeline } from './ui/Timeline'
+import { Icon } from './ui/Icon'
 
 // The Brain ↔ AI section (with KaTeX) loads on demand so the atlas starts faster
 const AiSection = lazy(() => import('./ai/pages/AiSection').then((m) => ({ default: m.AiSection })))
+
+/** Brand mark: a ring with an orbit, in the accent gradient. */
+function Logo() {
+  return (
+    <svg className="logo" viewBox="0 0 32 32" fill="none" aria-hidden>
+      <defs><linearGradient id="logo-g" x1="0" y1="0" x2="32" y2="32"><stop stopColor="#5eead4" /><stop offset="1" stopColor="#60a5fa" /></linearGradient></defs>
+      <circle cx="16" cy="16" r="14.5" stroke="url(#logo-g)" strokeWidth="1.2" />
+      <ellipse cx="16" cy="16" rx="14.5" ry="5.5" stroke="rgba(125,211,252,0.45)" transform="rotate(-30 16 16)" />
+      <circle cx="16" cy="16" r="3" fill="#7dd3fc" />
+    </svg>
+  )
+}
 
 function Loader() {
   const t = useT()
@@ -41,21 +54,21 @@ export default function App() {
   const topbar = (
     <header className="topbar">
       <div className="brand">
-        <h1>{t(UI.title)}</h1>
+        <h1><Logo />{t(UI.title)}</h1>
         <div className="seg nav-tabs">
-          <button className={section === 'atlas' ? 'on' : ''} onClick={() => go('/')}>🧠 {t(UI.navAtlas)}</button>
-          <button className={section === 'ai' ? 'on' : ''} onClick={() => go('/ai')}>🤖 {t(UI.navAi)}</button>
+          <button className={section === 'atlas' ? 'on' : ''} onClick={() => go('/')}><Icon name="brain" size={14} />{t(UI.navAtlas)}</button>
+          <button className={section === 'ai' ? 'on' : ''} onClick={() => go('/ai')}><Icon name="cpu" size={14} />{t(UI.navAi)}</button>
         </div>
       </div>
       <div className="top-actions">
         {section === 'atlas' && (
           <>
             <div className="seg view-toggle">
-              <button className={viewMode === '3d' ? 'on' : ''} onClick={() => setViewMode('3d')}>🧊 <span className="vt-text">{t(UI.view3d)}</span></button>
-              <button className={viewMode === 'schematic' ? 'on' : ''} onClick={() => setViewMode('schematic')}>🗺 <span className="vt-text">{t(UI.viewSchematic)}</span></button>
+              <button className={viewMode === '3d' ? 'on' : ''} onClick={() => setViewMode('3d')}><Icon name="box" size={14} /><span className="vt-text">{t(UI.view3d)}</span></button>
+              <button className={viewMode === 'schematic' ? 'on' : ''} onClick={() => setViewMode('schematic')}><Icon name="workflow" size={14} /><span className="vt-text">{t(UI.viewSchematic)}</span></button>
             </div>
-            <button className="mobile-toggle" onClick={() => toggle('controls')} aria-label={t(UI.view)}>⚙</button>
-            <button className="mobile-toggle" onClick={() => toggle('output')} aria-label={t(UI.output)}>📈</button>
+            <button className="mobile-toggle" onClick={() => toggle('controls')} aria-label={t(UI.view)}><Icon name="sliders" /></button>
+            <button className="mobile-toggle" onClick={() => toggle('output')} aria-label={t(UI.output)}><Icon name="activity" /></button>
           </>
         )}
         <div className="seg lang">

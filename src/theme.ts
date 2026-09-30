@@ -1,26 +1,26 @@
-/** Macaron theme constants shared by canvas/SVG/WebGL code (CSS uses the matching custom properties). */
+/** Dark observatory theme constants shared by canvas/SVG/WebGL code (CSS uses the matching custom properties). */
 export const FONT = "'Inter Variable', 'MiSans VF', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif"
 export const FONT_MONO = "'JetBrains Mono Variable', 'MiSans VF', ui-monospace, Menlo, monospace"
 
 export const THEME = {
-  bg: '#fbf7f2',
-  surface: '#fdfbf8',
-  text: '#4b423c',
-  textDim: '#8f847b',
-  textH: '#2f2723',
-  accent: '#8c7b6e',
-  grid: '#f1eae3',
-  axis: '#d4c8bd',
-  pink: '#f4a7b9',
-  mint: '#a8e6cf',
-  lavender: '#d6c8bb',
-  lemon: '#fdf3a7',
-  peach: '#ffc8a2',
-  sky: '#a0d2eb',
+  bg: '#05070b',
+  surface: '#0f1520',
+  text: '#c9d2df',
+  textDim: '#8793a6',
+  textH: '#e6ebf2',
+  accent: '#7dd3fc',
+  grid: 'rgba(170,195,230,0.07)',
+  axis: 'rgba(170,195,230,0.22)',
+  pink: '#ff8fa8',
+  mint: '#5ee0b5',
+  lavender: '#a9b4f5',
+  lemon: '#e8c267',
+  peach: '#f7b08a',
+  sky: '#8ab4ff',
 }
 
-/** Chart series, validated on the warm light surface (CVD & contrast): coral, teal, honey, mist blue. */
-export const SERIES = ['#d95f5f', '#2c9a86', '#c07c10', '#4f86c6'] as const
+/** Chart series on the dark surface: ice blue, orange, mint, violet (lab captions name the first two). */
+export const SERIES = ['#7dd3fc', '#f7a86a', '#5ee0b5', '#c9a6fa'] as const
 
 function hexToHsl(hex: string): [number, number, number] {
   const n = parseInt(hex.slice(1), 16)
@@ -44,8 +44,8 @@ function hslToHex(h: number, s: number, l: number) {
   return `#${f(0)}${f(8)}${f(4)}`
 }
 
-/** Deeper, more saturated version of a pastel: readable as a line or text colour on the light ground. */
+/** Brighter, more saturated version of a system colour: reads as a glowing line or text on the dark ground. */
 export function ink(hex: string, amount = 0.42) {
   const [h, s, l] = hexToHsl(hex)
-  return hslToHex(h, Math.min(1, s * 0.85 + 0.25), Math.max(0.2, l * (1 - amount)))
+  return hslToHex(h, Math.min(1, s * 1.1 + 0.05), Math.min(0.86, l + (1 - l) * amount * 0.35))
 }

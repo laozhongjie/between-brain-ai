@@ -8,6 +8,7 @@ import type { Hemi, Link } from '../data/types'
 import { UI, useT } from '../i18n'
 import { useStore } from '../store'
 import { ActivitySpark } from './ActivitySpark'
+import { Icon } from './Icon'
 
 function LinkList({ items, dir, hemi }: { items: Link[]; dir: 'in' | 'out'; hemi?: Hemi }) {
   const t = useT()
@@ -61,7 +62,7 @@ export function RegionPanel() {
       </header>
       <ActivitySpark index={node.index} color={sys.color} />
       {aiCard && (
-        <button className="ai-link" onClick={() => go(`/ai/card/${aiCard.id}`)}>🤖 {t(UI.aiLink)}：<Rich text={t(aiCard.title)} /> →</button>
+        <button className="ai-link" onClick={() => go(`/ai/card/${aiCard.id}`)}><Icon name="cpu" />{t(UI.aiLink)}：<Rich text={t(aiCard.title)} /> →</button>
       )}
       <section>
         <h3>{t(UI.function)}</h3>

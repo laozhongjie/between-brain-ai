@@ -29,6 +29,7 @@ export interface ScenarioEvent {
   dur: number
   /** real seconds to play the event at 1× */
   play: number
+  /** line icon name (see ui/Icon.tsx) */
   icon: string
   title: Bi
   /** brain-state targets that persist until another event changes them */
@@ -41,7 +42,7 @@ const b = (zh: string, en: string): Bi => ({ zh, en })
 /** A day in the life, starting from the last dream before the alarm. */
 export const DAY: ScenarioEvent[] = [
   {
-    id: 'dawn-dream', time: '06:30', dur: 20, play: 11, icon: '💭',
+    id: 'dawn-dream', time: '06:30', dur: 20, play: 11, icon: 'moon-star',
     title: b('黎明前的梦（REM 睡眠）', 'Dreaming before dawn (REM sleep)'),
     state: { stage: 'rem', focus: 0, exertion: 0, light: 0 },
     steps: [
@@ -54,7 +55,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'alarm', time: '07:00', dur: 8, play: 13, icon: '⏰',
+    id: 'alarm', time: '07:00', dur: 8, play: 13, icon: 'alarm-clock',
     title: b('闹钟响了', 'The alarm goes off'),
     state: { stage: 'wake', focus: 0.1, light: 0.3 },
     steps: [
@@ -71,7 +72,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'daylight', time: '07:10', dur: 5, play: 9, icon: '🌅',
+    id: 'daylight', time: '07:10', dur: 5, play: 9, icon: 'sunrise',
     title: b('拉开窗帘，晨光照进来', 'Opening the curtains to morning light'),
     state: { light: 1 },
     steps: [
@@ -84,7 +85,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'breakfast', time: '07:30', dur: 20, play: 14, icon: '☕',
+    id: 'breakfast', time: '07:30', dur: 20, play: 14, icon: 'coffee',
     title: b('早餐：咖啡和面包', 'Breakfast: coffee and toast'),
     state: { focus: 0.2 },
     steps: [
@@ -99,7 +100,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'near-miss', time: '08:15', dur: 3, play: 15, icon: '🚗',
+    id: 'near-miss', time: '08:15', dur: 3, play: 15, icon: 'car',
     title: b('过马路时一辆车突然冲过来', 'A car suddenly speeds toward you'),
     state: { focus: 0.5 },
     steps: [
@@ -119,7 +120,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'meeting', time: '09:30', dur: 30, play: 16, icon: '💬',
+    id: 'meeting', time: '09:30', dur: 30, play: 16, icon: 'presentation',
     title: b('开会：同事向你提问', 'Meeting: a colleague asks you a question'),
     state: { focus: 0.6 },
     steps: [
@@ -142,7 +143,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'deep-work', time: '11:00', dur: 60, play: 14, icon: '⌨️',
+    id: 'deep-work', time: '11:00', dur: 60, play: 14, icon: 'laptop',
     title: b('专注写报告', 'Focused writing'),
     state: { focus: 0.95 },
     steps: [
@@ -160,7 +161,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'hot-cup', time: '12:40', dur: 2, play: 12, icon: '🔥',
+    id: 'hot-cup', time: '12:40', dur: 2, play: 12, icon: 'flame',
     title: b('午饭时被热汤碗烫到', 'Touching a scalding bowl at lunch'),
     state: { focus: 0.3 },
     steps: [
@@ -175,7 +176,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'learning', time: '14:00', dur: 45, play: 13, icon: '📚',
+    id: 'learning', time: '14:00', dur: 45, play: 13, icon: 'book-open',
     title: b('学习一个新概念', 'Learning something new'),
     state: { focus: 0.75 },
     steps: [
@@ -192,7 +193,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'slump', time: '15:30', dur: 20, play: 10, icon: '🥱',
+    id: 'slump', time: '15:30', dur: 20, play: 10, icon: 'hourglass',
     title: b('下午犯困，开始走神', 'Afternoon slump, mind wandering'),
     state: { focus: 0.05 },
     steps: [
@@ -205,7 +206,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'run', time: '17:30', dur: 40, play: 15, icon: '🏃',
+    id: 'run', time: '17:30', dur: 40, play: 15, icon: 'footprints',
     title: b('下班后跑步', 'An evening run'),
     state: { focus: 0.3, exertion: 0.9 },
     steps: [
@@ -221,7 +222,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'friend', time: '19:00', dur: 30, play: 13, icon: '🤝',
+    id: 'friend', time: '19:00', dur: 30, play: 13, icon: 'users',
     title: b('偶遇老朋友', 'Bumping into an old friend'),
     state: { exertion: 0, focus: 0.35 },
     steps: [
@@ -237,7 +238,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'music', time: '20:30', dur: 40, play: 12, icon: '🎵',
+    id: 'music', time: '20:30', dur: 40, play: 12, icon: 'music',
     title: b('听音乐放松', 'Relaxing to music'),
     state: { focus: 0.15 },
     steps: [
@@ -250,7 +251,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'lights-out', time: '22:30', dur: 20, play: 11, icon: '🌙',
+    id: 'lights-out', time: '22:30', dur: 20, play: 11, icon: 'lamp',
     title: b('关灯准备睡觉', 'Lights out'),
     state: { light: 0, focus: 0 },
     steps: [
@@ -263,7 +264,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'deep-sleep', time: '23:10', dur: 120, play: 14, icon: '😴',
+    id: 'deep-sleep', time: '23:10', dur: 120, play: 14, icon: 'bed',
     title: b('深度睡眠（NREM）', 'Deep sleep (NREM)'),
     state: { stage: 'nrem' },
     steps: [
@@ -276,7 +277,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'rem', time: '02:30', dur: 30, play: 12, icon: '🌌',
+    id: 'rem', time: '02:30', dur: 30, play: 12, icon: 'sparkles',
     title: b('REM 睡眠：做梦', 'REM sleep: dreaming'),
     state: { stage: 'rem' },
     steps: [
@@ -289,7 +290,7 @@ export const DAY: ScenarioEvent[] = [
     ],
   },
   {
-    id: 'late-nrem', time: '04:00', dur: 60, play: 8, icon: '🌙',
+    id: 'late-nrem', time: '04:00', dur: 60, play: 8, icon: 'moon',
     title: b('后半夜：浅睡与深睡交替', 'Late night: sleep cycles continue'),
     state: { stage: 'nrem' },
     steps: [

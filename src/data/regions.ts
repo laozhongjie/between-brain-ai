@@ -568,21 +568,21 @@ export const REGIONS: RegionInfo[] = [
 export const REGION_BY_KEY: Record<string, RegionInfo> = Object.fromEntries(REGIONS.map((x) => [x.key, x]))
 
 export const SYSTEMS: Record<SystemId, { name: Bi; color: string }> = {
-  visual: { name: b('视觉', 'Vision'), color: '#9fb8ef' },
-  auditory: { name: b('听觉', 'Hearing'), color: '#f4a7b9' },
-  somatosensory: { name: b('躯体感觉', 'Body sense'), color: '#ffc8a2' },
-  motor: { name: b('运动', 'Motor'), color: '#ff9f8f' },
-  language: { name: b('语言', 'Language'), color: '#f6dc6e' },
-  executive: { name: b('执行 / 注意', 'Executive / attention'), color: '#8fd3e8' },
-  default: { name: b('默认模式', 'Default mode'), color: '#b9c6ea' },
-  memory: { name: b('记忆', 'Memory'), color: '#a8e6cf' },
-  emotion: { name: b('情绪', 'Emotion'), color: '#f28ca0' },
-  reward: { name: b('奖赏', 'Reward'), color: '#c3b1e1' },
-  autonomic: { name: b('稳态 / 自主神经', 'Homeostasis / autonomic'), color: '#94dcc8' },
-  arousal: { name: b('觉醒 / 调质', 'Arousal / neuromodulation'), color: '#dccfc3' },
-  relay: { name: b('中继', 'Relay'), color: '#d8cbbd' },
-  integration: { name: b('多感觉整合', 'Multimodal integration'), color: '#cfe3a4' },
-  structure: { name: b('结构', 'Structure'), color: '#e6ddd4' },
+  visual: { name: b('视觉', 'Vision'), color: '#8ab4ff' },
+  auditory: { name: b('听觉', 'Hearing'), color: '#f59ec0' },
+  somatosensory: { name: b('躯体感觉', 'Body sense'), color: '#f7b08a' },
+  motor: { name: b('运动', 'Motor'), color: '#ff9a8b' },
+  language: { name: b('语言', 'Language'), color: '#e8c267' },
+  executive: { name: b('执行 / 注意', 'Executive / attention'), color: '#5fd0f0' },
+  default: { name: b('默认模式', 'Default mode'), color: '#a9b4f5' },
+  memory: { name: b('记忆', 'Memory'), color: '#5ee0b5' },
+  emotion: { name: b('情绪', 'Emotion'), color: '#ff8fa8' },
+  reward: { name: b('奖赏', 'Reward'), color: '#c9a6fa' },
+  autonomic: { name: b('稳态 / 自主神经', 'Homeostasis / autonomic'), color: '#4fd8c8' },
+  arousal: { name: b('觉醒 / 调质', 'Arousal / neuromodulation'), color: '#f2b866' },
+  relay: { name: b('中继', 'Relay'), color: '#9aa6b8' },
+  integration: { name: b('多感觉整合', 'Multimodal integration'), color: '#a8d86a' },
+  structure: { name: b('结构', 'Structure'), color: '#8792a6' },
 }
 
 export const LOBES: Record<Lobe, Bi> = {

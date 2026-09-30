@@ -1,15 +1,15 @@
 import type { ReactNode } from 'react'
 import { FONT } from '../../theme'
 
-/** Macaron diagram palette: pastel fills with a deeper tone for strokes and arrows. */
+/** Dark diagram palette: deep tinted fills with a bright tone of the same hue for strokes and arrows. */
 export const C = {
-  pink: '#fbd3dc', pinkD: '#d0607a',
-  peach: '#ffe0c9', peachD: '#c77436',
-  mint: '#d3f2e5', mintD: '#2c9a86',
-  lav: '#eee6de', lavD: '#8c7b6e',
-  sky: '#d6ebf7', skyD: '#3f88b5',
-  lemon: '#fdf6c7', lemonD: '#a88a0c',
-  ink: '#4b423c', dim: '#8f847b', line: '#cdbfb3', white: '#ffffff', ghost: '#f4eee8',
+  pink: '#3a1f2b', pinkD: '#ff8fa8',
+  peach: '#3a2a20', peachD: '#f7b08a',
+  mint: '#15332b', mintD: '#5ee0b5',
+  lav: '#1c2433', lavD: '#9fb0c8',
+  sky: '#142a3d', skyD: '#7dd3fc',
+  lemon: '#33301a', lemonD: '#e8c267',
+  ink: '#e6ebf2', dim: '#8793a6', line: '#3a4658', white: '#0b1019', ghost: '#121925',
 }
 
 const HEADS = { ink: C.ink, dim: C.dim, pink: C.pinkD, lav: C.lavD, mint: C.mintD, sky: C.skyD, peach: C.peachD, lemon: C.lemonD }

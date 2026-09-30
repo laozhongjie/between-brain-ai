@@ -4,6 +4,7 @@ import { CARD_BY_ID, LEVEL_COLORS } from '../content'
 import { DIFFERENCES, MODULES, MODULE_BY_ID } from '../content/blueprint'
 import { Rich } from '../Tex'
 import { CorrBadge, LevelBar, RefList } from './common'
+import { Icon } from '../../ui/Icon'
 
 const COV = [UI.cov0, UI.cov1, UI.cov2, UI.cov3]
 const COLS = [UI.colInput, UI.colModel, UI.colControl, UI.colValue, UI.colOutput]
@@ -44,13 +45,13 @@ export function Blueprint({ moduleId }: { moduleId?: string }) {
           {sel ? (
             <>
               <h2>{t(sel.name)} <LevelBar level={sel.coverage} label={t(COV[sel.coverage])} /></h2>
-              <h3>🧠 {t(UI.brainCol)}</h3>
+              <h3><Icon name="brain" />{t(UI.brainCol)}</h3>
               <p><Rich text={t(sel.brain)} /></p>
-              <h3>🤖 {t(UI.aiCol)}</h3>
+              <h3><Icon name="cpu" />{t(UI.aiCol)}</h3>
               <p><Rich text={t(sel.ai)} /></p>
               <h3>≠ {t(UI.gaps)}</h3>
               <p><Rich text={t(sel.gaps)} /></p>
-              <h3>💡 {t(UI.directions)}</h3>
+              <h3><Icon name="lightbulb" />{t(UI.directions)}</h3>
               <p><Rich text={t(sel.directions)} /></p>
               <h3>{t(UI.relatedCards)}</h3>
               <div className="rung-cards">
@@ -61,7 +62,7 @@ export function Blueprint({ moduleId }: { moduleId?: string }) {
                   </button>
                 ))}
               </div>
-              <h3>📚 {t(UI.secRefs)}</h3>
+              <h3><Icon name="library" />{t(UI.secRefs)}</h3>
               <RefList ids={sel.refs} />
             </>
           ) : (
@@ -72,7 +73,7 @@ export function Blueprint({ moduleId }: { moduleId?: string }) {
 
       <h2>{t(UI.crossDiffs)}</h2>
       <table className="diff-table">
-        <thead><tr><th>{t(UI.dimension)}</th><th>🧠 {t(UI.brainCol)}</th><th>🤖 {t(UI.aiCol)}</th></tr></thead>
+        <thead><tr><th>{t(UI.dimension)}</th><th>{t(UI.brainCol)}</th><th>{t(UI.aiCol)}</th></tr></thead>
         <tbody>
           {DIFFERENCES.map((d, i) => (
             <tr key={i} className={i === DIFFERENCES.length - 1 ? 'ai-ahead' : ''}>

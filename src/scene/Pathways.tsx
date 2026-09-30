@@ -21,7 +21,8 @@ export function Pathways() {
           new THREE.MeshBasicMaterial({
             color: ink(SYSTEMS[p.system].color, 0.3),
             transparent: true,
-            opacity: 0.05,
+            opacity: 0.08,
+            blending: THREE.AdditiveBlending,
             depthTest: false,
             depthWrite: false,
             toneMapped: false,
@@ -55,7 +56,7 @@ export function Pathways() {
       }
       meshes[i].visible = true
       const touches = sel !== null && PATHWAYS[i].nodes.includes(sel)
-      mats[i].opacity = Math.min(0.85, (touches ? 0.35 : 0.04) + 0.7 * signals.traffic[i])
+      mats[i].opacity = Math.min(0.9, (touches ? 0.4 : 0.07) + 0.75 * signals.traffic[i])
     }
   })
 

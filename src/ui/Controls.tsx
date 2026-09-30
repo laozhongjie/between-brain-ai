@@ -1,4 +1,5 @@
 import { UI, useT } from '../i18n'
+import { Icon } from './Icon'
 import { useStore, type ClipAxis, type ViewState } from '../store'
 
 type BoolKey = { [K in keyof ViewState]: ViewState[K] extends boolean ? K : never }[keyof ViewState]
@@ -11,6 +12,9 @@ const LAYERS: [BoolKey, keyof typeof UI][] = [
   ['showPathways', 'layerPathways'],
   ['showPulses', 'layerPulses'],
 ]
+/** Fill fraction for the slider track gradient (see input[type=range] in index.css). */
+const fill = (v: number, min: number, max: number) => ({ '--v': `${((v - min) / (max - min)) * 100}%` }) as React.CSSProperties
+
 const CLIPS: [ClipAxis, keyof typeof UI][] = [
   ['none', 'clipNone'],
   ['sagittal', 'clipSagittal'],
@@ -29,12 +33,12 @@ export function Controls() {
       <h3>{t(UI.view)}</h3>
       <label className="row">
         <span>{t(UI.cortexOpacity)}</span>
-        <input type="range" min={0} max={1} step={0.01} value={view.cortexOpacity}
+        <input type="range" min={0} max={1} step={0.01} value={view.cortexOpacity} style={fill(view.cortexOpacity, 0, 1)}
           onChange={(e) => setView({ cortexOpacity: +e.target.value })} />
       </label>
       <label className="row">
         <span>{t(UI.explode)}</span>
-        <input type="range" min={0} max={0.6} step={0.01} value={view.explode}
+        <input type="range" min={0} max={0.6} step={0.01} value={view.explode} style={fill(view.explode, 0, 0.6)}
           onChange={(e) => setView({ explode: +e.target.value })} />
       </label>
       <div className="row">
@@ -50,7 +54,7 @@ export function Controls() {
       {view.clipAxis !== 'none' && (
         <label className="row">
           <span />
-          <input type="range" min={-1} max={1} step={0.01} value={view.clipOffset}
+          <input type="range" min={-1} max={1} step={0.01} value={view.clipOffset} style={fill(view.clipOffset, -1, 1)}
             onChange={(e) => setView({ clipOffset: +e.target.value })} />
         </label>
       )}
@@ -70,7 +74,7 @@ export function Controls() {
           </label>
         ))}
       </div>
-      <button className="btn" onClick={resetView}>{t(UI.resetView)}</button>
+      <button className="btn" onClick={resetView}><Icon name="rotate" size={14} />{t(UI.resetView)}</button>
     </div>
   )
 }

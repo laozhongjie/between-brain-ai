@@ -3,6 +3,7 @@ import { TOURS } from '../data/tours'
 import { UI, useT } from '../i18n'
 import { enterFocus, exitFocus } from '../sim/focus'
 import { useStore } from '../store'
+import { Icon } from './Icon'
 
 /** List of functional systems; clicking one isolates it (focus mode). */
 export function SystemPicker({ compact = false }: { compact?: boolean }) {
@@ -24,7 +25,7 @@ export function SystemPicker({ compact = false }: { compact?: boolean }) {
             style={{ '--c': SYSTEMS[tour.system].color } as React.CSSProperties}
             onClick={() => (focus === tour.id ? exitFocus() : enterFocus(tour.id))}
           >
-            <span className="system-icon">{tour.icon}</span>
+            <span className="system-icon"><Icon name={tour.icon} /></span>
             {t(tour.name)}
           </button>
         ))}

@@ -30,7 +30,7 @@ interface Props {
 }
 
 const M = { l: 58, r: 16, t: 12, b: 34 }
-const INK = { axis: '#d4c8bd', grid: '#f1eae3', text: '#8a8194', strong: '#2f2a38' }
+const INK = { axis: 'rgba(170,195,230,0.25)', grid: 'rgba(170,195,230,0.07)', text: '#8793a6', strong: '#e6ebf2' }
 
 function niceTicks(lo: number, hi: number, n = 5) {
   const span = hi - lo || 1
@@ -134,7 +134,7 @@ export function LinePlot({ series, xLabel, yLabel, xDomain, yDomain, height = 20
 
     if (mark) {
       ctx.fillStyle = INK.strong
-      ctx.strokeStyle = '#ffffff'
+      ctx.strokeStyle = '#0a0e15'
       ctx.lineWidth = 2
       ctx.beginPath()
       ctx.arc(sx(mark.x), sy(mark.y), 5, 0, Math.PI * 2)
@@ -145,7 +145,7 @@ export function LinePlot({ series, xLabel, yLabel, xDomain, yDomain, height = 20
     }
 
     if (hover) {
-      ctx.strokeStyle = 'rgba(74,68,83,0.35)'
+      ctx.strokeStyle = 'rgba(170,205,245,0.35)'
       ctx.beginPath()
       ctx.moveTo(hover.px, M.t)
       ctx.lineTo(hover.px, H - M.b)
@@ -192,8 +192,8 @@ export function LinePlot({ series, xLabel, yLabel, xDomain, yDomain, height = 20
   )
 }
 
-// Sequential terracotta ramp (light surface): low values recede toward the ground, high values are deep.
-const RAMP = ['#fbf5ef', '#f3dfcc', '#e9c2a2', '#d99f79', '#bf7a56', '#935539'].map((h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)))
+// Sequential ice ramp (dark surface): low values recede into the ground, high values glow.
+const RAMP = ['#0b1019', '#123047', '#1b5575', '#2f82a8', '#5bb4d8', '#b6e9ff'].map((h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)))
 function rampColor(v: number) {
   const x = Math.max(0, Math.min(1, v)) * (RAMP.length - 1)
   const i = Math.min(RAMP.length - 2, Math.floor(x))

@@ -9,7 +9,33 @@ import { currentFocus } from './focusState'
 import { clipPlane, pickValid } from './picking'
 import { baseColor, glowColor, hemiOffset, isCortex } from './layout'
 
-const GHOST = new THREE.Color('#d8ccc2')
+const GHOST = new THREE.Color('#1b2636')
+const RIM = new THREE.Color('#8fd3ff')
+
+/**
+ * Dark-glass look: a Fresnel rim adds light and opacity at grazing angles, so the cortex reads as a
+ * glowing silhouette while surfaces facing the camera stay dark and see-through.
+ */
+function glassMaterial() {
+  const mat = new THREE.MeshStandardMaterial({ roughness: 0.55, metalness: 0.1, side: THREE.DoubleSide })
+  const rim = { value: 0.9 }
+  mat.userData.rim = rim
+  mat.onBeforeCompile = (shader) => {
+    shader.uniforms.uRim = { value: RIM }
+    shader.uniforms.uRimStrength = rim
+    shader.fragmentShader = shader.fragmentShader
+      .replace('#include <common>', '#include <common>\nuniform vec3 uRim;\nuniform float uRimStrength;')
+      .replace(
+        '#include <opaque_fragment>',
+        `float fres = pow(1.0 - abs(dot(normal, normalize(vViewPosition))), 2.4);
+        outgoingLight += uRim * fres * uRimStrength;
+        diffuseColor.a = clamp(diffuseColor.a + fres * uRimStrength * 0.6, 0.0, 1.0);
+        #include <opaque_fragment>`,
+      )
+  }
+  mat.customProgramCacheKey = () => 'brain-glass'
+  return mat
+}
 
 export const MODEL_URL = `${import.meta.env.BASE_URL}models/brain.glb`
 
@@ -41,7 +67,7 @@ export function BrainModel() {
       if (!node) return
       // Reuse across StrictMode double-invocation so the rendered material is the one we update
       const mat: THREE.MeshStandardMaterial =
-        o.userData.mat ?? new THREE.MeshStandardMaterial({ roughness: 0.62, metalness: 0.02, side: THREE.DoubleSide })
+        o.userData.mat ?? glassMaterial()
       o.userData.mat = mat
       // Quantized meshes carry their dequantisation offset in the node transform: keep it
       o.userData.baseX ??= o.position.x
@@ -62,7 +88,8 @@ export function BrainModel() {
         p.mat.color.copy(GHOST)
         p.base.copy(GHOST)
         p.mat.transparent = true
-        p.mat.opacity = p.cortex ? 0.06 : 0.1
+        p.mat.opacity = p.cortex ? 0.03 : 0.06
+        p.mat.userData.rim.value = p.cortex ? 0.35 : 0.5
         p.mat.depthWrite = false
         p.mat.clippingPlanes = []
         p.mat.needsUpdate = true
@@ -77,6 +104,7 @@ export function BrainModel() {
       const opacity = p.cortex && !f ? view.cortexOpacity : 1
       p.mat.transparent = opacity < 1
       p.mat.opacity = opacity
+      p.mat.userData.rim.value = p.cortex ? 0.9 : 0.55
       p.mat.depthWrite = opacity >= 1
       p.mat.clippingPlanes = view.clipAxis === 'none' ? [] : [clipPlane]
       p.mat.needsUpdate = true
@@ -99,10 +127,10 @@ export function BrainModel() {
       if (f?.step.nodes.has(p.node.id)) k += beat
       if (p.node.id === hovered) k += 0.25
       if (p.node.id === selected) k += 0.45
-      // Light theme: activity tints the surface toward a deeper system colour (plus a faint emissive lift)
+      // Dark theme: activity makes the surface emit its system colour, strong enough to bloom
       const mix = Math.min(1, k)
-      p.mat.color.copy(p.base).lerp(p.glow, mix * 0.6)
-      p.mat.emissive.copy(tmp.copy(p.glow).multiplyScalar(0.12 * mix))
+      p.mat.color.copy(p.base).lerp(p.glow, mix * 0.35)
+      p.mat.emissive.copy(tmp.copy(p.glow).multiplyScalar(0.9 * mix))
     }
   })
 

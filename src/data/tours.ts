@@ -17,6 +17,7 @@ export interface TourStep {
 
 export interface Tour {
   id: string
+  /** line icon name (see ui/Icon.tsx) */
   icon: string
   system: SystemId
   name: Bi
@@ -31,7 +32,7 @@ const b = (zh: string, en: string): Bi => ({ zh, en })
 /** Functional systems that can be viewed on their own, each with a step-by-step walkthrough. */
 export const TOURS: Tour[] = [
   {
-    id: 'vision', icon: '👁', system: 'visual',
+    id: 'vision', icon: 'eye', system: 'visual',
     name: b('视觉', 'Vision'),
     summary: b('光 → 视网膜 → 丘脑 → 初级视觉皮层 → 分成“是什么”和“在哪里”两条通路。', 'Light → retina → thalamus → V1 → split into “what” and “where” streams.'),
     pathways: ['visual', 'ventral', 'dorsal', 'scene', 'circadian'],
@@ -51,7 +52,7 @@ export const TOURS: Tour[] = [
     ],
   },
   {
-    id: 'hearing', icon: '👂', system: 'auditory',
+    id: 'hearing', icon: 'ear', system: 'auditory',
     name: b('听觉', 'Hearing'),
     summary: b('声波 → 耳蜗 → 脑干 → 丘脑 → 听觉皮层；左侧理解语言，右侧分析语调和音乐。', 'Sound → cochlea → brainstem → thalamus → auditory cortex; left for language, right for tone and music.'),
     pathways: ['auditory', 'comprehension', 'prosody'],
@@ -67,7 +68,7 @@ export const TOURS: Tour[] = [
     ],
   },
   {
-    id: 'touch', icon: '✋', system: 'somatosensory',
+    id: 'touch', icon: 'hand', system: 'somatosensory',
     name: b('触觉与痛觉', 'Touch & pain'),
     summary: b('皮肤 → 脊髓 → 丘脑 → 中央后回；痛觉另有情绪通路；脊髓反射不经过大脑。', 'Skin → spinal cord → thalamus → postcentral gyrus; pain has an emotional route; reflexes bypass the brain.'),
     pathways: ['reflex', 'somato', 'pain', 'painInsula', 'sensorimotor'],
@@ -85,7 +86,7 @@ export const TOURS: Tour[] = [
     ],
   },
   {
-    id: 'motor', icon: '🏃', system: 'motor',
+    id: 'motor', icon: 'person-standing', system: 'motor',
     name: b('运动', 'Movement'),
     summary: b('定位目标 → 计划 → 基底节选择 → M1 下达指令 → 肌肉执行 → 小脑根据反馈校正。', 'Locate target → plan → basal ganglia select → M1 commands → muscles act → cerebellum corrects from feedback.'),
     pathways: ['reach', 'smaLoop', 'motorLoop', 'nigrostriatal', 'pallidoThal', 'corticospinal', 'proprio', 'cerebellarLoop', 'legs'],
@@ -103,7 +104,7 @@ export const TOURS: Tour[] = [
     ],
   },
   {
-    id: 'language', icon: '💬', system: 'language',
+    id: 'language', icon: 'message-square-text', system: 'language',
     name: b('语言', 'Language'),
     summary: b('听 → Wernicke 理解 → 选词 → 弓状束 → Broca 组织 → 运动皮层发音 → 听到自己。', 'Hear → Wernicke understands → choose words → arcuate → Broca plans → motor cortex speaks → hear yourself.'),
     pathways: ['auditory', 'comprehension', 'semantic', 'arcuate', 'speech', 'reading'],
@@ -123,7 +124,7 @@ export const TOURS: Tour[] = [
     ],
   },
   {
-    id: 'memory', icon: '🧠', system: 'memory',
+    id: 'memory', icon: 'brain-circuit', system: 'memory',
     name: b('记忆', 'Memory'),
     summary: b('皮层 → 内嗅皮层 → 海马编码；新奇和情绪增强记忆；睡眠中回放巩固到新皮层。', 'Cortex → entorhinal → hippocampus; novelty and emotion strengthen it; sleep replays it into neocortex.'),
     pathways: ['encoding', 'novelty', 'emotionalMemory', 'papez', 'consolidation'],
@@ -141,7 +142,7 @@ export const TOURS: Tour[] = [
     ],
   },
   {
-    id: 'fear', icon: '⚡', system: 'emotion',
+    id: 'fear', icon: 'zap', system: 'emotion',
     name: b('恐惧与情绪', 'Fear & emotion'),
     summary: b('丘脑“低通路”快速报警，皮层“高通路”看清细节；杏仁核触发身体反应，前额叶负责刹车。', 'Thalamic “low road” raises the alarm, cortical “high road” adds detail; amygdala drives the body, prefrontal cortex brakes.'),
     pathways: ['visual', 'fearLow', 'fearHigh', 'faceEmotion', 'stress', 'alarm', 'fearRegulation'],
@@ -157,7 +158,7 @@ export const TOURS: Tour[] = [
     ],
   },
   {
-    id: 'reward', icon: '⭐', system: 'reward',
+    id: 'reward', icon: 'sparkles', system: 'reward',
     name: b('奖赏与动机', 'Reward & motivation'),
     summary: b('评估价值 → 腹侧被盖区多巴胺 → 伏隔核产生“想要” → 前额叶把动机变成计划。', 'Evaluate value → VTA dopamine → accumbens creates “wanting” → prefrontal cortex turns it into plans.'),
     pathways: ['gustatory', 'valueLoop', 'mesolimbic', 'mesocortical', 'nigroCaudate'],
@@ -173,7 +174,7 @@ export const TOURS: Tour[] = [
     ],
   },
   {
-    id: 'homeostasis', icon: '❤', system: 'autonomic',
+    id: 'homeostasis', icon: 'heart-pulse', system: 'autonomic',
     name: b('稳态与应激', 'Homeostasis & stress'),
     summary: b('身体内部信号 → 脑干/岛叶/下丘脑 → 神经（交感/副交感）和激素（HPA 轴）两条输出，并有负反馈。', 'Internal signals → brainstem/insula/hypothalamus → neural (sympathetic/vagal) and hormonal (HPA) outputs with feedback.'),
     pathways: ['interoception', 'satiety', 'hpa', 'cortisolFeedback', 'sympathetic', 'adrenaline', 'vagal'],
@@ -191,7 +192,7 @@ export const TOURS: Tour[] = [
     ],
   },
   {
-    id: 'sleep', icon: '🌙', system: 'arousal',
+    id: 'sleep', icon: 'moon', system: 'arousal',
     name: b('睡眠与觉醒', 'Sleep & wakefulness'),
     summary: b('光照校准生物钟；脑干网状系统和神经调质维持清醒；夜晚褪黑素和下丘脑睡眠开关让大脑入睡。', 'Light sets the clock; brainstem arousal systems keep us awake; melatonin and a hypothalamic switch bring sleep.'),
     pathways: ['circadian', 'aras', 'noradrenaline', 'serotonin', 'melatonin', 'sleepSwitch'],
@@ -209,7 +210,7 @@ export const TOURS: Tour[] = [
     ],
   },
   {
-    id: 'attention', icon: '🎯', system: 'executive',
+    id: 'attention', icon: 'scan-eye', system: 'executive',
     name: b('注意与决策', 'Attention & control'),
     summary: b('显著性网络发现重要信息 → 前额叶在工作记忆中维持目标 → 自上而下调节感觉；不专注时默认模式网络接管。', 'Salience network spots what matters → prefrontal cortex holds the goal → top-down control of perception; the default mode network takes over when idle.'),
     pathways: ['salience', 'cognitiveLoop', 'topDown', 'eyeMove', 'dmn'],
