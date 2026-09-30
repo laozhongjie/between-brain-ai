@@ -64,7 +64,14 @@ export function RegionPanel() {
       </header>
       <ActivitySpark index={node.index} color={sys.color} />
       {aiCard && (
-        <button className="ai-link" onClick={() => go(`/ai/card/${aiCard.id}`)}><Icon name="cpu" /><span className="ai-link-text">{t(UI.aiLink)}：<Rich text={t(aiCard.title)} />{"\u00a0"}→</span></button>
+        <button className="ai-link" onClick={() => go(`/ai/card/${aiCard.id}`)}>
+          <Icon name="cpu" size={16} />
+          <span className="ai-link-text">
+            <small>{t(UI.aiLink)}</small>
+            <span><Rich text={t(aiCard.title)} /></span>
+          </span>
+          <Icon name="chevron" size={16} className="ai-link-go" />
+        </button>
       )}
       <section>
         <h3>{t(UI.function)}</h3>
