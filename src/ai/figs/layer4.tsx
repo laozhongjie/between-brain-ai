@@ -10,15 +10,25 @@ const M = { fill: C.mint, stroke: C.mintD }
 const E = { fill: C.peach, stroke: C.peachD }
 const Y = { fill: C.lemon, stroke: C.lemonD }
 
-/** A red cross marking a missing capability. */
-function Missing({ x, y, s }: { x: number; y: number; s: string }) {
+/** A red cross marking a missing capability; wraps onto two lines when wider than `maxW`. */
+function Missing({ x, y, s, maxW = 152 }: { x: number; y: number; s: string; maxW?: number }) {
   // rough text width at 9.5px: CJK ≈ 10px, Latin ≈ 5.4px
-  const est = [...s].reduce((w, ch) => w + (/[\u3000-\u9fff\uff00-\uffef]/.test(ch) ? 10 : 5.4), 0)
+  const width = (str: string) => [...str].reduce((w, ch) => w + (/[\u3000-\u9fff\uff00-\uffef]/.test(ch) ? 10 : 5.4), 0)
+  let lines = [s]
+  if (width(s) + 32 > maxW) {
+    const words = s.includes(' ') ? s.split(' ') : [...s]
+    const sep = s.includes(' ') ? ' ' : ''
+    let best = 1
+    for (let i = 1; i < words.length; i++) if (Math.abs(width(words.slice(0, i).join(sep)) - width(s) / 2) < Math.abs(width(words.slice(0, best).join(sep)) - width(s) / 2)) best = i
+    lines = [words.slice(0, best).join(sep), words.slice(best).join(sep)]
+  }
+  const w = Math.min(maxW, Math.max(...lines.map(width)) + 32)
+  const h = lines.length > 1 ? 40 : 30
   return (
     <g>
-      <rect x={x} y={y} width={Math.min(348 - x, est + 32)} height={34} rx={8} fill={C.white} stroke={C.pinkD} strokeDasharray="4 3" />
-      <T x={x + 12} y={y + 17} size={12} color={C.pinkD} weight={700} s="✕" />
-      <T x={x + 22} y={y + 17} anchor="start" size={9.5} color={C.pinkD} s={s} />
+      <rect x={x} y={y} width={w} height={h} rx={8} fill={C.white} stroke={C.pinkD} strokeDasharray="4 3" />
+      <T x={x + 12} y={y + h / 2} size={12} color={C.pinkD} weight={700} s="✕" />
+      <T x={x + 22} y={y + h / 2} anchor="start" size={9.5} color={C.pinkD} s={lines.join('\n')} />
     </g>
   )
 }
@@ -186,7 +196,7 @@ function MotorBrainFig({ t }: FigProps) {
       <Arrow id={id} x1={96} y1={132} x2={50} y2={132} color="peach" label={t(b('误差', 'error'))} />
       <Box x={10} y={118} w={40} h={28} label={t(b('丘脑', 'thal.'))} {...P} size={9.5} />
       <Arrow id={id} x1={30} y1={118} x2={250} y2={56} color="peach" bend={-34} label={t(b('校正 M1', 'correct M1'))} ly={-2} lx={-60} />
-      <T x={120} y={212} size={9.5} color={C.dim} s={t(b('反射、小脑校正、皮层计划三层同时运行', 'reflexes, cerebellar correction and cortical planning run in parallel'))} />
+      <T x={180} y={214} size={9.5} color={C.dim} s={t(b('反射、小脑校正、皮层计划三层同时运行', 'reflexes, cerebellar correction and cortical planning run in parallel'))} />
     </Svg>
   )
 }
@@ -344,7 +354,7 @@ function RlAgentFig({ t }: FigProps) {
       <Arrow id={id} x1={262} y1={57} x2={286} y2={57} color="lav" label="a" />
       <Box x={288} y={36} w={62} h={42} label={t(b('环境', 'environment'))} fill={C.ghost} stroke={C.line} size={9.5} />
       <Arrow id={id} x1={318} y1={78} x2={140} y2={76} color="peach" bend={-36} label={t(b('奖赏 r：一个标量', 'reward r: one scalar'))} ly={30} />
-      <Missing x={30} y={160} s={t(b('没有同时调节注意、学习率、风险偏好的情绪状态', 'no emotion state tuning attention, learning rate and risk together'))} />
+      <Missing x={30} y={160} maxW={318} s={t(b('没有同时调节注意、学习率、风险偏好的情绪状态', 'no emotion state tuning attention, learning rate and risk together'))} />
     </Svg>
   )
 }
@@ -408,7 +418,7 @@ function HomeoBrainFig({ t }: FigProps) {
           <T x={23 + i * 26} y={144} size={9} s={name} />
         </g>
       ))}
-      <T x={50} y={24} size={9.5} color={C.dim} s={t(b('内部变量（虚线：设定点）', 'internal variables (dashed: set point)'))} />
+      <T x={8} y={24} anchor="start" size={9.5} color={C.dim} s={t(b('内部变量（虚线：设定点）', 'internal variables (dashed: set point)'))} />
       <Arrow id={id} x1={96} y1={86} x2={122} y2={86} color="mint" label={t(b('内感受', 'interoception'))} ly={-10} />
       <Dot cx={160} cy={86} r={34} fill={C.mint} stroke={C.mintD} />
       <T x={160} y={80} size={10} color={C.mintD} weight={600} s={t(b('下丘脑', 'hypothal.'))} />
@@ -482,7 +492,9 @@ function OfflineTrainFig({ t }: FigProps) {
       <Arrow id={id} x1={64} y1={122} x2={130} y2={150} color="mint" />
       <Arrow id={id} x1={200} y1={122} x2={160} y2={150} color="peach" />
       <Box x={90} y={152} w={130} h={34} label={t(b('离线训练 / 蒸馏', 'offline training / distillation'))} {...L} size={9.5} />
-      <Arrow id={id} x1={90} y1={169} x2={40} y2={56} color="lav" bend={30} label={t(b('更新', 'update'))} lx={-12} />
+      <Line pts={[[90, 169], [6, 169], [6, 37]]} color={C.lavD} width={1.6} />
+      <Arrow id={id} x1={6} y1={40} x2={18} y2={37} color="lav" />
+      <T x={14} y={146} anchor="start" size={9.5} color={C.lavD} s={t(b('更新', 'update'))} />
       <T x={300} y={140} size={9.5} color={C.dim} s={t(b('离线（夜里）', 'offline (night)'))} />
       <Missing x={196} y={190} s={t(b('多数系统没有定期离线周期', 'most systems lack regular offline cycles'))} />
     </Svg>
@@ -508,7 +520,7 @@ function AttentionBrainFig({ t }: FigProps) {
       {[0, 1, 2, 3].map((i) => <rect key={i} x={132 + i * 24} y={142} width={20} height={26} rx={4} fill={i < 3 ? C.lav : C.white} stroke={C.lavD} />)}
       <T x={176} y={186} size={9.5} color={C.lavD} s={t(b('工作记忆：约 4 项', 'working memory: ~4 items'))} />
       <Dot cx={300} cy={160} r={24} fill={C.peach} stroke={C.peachD} label={t(b('全局\n工作空间', 'global\nworkspace'))} size={9} />
-      {[[-40, -30], [40, -30], [40, 30]].map(([dx, dy], i) => <Arrow key={i} id={id} x1={300} y1={160} x2={300 + dx} y2={160 + dy} color="peach" width={1.2} />)}
+      {[[-40, -30], [40, -30], [40, 30]].map(([dx, dy], i) => <Arrow key={i} id={id} x1={300 + dx * 0.5} y1={160 + dy * 0.5} x2={300 + dx * 1.1} y2={160 + dy * 1.1} color="peach" width={1.2} />)}
       <T x={300} y={212} size={9.5} color={C.peachD} s={t(b('少量信息向全脑广播', 'a little is broadcast brain-wide'))} />
     </Svg>
   )

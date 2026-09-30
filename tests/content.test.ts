@@ -5,6 +5,7 @@ import { CARDS, CARD_BY_ID, INTRO_REFS } from '../src/ai/content/index'
 import { REF_BY_ID, REFS } from '../src/ai/content/refs'
 import { LABS } from '../src/ai/labs/registry'
 import { TOUR_BY_ID } from '../src/data/tours'
+import { FIGS } from '../src/ai/figs'
 
 describe('AI correspondence content', () => {
   it('ids are unique', () => {
@@ -35,6 +36,14 @@ describe('AI correspondence content', () => {
     for (const m of MODULES) for (const id of m.cards) expect(CARD_BY_ID[id], `${m.id} → ${id}`).toBeDefined()
     // every functional-system tour has a layer-4 card
     for (const id of Object.keys(TOUR_BY_ID)) expect(CARDS.some((c) => c.tour === id), id).toBe(true)
+  })
+
+  it('every card has a brain-structure figure and an AI-architecture figure', () => {
+    for (const c of CARDS) {
+      const f = FIGS[c.id]
+      expect(f, c.id).toBeDefined()
+      expect(f.brain && f.ai && f.brainCap.zh && f.aiCap.en, c.id).toBeTruthy()
+    }
   })
 
   it('blueprint cells do not overlap', () => {
