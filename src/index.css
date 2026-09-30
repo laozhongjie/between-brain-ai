@@ -630,7 +630,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   .view-schematic { --side: 268px; --gap: 12px; --tl-h: 100px; --ctl-h: 96px; --top: 64px; --low: calc(var(--tl-h) + 44px); }
   .view-schematic .left-col,
   .view-schematic .right-col { top: var(--top); bottom: var(--low); width: var(--side); }
-  .view-schematic:not(.focusing) .right-col { bottom: calc(var(--low) + var(--ctl-h) + var(--gap)); }
+  .view-schematic:not(.focusing) .right-col { bottom: calc(var(--low) + var(--ctl-h) + 6px); }
   /* the output panel spreads over the full column height: EEG grows, modulator rows spread out */
   .view-schematic .right-col > .output-panel { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
   .view-schematic .output-panel .eeg-wrap { flex: 1 1 68px; min-height: 68px; max-height: 190px; }
@@ -650,21 +650,18 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   .view-schematic .schematic { position: relative; inset: auto; flex: 1; min-height: 0; }
   .view-schematic .bottom { grid-template-columns: 1fr; }
 
-  /* bottom box: track across the row, controls in a tab rising from its right end (one outline) */
-  .view-schematic .timeline {
-    position: relative; height: var(--tl-h); display: flex; flex-direction: column; justify-content: center;
-    padding-block: 10px 4px; background: #0d121b; border-top-right-radius: 0;
-  }
+  /* bottom box: track across the row, controls in a tab rising from its right end. The box and tab draw
+     no border or fill of their own; one SVG outline (.tl-shape, see Timeline.tsx) draws the whole shape. */
+  .view-schematic .timeline { position: relative; height: var(--tl-h); display: flex; flex-direction: column; justify-content: center; padding-block: 10px 4px; }
+  .view-schematic .timeline.has-tab { background: none; border-color: transparent; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .view-schematic .timeline.has-tab::before, .view-schematic .timeline.has-tab::after { display: none; }
   .view-schematic .timeline .tl-controls {
-    position: absolute; right: -1px; bottom: calc(100% - 1px); width: var(--side); height: var(--ctl-h);
-    padding: 12px 16px 8px; background: #0d121b; border: 1px solid var(--panel-border); border-bottom: 0;
-    border-radius: 12px 12px 0 0; flex-wrap: wrap; align-content: center; justify-content: space-between; row-gap: 8px;
+    position: absolute; right: -1px; bottom: 100%; width: var(--side); height: var(--ctl-h);
+    padding: 12px 16px 8px; flex-wrap: wrap; align-content: center; justify-content: space-between; row-gap: 8px;
   }
-  /* concave fillet where the tab meets the track's top edge, so the outline turns the corner smoothly */
-  .view-schematic .timeline .tl-controls::before {
-    content: ''; position: absolute; left: -12px; bottom: 1px; width: 12px; height: 12px; pointer-events: none;
-    background: radial-gradient(circle at 0 0, transparent 11px, var(--panel-border) 11px, var(--panel-border) 12px, #0d121b 12.5px);
-  }
+  .tl-shape { display: none; }
+  .view-schematic .tl-shape { display: block; position: absolute; left: -1px; z-index: -1; overflow: visible; pointer-events: none; filter: drop-shadow(0 12px 28px rgba(0,0,0,0.38)); }
+  .view-schematic .tl-shape path { fill: #0d121b; stroke: var(--panel-border); stroke-width: 1; }
   .view-schematic .timeline .icon-btn { align-self: center; }
   .view-schematic .timeline .clock { margin-left: 0; }
   .view-schematic .timeline .tl-title { flex: 1; min-width: 0; justify-content: flex-end; }

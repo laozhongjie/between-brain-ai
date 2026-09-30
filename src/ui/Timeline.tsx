@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { DAY, fmtClock } from '../data/scenario'
 import { UI, useT } from '../i18n'
 import { DAY_START, EVENTS, director, useScenario } from '../sim/director'
@@ -13,10 +13,62 @@ const NIGHT_FROM = (22.5 * 60 - DAY_START + 1440) % 1440
 const crowded = (i: number) =>
   (i > 0 && EVENTS[i].tl - EVENTS[i - 1].tl < 35) || (i + 1 < EVENTS.length && EVENTS[i + 1].tl - EVENTS[i].tl < 35)
 
+/**
+ * Outline of the bottom box when the controls sit in a tab rising from its right end (schematic layout):
+ * one path with rounded outer corners and a concave fillet where the tab meets the track, so the border
+ * and fill run continuously. Hidden (CSS) in layouts where the controls stay inside the box.
+ */
+function useTabOutline(panel: React.RefObject<HTMLDivElement | null>, tab: React.RefObject<HTMLDivElement | null>) {
+  const [shape, setShape] = useState<{ d: string; top: number; w: number; h: number } | null>(null)
+  useLayoutEffect(() => {
+    const p = panel.current
+    const tb = tab.current
+    if (!p || !tb) return
+    const measure = () => {
+      const P = p.getBoundingClientRect()
+      const T = tb.getBoundingClientRect()
+      if (T.bottom > P.top + 2 || !P.width) return setShape(null) // tab not raised: nothing to draw
+      const W = P.width
+      const ht = P.top - T.top // tab height above the track
+      const h = ht + P.height
+      const tw = T.width
+      const r = 12
+      const i = 0.5 // half the stroke, keeps the line crisp and inside the box
+      const x0 = W - tw
+      const d = [
+        `M${r},${ht + i}`,
+        `L${x0 - r},${ht + i}`,
+        `A${r - i},${r - i} 0 0 0 ${x0 + i},${ht - r}`, // concave fillet into the tab
+        `L${x0 + i},${r}`,
+        `A${r - i},${r - i} 0 0 1 ${x0 + r},${i}`,
+        `L${W - r},${i}`,
+        `A${r - i},${r - i} 0 0 1 ${W - i},${r}`,
+        `L${W - i},${h - r}`,
+        `A${r - i},${r - i} 0 0 1 ${W - r},${h - i}`,
+        `L${r},${h - i}`,
+        `A${r - i},${r - i} 0 0 1 ${i},${h - r}`,
+        `L${i},${ht + r}`,
+        `A${r - i},${r - i} 0 0 1 ${r},${ht + i}`,
+        'Z',
+      ].join(' ')
+      setShape({ d, top: -ht - 1, w: W, h })
+    }
+    const ro = new ResizeObserver(measure)
+    ro.observe(p)
+    ro.observe(tb)
+    measure()
+    return () => ro.disconnect()
+  }, [panel, tab])
+  return shape
+}
+
 export function Timeline() {
   const t = useT()
   const { tl, playing, speed, current } = useScenario()
   const bar = useRef<HTMLDivElement>(null)
+  const panel = useRef<HTMLDivElement>(null)
+  const tab = useRef<HTMLDivElement>(null)
+  const outline = useTabOutline(panel, tab)
 
   const seekFromPointer = (e: React.PointerEvent) => {
     const r = bar.current!.getBoundingClientRect()
@@ -27,8 +79,13 @@ export function Timeline() {
   const hours = Array.from({ length: 8 }, (_, i) => i * 3 * 60 + (9 * 60 - DAY_START)) // 09:00, 12:00, …
 
   return (
-    <div className="panel timeline">
-      <div className="tl-controls">
+    <div className={`panel timeline ${outline ? 'has-tab' : ''}`} ref={panel}>
+      {outline && (
+        <svg className="tl-shape" style={{ top: outline.top, width: outline.w, height: outline.h }} viewBox={`0 0 ${outline.w} ${outline.h}`} aria-hidden>
+          <path d={outline.d} />
+        </svg>
+      )}
+      <div className="tl-controls" ref={tab}>
         <button className="icon-btn sm" title={t(UI.prevEvent)} onClick={() => director.jump(-1)}><Icon name="skip-back" /></button>
         <button className="play-btn" title={t(playing ? UI.pause : UI.play)} onClick={() => useScenario.setState({ playing: !playing })}>
           <Icon name={playing ? 'pause' : 'play'} size={16} />
