@@ -1,5 +1,6 @@
 /** Macaron theme constants shared by canvas/SVG/WebGL code (CSS uses the matching custom properties). */
-export const FONT = "'Nunito Variable', 'LXGW WenKai Screen', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif"
+export const FONT = "'Geist Variable', 'HarmonyOS Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif"
+export const FONT_SERIF = "'Noto Serif SC', 'Songti SC', 'STSong', serif"
 
 export const THEME = {
   bg: '#fbf7f2',

@@ -21,7 +21,8 @@
   --danger: #d9506e;
   --ok: #2c9a86;
   --well: #f8f3ee;            /* inset wells for charts, formulas */
-  --sans: 'Nunito Variable', 'LXGW WenKai Screen', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --sans: 'Geist Variable', 'HarmonyOS Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --serif: 'Noto Serif SC', 'Songti SC', 'STSong', serif;
   --mono: ui-monospace, Menlo, Consolas, monospace;
   font: 14px/1.5 var(--sans);
   color: var(--text);
@@ -421,3 +422,10 @@ button { font: inherit; color: inherit; }
 /* Inline math inside running text: match the text size instead of KaTeX's default 1.21em */
 .tex-inline .katex { font-size: 1.04em; }
 h1 .tex-inline .katex, h2 .tex-inline .katex { font-size: 0.95em; }
+
+/* Headings in Noto Serif SC */
+h1, h2, .topbar h1, .ai-page h1, .ai-page h2, .rung h2, .region-panel h2, .focus-name strong, .focus-step-title, .bp-name, .tl-title, .narr-event {
+  font-family: var(--serif);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}

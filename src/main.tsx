@@ -1,8 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-// Fonts (bundled, OFL): Nunito for Latin/digits, LXGW WenKai Screen (GB glyphs) for Chinese
-import '@fontsource-variable/nunito'
-import 'lxgw-wenkai-screen-webfont/lxgwwenkaigbscreen.css'
+// Fonts (bundled): Geist for Latin/digits, HarmonyOS Sans SC for Chinese body text, Noto Serif SC for headings
+import '@fontsource-variable/geist'
+import '../node_modules/harmonyos-sans-sc-webfont-splitted/dist/Regular.css'
+import '../node_modules/harmonyos-sans-sc-webfont-splitted/dist/Medium.css'
+import '../node_modules/harmonyos-sans-sc-webfont-splitted/dist/Bold.css'
+import '@fontsource/noto-serif-sc/600.css'
+import '@fontsource/noto-serif-sc/700.css'
 import './index.css'
 import App from './App.tsx'
 import { startSimulation } from './sim/loop'
