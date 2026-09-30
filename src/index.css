@@ -675,8 +675,8 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   }
   .view-schematic .systems.compact { position: static; justify-content: center; padding: 6px 8px; }
   .view-schematic .systems.compact h3 { display: none; }
-  .view-schematic .systems.compact .system-grid { justify-content: center; gap: 4px; }
-  .view-schematic .systems.compact .system-btn { padding: 3px 7px; gap: 5px; font-size: 11.5px; }
+  .view-schematic .systems.compact .system-grid { justify-content: center; gap: 3px; }
+  .view-schematic .systems.compact .system-btn { padding: 3px 6px; gap: 5px; font-size: 11.5px; }
   .view-schematic .schematic { position: relative; inset: auto; flex: 1; min-height: 0; }
   .view-schematic .bottom { grid-template-columns: 1fr; }
 

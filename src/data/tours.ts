@@ -21,6 +21,8 @@ export interface Tour {
   icon: string
   system: SystemId
   name: Bi
+  /** compact label for the one-row system picker (defaults to name) */
+  short?: Bi
   summary: Bi
   /** pathway base ids that make up the system */
   pathways: string[]
@@ -70,6 +72,7 @@ export const TOURS: Tour[] = [
   {
     id: 'touch', icon: 'hand', system: 'somatosensory',
     name: b('触觉与痛觉', 'Touch & pain'),
+    short: b('触觉与痛觉', 'Touch'),
     summary: b('皮肤 → 脊髓 → 丘脑 → 中央后回；痛觉另有情绪通路；脊髓反射不经过大脑。', 'Skin → spinal cord → thalamus → postcentral gyrus; pain has an emotional route; reflexes bypass the brain.'),
     pathways: ['reflex', 'somato', 'pain', 'painInsula', 'sensorimotor'],
     steps: [
@@ -144,6 +147,7 @@ export const TOURS: Tour[] = [
   {
     id: 'fear', icon: 'zap', system: 'emotion',
     name: b('恐惧与情绪', 'Fear & emotion'),
+    short: b('恐惧与情绪', 'Fear'),
     summary: b('丘脑“低通路”快速报警，皮层“高通路”看清细节；杏仁核触发身体反应，前额叶负责刹车。', 'Thalamic “low road” raises the alarm, cortical “high road” adds detail; amygdala drives the body, prefrontal cortex brakes.'),
     pathways: ['visual', 'fearLow', 'fearHigh', 'faceEmotion', 'stress', 'alarm', 'fearRegulation'],
     steps: [
@@ -160,6 +164,7 @@ export const TOURS: Tour[] = [
   {
     id: 'reward', icon: 'sparkles', system: 'reward',
     name: b('奖赏与动机', 'Reward & motivation'),
+    short: b('奖赏与动机', 'Reward'),
     summary: b('评估价值 → 腹侧被盖区多巴胺 → 伏隔核产生“想要” → 前额叶把动机变成计划。', 'Evaluate value → VTA dopamine → accumbens creates “wanting” → prefrontal cortex turns it into plans.'),
     pathways: ['gustatory', 'valueLoop', 'mesolimbic', 'mesocortical', 'nigroCaudate'],
     steps: [
@@ -176,6 +181,7 @@ export const TOURS: Tour[] = [
   {
     id: 'homeostasis', icon: 'heart-pulse', system: 'autonomic',
     name: b('稳态与应激', 'Homeostasis & stress'),
+    short: b('稳态与应激', 'Homeostasis'),
     summary: b('身体内部信号 → 脑干/岛叶/下丘脑 → 神经（交感/副交感）和激素（HPA 轴）两条输出，并有负反馈。', 'Internal signals → brainstem/insula/hypothalamus → neural (sympathetic/vagal) and hormonal (HPA) outputs with feedback.'),
     pathways: ['interoception', 'satiety', 'hpa', 'cortisolFeedback', 'sympathetic', 'adrenaline', 'vagal'],
     steps: [
@@ -194,6 +200,7 @@ export const TOURS: Tour[] = [
   {
     id: 'sleep', icon: 'moon', system: 'arousal',
     name: b('睡眠与觉醒', 'Sleep & wakefulness'),
+    short: b('睡眠与觉醒', 'Sleep'),
     summary: b('光照校准生物钟；脑干网状系统和神经调质维持清醒；夜晚褪黑素和下丘脑睡眠开关让大脑入睡。', 'Light sets the clock; brainstem arousal systems keep us awake; melatonin and a hypothalamic switch bring sleep.'),
     pathways: ['circadian', 'aras', 'noradrenaline', 'serotonin', 'melatonin', 'sleepSwitch'],
     steps: [
@@ -212,6 +219,7 @@ export const TOURS: Tour[] = [
   {
     id: 'attention', icon: 'scan-eye', system: 'executive',
     name: b('注意与决策', 'Attention & control'),
+    short: b('注意与决策', 'Attention'),
     summary: b('显著性网络发现重要信息 → 前额叶在工作记忆中维持目标 → 自上而下调节感觉；不专注时默认模式网络接管。', 'Salience network spots what matters → prefrontal cortex holds the goal → top-down control of perception; the default mode network takes over when idle.'),
     pathways: ['salience', 'cognitiveLoop', 'topDown', 'eyeMove', 'dmn'],
     steps: [

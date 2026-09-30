@@ -36,9 +36,9 @@ export function Narration() {
             {t(l.text).includes('$') ? (
               <Rich text={t(l.text)} />
             ) : l.event ? (
-              <DecodeText text={t(l.text)} animate={l.id >= firstNew} />
+              <DecodeText text={t(l.text)} animate={l.id >= firstNew} once />
             ) : (
-              <DecodeText text={t(l.text)} perChar={26} trail={4} animate={l.id >= firstNew} />
+              <DecodeText text={t(l.text)} perChar={26} trail={4} animate={l.id >= firstNew} once />
             )}
           </p>
         ))}

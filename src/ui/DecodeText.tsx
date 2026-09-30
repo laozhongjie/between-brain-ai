@@ -11,21 +11,28 @@ const SHUFFLE = 50 // ms between noise refreshes (every frame would be needless 
  * - default: the whole string resolves in ~460 ms, every unresolved position shown as noise
  * - `perChar`: typewriter pace (ms per character) with only a short `trail` of noise ahead of the cursor
  * - `animate={false}`: show the text at once (e.g. lines that already existed when a panel mounted)
+ * - `once`: animate only the first time; later text changes (e.g. a language switch) swap instantly
  */
-export function DecodeText({ text, className, perChar, trail, animate = true }: {
+export function DecodeText({ text, className, perChar, trail, animate = true, once = false }: {
   text: string
   className?: string
   perChar?: number
   trail?: number
   animate?: boolean
+  once?: boolean
 }) {
   const done = useRef<HTMLSpanElement>(null)
   const noise = useRef<HTMLSpanElement>(null)
+  const shown = useRef<string | null>(null) // text the first animation was for
 
   useEffect(() => {
     const a = done.current!
     const b = noise.current!
-    if (!animate || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // `once`: a different text after the first one swaps instantly (the same text re-running, as in
+    // StrictMode's double effect, still animates)
+    const skip = !animate || (once && shown.current !== null && shown.current !== text) || matchMedia('(prefers-reduced-motion: reduce)').matches
+    shown.current ??= text
+    if (skip) {
       a.textContent = text
       b.textContent = ''
       return
@@ -52,7 +59,7 @@ export function DecodeText({ text, className, perChar, trail, animate = true }: 
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [text, perChar, trail, animate])
+  }, [text, perChar, trail, animate, once])
 
   return (
     <span className={className} aria-label={text}>

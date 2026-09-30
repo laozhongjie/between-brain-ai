@@ -22,11 +22,12 @@ export function SystemPicker({ compact = false }: { compact?: boolean }) {
           <button
             key={tour.id}
             className={`system-btn ${focus === tour.id ? 'on' : ''}`}
+            title={t(tour.name)}
             style={{ '--c': SYSTEMS[tour.system].color } as React.CSSProperties}
             onClick={() => (focus === tour.id ? exitFocus() : enterFocus(tour.id))}
           >
             <span className="system-icon"><Icon name={tour.icon} /></span>
-            {t(tour.name)}
+            {t(compact ? tour.short ?? tour.name : tour.name)}
           </button>
         ))}
       </div>
