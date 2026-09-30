@@ -168,7 +168,7 @@ export function Home() {
             <button className={lang === 'zh' ? 'on' : ''} onClick={() => setLang('zh')}>中文</button>
             <button className={lang === 'en' ? 'on' : ''} onClick={() => setLang('en')}>EN</button>
           </div>
-          <button className="home-explore" onClick={() => go('/atlas')}>EXPLORE ↗</button>
+          <button className="home-explore" onClick={() => go('/atlas')}>EXPLORE</button>
         </div>
       </header>
 
@@ -215,8 +215,8 @@ export function Home() {
             <p className="cta-line">between what we understand<br />and what we can build</p>
             <p className="cta-line zh">在已理解的与能构建的之间</p>
             <div className="cta-actions">
-              <button className="cta-btn primary" onClick={() => go('/atlas')}>{t(UI.navAtlas)} ↗</button>
-              <button className="cta-btn" onClick={() => go('/ai')}>{t(UI.navAi)} →</button>
+              <button className="cta-btn primary" onClick={() => go('/atlas')}>{t(UI.navAtlas)}</button>
+              <button className="cta-btn" onClick={() => go('/ai')}>{t(UI.navAi)}</button>
             </div>
           </div>
         </div>
