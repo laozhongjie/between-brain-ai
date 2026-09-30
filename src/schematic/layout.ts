@@ -141,6 +141,8 @@ export interface Layout {
   /** processing stages: vertical bands over the columns they cover */
   stages: Stage[]
   edges: SEdge[]
+  /** corner points of each edge before rounding (for checks) */
+  routes: Record<string, [number, number][]>
 }
 
 const STAGE_DEFS: [number, number, Bi][] = [
@@ -160,7 +162,7 @@ const LANE_DEFS: [number, number, Bi, keyof typeof SYSTEMS][] = [
 
 const keyOf = (id: string) => NODE_BY_ID[id].key
 
-type Pt = [number, number]
+export type Pt = [number, number]
 
 /** Polyline with rounded corners (radius r, shortened on tight segments). */
 function rounded(pts: Pt[], r = 6): string {
@@ -227,7 +229,7 @@ export function makeLayout(k = 1): Layout {
   const spread = (channel: string) => {
     const i = slots.get(channel) ?? 0
     slots.set(channel, i + 1)
-    return [0, -4, 4, -8, 8, -12, 12][i % 7]
+    return [0, -1, 1, -2, 2, -3, 3][i % 7] // in steps; scaled to the room each channel has
   }
   /** x of the channel right of column c (between c and c+1) */
   const chan = (c: number) => (colX(c) + hw + colX(c + 1) - hw) / 2
@@ -254,9 +256,15 @@ export function makeLayout(k = 1): Layout {
   })
   const edges = [...map.values()]
 
-  // Which side of each node an edge leaves or enters
-  type Side = 'L' | 'R'
-  const yOf = (k2: string) => (isBus(k2) ? buses[k2].y : byKey[k2].y)
+  // Visual grammar: feedforward edges run left → right (out of the right edge, into the left edge, arrow ▸);
+  // feedback edges leave from the bottom and come back up into the target's bottom edge (arrow ▴);
+  // same-column links enter the top or bottom.
+  type Side = 'L' | 'R' | 'T' | 'B'
+  const R2 = (ROW * k) / 2 // half the row pitch: corridors run midway between rows
+  const CH = 3.2 // channel spread step: ±3 steps stay inside the 22-unit gap between columns
+  const RS = Math.max(0.5, (R2 - hh - 2) / 3) // corridor spread step: stays clear of the rows on both sides
+  const hasBetween = (col: number, y0: number, y1: number) =>
+    nodes.some((n) => n.col === col && n.y > Math.min(y0, y1) && n.y < Math.max(y0, y1))
   const sides = (e: SEdge): { src?: Side; dst?: Side } => {
     if (isBus(e.from) && isBus(e.to)) return {}
     if (isBus(e.to)) return { src: byKey[e.from].col === 8 ? 'L' : 'R' }
@@ -264,112 +272,102 @@ export function makeLayout(k = 1): Layout {
     const a = byKey[e.from]
     const c = byKey[e.to]
     if (c.col > a.col) return { src: 'R', dst: 'L' }
-    if (c.col === a.col) return { src: 'R', dst: 'R' }
-    return { src: 'L', dst: 'R' }
+    if (c.col < a.col) return { src: 'B', dst: 'B' }
+    return c.y > a.y ? { src: 'B', dst: 'T' } : { src: 'T', dst: 'B' }
   }
-  // Ports: edges on one node side are spread along it, ordered by where their other end lies
-  const portList = new Map<string, { id: string; other: number }[]>()
-  const addPort = (node: string, side: Side, id: string, other: number) => {
-    const key = `${node}|${side}`
-    if (!portList.has(key)) portList.set(key, [])
-    portList.get(key)!.push({ id, other })
+  /** attachment point on side `side` of node `k2` (edges sharing a side share the point, arrowheads merge) */
+  const port = (k2: string, side: Side): Pt => {
+    const n = byKey[k2]
+    if (side === 'L') return [n.x - hw, n.y]
+    if (side === 'R') return [n.x + hw, n.y]
+    if (side === 'T') return [n.x, n.y - hh]
+    return [n.x, n.y + hh]
   }
-  for (const e of edges) {
-    const s2 = sides(e)
-    if (s2.src) addPort(e.from, s2.src, e.id, yOf(e.to))
-    if (s2.dst) addPort(e.to, s2.dst, e.id, yOf(e.from))
-  }
-  const portY = new Map<string, number>()
-  for (const [key, list] of portList) {
-    list.sort((p, q) => p.other - q.other)
-    const n = list.length
-    const step = n > 1 ? Math.min(7, 21 / (n - 1)) : 0
-    list.forEach((p, i) => portY.set(`${key}|${p.id}`, (i - (n - 1) / 2) * step))
-  }
-  const py = (node: string, side: Side, id: string) => byKey[node].y + (portY.get(`${node}|${side}|${id}`) ?? 0)
 
-  /** a horizontal corridor just above a bus (between the bars for the spinal cord) */
+  /** corridor just above a bar (between the two bars for the spinal cord) */
   const busCorridor = (k2: BusKey) => (k2 === 'brainstem' ? buses.brainstem.y - 9 - 10 : (buses.brainstem.y + buses.spinalcord.y) / 2)
+  /** clamp an x onto a bar, leaving room for the bar ends */
+  const onBar = (x: number) => Math.min(busX1 - 16, Math.max(busX0 + 16, x))
 
-  function route(e: SEdge): string {
-    const { from, to, id } = e
+  function route(e: SEdge): Pt[] {
+    const { from, to } = e
     if (isBus(from) && isBus(to)) {
       // ascending (spinal cord → brainstem) round the left ends, descending round the right ends
       const sp = buses.spinalcord
       const bs = buses.brainstem
       if (from === 'spinalcord') {
         const x = busX0 - 10
-        return rounded([[busX0, sp.y], [x, sp.y], [x, bs.y], [busX0 + 1, bs.y]], 7)
+        return [[busX0, sp.y], [x, sp.y], [x, bs.y], [busX0, bs.y]]
       }
       const x = busX1 + 10
-      return rounded([[busX1, bs.y], [x, bs.y], [x, sp.y], [busX1 - 1, sp.y]], 7)
+      return [[busX1, bs.y], [x, bs.y], [x, sp.y], [busX1, sp.y]]
     }
     if (isBus(to)) {
+      // node → bar: out sideways into the nearest channel, down to the corridor above the bar, onto its top edge
       const a = byKey[from]
-      const bus = buses[to]
-      const top = bus.y - 9
-      if (a.col === 0 || a.col === 8) {
-        // senses / body feedback: down the gutter, along the corridor above the bar, onto its top edge
-        const left = a.col === 0
-        const ya = py(from, left ? 'R' : 'L', id)
-        const x = left ? chan(0) + spread('c0') : chan(7) + spread('c7')
-        const cy = busCorridor(to) + spread(`bc${to}`) / 2
-        const xe = left ? busX0 + 18 + Math.abs(spread('bL')) * 2 : busX1 - 18 - Math.abs(spread('bR')) * 2
-        return rounded([[left ? a.x + hw : a.x - hw, ya], [x, ya], [x, cy], [xe, cy], [xe, top]])
-      }
-      const ya = py(from, 'R', id)
-      const x = chan(a.col) + spread(`c${a.col}`)
-      return rounded([[a.x + hw, ya], [x, ya], [x, top]])
+      const s2 = sides(e).src!
+      const p0 = port(from, s2)
+      const x = (a.col === 8 ? chan(7) : chan(a.col)) + CH * spread(`c${a.col === 8 ? 7 : a.col}`)
+      const cy = busCorridor(to) + 2 * spread(`bc${to}`)
+      const xe = onBar(x) === x ? x : onBar(x) + (x > busX1 ? -1 : 1) * Math.abs(spread(`be${to}`)) * 4
+      const top = buses[to].y - 9
+      return [p0, [x, p0[1]], [x, cy], [xe, cy], [xe, top]]
     }
     if (isBus(from)) {
+      // bar → node: up from the bar's top edge to the corridor, along to the channel, into the node's side
       const c = byKey[to]
-      const bus = buses[from]
-      const top = bus.y - 9
-      if (c.col === 0 || c.col === 8) {
-        const right = c.col === 8
-        const yc = py(to, right ? 'L' : 'R', id)
-        const x = right ? chan(7) + spread('c7') : chan(0) + spread('c0')
-        const cy = busCorridor(from) + spread(`bc${from}`) / 2
-        const xe = right ? busX1 - 18 - Math.abs(spread('bR')) * 2 : busX0 + 18 + Math.abs(spread('bL')) * 2
-        return rounded([[xe, top], [xe, cy], [x, cy], [x, yc], [right ? c.x - hw : c.x + hw, yc]])
-      }
-      const yc = py(to, 'L', id)
-      const x = chan(c.col - 1) + spread(`c${c.col - 1}`)
-      return rounded([[x, top], [x, yc], [c.x - hw, yc]])
+      const s2 = sides(e).dst!
+      const p1 = port(to, s2)
+      const x = (c.col === 0 ? chan(0) : chan(c.col - 1)) + CH * spread(`c${c.col === 0 ? 0 : c.col - 1}`)
+      const cy = busCorridor(from) + 2 * spread(`bc${from}`)
+      const xe = onBar(x) === x ? x : onBar(x) + (x > busX1 ? -1 : 1) * Math.abs(spread(`be${from}`)) * 4
+      const top = buses[from].y - 9
+      return [[xe, top], [xe, cy], [x, cy], [x, p1[1]], p1]
     }
     const a = byKey[from]
     const c = byKey[to]
     const s2 = sides(e)
-    const ya = py(from, s2.src!, id)
-    const yc = py(to, s2.dst!, id)
+    const p0 = port(from, s2.src!)
+    const p1 = port(to, s2.dst!)
     if (c.col > a.col) {
-      // forward: out of the right edge, into the left edge
+      // feedforward
       if (c.col === a.col + 1 || (a.y === c.y && !rowBlocked(a.y, a.col, c.col))) {
-        const x = chan(a.col) + spread(`c${a.col}`)
-        return rounded([[a.x + hw, ya], [x, ya], [x, yc], [c.x - hw, yc]])
+        const x = chan(a.col) + CH * spread(`c${a.col}`)
+        return [p0, [x, p0[1]], [x, p1[1]], p1]
       }
-      const x1 = chan(a.col) + spread(`c${a.col}`)
-      const x2 = chan(c.col - 1) + spread(`c${c.col - 1}`)
+      const x1 = chan(a.col) + CH * spread(`c${a.col}`)
+      const x2 = chan(c.col - 1) + CH * spread(`c${c.col - 1}`)
       const cyBase = corridor(a.y, c.y)
-      const cy = cyBase + spread(`r${Math.round(cyBase)}`)
-      return rounded([[a.x + hw, ya], [x1, ya], [x1, cy], [x2, cy], [x2, yc], [c.x - hw, yc]])
+      const cy = cyBase + RS * spread(`r${Math.round(cyBase)}`)
+      return [p0, [x1, p0[1]], [x1, cy], [x2, cy], [x2, p1[1]], p1]
     }
-    if (c.col === a.col) {
-      // same column: a bracket along the right-hand channel
-      const x = chan(a.col) + spread(`c${a.col}`)
-      return rounded([[a.x + hw, ya], [x, ya], [x, yc], [c.x + hw, yc]])
+    if (c.col < a.col) {
+      // feedback: down to the corridor under the source, back along it, over to the corridor under the target, up
+      const y1 = a.y + R2 + RS * spread(`r${Math.round(a.y + R2)}`)
+      const y2 = c.y + R2 + RS * spread(`r${Math.round(c.y + R2)}`)
+      if (Math.abs(y1 - y2) < 1) return [p0, [p0[0], y1], [p1[0], y1], p1]
+      const x = chan(c.col) + CH * spread(`c${c.col}`)
+      return [p0, [p0[0], y1], [x, y1], [x, y2], [p1[0], y2], p1]
     }
-    // backward (feedback): out of the left edge, into the target's right edge
-    const x1 = chan(a.col - 1) + spread(`c${a.col - 1}`)
-    if (c.col === a.col - 1) return rounded([[a.x - hw, ya], [x1, ya], [x1, yc], [c.x + hw, yc]])
-    const x2 = chan(c.col) + spread(`c${c.col}`)
-    const cyBase = corridor(a.y, c.y)
-    const cy = cyBase + spread(`r${Math.round(cyBase)}`)
-    return rounded([[a.x - hw, ya], [x1, ya], [x1, cy], [x2, cy], [x2, yc], [c.x + hw, yc]])
+    // same column
+    const down = c.y > a.y
+    const y1 = a.y + (down ? R2 : -R2)
+    const y2 = c.y + (down ? -R2 : R2)
+    if (!hasBetween(a.col, a.y, c.y)) {
+      const y = y1 + RS * spread(`r${Math.round(y1)}`) / 2
+      return [p0, [p0[0], y], [p1[0], y], p1]
+    }
+    const x = chan(a.col) + CH * spread(`c${a.col}`)
+    return [p0, [p0[0], y1], [x, y1], [x, y2], [p1[0], y2], p1]
   }
-  for (const e of edges) e.d = route(e)
+  const routes: Record<string, Pt[]> = {}
+  for (const e of edges) {
+    routes[e.id] = route(e)
+    e.d = rounded(routes[e.id])
+  }
 
-  return { k, H, nodes, byKey, buses, zones, lanes, stages, edges }
+
+  return { k, H, nodes, byKey, buses, zones, lanes, stages, edges, routes }
 }
 
 /** Unstretched layout (used by tests and as the initial render). */

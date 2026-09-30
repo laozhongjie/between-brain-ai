@@ -39,7 +39,7 @@ export function Schematic() {
     const fit = () => {
       if (!el.clientWidth || !el.clientHeight) return
       const target = (W * el.clientHeight) / el.clientWidth // viewBox height matching the panel's aspect
-      const next = Math.round(Math.min(1.8, Math.max(0.75, (target - 30) / (BASE_H - 30))) * 50) / 50
+      const next = Math.round(Math.min(1.8, Math.max(1, (target - 30) / (BASE_H - 30))) * 50) / 50
       setK(next)
     }
     const ro = new ResizeObserver(fit)
