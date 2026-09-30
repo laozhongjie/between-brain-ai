@@ -259,9 +259,8 @@ button { font: inherit; color: inherit; }
 .snode { cursor: pointer; transition: opacity 0.3s; }
 .snode .sbox { fill: #0f1520; stroke-width: 1.3; transition: fill .2s; }
 .snode text { fill: var(--text-h); font-size: 12.5px; pointer-events: none; }
-.shalo { opacity: 0; pointer-events: none; }
-.shalo.bus { fill: var(--mint); }
-.shalo.dim { visibility: hidden; }
+.sflash { fill: none; stroke-width: 2.2; pointer-events: none; }
+.sflash.dim { visibility: hidden; }
 .snode:hover .sbox { fill: #16202e; }
 .snode.sel .sbox { stroke-width: 3; }
 .snode.dim { opacity: 0.12; }

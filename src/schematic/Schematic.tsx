@@ -1,20 +1,21 @@
 import { useEffect, useMemo, useRef } from 'react'
-import { NODES, resolveKey } from '../data/nodes'
+import { resolveKey } from '../data/nodes'
 import { UI, useT } from '../i18n'
 import { currentFocus } from '../scene/focusState'
 import { engine } from '../sim/engine'
 import { signals } from '../sim/signals'
 import { useStore } from '../store'
 import { BUSES, COLUMNS, H, HOP_EDGE, NODE_H, NODE_W, SEDGES, SNODES, W, type BusKey } from './layout'
+import type { Pulse } from '../sim/signals'
 
 const MAX_PULSES = 220
-const KEY_INDICES: Record<string, number[]> = {}
-for (const n of NODES) (KEY_INDICES[n.key] ??= []).push(n.index)
-const keyActivity = (key: string) => Math.max(...KEY_INDICES[key].map((i) => engine.activity[i]))
+/** Seconds for an arrival flash to fade out */
+const FLASH_FADE = 0.7
 
 /**
  * 2D layered schematic of the whole system, driven by the same simulation as the 3D view.
- * Static SVG is rendered by React; activity, traffic and pulses are updated imperatively each frame.
+ * The diagram itself is static SVG rendered by React; pulses and the flash of the node a pulse
+ * arrives at are drawn imperatively each frame in a separate overlay layer.
  */
 export function Schematic() {
   const t = useT()
@@ -166,14 +167,12 @@ export function Schematic() {
 
   useEffect(() => {
     const root = svg.current!
-    const halos = new Map<string, SVGRectElement>()
-    root.querySelectorAll<SVGRectElement>('[data-halo]').forEach((el) => halos.set(el.dataset.halo!, el))
-    const busHalos = new Map<string, SVGRectElement>()
-    root.querySelectorAll<SVGRectElement>('[data-bushalo]').forEach((el) => busHalos.set(el.dataset.bushalo!, el))
+    const overlay = pulseSvg.current!
+    const flashEls = new Map<string, SVGRectElement>()
+    overlay.querySelectorAll<SVGRectElement>('[data-flash]').forEach((el) => flashEls.set(el.dataset.flash!, el))
     const paths = new Map<string, { el: SVGPathElement; len: number }>()
     root.querySelectorAll<SVGPathElement>('[data-edge]').forEach((el) => paths.set(el.dataset.edge!, { el, len: el.getTotalLength() }))
-    const edgeGlow = SEDGES.map((e) => paths.get(e.id)!.el)
-    const layer = pulseSvg.current!.querySelector<SVGGElement>('.spulses')!
+    const layer = overlay.querySelector<SVGGElement>('.spulses')!
     // Each pulse is a bright core plus a faint wide halo: a glow without per-dot filters
     const dots: { halo: SVGCircleElement; core: SVGCircleElement; on: boolean }[] = []
     for (let i = 0; i < MAX_PULSES; i++) {
@@ -186,33 +185,42 @@ export function Schematic() {
       dots.push({ halo, core, on: false })
     }
 
-    // Only touch the diagram when a value visibly changes: every write repaints the whole SVG
-    const q = (x: number, step: number) => Math.round(Math.min(1, x) / step) * step
-    const lastHalo = new Map<SVGRectElement, number>()
-    const setHalo = (el: SVGRectElement, key: string) => {
-      const o = q(keyActivity(key) * 1.3, 0.05)
-      if (lastHalo.get(el) !== o) {
-        lastHalo.set(el, o)
-        el.style.opacity = String(o)
-      }
+    // A node flashes once when a pulse finishes its hop into it, then fades
+    const flash = new Map<string, number>()
+    const arrive = (p: Pulse) => {
+      const to = HOP_EDGE[p.path][p.hop]?.split('>')[1]
+      if (to && flashEls.has(to)) flash.set(to, 1)
     }
-    const lastTr = new Float32Array(SEDGES.length).fill(-1)
+    let inFlight = new Set<Pulse>()
 
     let raf = 0
+    let wall = performance.now()
     const frame = () => {
-      for (const [key, el] of halos) setHalo(el, key)
-      for (const [key, el] of busHalos) setHalo(el, key)
-      SEDGES.forEach((e, i) => {
-        let tr = 0
-        for (const p of e.paths) tr = Math.max(tr, signals.traffic[p])
-        tr = q(tr, 0.05)
-        if (lastTr[i] !== tr) {
-          lastTr[i] = tr
-          edgeGlow[i].style.setProperty('--tr', tr.toFixed(2))
-        }
-      })
+      const t = performance.now()
+      const dt = Math.min(0.1, (t - wall) / 1000)
+      wall = t
       let n = 0
       const now = engine.simTime
+      // Arrivals: pulses that reached the end of their hop, or left the list since the last frame
+      const current = new Set(signals.pulses)
+      for (const p of inFlight) if (!current.has(p)) arrive(p)
+      inFlight = new Set()
+      for (const p of signals.pulses) {
+        if ((now - p.t0) / p.dur >= 1) arrive(p)
+        else inFlight.add(p)
+      }
+      for (const [key, level] of flash) {
+        const el = flashEls.get(key)!
+        const next = level - dt / FLASH_FADE
+        if (next <= 0) {
+          flash.delete(key)
+          el.style.display = 'none'
+        } else {
+          flash.set(key, next)
+          el.style.display = ''
+          el.style.opacity = (next * next).toFixed(3) // ease-out fade
+        }
+      }
       for (const p of signals.pulses) {
         if (n >= MAX_PULSES) break
         const fr = (now - p.t0) / p.dur
@@ -255,9 +263,6 @@ export function Schematic() {
       <div className="schem-view">
         <svg ref={svg} preserveAspectRatio="xMidYMid meet">
           <defs>
-            <filter id="sglow" x="-3%" y="-6%" width="106%" height="112%">
-              <feGaussianBlur stdDeviation="6" />
-            </filter>
             <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
               <path d="M0,0 L10,5 L0,10 z" fill="context-stroke" />
             </marker>
@@ -277,18 +282,6 @@ export function Schematic() {
               </g>
             )
           })}
-
-          {/* All activity halos share one blur pass (a filter per halo would re-blur ~75 surfaces every repaint) */}
-          <g className="shalos" filter="url(#sglow)">
-            {(Object.keys(BUSES) as BusKey[]).map((k) => {
-              const b = BUSES[k]
-              return <rect key={k} data-bushalo={k} x={b.x0} y={b.y - 9} width={b.x1 - b.x0} height={18} rx={9} className={`shalo bus ${busVisible(k) ? '' : 'dim'}`} />
-            })}
-            {SNODES.map((n) => (
-              <rect key={n.key} data-halo={n.key} x={n.x - NODE_W / 2} y={n.y - NODE_H / 2} width={NODE_W} height={NODE_H} rx={12}
-                className={`shalo ${nodeClass(n.key).includes('dim') ? 'dim' : ''}`} style={{ fill: n.color }} />
-            ))}
-          </g>
 
           <g className="sedges">
             {SEDGES.map((e) => (
@@ -314,6 +307,25 @@ export function Schematic() {
 
         </svg>
         <svg ref={pulseSvg} className="spulse-layer" preserveAspectRatio="xMidYMid meet" aria-hidden>
+          <defs>
+            {/* glowing outline: blurred copy under the crisp stroke */}
+            <filter id="sflash" x="-20%" y="-60%" width="140%" height="220%">
+              <feGaussianBlur stdDeviation="4" result="b" />
+              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+          </defs>
+          {/* only flashing outlines are displayed, so the blur covers just those few nodes */}
+          <g filter="url(#sflash)">
+            {(Object.keys(BUSES) as BusKey[]).map((k) => {
+              const b = BUSES[k]
+              return <rect key={k} data-flash={k} x={b.x0} y={b.y - 9} width={b.x1 - b.x0} height={18} rx={9}
+                className={`sflash ${busVisible(k) ? '' : 'dim'}`} style={{ stroke: 'var(--mint)', display: 'none' }} />
+            })}
+            {SNODES.map((n) => (
+              <rect key={n.key} data-flash={n.key} x={n.x - NODE_W / 2} y={n.y - NODE_H / 2} width={NODE_W} height={NODE_H} rx={12}
+                className={`sflash ${nodeClass(n.key).includes('dim') ? 'dim' : ''}`} style={{ stroke: n.color, display: 'none' }} />
+            ))}
+          </g>
           <g className="spulses" />
         </svg>
       </div>
