@@ -275,9 +275,17 @@ export function Schematic() {
               <text className="szone-title" x={(z.x0 + z.x1) / 2} y={18} textAnchor="middle" dominantBaseline="central">{t(z.label)}</text>
             </g>
           ))}
-          {COLUMNS.map((c, i) => (
-            <text key={i} className="scol" x={(c.x0 + c.x1) / 2} y={50} textAnchor="middle" dominantBaseline="central">{t(c.label)}</text>
-          ))}
+          {/* Stage labels, each centred over a bracket that spans its columns */}
+          {COLUMNS.map((c, i) => {
+            const x0 = c.x0 - NODE_W / 2
+            const x1 = c.x1 + NODE_W / 2
+            return (
+              <g key={i}>
+                <text className="scol" x={(x0 + x1) / 2} y={46} textAnchor="middle" dominantBaseline="central">{t(c.label)}</text>
+                <path className="scol-bracket" d={`M${x0},62 L${x0},57 L${x1},57 L${x1},62`} />
+              </g>
+            )
+          })}
           {/* Functional lanes, labelled on their top edge */}
           {LANES.map((l, i) => {
             const cx = (l.x0 + l.x1) / 2

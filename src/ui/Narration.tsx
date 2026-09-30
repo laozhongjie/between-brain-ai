@@ -16,7 +16,7 @@ export function Narration() {
     <div className="panel narration">
       <h3>{t(UI.narration)}</h3>
       <div className="narr-list" ref={ref}>
-        {log.slice(-12).map((l, i, arr) => (
+        {log.slice(-40).map((l, i, arr) => (
           <p key={l.id} className={`${l.event ? 'narr-event' : ''} ${i === arr.length - 1 ? 'latest' : ''}`}>
             {l.event && <span className="narr-time">{fmtClock(DAY_START + l.tl)}</span>}
             <Rich text={t(l.text)} />

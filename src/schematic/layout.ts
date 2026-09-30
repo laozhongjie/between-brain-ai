@@ -11,16 +11,16 @@ import { ink } from '../theme'
  * Three zones (input · the brain's internal loop · output) separated by gutters; inside the brain,
  * functional lanes run horizontally so each system's nodes sit together in one framed band.
  */
-export const NODE_W = 116
-export const NODE_H = 24
-const colX = (c: number) => 70 + c * 150 + (c >= 1 ? 30 : 0) + (c >= 8 ? 30 : 0)
+export const NODE_W = 126
+export const NODE_H = 28
+const colX = (c: number) => 75 + c * 136 + (c >= 1 ? 28 : 0) + (c >= 8 ? 28 : 0)
 export const W = colX(8) + 80
-export const H = 764
+export const H = 862
 
 /** Buses for structures that everything passes through (inside the brain zone). */
 export const BUSES = {
-  brainstem: { y: 712, x0: colX(1) - NODE_W / 2, x1: colX(7) + NODE_W / 2 },
-  spinalcord: { y: 742, x0: colX(1) - NODE_W / 2, x1: colX(7) + NODE_W / 2 },
+  brainstem: { y: 796, x0: colX(1) - NODE_W / 2, x1: colX(7) + NODE_W / 2 },
+  spinalcord: { y: 832, x0: colX(1) - NODE_W / 2, x1: colX(7) + NODE_W / 2 },
 } as const
 export type BusKey = keyof typeof BUSES
 export const isBus = (k: string): k is BusKey => k in BUSES
@@ -28,73 +28,73 @@ export const isBus = (k: string): k is BusKey => k in BUSES
 // [key, column, y, short zh, short en]; rows are grouped into the functional lanes below
 const TABLE: [string, number, number, string, string][] = [
   // Vision · attention
-  ['eye', 0, 128, '眼睛', 'Eye'],
-  ['lgn', 1, 128, '外侧膝状体', 'LGN'],
-  ['pericalcarine', 2, 128, 'V1 初级视觉', 'V1 visual'],
-  ['cuneus', 3, 92, '楔叶 V2/V3', 'Cuneus V2/V3'],
-  ['lateraloccipital', 3, 128, '枕外侧 LOC', 'LOC'],
-  ['lingual', 3, 164, '舌回', 'Lingual'],
-  ['superiorparietal', 4, 92, '顶上小叶', 'Sup. parietal'],
-  ['fusiform', 4, 128, '梭状回 · 面孔', 'Fusiform · faces'],
-  ['inferiortemporal', 5, 128, '颞下回 · 物体', 'Inf. temporal'],
-  ['temporalpole', 5, 164, '颞极', 'Temporal pole'],
-  ['caudalmiddlefrontal', 6, 92, '额叶眼区/前运动', 'FEF / premotor'],
-  ['rostralmiddlefrontal', 6, 128, '背外侧前额叶', 'DLPFC'],
+  ['eye', 0, 144, '眼睛', 'Eye'],
+  ['lgn', 1, 144, '外侧膝状体', 'LGN'],
+  ['pericalcarine', 2, 144, 'V1 初级视觉', 'V1 visual'],
+  ['cuneus', 3, 102, '楔叶 V2/V3', 'Cuneus V2/V3'],
+  ['lateraloccipital', 3, 144, '枕外侧 LOC', 'LOC'],
+  ['lingual', 3, 186, '舌回', 'Lingual'],
+  ['superiorparietal', 4, 102, '顶上小叶', 'Sup. parietal'],
+  ['fusiform', 4, 144, '梭状回 · 面孔', 'Fusiform · faces'],
+  ['inferiortemporal', 5, 144, '颞下回 · 物体', 'Inf. temporal'],
+  ['temporalpole', 5, 186, '颞极', 'Temporal pole'],
+  ['caudalmiddlefrontal', 6, 102, '额叶眼区/前运动', 'FEF / premotor'],
+  ['rostralmiddlefrontal', 6, 144, '背外侧前额叶', 'DLPFC'],
 
   // Hearing · language
-  ['ear', 0, 236, '耳朵', 'Ear'],
-  ['mgn', 1, 236, '内侧膝状体', 'MGN'],
-  ['transversetemporal', 2, 236, 'A1 初级听觉', 'A1 auditory'],
-  ['superiortemporal', 3, 236, 'Wernicke 区', 'Wernicke'],
-  ['supramarginal', 3, 272, '缘上回', 'Supramarginal'],
-  ['middletemporal', 4, 236, '颞中回 · 词义', 'Mid. temporal'],
-  ['inferiorparietal', 4, 272, '角回', 'Angular gyrus'],
-  ['parstriangularis', 5, 236, '三角部 · 选词', 'Pars triangularis'],
-  ['parsopercularis', 6, 236, 'Broca 区', 'Broca'],
-  ['larynx', 8, 236, '发声 · 喉舌唇', 'Vocal tract'],
+  ['ear', 0, 262, '耳朵', 'Ear'],
+  ['mgn', 1, 262, '内侧膝状体', 'MGN'],
+  ['transversetemporal', 2, 262, 'A1 初级听觉', 'A1 auditory'],
+  ['superiortemporal', 3, 262, 'Wernicke 区', 'Wernicke'],
+  ['supramarginal', 3, 304, '缘上回', 'Supramarginal'],
+  ['middletemporal', 4, 262, '颞中回 · 词义', 'Mid. temporal'],
+  ['inferiorparietal', 4, 304, '角回', 'Angular gyrus'],
+  ['parstriangularis', 5, 262, '三角部 · 选词', 'Pars triangularis'],
+  ['parsopercularis', 6, 262, 'Broca 区', 'Broca'],
+  ['larynx', 8, 262, '发声 · 喉舌唇', 'Vocal tract'],
 
   // Body sense · movement
-  ['skin', 0, 344, '皮肤', 'Skin'],
-  ['vpl', 1, 344, '丘脑腹后核', 'VPL / VPM'],
-  ['postcentral', 2, 344, 'S1 躯体感觉', 'S1 touch'],
-  ['cerebellum', 5, 416, '小脑', 'Cerebellum'],
-  ['superiorfrontal', 6, 344, '辅助运动区', 'SMA'],
-  ['caudate', 6, 380, '尾状核', 'Caudate'],
-  ['paracentral', 6, 416, '中央旁小叶', 'Paracentral'],
-  ['precentral', 7, 344, 'M1 初级运动', 'M1 motor'],
-  ['putamen', 7, 380, '壳核', 'Putamen'],
-  ['pallidum', 7, 416, '苍白球', 'Pallidum'],
-  ['thalamus', 7, 452, '丘脑', 'Thalamus'],
-  ['muscles', 8, 380, '骨骼肌', 'Muscles'],
+  ['skin', 0, 380, '皮肤', 'Skin'],
+  ['vpl', 1, 380, '丘脑腹后核', 'VPL / VPM'],
+  ['postcentral', 2, 380, 'S1 躯体感觉', 'S1 touch'],
+  ['cerebellum', 5, 464, '小脑', 'Cerebellum'],
+  ['superiorfrontal', 6, 380, '辅助运动区', 'SMA'],
+  ['caudate', 6, 422, '尾状核', 'Caudate'],
+  ['paracentral', 6, 464, '中央旁小叶', 'Paracentral'],
+  ['precentral', 7, 380, 'M1 初级运动', 'M1 motor'],
+  ['putamen', 7, 422, '壳核', 'Putamen'],
+  ['pallidum', 7, 464, '苍白球', 'Pallidum'],
+  ['thalamus', 7, 506, '丘脑', 'Thalamus'],
+  ['muscles', 8, 422, '骨骼肌', 'Muscles'],
 
   // Emotion · memory · homeostasis
-  ['nose', 0, 524, '鼻子', 'Nose'],
-  ['tongue', 0, 560, '舌头', 'Tongue'],
-  ['viscera', 0, 596, '内脏', 'Gut'],
-  ['insula', 2, 524, '岛叶', 'Insula'],
-  ['entorhinal', 2, 560, '内嗅皮层', 'Entorhinal'],
-  ['hippocampus', 3, 560, '海马', 'Hippocampus'],
-  ['parahippocampal', 3, 596, '海马旁回', 'Parahippocampal'],
-  ['amygdala', 4, 524, '杏仁核', 'Amygdala'],
-  ['posteriorcingulate', 4, 560, '后扣带回', 'Post. cingulate'],
-  ['precuneus', 4, 596, '楔前叶', 'Precuneus'],
-  ['lateralorbitofrontal', 5, 524, '外侧眶额', 'Lateral OFC'],
-  ['medialorbitofrontal', 5, 560, '腹内侧前额叶', 'vmPFC'],
-  ['accumbens', 5, 596, '伏隔核', 'Accumbens'],
-  ['caudalanteriorcingulate', 6, 524, '前扣带回', 'dACC'],
-  ['hypothalamus', 6, 560, '下丘脑', 'Hypothalamus'],
-  ['pituitary', 7, 596, '垂体', 'Pituitary'],
-  ['heart', 8, 542, '心脏', 'Heart'],
-  ['adrenal', 8, 596, '肾上腺', 'Adrenal'],
+  ['nose', 0, 582, '鼻子', 'Nose'],
+  ['tongue', 0, 624, '舌头', 'Tongue'],
+  ['viscera', 0, 666, '内脏', 'Gut'],
+  ['insula', 2, 582, '岛叶', 'Insula'],
+  ['entorhinal', 2, 624, '内嗅皮层', 'Entorhinal'],
+  ['hippocampus', 3, 624, '海马', 'Hippocampus'],
+  ['parahippocampal', 3, 666, '海马旁回', 'Parahippocampal'],
+  ['amygdala', 4, 582, '杏仁核', 'Amygdala'],
+  ['posteriorcingulate', 4, 624, '后扣带回', 'Post. cingulate'],
+  ['precuneus', 4, 666, '楔前叶', 'Precuneus'],
+  ['lateralorbitofrontal', 5, 582, '外侧眶额', 'Lateral OFC'],
+  ['medialorbitofrontal', 5, 624, '腹内侧前额叶', 'vmPFC'],
+  ['accumbens', 5, 666, '伏隔核', 'Accumbens'],
+  ['caudalanteriorcingulate', 6, 582, '前扣带回', 'dACC'],
+  ['hypothalamus', 6, 624, '下丘脑', 'Hypothalamus'],
+  ['pituitary', 7, 666, '垂体', 'Pituitary'],
+  ['heart', 8, 603, '心脏', 'Heart'],
+  ['adrenal', 8, 666, '肾上腺', 'Adrenal'],
 
   // Arousal · neuromodulators
-  ['aras', 1, 668, '网状激活系统', 'ARAS'],
-  ['scn', 2, 668, '视交叉上核·生物钟', 'SCN · clock'],
-  ['pineal', 3, 668, '松果体', 'Pineal'],
-  ['lc', 4, 668, '蓝斑 · NE', 'LC · NE'],
-  ['vta', 5, 668, '腹侧被盖区 · DA', 'VTA · DA'],
-  ['snc', 6, 668, '黑质 · DA', 'SNc · DA'],
-  ['raphe', 7, 668, '中缝核 · 5-HT', 'Raphe · 5-HT'],
+  ['aras', 1, 742, '网状激活系统', 'ARAS'],
+  ['scn', 2, 742, '视交叉上核·生物钟', 'SCN · clock'],
+  ['pineal', 3, 742, '松果体', 'Pineal'],
+  ['lc', 4, 742, '蓝斑 · NE', 'LC · NE'],
+  ['vta', 5, 742, '腹侧被盖区 · DA', 'VTA · DA'],
+  ['snc', 6, 742, '黑质 · DA', 'SNc · DA'],
+  ['raphe', 7, 742, '中缝核 · 5-HT', 'Raphe · 5-HT'],
 ]
 
 export interface SNode {
@@ -113,15 +113,15 @@ export const SNODES: SNode[] = TABLE.map(([key, c, y, zh, en]) => {
 })
 export const SNODE_BY_KEY: Record<string, SNode> = Object.fromEntries(SNODES.map((n) => [n.key, n]))
 
-const PAD = 72 // zone edge to column centre
+const PAD = 76 // zone edge to column centre
 /** Input · the brain's internal loop · output. */
 export const ZONES: { x0: number; x1: number; y0: number; y1: number; label: Bi }[] = [
-  { x0: colX(0) - PAD, x1: colX(0) + PAD, y0: 34, y1: 626, label: { zh: '输入 · 感觉器官', en: 'Input · senses' } },
-  { x0: colX(1) - PAD, x1: colX(7) + PAD, y0: 34, y1: H - 4, label: { zh: '大脑内部 · 处理回路', en: 'Inside the brain · processing loop' } },
-  { x0: colX(8) - PAD, x1: colX(8) + PAD, y0: 34, y1: 626, label: { zh: '输出 · 身体', en: 'Output · body' } },
+  { x0: colX(0) - PAD, x1: colX(0) + PAD, y0: 30, y1: 700, label: { zh: '输入 · 感觉器官', en: 'Input · senses' } },
+  { x0: colX(1) - PAD, x1: colX(7) + PAD, y0: 30, y1: H - 4, label: { zh: '大脑内部 · 处理回路', en: 'Inside the brain · processing loop' } },
+  { x0: colX(8) - PAD, x1: colX(8) + PAD, y0: 30, y1: 700, label: { zh: '输出 · 身体', en: 'Output · body' } },
 ]
 
-/** Stage labels across the brain zone. */
+/** Stage labels across the brain zone; each spans x0..x1 (column centres) and is drawn with a bracket. */
 export const COLUMNS: { x0: number; x1: number; label: Bi }[] = [
   { x0: colX(1), x1: colX(1), label: { zh: '中继', en: 'Relay' } },
   { x0: colX(2), x1: colX(5), label: { zh: '皮层处理与整合 →', en: 'Cortical processing →' } },
@@ -131,11 +131,11 @@ export const COLUMNS: { x0: number; x1: number; label: Bi }[] = [
 /** Functional lanes inside the brain zone: a framed band around each group's rows. */
 export const LANES: { y0: number; y1: number; x0: number; x1: number; label: Bi; color: string }[] = (
   [
-    [92, 164, b('视觉 · 注意', 'Vision · attention'), 'visual'],
-    [236, 272, b('听觉 · 语言', 'Hearing · language'), 'language'],
-    [344, 452, b('躯体感觉 · 运动', 'Body sense · movement'), 'motor'],
-    [524, 596, b('情绪 · 记忆 · 稳态', 'Emotion · memory · homeostasis'), 'emotion'],
-    [668, 668, b('觉醒 · 神经调质', 'Arousal · neuromodulators'), 'arousal'],
+    [102, 186, b('视觉 · 注意', 'Vision · attention'), 'visual'],
+    [262, 304, b('听觉 · 语言', 'Hearing · language'), 'language'],
+    [380, 506, b('躯体感觉 · 运动', 'Body sense · movement'), 'motor'],
+    [582, 666, b('情绪 · 记忆 · 稳态', 'Emotion · memory · homeostasis'), 'emotion'],
+    [742, 742, b('觉醒 · 神经调质', 'Arousal · neuromodulators'), 'arousal'],
   ] as [number, number, Bi, keyof typeof SYSTEMS][]
 ).map(([top, bottom, label, sys]) => ({
   y0: top - NODE_H / 2 - 16,
