@@ -19,13 +19,12 @@ import { Icon } from './ui/Icon'
 // The Brain ↔ AI section (with KaTeX) loads on demand so the atlas starts faster
 const AiSection = lazy(() => import('./ai/pages/AiSection').then((m) => ({ default: m.AiSection })))
 
-/** Brand mark, monochrome: a ring and a tilted orbit (two systems in relation) around a core. */
+/** Brand mark: a disc split by a thin gap into two halves (brain | AI). White, no background. */
 function Logo() {
   return (
-    <svg className="logo" viewBox="0 0 32 32" fill="none" aria-hidden>
-      <circle cx="16" cy="16" r="14.5" stroke="#f2f4f7" strokeWidth="1.2" />
-      <ellipse cx="16" cy="16" rx="14.5" ry="5.5" stroke="rgba(242,244,247,0.45)" transform="rotate(-30 16 16)" />
-      <circle cx="16" cy="16" r="3" fill="#f2f4f7" />
+    <svg className="logo" viewBox="0 0 32 32" aria-hidden>
+      <path d="M15.35 1.014A15 15 0 0 0 15.35 30.986Z" fill="#f2f4f7" />
+      <path d="M16.65 1.014A15 15 0 0 1 16.65 30.986Z" fill="#f2f4f7" />
     </svg>
   )
 }

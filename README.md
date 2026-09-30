@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="docs/logo.svg" width="72" height="72" alt="BETWEEN logo">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/logo-white.svg">
+    <img src="docs/logo-black.svg" width="72" height="72" alt="BETWEEN logo">
+  </picture>
 </p>
 
 <h1 align="center">B E T W E E N</h1>
@@ -158,7 +161,7 @@ npm run compress-model   # meshopt compression: 6.6 MB → 1.4 MB
 ## Credits and licences
 
 - **Brain data**: FreeSurfer `fsaverage` template (via MNE-Python), under the [FreeSurfer Software License](https://surfer.nmr.mgh.harvard.edu/fswiki/FreeSurferSoftwareLicense). Check its terms before any commercial use.
-- **Fonts**: [Inter](https://rsms.me/inter/) and [JetBrains Mono](https://www.jetbrains.com/lp/mono/) (SIL OFL); [MiSans](https://hyperos.mi.com/font/) © Beijing Xiaomi Mobile Software Co., Ltd., used under the MiSans Font IP License Agreement.
+- **Fonts**: [Inter](https://rsms.me/inter/), [JetBrains Mono](https://www.jetbrains.com/lp/mono/) and [Jost](https://indestructibletype.com/Jost.html) for the wordmark (SIL OFL); [MiSans](https://hyperos.mi.com/font/) © Beijing Xiaomi Mobile Software Co., Ltd., used under the MiSans Font IP License Agreement.
 - **Icons**: [lucide](https://lucide.dev) (ISC).
 
 <br>

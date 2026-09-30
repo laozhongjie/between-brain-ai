@@ -4,6 +4,8 @@ import { createRoot } from 'react-dom/client'
 import '@fontsource-variable/inter'
 import 'misans-vf-4web/dist/result.css'
 import '@fontsource-variable/jetbrains-mono'
+// Jost (geometric, Futura-like) for the BETWEEN wordmark only
+import '@fontsource-variable/jost'
 import './index.css'
 import App from './App.tsx'
 import { startSimulation } from './sim/loop'

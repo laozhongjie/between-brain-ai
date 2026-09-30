@@ -719,7 +719,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 }
 
 /* ── Brand ── */
-.wordmark { font-weight: 500; font-size: 16px; letter-spacing: 0.32em; margin-right: -0.32em; color: #f2f4f7; }
+.wordmark { font-family: 'Jost Variable', 'Futura', 'Inter Variable', sans-serif; font-weight: 400; font-size: 17px; letter-spacing: 0.42em; margin-right: -0.42em; color: #f2f4f7; }
 .tagline { font: 400 11.5px/1 var(--mono); letter-spacing: 0.04em; color: var(--text-dim); white-space: nowrap; min-width: 0; }
 .tagline .decode-noise { opacity: 0.6; }
 @media (max-width: 1100px) { .tagline { display: none; } }
