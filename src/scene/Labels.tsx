@@ -236,6 +236,8 @@ export function Labels() {
     if (key !== co.key) {
       co.key = key
       const sys = SYSTEMS[n.info.system]
+      // Drop the entrance class before the one layout read below, so that read also restarts the animation
+      co.root.classList.remove('in')
       co.title.textContent = n.info.name[lang]
       co.sub.textContent = sys.name[lang]
       co.swatch.style.background = sys.color
@@ -243,9 +245,6 @@ export function Labels() {
       co.w = co.card.offsetWidth
       co.h = co.card.offsetHeight
       co.fresh = true
-      // restart the entrance animation
-      co.root.classList.remove('in')
-      void co.root.offsetWidth
       co.root.classList.add('in')
     }
 
