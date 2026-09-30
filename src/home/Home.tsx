@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { UI, useT } from '../i18n'
 import { go } from '../route'
 import { useStore } from '../store'
@@ -67,13 +67,16 @@ function Hero({ g }: { g: ReturnType<typeof heroGeom> }) {
       <div className="hero-label left" style={{ right: `calc(50% + ${g.d - 12}px)`, top: top - 76 }}>
         <span className="hl-k">HUMAN</span>
         <span className="hl-name">Brain</span>
-        <span className="hl-fact">86 billion neurons · 20 W</span>
+        <span className="hl-fact" title={t({
+          zh: '典型成人大脑的估算值：约 860 亿个神经元，功耗约 20 W。神经元数量与模型参数量并不等价。',
+          en: 'Estimates for a typical adult human brain: about 86 billion neurons and 20 W of power consumption. Neuron counts and model parameter counts are not equivalent.',
+        })}>86 billion neurons · 20 W</span>
       </div>
       <div className="hero-label right" style={{ left: `calc(50% + ${g.d - 12}px)`, top: top - 76 }}>
         <span className="hl-k">MACHINE</span>
         <span className="hl-name">AI</span>
         <span className="hl-fact" title={t({
-          zh: 'Kimi K3：2.8 万亿总参数，每个 token 激活 1040 亿参数。推理配置：一台 DGX B300（8 张 B300 GPU）。15,000 W 为整机额定功耗上限，并非模型实测推理功耗；实际功耗随负载变化。数据核对于 2026-09-30。',
+          zh: 'Kimi K3：2.8 万亿总参数，每个 token 激活 1040 亿参数。推理配置：一台 DGX B300（8 张 B300 GPU）。15,000 W 为整机额定功耗上限，并非模型实测推理功耗；实际功耗随负载变化。数据核对日期：2026-09-30。',
           en: 'Kimi K3: 2.8 trillion total parameters, 104 billion active per token. Inference configuration: one DGX B300 (8 B300 GPUs). 15,000 W is the rated whole-system maximum, not measured model inference power; actual draw varies with workload. Checked 2026-09-30.',
         })}>2.8 trillion parameters · 15,000 W max</span>
       </div>
@@ -81,12 +84,38 @@ function Hero({ g }: { g: ReturnType<typeof heroGeom> }) {
       <div className="hero-copy" style={{ top: cy + g.r + 46 }}>
         <div className="hero-wordmark">BETWEEN</div>
         <p className="hero-lede">Exploring what lies between brains and machines</p>
-        <p className="hero-lede zh">探索人脑与人工智能之间</p>
+        <p className="hero-lede zh">探索人脑与人工智能的异同</p>
       </div>
 
       <div className="hero-foot left">05 LAYERS · 28 CARDS · 05 LABS · 93 REFERENCES</div>
       <div className="hero-foot right">SCROLL TO OPEN</div>
     </div>
+  )
+}
+
+function ChapterCaption({ text }: { text: string }) {
+  const paragraph = useRef<HTMLParagraphElement>(null)
+  const measure = useRef<HTMLSpanElement>(null)
+
+  useLayoutEffect(() => {
+    const container = paragraph.current!
+    const content = measure.current!
+    const fit = () => {
+      const width = content.getBoundingClientRect().width
+      container.style.setProperty('--caption-scale', String(width ? Math.min(1, container.clientWidth / width) : 1))
+    }
+    const observer = new ResizeObserver(fit)
+    observer.observe(container)
+    observer.observe(content)
+    fit()
+    return () => observer.disconnect()
+  }, [text])
+
+  return (
+    <p ref={paragraph}>
+      <span ref={measure} className="caption-measure" aria-hidden>{text}</span>
+      <DecodeText className="caption-text" text={text} perChar={16} trail={4} />
+    </p>
   )
 }
 
@@ -183,14 +212,14 @@ export function Home() {
             <HomeBrain />
             <div className="home-caption">
               <span className="hc-side">BRAIN</span>
-              {ch && <p><DecodeText text={t(ch.brain)} perChar={16} trail={4} /></p>}
+              {ch && <ChapterCaption text={t(ch.brain)} />}
             </div>
           </div>
           <div className="home-half right">
             <HomeAI />
             <div className="home-caption">
               <span className="hc-side">AI</span>
-              {ch && <p><DecodeText text={t(ch.ai)} perChar={16} trail={4} /></p>}
+              {ch && <ChapterCaption text={t(ch.ai)} />}
             </div>
           </div>
 
@@ -217,7 +246,7 @@ export function Home() {
 
           <div className="home-cta">
             <p className="cta-line">between what we understand<br />and what we can build</p>
-            <p className="cta-line zh">在已理解的与能构建的之间</p>
+            <p className="cta-line zh">在理解与创造之间</p>
             <div className="cta-actions">
               <button className="cta-btn primary" onClick={() => go('/atlas')}>{t(UI.navAtlas)}</button>
               <button className="cta-btn" onClick={() => go('/ai')}>{t(UI.navAi)}</button>

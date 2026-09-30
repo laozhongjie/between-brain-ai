@@ -6,6 +6,7 @@ import { REGIONS } from '../src/data/regions'
 import { DAY } from '../src/data/scenario'
 import { TOURS } from '../src/data/tours'
 import { UI } from '../src/i18n'
+import { CHAPTERS } from '../src/home/chapters'
 import { tokenToTex, toSegments } from '../src/rich'
 
 /** Collect every string reachable from an object (bilingual texts, captions, …). */
@@ -16,7 +17,7 @@ function strings(x: unknown, out: string[] = []): string[] {
   return out
 }
 
-const ALL = strings([CARDS, LAYERS, MODULES, DIFFERENCES, REGIONS, DAY, TOURS, UI])
+const ALL = strings([CARDS, LAYERS, MODULES, DIFFERENCES, REGIONS, DAY, TOURS, UI, CHAPTERS])
 
 describe('site text', () => {
   it('uses no dashes (破折号 / em dash)', () => {

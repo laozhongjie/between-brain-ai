@@ -748,7 +748,9 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 .home-half canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; display: block; }
 .home-ai-canvas { background: radial-gradient(ellipse 70% 60% at 50% 47%, rgba(56,130,200,0.08), transparent 70%), #05070b; }
 .home-caption { position: absolute; left: 0; right: 0; bottom: 56px; display: flex; flex-direction: column; align-items: center; gap: 10px; padding-inline: 40px; text-align: center; pointer-events: none; opacity: var(--open); }
-.home-caption p { margin: 0; max-width: 34ch; min-height: 3em; font-size: 14.5px; line-height: 1.6; color: var(--text-h); }
+.home-caption p { position: relative; margin: 0; width: 100%; min-height: 3em; font-size: 14.5px; line-height: 1.6; color: var(--text-h); white-space: nowrap; }
+.caption-measure { position: absolute; left: 0; top: 0; width: max-content; visibility: hidden; }
+.caption-text { font-size: calc(1em * var(--caption-scale, 1)); }
 .hc-side { font: 500 11px/1 var(--mono); letter-spacing: 0.3em; color: var(--text-dim); }
 
 /* ── Hero ──
