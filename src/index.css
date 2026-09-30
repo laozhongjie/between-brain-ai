@@ -130,6 +130,7 @@ button { font: inherit; color: inherit; }
 .clock { font-family: var(--mono); font-size: 26px; color: var(--text-h); margin-left: 6px; font-variant-numeric: tabular-nums; }
 .tl-title { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-h); }
 .tl-title svg { color: var(--accent); }
+.decode-noise { opacity: 0.9; }
 .tl-bar { position: relative; height: 64px; margin: 8px 4px 18px; border-radius: 9px; background: rgba(0,0,0,0.3); border: 1px solid var(--panel-border); cursor: pointer; touch-action: none; }
 .tl-sky { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
 /* played part: a thin progress line along the bottom, leaving the sky tint clean */

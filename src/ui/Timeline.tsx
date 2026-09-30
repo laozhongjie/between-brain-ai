@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, useState } from 'react'
 import { DAY, fmtClock } from '../data/scenario'
 import { UI, useT } from '../i18n'
 import { DAY_START, EVENTS, director, useScenario } from '../sim/director'
+import { DecodeText } from './DecodeText'
 import { Icon } from './Icon'
 
 const SPEEDS = [1, 2, 4]
@@ -115,7 +116,7 @@ export function Timeline() {
           ))}
         </div>
         <span className="clock">{fmtClock(DAY_START + tl)}</span>
-        <span className="tl-title">{ev ? <><Icon name={ev.icon} size={16} /><span>{t(ev.title)}</span></> : <span>{t(UI.between)}</span>}</span>
+        <span className="tl-title">{ev && <Icon name={ev.icon} size={16} />}<DecodeText text={ev ? t(ev.title) : t(UI.between)} /></span>
       </div>
       <div
         className="tl-bar"
