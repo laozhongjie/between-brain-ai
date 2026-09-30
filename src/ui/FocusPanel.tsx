@@ -9,6 +9,7 @@ import { UI, useT } from '../i18n'
 import { exitFocus, replayFocusStep, setFocusStep } from '../sim/focus'
 import { useStore } from '../store'
 import { Icon } from './Icon'
+import { DecodeText } from './DecodeText'
 
 const AUTO_MS = 6500
 
@@ -58,9 +59,9 @@ export function FocusPanel() {
       </ol>
       <div className="focus-body">
         <button className="step-nav" disabled={step === 0} onClick={() => setFocusStep(step - 1)} aria-label="previous">◀</button>
-        <div className="focus-text">
+        <div className="focus-text" key={step}>
           <div className="focus-step-title">
-            {t(UI.step)} {step + 1} / {n} · <Rich text={t(cur.title)} />
+            {t(UI.step)} {step + 1} / {n} · {t(cur.title).includes('$') ? <Rich text={t(cur.title)} /> : <DecodeText text={t(cur.title)} />}
           </div>
           <p><Rich text={t(cur.text)} /></p>
         </div>

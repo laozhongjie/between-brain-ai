@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import { fmtClock } from '../data/scenario'
 import { UI, useT } from '../i18n'
 import { DAY_START, useScenario } from '../sim/director'
+import { DecodeText } from './DecodeText'
 
 export function Narration() {
   const t = useT()
@@ -19,7 +20,8 @@ export function Narration() {
         {log.slice(-40).map((l, i, arr) => (
           <p key={l.id} className={`${l.event ? 'narr-event' : ''} ${i === arr.length - 1 ? 'latest' : ''}`}>
             {l.event && <span className="narr-time">{fmtClock(DAY_START + l.tl)}</span>}
-            <Rich text={t(l.text)} />
+            {/* event titles decode in; plain lines rise in (CSS) */}
+            {l.event && !t(l.text).includes('$') ? <DecodeText text={t(l.text)} /> : <Rich text={t(l.text)} />}
           </p>
         ))}
       </div>

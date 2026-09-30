@@ -9,6 +9,7 @@ import { UI, useT } from '../i18n'
 import { useStore } from '../store'
 import { ActivitySpark } from './ActivitySpark'
 import { Icon } from './Icon'
+import { DecodeText } from './DecodeText'
 
 function LinkList({ items, dir, hemi }: { items: Link[]; dir: 'in' | 'out'; hemi?: Hemi }) {
   const t = useT()
@@ -47,7 +48,8 @@ export function RegionPanel() {
   const aiCard = tour ? cardForTour(tour.id) : undefined
 
   return (
-    <aside className="panel region-panel">
+    // keyed by region so switching regions replays the entrance (name decodes, sections fade in)
+    <aside className="panel region-panel" key={node.id}>
       <header>
         <div>
           <div className="region-tags">
@@ -56,7 +58,7 @@ export function RegionPanel() {
             {side && <span className="tag">{side}</span>}
             {info.abbr && <span className="tag mono">{info.abbr}</span>}
           </div>
-          <h2>{t(info.name)}</h2>
+          <h2><DecodeText text={t(info.name)} /></h2>
         </div>
         <button className="icon-btn" aria-label={t(UI.close)} onClick={() => select(null)}>×</button>
       </header>

@@ -131,6 +131,16 @@ button { font: inherit; color: inherit; }
 .tl-title { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-h); }
 .tl-title svg { color: var(--accent); }
 .decode-noise { opacity: 0.9; }
+/* Entrances that pair with the decode effect: new content rises in softly */
+@keyframes rise-in { from { opacity: 0; transform: translateY(6px); } }
+.narr-list p { animation: rise-in .5s var(--ease) both; }
+.region-panel > * { animation: rise-in .45s var(--ease) both; }
+.region-panel > :nth-child(2) { animation-delay: .06s; }
+.region-panel > :nth-child(3) { animation-delay: .12s; }
+.region-panel > :nth-child(4) { animation-delay: .18s; }
+.region-panel > :nth-child(5) { animation-delay: .24s; }
+.region-panel > :nth-child(n+6) { animation-delay: .3s; }
+.focus-text p { animation: rise-in .5s var(--ease) .12s both; }
 .tl-bar { position: relative; height: 64px; margin: 8px 4px 18px; border-radius: 9px; background: rgba(0,0,0,0.3); border: 1px solid var(--panel-border); cursor: pointer; touch-action: none; }
 .tl-sky { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
 /* played part: a thin progress line along the bottom, leaving the sky tint clean */
