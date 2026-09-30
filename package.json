@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "compress-model": "gltf-transform meshopt public/models/brain.glb public/models/brain.glb"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",
@@ -20,6 +21,7 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
+    "@gltf-transform/cli": "^4.5.1",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",

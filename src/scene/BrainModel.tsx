@@ -37,6 +37,8 @@ export function BrainModel() {
       const mat: THREE.MeshStandardMaterial =
         o.userData.mat ?? new THREE.MeshStandardMaterial({ roughness: 0.62, metalness: 0.02, side: THREE.DoubleSide })
       o.userData.mat = mat
+      // Quantized meshes carry their dequantisation offset in the node transform: keep it
+      o.userData.baseX ??= o.position.x
       o.material = mat
       o.userData.nodeId = node.id
       list.push({ mesh: o, node, mat, glow: glowColor(node), cortex: isCortex(node) })
@@ -56,7 +58,7 @@ export function BrainModel() {
       p.mat.needsUpdate = true
       const visible = p.node.info.lobe === 'subcortical' ? view.showSubcortex : !p.cortex || opacity > 0.02
       p.mesh.visible = visible
-      p.mesh.position.x = hemiOffset(p.node.hemi, view.explode)
+      p.mesh.position.x = p.mesh.userData.baseX + hemiOffset(p.node.hemi, view.explode)
       p.mesh.renderOrder = p.cortex ? 2 : 1
       // Let clicks pass through a faded cortex to the structures underneath
       p.mesh.userData.pickable = visible && (!p.cortex || opacity > 0.35)

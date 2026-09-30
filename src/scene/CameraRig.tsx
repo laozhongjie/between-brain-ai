@@ -1,4 +1,5 @@
 import { CameraControls } from '@react-three/drei'
+import { useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { NODE_BY_ID } from '../data/nodes'
@@ -12,12 +13,18 @@ export function CameraRig() {
   const ref = useRef<CameraControls>(null)
   const selected = useStore((s) => s.selected)
   const resetTick = useStore((s) => s.resetTick)
+  const aspect = useThree((s) => s.size.width / s.size.height)
 
   useEffect(() => {
     const c = ref.current
     if (!c) return
-    const p = BRAIN_CENTER.clone().addScaledVector(HOME_DIR, HOME_DIST)
+    // On narrow (portrait) screens back off so the whole brain fits horizontally
+    const dist = Math.max(HOME_DIST, 0.95 / (Math.tan((20 * Math.PI) / 180) * aspect))
+    const p = BRAIN_CENTER.clone().addScaledVector(HOME_DIR, dist)
     c.setLookAt(p.x, p.y, p.z, BRAIN_CENTER.x, BRAIN_CENTER.y, BRAIN_CENTER.z, resetTick > 0)
+    // Portrait: lift the brain above the bottom panels
+    c.setFocalOffset(0, aspect < 0.8 ? 0.12 * dist : 0, 0, resetTick > 0)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-home on reset, not on every resize
   }, [resetTick])
 
   useEffect(() => {
