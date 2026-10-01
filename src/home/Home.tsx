@@ -32,8 +32,8 @@ const chapterAt = (i: number) => CH[0] + ((i + 0.5) / CHAPTERS.length) * (CH[1] 
  *  each chapter's centre, the closing view. */
 const OPENED = at(OPENING_VH - 4)
 const KEY_STOPS = [0, OPENED, ...CHAPTERS.map((_, i) => chapterAt(i)), 1]
-// a gentle ease: the opening already eases its own progress, a steeper curve would bunch it into a jolt
-const easeInOut = (k: number) => (1 - Math.cos(Math.PI * k)) / 2
+// ease-out: the glide answers the key press at once and settles softly
+const easeOut = (k: number) => 1 - (1 - k) ** 3
 const SMOOTH_MS = 110 // the stage eases toward the scroll position, so mouse-wheel steps glide like a trackpad
 /** Closing headline, one entry per line; its words rise in one after another (see .cta-word). */
 const CTA_LINES = ['between what we understand', 'and what we can build']
@@ -160,6 +160,7 @@ export function Home() {
   const setLang = useStore((s) => s.setLang)
   const scroller = useRef<HTMLDivElement>(null)
   const stage = useRef<HTMLDivElement>(null)
+  const keyGlide = useRef(false) // an arrow-key glide is already smooth: the stage follows it without easing
   const [chapter, setChapter] = useState(-1)
   const [geom, setGeom] = useState(() => heroGeom(window.innerWidth, window.innerHeight))
 
@@ -175,7 +176,7 @@ export function Home() {
       const max = sc.scrollHeight - sc.clientHeight
       const target = max > 0 ? sc.scrollTop / max : 0
       const dt = last ? Math.min(64, Math.max(0, now - last)) : 16
-      p = p < 0 ? target : p + (target - p) * (1 - Math.exp(-dt / SMOOTH_MS))
+      p = p < 0 || keyGlide.current ? target : p + (target - p) * (1 - Math.exp(-dt / SMOOTH_MS))
       if (Math.abs(target - p) < 1e-4) p = target
       last = p === target ? 0 : now
       const h = clamp(p / HERO_END)
@@ -235,7 +236,7 @@ export function Home() {
     const sc = scroller.current!
     let aim: number | null = null
     let glide = 0
-    const stop = () => { cancelAnimationFrame(glide); glide = 0; aim = null }
+    const stop = () => { cancelAnimationFrame(glide); glide = 0; aim = null; keyGlide.current = false }
     const onKey = (e: KeyboardEvent) => {
       if ((e.key !== 'ArrowDown' && e.key !== 'ArrowUp') || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
       const max = sc.scrollHeight - sc.clientHeight
@@ -248,14 +249,15 @@ export function Home() {
       aim = to
       const y0 = sc.scrollTop
       const y1 = to * max
-      const dur = Math.min(from, to) < OPENED + 1e-3 ? 1800 : 1100 // the opening unfolds slower than a chapter turn
+      const dur = Math.max(from, to) < OPENED + 1e-3 ? 1600 : 900 // the opening unfolds slower than a chapter turn
       const t0 = performance.now()
       const step = (now: number) => {
         const k = Math.min(1, (now - t0) / dur)
-        sc.scrollTop = y0 + (y1 - y0) * easeInOut(k)
+        sc.scrollTop = y0 + (y1 - y0) * easeOut(k)
         if (k < 1) glide = requestAnimationFrame(step)
-        else { glide = 0; aim = null }
+        else { glide = 0; aim = null; keyGlide.current = false }
       }
+      keyGlide.current = true
       glide = requestAnimationFrame(step)
     }
     window.addEventListener('keydown', onKey)
