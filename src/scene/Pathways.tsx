@@ -34,7 +34,7 @@ export function Pathways() {
   const meshes = useMemo(() => {
     const curves = pathCurves(explode)
     return curves.map(({ curve, hops }, i) => {
-      const geo = new THREE.TubeGeometry(curve, hops * 14, 0.0055, 5, PATHWAYS[i].loop)
+      const geo = new THREE.TubeGeometry(curve, hops * 20, 0.0045, 5, false)
       const m = new THREE.Mesh(geo, mats[i])
       m.renderOrder = 20
       m.raycast = () => {}
@@ -56,7 +56,7 @@ export function Pathways() {
       }
       meshes[i].visible = true
       const touches = sel !== null && PATHWAYS[i].nodes.includes(sel)
-      mats[i].opacity = Math.min(0.9, (touches ? 0.4 : 0.07) + 0.75 * signals.traffic[i])
+      mats[i].opacity = Math.min(0.9, (touches ? 0.4 : 0.045) + 0.75 * signals.traffic[i])
     }
   })
 
