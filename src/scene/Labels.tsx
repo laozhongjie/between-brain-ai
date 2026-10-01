@@ -2,11 +2,11 @@ import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useMemo } from 'react'
 import * as THREE from 'three'
 import { NODES, NODE_BY_ID, REGION_META, type GraphNode } from '../data/nodes'
-import { LOBES, SYSTEMS } from '../data/regions'
+import { SYSTEMS } from '../data/regions'
 import type { Bi } from '../data/types'
 import { useStore } from '../store'
 import { currentFocus } from './focusState'
-import { BRAIN_CENTER, hemiOffset, isCortex, nodePosition } from './layout'
+import { BRAIN_CENTER, isCortex, nodePosition } from './layout'
 
 /** DOM layer the labels are rendered into (set by App). */
 export const labelLayer: { el: HTMLDivElement | null } = { el: null }
@@ -17,14 +17,11 @@ interface Label {
   pos: THREE.Vector3
   /** outward direction used for back-face culling; null = always facing */
   normal: THREE.Vector3 | null
-  node?: GraphNode
-  lobeLevel: boolean
-  hemi?: string
-  base: THREE.Vector3
+  node: GraphNode
 }
 
-const LOBE_KEYS = ['frontal', 'parietal', 'temporal', 'occipital'] as const
-const FAR = 3.6 // camera distance beyond which only lobe labels show
+/** Camera distance beyond which (the default view and farther) no labels show until a structure is hovered. */
+const FAR = 3.6
 const v = new THREE.Vector3()
 const tmpP = new THREE.Vector3()
 const tmpQ = new THREE.Vector3()
@@ -66,6 +63,35 @@ function makeCallout() {
   }
 }
 
+/**
+ * Part of the canvas not covered by the side columns or the system strip on wide screens, where the callout
+ * may go. Measured from the DOM and cached until the canvas size changes.
+ */
+let boxCache = { W: 0, H: 0, l: 0, r: 0, t: 0, b: 0 }
+function freeBox(W: number, H: number) {
+  if (boxCache.W === W && boxCache.H === H) return boxCache
+  const canvas = labelLayer.el?.getBoundingClientRect()
+  const rect = (sel: string) => {
+    const el = document.querySelector(sel)
+    const r = el?.getBoundingClientRect()
+    return r && r.width > 0 && getComputedStyle(el!).display !== 'none' ? r : null
+  }
+  const ox = canvas?.left ?? 0
+  const oy = canvas?.top ?? 0
+  const pad = 10
+  const left = W > 1100 ? rect('.left-col') : null
+  const right = W > 1100 ? rect('.right-col') : null
+  const strip = rect('.systems.compact')
+  boxCache = {
+    W, H,
+    l: (left ? left.right - ox : 0) + pad,
+    r: (right ? right.left - ox : W) - pad,
+    t: (strip ? strip.bottom - oy : 0) + pad,
+    b: H - pad,
+  }
+  return boxCache
+}
+
 function makeEl(cls: string) {
   const el = document.createElement('div')
   el.className = cls
@@ -87,20 +113,7 @@ export function Labels() {
       const deep = n.kind === 'nucleus' || n.info.lobe === 'subcortical'
       const normal = deep ? null : base.clone().sub(isCortex(n) ? hemiCenter(n.hemi) : BRAIN_CENTER).normalize()
       const el = makeEl(`label label-${n.kind}`)
-      el.dataset.id = n.id
-      list.push({ el, text: n.info.name, pos: new THREE.Vector3(), normal, node: n, lobeLevel: false, hemi: n.hemi, base })
-    }
-    // Lobe labels: centroid of each hemisphere's lobe regions
-    for (const hemi of ['lh', 'rh']) {
-      for (const lobe of LOBE_KEYS) {
-        const members = NODES.filter((n) => n.hemi === hemi && n.kind === 'mesh' && n.info.lobe === lobe)
-        const c = new THREE.Vector3()
-        members.forEach((m) => c.add(new THREE.Vector3(...m.anchor)))
-        c.divideScalar(members.length)
-        const normal = c.clone().sub(hemiCenter(hemi)).normalize()
-        c.addScaledVector(normal, 0.12)
-        list.push({ el: makeEl('label label-lobe'), text: LOBES[lobe], pos: new THREE.Vector3(), normal, lobeLevel: true, hemi, base: c })
-      }
+      list.push({ el, text: n.info.name, pos: new THREE.Vector3(), normal, node: n })
     }
     return list
   }, [])
@@ -110,13 +123,7 @@ export function Labels() {
     if (!layer) return
     for (const l of labels) layer.appendChild(l.el)
     layer.appendChild(co.root)
-    const onClick = (e: MouseEvent) => {
-      const id = (e.target as HTMLElement).dataset.id
-      if (id) useStore.getState().select(id)
-    }
-    layer.addEventListener('click', onClick)
     return () => {
-      layer.removeEventListener('click', onClick)
       for (const l of labels) l.el.remove()
       co.root.remove()
     }
@@ -150,32 +157,30 @@ export function Labels() {
     // Selected, hovered and current-step labels first so they win overlap tests
     const order = labels.slice().sort((a, b) => rank(b) - rank(a))
     function rank(l: Label) {
-      if (!l.node) return 0
       if (l.node.id === selected) return 4
       if (l.node.id === hovered) return 3
       return f?.step.nodes.has(l.node.id) ? 2 : 0
     }
 
     for (const l of order) {
-      const id = l.node?.id
+      const id = l.node.id
       // The hovered structure is shown by the callout instead of its small label
       if (calloutRect && id === hovered) {
         l.el.style.display = 'none'
         continue
       }
-      const forced = id !== undefined && (id === selected || id === hovered)
+      const forced = id === selected || id === hovered
       let show = forced
       if (f) {
-        show = forced || (!!l.node && nearer.get(l.node.key) === l.node.id)
+        show = forced || nearer.get(l.node.key) === id
       } else if (!forced && view.showLabels) {
-        if (l.lobeLevel) show = far && view.cortexOpacity > 0.3 && camera.position.x * (l.hemi === 'lh' ? -1 : 1) > -0.3
-        else if (l.node) show = (!far || l.node.kind === 'io') && visibleKind(l.node, view, seeInside)
+        // Default view and farther: a clean brain, labels only on hover; zoomed in: labels for what is in view
+        show = !far && visibleKind(l.node, view, seeInside)
       }
 
       if (show) {
-        if (l.node) nodePosition(l.node, view.explode, true, l.pos)
-        else l.pos.copy(l.base).setX(l.base.x + hemiOffset(l.hemi, view.explode))
-        if (!forced && !f && l.normal && !l.lobeLevel && !(seeInside && l.node?.kind !== 'io')) {
+        nodePosition(l.node, view.explode, true, l.pos)
+        if (!forced && !f && l.normal && !(seeInside && l.node.kind !== 'io')) {
           toCam.copy(camera.position).sub(l.pos).normalize()
           if (toCam.dot(l.normal) < 0.3) show = false
         }
@@ -191,7 +196,7 @@ export function Labels() {
         if (show) {
           placed.push([x, y, w, h])
           l.el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`
-          l.el.classList.toggle('active', forced || !!(f && l.node && f.step.nodes.has(l.node.id)))
+          l.el.classList.toggle('active', forced || !!f?.step.nodes.has(l.node.id))
         }
       }
       l.el.style.display = show ? '' : 'none'
@@ -206,7 +211,7 @@ export function Labels() {
       co.key = ''
       return null
     }
-    if (!n || (n.kind !== 'mesh' && n.kind !== 'nucleus')) return hide()
+    if (!n) return hide()
 
     const W = size.width
     const H = size.height
@@ -256,9 +261,8 @@ export function Labels() {
     const rim = 1 / Math.sqrt((dx / a) ** 2 + (dy / b) ** 2)
     const inside = (x: number, y: number) => ((x - cx) / a) ** 2 + ((y - cy) / b) ** 2 < 1
 
-    // Keep clear of the side and bottom panels on wide screens
-    const wide = W > 1100
-    const box = wide ? { l: 292, r: W - 332, t: 70, b: H - 222 } : { l: 10, r: W - 10, t: 10, b: H - 10 }
+    // Keep clear of the side columns and the system strip (measured, in canvas coordinates)
+    const box = freeBox(W, H)
     const side = dx >= 0 ? 1 : -1
 
     // Walk outward from the rim (at least 40 px past the structure) until the whole card clears the silhouette

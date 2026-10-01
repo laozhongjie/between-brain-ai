@@ -11,6 +11,9 @@ import { pickValid } from './picking'
 
 const nucleusGeo = new THREE.SphereGeometry(0.022, 16, 12)
 const ioGeo = new THREE.IcosahedronGeometry(0.045, 1)
+/** Invisible, larger hit sphere around each body organ so it is easy to hover (never rendered). */
+const hitGeo = new THREE.SphereGeometry(0.075, 12, 8)
+const hitMat = new THREE.MeshBasicMaterial({ visible: false })
 const tmp = new THREE.Color()
 
 /** Small nuclei (inside the brain) and body organs (outside) rendered as glowing markers. */
@@ -28,6 +31,12 @@ export function Markers() {
         const mesh = new THREE.Mesh(node.kind === 'io' ? ioGeo : nucleusGeo, mat)
         mesh.userData.nodeId = node.id
         mesh.userData.pickable = true
+        if (node.kind === 'io') {
+          const hit = new THREE.Mesh(hitGeo, hitMat)
+          hit.userData.nodeId = node.id
+          hit.userData.pickable = true
+          mesh.add(hit)
+        }
         return { node, mesh, mat, glow, base }
       }),
     [],
