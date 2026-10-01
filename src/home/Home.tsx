@@ -3,6 +3,7 @@ import { UI, useT } from '../i18n'
 import { go } from '../route'
 import { useStore } from '../store'
 import { DecodeText } from '../ui/DecodeText'
+import { Icon } from '../ui/Icon'
 import { ComparisonText } from '../ui/ComparisonText'
 import { CHAPTERS, homeState } from './chapters'
 import { HomeAI } from './HomeAI'
@@ -35,6 +36,16 @@ function Mark() {
       <path d="M14.35 1.091026A15 15 0 0 0 14.35 30.908974Z" />
       <path d="M17.65 1.091026A15 15 0 0 1 17.65 30.908974Z" />
     </svg>
+  )
+}
+
+/** Closing call to action: on hover the label rolls up into a copy of itself and an arrow slides in. */
+function CtaButton({ label, primary = false, onClick }: { label: string; primary?: boolean; onClick: () => void }) {
+  return (
+    <button className={`cta-btn ${primary ? 'primary' : ''}`} onClick={onClick}>
+      <span className="cta-roll"><span>{label}</span><span aria-hidden>{label}</span></span>
+      <Icon name="arrow-right" size={14} className="cta-arrow" />
+    </button>
   )
 }
 
@@ -251,8 +262,8 @@ export function Home() {
             <p className="cta-line">between what we understand<br />and what we can build</p>
             <p className="cta-line zh">在理解与创造之间</p>
             <div className="cta-actions">
-              <button className="cta-btn primary" onClick={() => go('/atlas')}>{t(UI.navAtlas)}</button>
-              <button className="cta-btn" onClick={() => go('/ai')}>{t(UI.navAi)}</button>
+              <CtaButton primary label={t(UI.navAtlas)} onClick={() => go('/atlas')} />
+              <CtaButton label={t(UI.navAi)} onClick={() => go('/ai')} />
             </div>
           </div>
         </div>
