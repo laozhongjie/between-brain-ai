@@ -675,8 +675,11 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 }
 
 /* ── View controls: segmented options on an even grid ── */
-.controls .row .seg { display: grid; grid-template-columns: repeat(2, 1fr); width: 100%; }
-.controls .row .seg button { justify-content: center; padding-inline: 4px; }
+.controls .row .seg { display: grid; grid-template-columns: repeat(2, 1fr); width: 100%; border-radius: 999px; padding: 3px; }
+.controls .row .seg button { justify-content: center; padding-inline: 4px; border-radius: 999px; }
+/* the two-row section picker keeps quarter-circle corners; full half-circle ends would bulge at that height */
+.controls .row .seg:has(> :nth-child(3)) { border-radius: 18px; }
+.controls > .btn { border-radius: 999px; }
 
 /* ── Brain ↔ AI: motion ── */
 /* Navigation: an accent bar slides in on hover and stays lit on the current page */
