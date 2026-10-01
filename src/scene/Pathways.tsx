@@ -9,7 +9,7 @@ import { useStore } from '../store'
 import { pathCurves } from './curves'
 import { currentFocus } from './focusState'
 
-/** Faint tubes along every pathway; they light up with traffic or when touching the selected region. */
+/** Tubes along the pathways, shown while signals travel them, when touching the selected region, or in focus mode. */
 export function Pathways() {
   const explode = useStore((s) => s.view.explode)
   const show = useStore((s) => s.view.showPathways)
@@ -54,9 +54,13 @@ export function Pathways() {
         mats[i].opacity = Math.min(0.9, (f.step.paths.has(i) ? 0.45 : 0.18) + 0.6 * signals.traffic[i])
         continue
       }
-      meshes[i].visible = true
+      // Otherwise a pathway shows only while signals use it (squared, so faint ambient pulses barely
+      // register and event-driven bursts light the route), or while it touches the selected region
       const touches = sel !== null && PATHWAYS[i].nodes.includes(sel)
-      mats[i].opacity = Math.min(0.9, (touches ? 0.4 : 0.045) + 0.75 * signals.traffic[i])
+      const tr = signals.traffic[i]
+      const o = Math.min(0.9, (touches ? 0.4 : 0) + 0.85 * tr * tr)
+      mats[i].opacity = o
+      meshes[i].visible = o > 0.004
     }
   })
 
