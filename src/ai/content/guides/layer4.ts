@@ -104,7 +104,7 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
       },
       state: b('海马情景记忆、新皮层知识与身体状态相互作用；AI 的上下文、向量库和权重更新必须分别管理。', 'Hippocampal episodes, cortical knowledge and bodily state interact; AI context, vector stores and weight updates must be managed separately.'),
       timescale: b('神经活动为毫秒至秒，情景写入为秒至分钟，巩固和遗忘为小时至多年；AI 检索为毫秒至秒，参数更新通常是独立离线过程。', 'Neural activity spans milliseconds to seconds, episodic encoding seconds to minutes, and consolidation and forgetting hours to years; AI retrieval takes milliseconds to seconds, while parameter updates are usually separate offline processes.'),
-      caveat: b('功能上的“快速写入—慢速巩固”对应不等于海马与 RAG 或权重更新具有相同机制。', 'The functional pattern of “fast writing and slow consolidation” does not make hippocampus, RAG and weight updates the same mechanism.'),
+      caveat: b('功能上的“快速写入、慢速巩固”对应不等于海马与 RAG 或权重更新具有相同机制。', 'The functional pattern of “fast writing and slow consolidation” does not make hippocampus, RAG and weight updates the same mechanism.'),
     },
     comparisons: [
       { dimension: b('记录一次经历', 'Recording an episode'), brain: b('海马系统参与把事件与时间、地点等背景绑定。', 'The hippocampal system helps bind events with temporal and spatial context.'), ai: b('记忆库能保存事件和元数据；普通文本分块未必保留这些关联。', 'Stores can retain events and metadata; plain text chunks may omit these relationships.') },
