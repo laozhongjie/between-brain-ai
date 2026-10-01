@@ -143,7 +143,10 @@ export function Timeline() {
             <button key={s} className={speed === s ? 'on' : ''} onClick={() => useScenario.setState({ speed: s })}>{s}×</button>
           ))}
         </div>
-        <span className="clock">{fmtClock(DAY_START + tl)}</span>
+        {/* the colon is drawn (.clock-colon), so its dots are larger and centred on the digits' height */}
+        <span className="clock" aria-label={fmtClock(DAY_START + tl)}>
+          {fmtClock(DAY_START + tl).split(':').map((part, i) => (i ? [<span key="c" className="clock-colon" aria-hidden />, part] : part))}
+        </span>
         <span className="tl-title">{ev && <Icon name={ev.icon} size={16} />}<DecodeText text={ev ? t(ev.title) : t(UI.between)} /></span>
       </div>
       <div
