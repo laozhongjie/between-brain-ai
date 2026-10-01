@@ -49,7 +49,7 @@
 
 Most material on "brain-inspired AI" stops at a metaphor. BETWEEN puts the two side by side at the same level of detail and lets you judge the match yourself.
 
-For every mechanism it shows **how the brain does it**, with equations and a structure diagram, next to **the closest thing in AI**, with its own equations and diagram. Then it says how close the match really is, how settled the neuroscience is, where the two differ, and whether the brain's version is a **principle worth borrowing** or just a **biological constraint** that engineering can ignore. Each card ends with concrete design ideas.
+Each card starts with a concrete question and a short answer, then compares **brain and AI in aligned rows** with an explicit comparison scope. Diagrams explain both mechanisms, with equations in expandable sections. Separate sections explain **what to borrow** and **where the analogy stops**. Two design proposals per card specify what to change, how to evaluate it, and the costs or failure modes; these are proposals, not claimed performance improvements. The bilingual editorial content lives in `src/ai/content/guides/`.
 
 It is built for researchers and engineers who want a map of where AI already matches the brain, where it is ahead, and where the open problems are.
 

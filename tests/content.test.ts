@@ -6,8 +6,28 @@ import { REF_BY_ID, REFS } from '../src/ai/content/refs'
 import { LABS } from '../src/ai/labs/registry'
 import { TOUR_BY_ID } from '../src/data/tours'
 import { FIGS } from '../src/ai/figs'
+import { CARD_GUIDES } from '../src/ai/content/guides'
 
 describe('AI correspondence content', () => {
+  it('every card has a complete bilingual guide without orphaned entries', () => {
+    expect(Object.keys(CARD_GUIDES).sort()).toEqual(CARDS.map((card) => card.id).sort())
+    for (const card of CARDS) {
+      const guide = card.guide
+      expect(guide, card.id).toBeDefined()
+      expect(guide.comparisons.length, card.id).toBeGreaterThanOrEqual(2)
+      expect(guide.experiments.length, card.id).toBeGreaterThanOrEqual(2)
+      const fields = [guide.question, guide.answer, guide.scope, guide.borrow, guide.boundary,
+        ...guide.comparisons.flatMap((row) => [row.dimension, row.brain, row.ai]),
+        ...guide.experiments.flatMap((idea) => [idea.title, idea.change, idea.test, idea.tradeoff])]
+      for (const field of fields) {
+        expect(field.zh.trim().length, card.id).toBeGreaterThan(0)
+        expect(field.en.trim().length, card.id).toBeGreaterThan(0)
+      }
+      expect(new Set(guide.comparisons.map((row) => row.dimension.en)).size, card.id).toBe(guide.comparisons.length)
+      expect(new Set(guide.experiments.map((idea) => idea.title.en)).size, card.id).toBe(guide.experiments.length)
+    }
+  })
+
   it('ids are unique', () => {
     expect(new Set(CARDS.map((c) => c.id)).size).toBe(CARDS.length)
     expect(new Set(REFS.map((r) => r.id)).size).toBe(REFS.length)

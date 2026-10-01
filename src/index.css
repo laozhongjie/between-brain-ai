@@ -430,10 +430,56 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .formula figcaption { font-size: 12px; color: var(--text-dim); }
 .tex .katex-display { margin: 8px 0; }
 .tex .katex { font-size: 1.02em; color: var(--text-h); }
-.diffs li::marker { content: '≠  '; color: var(--warn); }
-.ideas li::marker { content: '→  '; color: var(--accent); }
-.principle { background: rgba(232,194,103,0.07); border-left: 2px solid var(--lemon); border-radius: 0 10px 10px 0; padding: 2px 16px 4px; margin-top: 22px; }
-.principle h2 { margin-top: 12px; }
+.card-page { min-width: 0; overflow-wrap: anywhere; }
+.card-page > section { margin-top: 36px; }
+.card-intro { margin: 24px 0 18px; padding-left: 18px; border-left: 2px solid var(--accent-line); }
+.card-kicker { font-size: 12px; color: var(--text-dim); }
+.card-intro h2 { margin: 8px 0; font: 500 clamp(20px, 2.4vw, 27px)/1.45 var(--sans); }
+.card-intro .lead { margin: 8px 0 0; }
+.card-page .card-note, .card-page .card-scope { font-size: 13px; color: var(--text-dim); margin: 8px 0 16px; }
+.card-scope strong { font-weight: 500; color: var(--text); }
+.card-comparison { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 14px; line-height: 1.7; text-align: left; }
+.card-comparison th, .card-comparison td { padding: 16px; vertical-align: top; border-bottom: 1px solid var(--panel-border); }
+.card-comparison thead th { font-size: 12px; font-weight: 500; color: var(--text-dim); }
+.card-comparison thead th:first-child { width: 19%; }
+.card-comparison thead th:nth-child(2) { color: var(--pink); }
+.card-comparison thead th:nth-child(3) { color: var(--accent); }
+.card-comparison tbody th { font-weight: 500; color: var(--text-h); background: rgba(170,195,230,0.025); }
+.card-comparison td + td, .card-comparison thead th + th + th { border-left: 1px solid var(--line-hi); }
+.comparison-mobile-label { display: none; }
+.card-page .col { background: none; box-shadow: none; }
+.card-page .col::before, .card-page .col::after { content: none; }
+.card-page .col h3 { display: flex; align-items: center; gap: 8px; margin: 16px 0; font-size: 15px; color: var(--text-h); }
+.card-page .col h3 svg { width: 17px; height: 17px; }
+.card-math { margin: 16px 0 4px; border-top: 1px solid var(--panel-border); padding-top: 12px; }
+.card-math summary { cursor: pointer; color: var(--accent); font-size: 13px; }
+.card-math summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.card-math[open] .formulas { margin-top: 14px; }
+.card-lessons { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.card-lessons > div { padding-left: 16px; border-left: 2px solid var(--accent-line); min-width: 0; }
+.card-lessons > div + div { border-color: var(--lemon); }
+.card-page .card-lessons h3 { margin: 6px 0; color: var(--text-h); font-size: 15px; }
+.card-lessons p { margin: 8px 0; }
+.card-experiments { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.card-experiments > li { border: 1px solid var(--panel-border); border-radius: 10px; padding: 18px 20px; }
+.card-page .card-experiments h3 { margin: 0 0 16px; display: flex; align-items: baseline; gap: 12px; color: var(--text-h); font: 500 16px/1.5 var(--sans); letter-spacing: 0; }
+.experiment-number { font: 12px/1 var(--mono); color: var(--accent); }
+.card-experiments dl { margin: 0; display: grid; gap: 10px; }
+.card-experiments dl > div { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 14px; }
+.card-experiments dt { font-size: 12px; color: var(--text-dim); }
+.card-experiments dd { margin: 0; font-size: 14px; line-height: 1.7; }
+@media (max-width: 680px) {
+  .card-comparison thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .card-comparison, .card-comparison tbody { display: block; }
+  .card-comparison tr { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); margin-bottom: 14px; }
+  .card-comparison tbody th { grid-column: 1 / -1; padding: 8px 12px; }
+  .card-comparison td { padding: 12px; font-size: 13px; }
+  .comparison-mobile-label { display: block; font-size: 11px; color: var(--pink); margin-bottom: 6px; }
+  .card-comparison td + td .comparison-mobile-label { color: var(--accent); }
+  .card-lessons { grid-template-columns: 1fr; gap: 16px; }
+  .card-experiments > li { padding: 16px; }
+  .card-experiments dl > div { grid-template-columns: 1fr; gap: 3px; }
+}
 .refs { padding-left: 22px; }
 .refs li { font-size: 13px; line-height: 1.55; margin-bottom: 4px; color: var(--text); }
 .refs em { color: var(--text-dim); }

@@ -29,12 +29,33 @@ export interface Ref {
   url: string
 }
 
-export interface Card {
+export interface ComparisonRow {
+  dimension: Bi
+  brain: Bi
+  ai: Bi
+}
+
+export interface DesignExperiment {
+  title: Bi
+  change: Bi
+  test: Bi
+  tradeoff: Bi
+}
+
+export interface CardGuide {
+  question: Bi
+  answer: Bi
+  scope: Bi
+  comparisons: ComparisonRow[]
+  borrow: Bi
+  boundary: Bi
+  experiments: DesignExperiment[]
+}
+
+export interface CardMechanism {
   id: string
   layer: Layer
   title: Bi
-  /** one-line summary shown in lists */
-  summary: Bi
   /** what the brain does */
   brain: Bi
   brainMath?: Formula[]
@@ -43,17 +64,15 @@ export interface Card {
   aiMath?: Formula[]
   corr: Corr
   evidence: Evidence
-  /** key differences between brain and AI */
-  diffs: Bi[]
-  /** is the brain feature a computational principle worth borrowing, or a biological constraint? */
-  principle: Bi
-  /** concrete architecture/experiment ideas */
-  ideas: Bi[]
   refs: string[]
   /** interactive lab id */
   lab?: string
   /** atlas functional-system tour id (layer 4) */
   tour?: string
+}
+
+export interface Card extends CardMechanism {
+  guide: CardGuide
 }
 
 /** Layer-5 robot-brain module. */

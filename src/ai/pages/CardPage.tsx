@@ -26,14 +26,17 @@ function Formulas({ list }: { list?: Formula[] }) {
   const t = useT()
   if (!list?.length) return null
   return (
-    <div className="formulas">
-      {list.map((f, i) => (
-        <figure key={i} className="formula">
-          <Tex tex={f.tex} />
-          <figcaption><Rich text={t(f.caption)} /></figcaption>
-        </figure>
-      ))}
-    </div>
+    <details className="card-math">
+      <summary>{t(UI.showMath)}</summary>
+      <div className="formulas">
+        {list.map((f, i) => (
+          <figure key={i} className="formula">
+            <Tex tex={f.tex} />
+            <figcaption><Rich text={t(f.caption)} /></figcaption>
+          </figure>
+        ))}
+      </div>
+    </details>
   )
 }
 
@@ -48,6 +51,7 @@ export function CardPage({ card }: { card: Card }) {
   const layerTag = (c: Card) => c.layer !== card.layer && <small className="pager-layer">{t(UI.layer).replace('{n}', String(c.layer))}</small>
   const Lab = card.lab ? LABS[card.lab] : null
   const figs = FIGS[card.id]
+  const guide = card.guide
 
   const openInAtlas = () => {
     useStore.getState().setViewMode('3d')
@@ -62,6 +66,11 @@ export function CardPage({ card }: { card: Card }) {
         <span>{t(UI.layer).replace('{n}', String(layer.id))} · {t(layer.name)}</span>
       </div>
       <h1><ComparisonText text={t(card.title)} /></h1>
+      <div className="card-intro">
+        <span className="card-kicker">{t(UI.cardQuestion)}</span>
+        <h2>{t(guide.question)}</h2>
+        <p className="lead"><Rich text={t(guide.answer)} /></p>
+      </div>
       <div className="card-badges">
         <CorrBadge corr={card.corr} />
         <EvidenceBadge ev={card.evidence} />
@@ -69,36 +78,64 @@ export function CardPage({ card }: { card: Card }) {
           <button className="btn-sm" onClick={openInAtlas}><Icon name="brain" />{t(UI.viewInAtlas)}：{t(TOUR_BY_ID[card.tour].name)}</button>
         )}
       </div>
-      <p className="lead"><Rich text={t(card.summary)} /></p>
-
-      <div className="two-col">
-        <section className="col brain-col">
-          <h2><Icon name="brain" />{t(UI.secBrain)}</h2>
-          {figs && <Figure Fig={figs.brain} cap={figs.brainCap} />}
-          <p><Rich text={t(card.brain)} /></p>
-          <Formulas list={card.brainMath} />
-        </section>
-        <section className="col ai-col">
-          <h2><Icon name="cpu" />{t(UI.secAi)}</h2>
-          {figs && <Figure Fig={figs.ai} cap={figs.aiCap} />}
-          <p><Rich text={t(card.ai)} /></p>
-          <Formulas list={card.aiMath} />
-        </section>
-      </div>
-
-      <section>
-        <h2>≠ {t(UI.secDiffs)}</h2>
-        <ul className="diffs">{card.diffs.map((d, i) => <li key={i}><Rich text={t(d)} /></li>)}</ul>
+      <section aria-labelledby="card-comparison-title">
+        <h2 id="card-comparison-title">{t(UI.secDiffs)}</h2>
+        <p className="card-scope"><strong>{t(UI.comparisonScope)}</strong> · {t(guide.scope)}</p>
+        <table className="card-comparison">
+          <thead><tr><th scope="col">{t(UI.dimension)}</th><th scope="col">{t(UI.brainCol)}</th><th scope="col">{t(UI.comparedAi)}</th></tr></thead>
+          <tbody>
+            {guide.comparisons.map((row, index) => (
+              <tr key={index}>
+                <th scope="row">{t(row.dimension)}</th>
+                <td><span className="comparison-mobile-label" aria-hidden>{t(UI.brainCol)}</span><Rich text={t(row.brain)} /></td>
+                <td><span className="comparison-mobile-label" aria-hidden>{t(UI.comparedAi)}</span><Rich text={t(row.ai)} /></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </section>
 
-      <section className="principle">
-        <h2><Icon name="scale" />{t(UI.secPrinciple)}</h2>
-        <p><Rich text={t(card.principle)} /></p>
+      <section aria-labelledby="card-mechanisms-title">
+        <h2 id="card-mechanisms-title">{t(UI.secMechanisms)}</h2>
+        <div className="two-col">
+          <section className="col brain-col">
+            <h3><Icon name="brain" />{t(UI.secBrain)}</h3>
+            {figs && <Figure Fig={figs.brain} cap={figs.brainCap} />}
+            <p><Rich text={t(card.brain)} /></p>
+            <Formulas list={card.brainMath} />
+          </section>
+          <section className="col ai-col">
+            <h3><Icon name="cpu" />{t(UI.secAi)}</h3>
+            {figs && <Figure Fig={figs.ai} cap={figs.aiCap} />}
+            <p><Rich text={t(card.ai)} /></p>
+            <Formulas list={card.aiMath} />
+          </section>
+        </div>
       </section>
 
-      <section>
-        <h2><Icon name="lightbulb" />{t(UI.secIdeas)}</h2>
-        <ul className="ideas">{card.ideas.map((d, i) => <li key={i}><Rich text={t(d)} /></li>)}</ul>
+      <section aria-labelledby="card-lessons-title">
+        <h2 id="card-lessons-title">{t(UI.secPrinciple)}</h2>
+        <div className="card-lessons">
+          <div><h3>{t(UI.borrowLesson)}</h3><p><Rich text={t(guide.borrow)} /></p></div>
+          <div><h3>{t(UI.analogyBoundary)}</h3><p><Rich text={t(guide.boundary)} /></p></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="card-designs-title">
+        <h2 id="card-designs-title">{t(UI.secIdeas)}</h2>
+        <p className="card-note">{t(UI.designStatus)}</p>
+        <ol className="card-experiments">
+          {guide.experiments.map((experiment, index) => (
+            <li key={index}>
+              <h3><span className="experiment-number" aria-hidden>{String(index + 1).padStart(2, '0')}</span>{t(experiment.title)}</h3>
+              <dl>
+                <div><dt>{t(UI.designChange)}</dt><dd><Rich text={t(experiment.change)} /></dd></div>
+                <div><dt>{t(UI.designTest)}</dt><dd><Rich text={t(experiment.test)} /></dd></div>
+                <div><dt>{t(UI.designTradeoff)}</dt><dd><Rich text={t(experiment.tradeoff)} /></dd></div>
+              </dl>
+            </li>
+          ))}
+        </ol>
       </section>
 
       {Lab && (
@@ -110,16 +147,17 @@ export function CardPage({ card }: { card: Card }) {
 
       <section>
         <h2><Icon name="library" />{t(UI.secRefs)}</h2>
+        <p className="card-note">{t(UI.referenceScope)}</p>
         <RefList ids={card.refs} />
       </section>
 
       <nav className="pager">
         {prev ? (
-          <button onClick={() => go(`/ai/card/${prev.id}`)}>{layerTag(prev)}<span>← <ComparisonText text={t(prev.title)} /></span></button>
+          <button onClick={() => go(`/ai/card/${prev.id}`)}><small>{t(UI.previousCard)}</small>{layerTag(prev)}<span><ComparisonText text={t(prev.title)} /></span></button>
         ) : (
-          <button onClick={() => go('/ai/blueprint')}><small className="pager-layer">{t(UI.layer).replace('{n}', '5')}</small><span>← {t(UI.blueprintTitle).split('·')[1]?.trim()}</span></button>
+          <button onClick={() => go('/ai/blueprint')}><small>{t(UI.previousCard)}</small><small className="pager-layer">{t(UI.layer).replace('{n}', '5')}</small><span>{t(UI.blueprintTitle).split('·')[1]?.trim()}</span></button>
         )}
-        {next ? <button className="next" onClick={() => go(`/ai/card/${next.id}`)}>{layerTag(next)}<span><ComparisonText text={t(next.title)} /> →</span></button> : <span />}
+        {next ? <button className="next" onClick={() => go(`/ai/card/${next.id}`)}><small>{t(UI.nextCard)}</small>{layerTag(next)}<span><ComparisonText text={t(next.title)} /></span></button> : <span />}
       </nav>
     </article>
   )

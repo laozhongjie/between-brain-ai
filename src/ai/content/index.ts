@@ -4,8 +4,9 @@ import { LAYER1 } from './layer1'
 import { LAYER2 } from './layer2'
 import { LAYER3 } from './layer3'
 import { LAYER4 } from './layer4'
+import { CARD_GUIDES } from './guides'
 
-export const CARDS: Card[] = [...LAYER1, ...LAYER2, ...LAYER3, ...LAYER4]
+export const CARDS: Card[] = [...LAYER1, ...LAYER2, ...LAYER3, ...LAYER4].map((card) => ({ ...card, guide: CARD_GUIDES[card.id] }))
 export const CARD_BY_ID: Record<string, Card> = Object.fromEntries(CARDS.map((c) => [c.id, c]))
 export const cardsOfLayer = (l: Layer) => CARDS.filter((c) => c.layer === l)
 export const cardForTour = (tour: string) => CARDS.find((c) => c.tour === tour)
