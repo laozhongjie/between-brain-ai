@@ -59,7 +59,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .panel {
   /* borderless frosted glass: set apart by translucency, blur and a soft drop shadow, no outline */
   background: linear-gradient(180deg, rgba(150,175,210,0.035), rgba(150,175,210,0.012)); border: 1px solid transparent; border-radius: 14px;
-  backdrop-filter: blur(14px) saturate(130%); padding: 12px 14px; box-shadow: 0 18px 44px rgba(0,0,0,0.32);
+  backdrop-filter: blur(6px) saturate(130%); padding: 12px 14px; box-shadow: 0 18px 44px rgba(0,0,0,0.32);
   position: relative; isolation: isolate;
 }
 .panel h3 { margin: 10px 0 8px; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); font-family: var(--label); }
