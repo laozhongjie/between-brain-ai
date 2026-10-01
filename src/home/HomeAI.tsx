@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { FONT_LABEL } from '../theme'
 import { homeState } from './chapters'
+import { AI_LAYERS, morphTargets } from './morph'
 
-const LAYERS = [4, 7, 9, 9, 7, 3]
+const LAYERS = AI_LAYERS
 const INK = '230,235,242'
 const ICE = '125,211,252'
 
@@ -52,6 +53,17 @@ export function HomeAI() {
       const span = Math.min(h * 0.46, w * 0.62)
       const px = (l: number) => x0 + ((x1 - x0) * l) / (LAYERS.length - 1)
       const py = (l: number, i: number) => cy + (i - (LAYERS[l] - 1) / 2) * (span / 8)
+
+      // unit positions for the white liquid flowing in along the links (HomeMorph)
+      if (homeState.morph > 0 && homeState.morph < 1) {
+        let k = 0
+        for (let l = 0; l < LAYERS.length; l++) {
+          for (let i = 0; i < LAYERS[l]; i++, k++) {
+            morphTargets.ai[k * 2] = px(l)
+            morphTargets.ai[k * 2 + 1] = py(l, i)
+          }
+        }
+      }
 
       // edges
       for (let l = 0; l < W.length; l++) {
