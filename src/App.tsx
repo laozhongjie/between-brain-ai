@@ -89,8 +89,8 @@ export default function App() {
         {section === 'atlas' && (
           <>
             <div className="seg view-toggle">
-              <button className={viewMode === '3d' ? 'on' : ''} onClick={() => setViewMode('3d')}><Icon name="box" size={14} /><span className="vt-text">{t(UI.view3d)}</span></button>
-              <button className={viewMode === 'schematic' ? 'on' : ''} onClick={() => setViewMode('schematic')}><Icon name="workflow" size={14} /><span className="vt-text">{t(UI.viewSchematic)}</span></button>
+              <button className={viewMode === '3d' ? 'on' : ''} onClick={() => setViewMode('3d')}>{t(UI.view3d)}</button>
+              <button className={viewMode === 'schematic' ? 'on' : ''} onClick={() => setViewMode('schematic')}>{t(UI.viewSchematic)}</button>
             </div>
             <button className="mobile-toggle" onClick={() => toggle('controls')} aria-label={t(UI.view)}><Icon name="sliders" /></button>
             <button className="mobile-toggle" onClick={() => toggle('output')} aria-label={t(UI.output)}><Icon name="activity" /></button>
