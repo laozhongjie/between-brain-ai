@@ -22,7 +22,7 @@ const CLOSING_VH = 66
 const SCROLL_VH = OPENING_VH + CHAPTERS.length * CHAPTER_VH + CLOSING_VH // the track is this plus one screen
 const at = (vh: number) => vh / SCROLL_VH
 const HERO_END = at(59) // the hero's labels, lines and wordmark fade away
-const FILL = [at(13), at(86)] // the white disc turns into a window onto brain | AI
+const FILL = [at(13), at(130)] // the white halves turn into brain | AI, from the centre outward
 const OPEN = [at(20), at(OPENING_VH)] // the disc grows until it fills the screen
 const CH = [at(OPENING_VH), at(OPENING_VH + CHAPTERS.length * CHAPTER_VH)] // five chapters
 const CTA = CH[1] // closing call to action
@@ -178,14 +178,15 @@ export function Home() {
       if (Math.abs(target - p) < 1e-4) p = target
       last = p === target ? 0 : now
       const h = clamp(p / HERO_END)
-      const fill = 1 - clamp((p - FILL[0]) / (FILL[1] - FILL[0]))
+      const wipe = clamp((p - FILL[0]) / (FILL[1] - FILL[0]))
       const open = ease(clamp((p - OPEN[0]) / (OPEN[1] - OPEN[0])))
       const g = heroGeom(st.clientWidth, st.clientHeight)
       const cover = Math.hypot(st.clientWidth / 2, st.clientHeight / 2) + PANEL_GAP
       const cta = clamp((p - CTA) / CTA_RAMP)
       for (const el of [sc, st]) el.style.setProperty('--hero', h.toFixed(3))
-      st.style.setProperty('--fill', fill.toFixed(3))
-      st.style.setProperty('--reveal', (1 - fill).toFixed(3))
+      st.style.setProperty('--wipe', wipe.toFixed(4))
+      // the worlds switch on under the still-solid white, before it starts to recede
+      st.style.setProperty('--reveal', clamp(p / FILL[0]).toFixed(3))
       st.style.setProperty('--open', open.toFixed(3))
       st.style.setProperty('--half-gap', `${g.r * MARK_GAP_RATIO * (1 - open) + PANEL_GAP / 2 * open}px`)
       st.style.setProperty('--r', `${(g.r + open * open * (cover - g.r)).toFixed(1)}px`)
@@ -306,6 +307,8 @@ export function Home() {
           </div>
 
           {/* the mark itself: white halves that turn into windows as the page scrolls */}
+          <div className="hero-glow left" />
+          <div className="hero-glow right" />
           <div className="hero-fill left" />
           <div className="hero-fill right" />
           <HeroField />
