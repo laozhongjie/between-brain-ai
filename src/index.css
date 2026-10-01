@@ -958,22 +958,15 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 .home-explore::after { content: ''; position: absolute; left: 0; right: 0; bottom: 2px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .3s var(--ease); }
 .home-explore:hover::after { transform: scaleX(1); }
 
-.home-stage { position: sticky; top: 0; height: 100vh; overflow: clip; --hero: 0; --open: 0; --r: 0px; --half-gap: 4px; --cta: 0; --fill: 1; --front: 0; }
+.home-stage { position: sticky; top: 0; height: 100vh; overflow: clip; --hero: 0; --open: 0; --r: 0px; --half-gap: 4px; --cta: 0; --fill: 1; }
 
 /* the two worlds */
 .home-half { position: absolute; top: 0; bottom: 0; width: calc(50% - var(--half-gap)); opacity: calc(1 - var(--cta) * 0.78); }
-/* each world sweeps in outward from the slit (--front, fractions of the panel) as the white liquid soaks in */
-.home-half.left { left: 0; clip-path: circle(var(--r) at calc(100% + var(--half-gap)) 50%); -webkit-mask: linear-gradient(to left, #000 calc(var(--front) * 100% - 16%), transparent calc(var(--front) * 100%)); mask: linear-gradient(to left, #000 calc(var(--front) * 100% - 16%), transparent calc(var(--front) * 100%)); }
-.home-half.right { right: 0; clip-path: circle(var(--r) at calc(0px - var(--half-gap)) 50%); -webkit-mask: linear-gradient(to right, #000 calc(var(--front) * 100% - 16%), transparent calc(var(--front) * 100%)); mask: linear-gradient(to right, #000 calc(var(--front) * 100% - 16%), transparent calc(var(--front) * 100%)); }
+.home-half.left { left: 0; clip-path: circle(var(--r) at calc(100% + var(--half-gap)) 50%); }
+.home-half.right { right: 0; clip-path: circle(var(--r) at calc(0px - var(--half-gap)) 50%); }
 .home-half canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; display: block; }
-/* the white liquid (HomeMorph.tsx), melted together by the #home-goo filter; clipped to the disc and split
-   by the slit like the mark */
-.home-morph {
-  position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; z-index: 1; visibility: hidden;
-  filter: url(#home-goo); clip-path: circle(var(--r) at 50% 50%);
-  -webkit-mask: linear-gradient(to right, #000 calc(50% - var(--half-gap)), transparent 0 calc(50% + var(--half-gap)), #000 0);
-  mask: linear-gradient(to right, #000 calc(50% - var(--half-gap)), transparent 0 calc(50% + var(--half-gap)), #000 0);
-}
+/* the white liquid (HomeMorph.tsx): it also keeps the window dark until it has washed over it */
+.home-morph { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; z-index: 1; visibility: hidden; clip-path: circle(var(--r) at 50% 50%); }
 .home-ai-canvas { background: radial-gradient(ellipse 70% 60% at 50% 47%, rgba(56,130,200,0.08), transparent 70%), #05070b; }
 .home-caption { position: absolute; left: 0; right: 0; bottom: 56px; display: flex; flex-direction: column; align-items: center; gap: 10px; padding-inline: 40px; text-align: center; pointer-events: none; opacity: var(--open); }
 .home-caption p { position: relative; margin: 0; width: 100%; min-height: 3em; font-size: 14.5px; line-height: 1.6; color: var(--text-h); white-space: nowrap; }
@@ -984,8 +977,8 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 
 /* ── Hero ──
    The split disc is the centrepiece: two white halves (.hero-fill) sharing the panels' clip. As the page
-   scrolls the white runs out as a liquid (.home-morph, HomeMorph.tsx) that floods into the brain and the
-   network and soaks in, and the same shape becomes the window onto brain | AI. */
+   scrolls the white runs out as a liquid (.home-morph, HomeMorph.tsx) that washes the brain and the
+   network clean, and the same shape becomes the window onto brain | AI. */
 .hero-fill { position: absolute; top: 0; bottom: 0; width: calc(50% - var(--half-gap)); background: #f5f5f5; opacity: var(--fill); pointer-events: none; z-index: 1; }
 .hero-fill.left { left: 0; clip-path: circle(var(--r) at calc(100% + var(--half-gap)) 50%); animation: fill-in-l 1.1s cubic-bezier(.16,1,.3,1) .15s both; }
 .hero-fill.right { right: 0; clip-path: circle(var(--r) at calc(0px - var(--half-gap)) 50%); animation: fill-in-r 1.1s cubic-bezier(.16,1,.3,1) .15s both; }

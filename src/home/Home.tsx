@@ -24,7 +24,6 @@ const SCROLL_VH = OPENING_VH + CHAPTERS.length * CHAPTER_VH + CLOSING_VH // the 
 const at = (vh: number) => vh / SCROLL_VH
 const HERO_END = at(59) // the hero's labels, lines and wordmark fade away
 const MORPH = [at(70), at(OPENING_VH - 1)] // the white halves flow out as a liquid that washes brain | AI clean
-const BAND = 0.24 // width of the running liquid, fraction of a panel
 const OPEN = [at(20), at(OPENING_VH)] // the disc grows until it fills the screen
 const CH = [at(OPENING_VH), at(OPENING_VH + CHAPTERS.length * CHAPTER_VH)] // five chapters
 const CTA = CH[1] // closing call to action
@@ -187,14 +186,9 @@ export function Home() {
       const cta = clamp((p - CTA) / CTA_RAMP)
       const gap = g.r * MARK_GAP_RATIO * (1 - open) + PANEL_GAP / 2 * open
       const r = g.r + open * open * (cover - g.r)
-      // the solid white hands over to the liquid (same shape) as soon as it starts to flow. The liquid runs
-      // out of the slit as a band, as far as the disc has opened; behind it brain | AI are washed clean
-      const flood = (1 + BAND + 0.1) * clamp((r - g.r) / ((cover - g.r) * 0.92))
-      const front = flood - BAND
+      // the solid white hands over to the liquid (HomeMorph, the same shape) as soon as it starts to flow
       for (const el of [sc, st]) el.style.setProperty('--hero', h.toFixed(3))
-      // the white disc itself stays on faintly, so the window is seen growing, and goes as the liquid soaks in
-      st.style.setProperty('--fill', (1 - clamp(morph / 0.01) * (1 - 0.05 * (1 - clamp(front)))).toFixed(3))
-      st.style.setProperty('--front', front.toFixed(4))
+      st.style.setProperty('--fill', (1 - clamp(morph / 0.01)).toFixed(3))
       st.style.setProperty('--open', open.toFixed(3))
       st.style.setProperty('--half-gap', `${gap}px`)
       st.style.setProperty('--r', `${r.toFixed(1)}px`)
@@ -205,8 +199,6 @@ export function Home() {
       homeState.chapter = c
       homeState.open = open
       homeState.morph = morph
-      homeState.flood = flood
-      homeState.front = front
       homeState.r0 = g.r
       homeState.r = r
       homeState.gap = gap
@@ -325,13 +317,6 @@ export function Home() {
           <div className="hero-fill left" />
           <div className="hero-fill right" />
           <HomeMorph />
-          {/* goo: blur the liquid's alpha, then threshold it, so nearby shapes melt together (HomeMorph) */}
-          <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden>
-            <filter id="home-goo" colorInterpolationFilters="sRGB">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
-              <feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9" />
-            </filter>
-          </svg>
           <HeroField />
           <Hero g={geom} />
 

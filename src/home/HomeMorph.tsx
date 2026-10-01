@@ -1,40 +1,110 @@
 import { useEffect, useRef } from 'react'
 import { homeState } from './chapters'
-import { AI_LAYERS, BRAIN_N, morphTargets } from './morph'
 
-const clamp = (x: number) => Math.max(0, Math.min(1, x))
-const smooth = (a: number, b: number, x: number) => {
-  const t = clamp((x - a) / (b - a))
-  return t * t * (3 - 2 * t)
+const VERT = `#version 300 es
+in vec2 aPos;
+void main() { gl_Position = vec4(aPos, 0.0, 1.0); }`
+
+/*
+ * Per pixel (CSS px, y down), in polar terms around the disc's centre. At the start the liquid is exactly
+ * the mark's white disc. As the window opens its front (uRf) moves outward and its rim grows uneven,
+ * drifting fingers (amplitude rising from zero with uAmp, so the circle deforms smoothly); meanwhile it
+ * is washed off from the centre outward (uRt, with its own uneven, moving edge), leaving the panels
+ * underneath showing, and its tail breaks into beads. Beyond the front the window is still dark. Each half
+ * has its own noise, so the two sides flow independently from their own edges. Shading from the
+ * thickness field's slope, flat where the liquid is level so it matches the mark's white exactly.
+ */
+const FRAG = `#version 300 es
+precision highp float;
+uniform vec2 uCanvas;   // canvas size, device px
+uniform float uScale;   // device px per CSS px
+uniform vec2 uC;        // disc centre, CSS px
+uniform float uGap, uRf, uRt, uAmp, uTime;
+out vec4 outColor;
+
+float hash(vec2 p) { p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
+float noise(vec2 p) {
+  vec2 i = floor(p), f = fract(p), u = f * f * (3.0 - 2.0 * f);
+  return mix(mix(hash(i), hash(i + vec2(1, 0)), u.x), mix(hash(i + vec2(0, 1)), hash(i + 1.0), u.x), u.y);
+}
+float fbm(vec2 p) {
+  float v = 0.0, a = 0.5;
+  for (int k = 0; k < 4; k++) { v += a * noise(p); p = p * 2.03 + 17.1; a *= 0.5; }
+  return v;
 }
 
-/** Canvas resolution relative to CSS px: the goo filter's blur hides the coarseness. */
-const RES = 0.5
-const BLOB = 7 // brain droplet radius, px
-const STREAM = 5.5 // width of the liquid running along a link, px
-const UNIT = 6 // droplet on a unit, px
+void main() {
+  vec2 p = vec2(gl_FragCoord.x, uCanvas.y - gl_FragCoord.y) / uScale;
+  vec2 v = p - uC;
+  if (abs(v.x) < uGap) { outColor = vec4(0.0); return; }   // the slit
+  float side = sign(v.x);
+  vec2 seed = vec2(side * 31.7, side * 12.3);                // each half flows on its own
+  float d = length(v);
+  float ang = atan(v.y, abs(v.x));                           // -pi/2 .. pi/2 within a half
+
+  // the front: outward, with fingers that drift along the rim and race ahead or lag behind
+  float warp = fbm(vec2(ang * 2.0, d / 140.0 - uTime * 0.12) + seed);
+  float fn = fbm(vec2(ang * 3.2 + warp * 1.5, uTime * 0.09) + seed);
+  float rf = uRf + uAmp * 0.32 * (fn - 0.5);
+  // the washed edge, from the centre outward, uneven too and moving
+  float tn = fbm(vec2(ang * 4.0 - warp, d / 70.0 - uTime * 0.2) + seed + 7.0);
+  float rt = uRt + uAmp * 0.26 * (tn - 0.5);
+
+  float body = smoothstep(rt, rt + 14.0, d) * (1.0 - smoothstep(rf - 1.5, rf + 1.5, d));
+  // just inside the washed edge the liquid breaks into beads that trail behind
+  float beads = smoothstep(0.6, 0.72, fbm(p / 11.0 + vec2(uTime * 0.25 * side, -uTime * 0.1) + seed));
+  float tail = (1.0 - smoothstep(rt - 1.0, rt + 1.0, d)) * smoothstep(rt - 46.0, rt - 6.0, d);
+  float ripple = fbm(p / 38.0 + vec2(uTime * 0.3 * side, uTime * 0.12) + seed);
+  float h = max(body, tail * beads) * (0.9 + 0.1 * smoothstep(0.0, 1.0, uAmp / 200.0) * ripple);
+
+  float a = smoothstep(0.35, 0.45, h);
+  // a soft sheen where the surface tilts; level liquid stays exactly the mark's white
+  vec3 nrm = normalize(vec3(-dFdx(h) * 6.0, dFdy(h) * 6.0, 1.0));
+  float sheen = pow(clamp(dot(nrm.xy, normalize(vec2(-0.6, 0.8))) * 2.5, 0.0, 1.0), 2.0);
+  float shade = clamp(dot(nrm.xy, normalize(vec2(0.6, -0.8))) * 1.5, 0.0, 1.0);
+  vec3 col = vec3(0.961) * (1.0 - 0.18 * shade) + 0.04 * sheen;
+
+  // beyond the front the window is still dark
+  float dark = smoothstep(rf - 1.5, rf + 1.5, d);
+  vec3 cover = vec3(0.052, 0.058, 0.07);
+  float alpha = max(a, dark);
+  outColor = vec4(mix(cover * dark, col, a), alpha);   // premultiplied
+}`
+
+function compile(gl: WebGL2RenderingContext, type: number, src: string) {
+  const sh = gl.createShader(type)!
+  gl.shaderSource(sh, src)
+  gl.compileShader(sh)
+  if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) console.warn(gl.getShaderInfoLog(sh))
+  return sh
+}
 
 /**
- * The white halves of the split disc turning into brain | AI as a thick white liquid. The canvas draws
- * plain white shapes; an SVG filter (#home-goo in Home.tsx) blurs their alpha and thresholds it again, so
- * nearby shapes melt into one fluid surface that necks, stretches and beads.
- *
- * As the disc opens, the liquid runs out of the slit as a band (leading edge homeState.flood, trailing edge
- * homeState.front): on the left it washes over the brain from right to left, droplets sliding over points
- * of its surface; on the right it runs along the network's links (to the nearest units of the next layer)
- * from left to right, pooling on the units it passes. Behind the band the real brain | AI are left washed
- * clean (the panels' mask in CSS follows the trailing edge). The white mass at the slit drains as the
- * band leaves it. Clipped to the growing disc.
+ * The white halves of the split disc turning into brain | AI as a flowing white liquid. As the disc opens
+ * the white flows outward from its edge in uneven fingers, over the brain to the left and the network to
+ * the right, and is washed off from the centre outward, leaving the real brain | AI showing. Drawn by
+ * one fragment shader (FRAG), clipped to the growing disc in CSS (.home-morph).
  */
 export function HomeMorph() {
   const ref = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     const cv = ref.current!
-    const ctx = cv.getContext('2d')!
-    // a fixed size and phase per brain droplet, so the surface wobbles a little and is not uniform
-    const size = Float32Array.from({ length: BRAIN_N }, () => 0.7 + Math.random() * 0.6)
-    const phase = Float32Array.from({ length: BRAIN_N }, () => Math.random() * 6.283)
+    const gl = cv.getContext('webgl2', { premultipliedAlpha: true, antialias: false })
+    if (!gl) return
+    const prog = gl.createProgram()!
+    gl.attachShader(prog, compile(gl, gl.VERTEX_SHADER, VERT))
+    gl.attachShader(prog, compile(gl, gl.FRAGMENT_SHADER, FRAG))
+    gl.linkProgram(prog)
+    gl.useProgram(prog)
+    const buf = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW)
+    const loc = gl.getAttribLocation(prog, 'aPos')
+    gl.enableVertexAttribArray(loc)
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0)
+    const u = (name: string) => gl.getUniformLocation(prog, name)
+    const U = { canvas: u('uCanvas'), scale: u('uScale'), c: u('uC'), gap: u('uGap'), rf: u('uRf'), rt: u('uRt'), amp: u('uAmp'), time: u('uTime') }
     let raf = 0
     let shown = false
 
@@ -44,84 +114,28 @@ export function HomeMorph() {
       const on = m > 0 && m < 1
       if (on !== shown) { cv.style.visibility = on ? 'visible' : 'hidden'; shown = on }
       if (!on) return
+      const scale = Math.min(devicePixelRatio, 1.5)
       const w = cv.clientWidth
       const h = cv.clientHeight
-      if (cv.width !== Math.round(w * RES) || cv.height !== Math.round(h * RES)) {
-        cv.width = Math.round(w * RES)
-        cv.height = Math.round(h * RES)
+      if (cv.width !== Math.round(w * scale) || cv.height !== Math.round(h * scale)) {
+        cv.width = Math.round(w * scale)
+        cv.height = Math.round(h * scale)
       }
-      ctx.setTransform(RES, 0, 0, RES, 0, 0)
-      ctx.clearRect(0, 0, w, h)
-      ctx.fillStyle = '#fff'
-      ctx.strokeStyle = '#fff'
-      ctx.lineCap = 'round'
-
-      // the liquid is a band running out from the slit: its leading edge (flood) and, behind it, the edge
-      // where it has washed past (front), both in fractions of a panel from the slit
-      const { r0, gap, flood, front } = homeState
-      const band = Math.max(0.01, flood - front)
-      const t = now / 1000
-      const cx = w / 2
-      const cy = h / 2
-      const pw = cx - gap // panel width
-
-      // the white mass at the slit, draining as the liquid runs out of it
-      const mass = r0 * (1 - smooth(0, 0.3, flood))
-      if (mass > 0.5) { ctx.beginPath(); ctx.arc(cx, cy, mass, 0, 6.283); ctx.fill() }
-
-      // brain: the band passes over points of its surface (q: distance out from the slit); each droplet
-      // arrives sliding outward from the slit side, swells, then is washed away
-      const B = morphTargets.brain
-      for (let i = 0; i < BRAIN_N; i++) {
-        const x = B[i * 2]
-        if (Number.isNaN(x)) continue
-        const q = clamp((pw - x) / pw)
-        const k = smooth(q - 0.03, q + 0.03, flood) * (1 - smooth(q - 0.02, q + 0.06, front))
-        if (k <= 0.02) continue
-        const since = clamp((flood - q) / band) // 0 as the band arrives, 1 as it leaves
-        const rad = BLOB * size[i] * k * (0.85 + 0.35 * Math.sin(Math.PI * since)) * (1 + 0.08 * Math.sin(t * 3 + phase[i]))
-        ctx.beginPath(); ctx.arc(x + (1 - since) * 18, B[i * 2 + 1], rad, 0, 6.283); ctx.fill()
-      }
-
-      // network: within the band the liquid runs along each link, a bead at its head and one breaking off
-      // its tail, and pools on the units it passes
-      const A = morphTargets.ai
-      const ox = cx + gap
-      const lead = flood * pw
-      const trail = front * pw
-      let base = 0
-      for (let l = 0; l < AI_LAYERS.length; l++) {
-        const next = base + AI_LAYERS[l]
-        for (let i = 0; i < AI_LAYERS[l]; i++) {
-          const ax = A[(base + i) * 2]
-          if (Number.isNaN(ax)) continue
-          const ay = A[(base + i) * 2 + 1]
-          const u = smooth(ax - 8, ax + 10, lead) * (1 - smooth(ax - 4, ax + 14, trail))
-          if (u > 0.02) { ctx.beginPath(); ctx.arc(ox + ax, ay, UNIT * u, 0, 6.283); ctx.fill() }
-          if (l === AI_LAYERS.length - 1) continue
-          // only the links to the nearest units of the next layer: all of them would melt into one sheet
-          const mid = (i * (AI_LAYERS[l + 1] - 1)) / Math.max(1, AI_LAYERS[l] - 1)
-          for (let j = Math.max(0, Math.floor(mid - 1)); j <= Math.min(AI_LAYERS[l + 1] - 1, Math.ceil(mid + 1)); j++) {
-            const bx = A[(next + j) * 2]
-            const by = A[(next + j) * 2 + 1]
-            const span = bx - ax || 1
-            const f1 = clamp((lead - ax) / span) // head of the stream along the link
-            const f0 = clamp((trail - ax) / span) // its tail
-            if (f1 <= f0) continue
-            const x0 = ox + ax + (bx - ax) * f0, y0 = ay + (by - ay) * f0
-            const x1 = ox + ax + (bx - ax) * f1, y1 = ay + (by - ay) * f1
-            ctx.lineWidth = STREAM
-            ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke()
-            if (f1 < 1) { ctx.beginPath(); ctx.arc(x1, y1, STREAM * 0.8, 0, 6.283); ctx.fill() }
-            if (f0 > 0) {
-              // a drop pinching off the tail, trailing a little behind it
-              const d = 10 + 4 * Math.sin(t * 4 + i + j)
-              ctx.beginPath(); ctx.arc(x0 - ((bx - ax) / Math.hypot(bx - ax, by - ay)) * d, y0 - ((by - ay) / Math.hypot(bx - ax, by - ay)) * d, STREAM * 0.45, 0, 6.283); ctx.fill()
-            }
-          }
-        }
-        base = next
-      }
+      gl.viewport(0, 0, cv.width, cv.height)
+      // how far the window has opened past the mark (g px, u 0..1) sets the front and the washed edge:
+      // both start at the mark's disc and end beyond the stage's corners
+      const { r0, r, gap } = homeState
+      const g = Math.max(0, r - r0)
+      const u = Math.min(1, g / (Math.hypot(w / 2, h / 2) + 8 - r0))
+      gl.uniform2f(U.canvas, cv.width, cv.height)
+      gl.uniform1f(U.scale, cv.width / w)
+      gl.uniform2f(U.c, w / 2, h / 2)
+      gl.uniform1f(U.gap, gap)
+      gl.uniform1f(U.rf, r0 + g * (0.9 + 0.3 * u))
+      gl.uniform1f(U.rt, g * (0.25 + 1.15 * u) - 5)
+      gl.uniform1f(U.amp, g)
+      gl.uniform1f(U.time, now / 1000)
+      gl.drawArrays(gl.TRIANGLES, 0, 3)
     }
     raf = requestAnimationFrame(draw)
     return () => cancelAnimationFrame(raf)
