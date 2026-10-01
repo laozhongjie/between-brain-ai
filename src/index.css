@@ -177,6 +177,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .focus-text p { animation: rise-in .5s var(--ease) .12s both; }
 .tl-bar { position: relative; height: 64px; margin: 8px 4px 18px; border-radius: 999px; background: rgba(0,0,0,0.3); border: 1px solid var(--panel-border); cursor: pointer; touch-action: none; }
 .tl-clip { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; }
+/* time axis inset by half the track height, so events at the very start or end sit inside the round ends */
+.tl-span { position: absolute; top: 0; bottom: 0; left: var(--tl-pad, 32px); right: var(--tl-pad, 32px); }
 .tl-sky { position: absolute; inset: 0; pointer-events: none; opacity: 0.55; }
 /* played part: a thin progress line along the bottom, leaving the sky tint clean */
 .tl-fill { position: absolute; left: 0; bottom: 0; width: 100%; height: 2px; transform-origin: left; transform: scaleX(0); will-change: transform; background: linear-gradient(90deg, rgba(94,234,212,0.2), var(--accent)); box-shadow: 0 0 8px rgba(125,211,252,0.6); pointer-events: none; }
@@ -854,7 +856,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   .atlas .timeline .clock { margin-left: 0; }
   .atlas .timeline .tl-title { flex: 1; min-width: 0; justify-content: flex-start; margin-left: 14px; }
   .atlas .tl-title > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .atlas .tl-bar { height: 56px; margin: 0 4px 16px; }
+  .atlas .tl-bar { height: 56px; margin: 0 4px 16px; --tl-pad: 28px; }
   .atlas .tl-event { width: 22px; height: 22px; }
   .atlas .tl-event svg { width: 11px; height: 11px; }
 

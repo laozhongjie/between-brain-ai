@@ -98,6 +98,8 @@ export function Timeline() {
   const outline = useTabOutline(panel, tab)
   const head = useRef<HTMLDivElement>(null)
   const fill = useRef<HTMLDivElement>(null)
+  /** the time axis: the track minus a half-height inset at each rounded end */
+  const span = useRef<HTMLDivElement>(null)
   const marks = useRef<(HTMLButtonElement | null)[]>([])
 
   // Playhead, fill and marker hits follow the director every frame (the React state is throttled)
@@ -105,11 +107,13 @@ export function Timeline() {
     let raf = 0
     const frame = () => {
       const now = director.tl
-      const pxPerMin = (bar.current?.clientWidth ?? 1000) / 1440
+      const pxPerMin = (span.current?.clientWidth ?? 1000) / 1440
       // Transforms, not left/width: inside an event the playhead moves ~0.01 px per frame, which a
       // pixel-snapped left would turn into a one-pixel jump every second or so
       if (head.current) head.current.style.transform = `translateX(${now * pxPerMin}px)`
-      if (fill.current) fill.current.style.transform = `scaleX(${now / 1440})`
+      // the progress line spans the whole track, so it runs from the track's left end to the playhead
+      const x = (span.current?.offsetLeft ?? 0) + now * pxPerMin
+      if (fill.current) fill.current.style.transform = `scaleX(${x / (bar.current?.clientWidth || 1)})`
       EVENTS.forEach((e, i) => marks.current[i]?.classList.toggle('hit', isHit((now - e.tl) * pxPerMin)))
       raf = requestAnimationFrame(frame)
     }
@@ -118,7 +122,7 @@ export function Timeline() {
   }, [])
 
   const seekFromPointer = (e: React.PointerEvent) => {
-    const r = bar.current!.getBoundingClientRect()
+    const r = span.current!.getBoundingClientRect()
     director.seek(Math.max(0, Math.min(1439, ((e.clientX - r.left) / r.width) * 1440)))
   }
 
@@ -170,6 +174,7 @@ export function Timeline() {
           <div className="tl-sky" style={{ background: SKY_GRADIENT }} />
           <div className="tl-fill" ref={fill} />
         </div>
+        <div className="tl-span" ref={span}>
         {hours.map((h) => (
           <span key={h} className="tl-hour" style={{ left: pct(h) }}>{fmtClock(DAY_START + h)}</span>
         ))}
@@ -189,6 +194,7 @@ export function Timeline() {
           </button>
         ))}
         <div className="tl-head" ref={head} />
+        </div>
       </div>
     </div>
   )
