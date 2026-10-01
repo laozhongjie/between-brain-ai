@@ -20,6 +20,8 @@ const FILL = [0.02, 0.13] // the white disc turns into a window onto brain | AI
 const OPEN = [0.03, 0.32] // the disc grows until it fills the screen
 const CH = [0.32, 0.9] // five chapters
 const CTA = 0.9 // closing call to action
+/** Closing headline, one entry per line; its words rise in one after another (see .cta-word). */
+const CTA_LINES = ['between what we understand', 'and what we can build']
 
 /** Hero geometry from the stage size: disc radius and how far out the two labels sit. */
 const heroGeom = (w: number, h: number) => ({
@@ -46,9 +48,9 @@ const setOrigin = (e: React.PointerEvent<HTMLElement>) => {
 }
 
 /** Closing call to action: on hover a fill spreads from where the pointer entered and recedes to where it left. */
-function CtaButton({ label, primary = false, onClick }: { label: string; primary?: boolean; onClick: () => void }) {
+function CtaButton({ label, onClick }: { label: string; onClick: () => void }) {
   return (
-    <button className={`cta-btn ${primary ? 'primary' : ''}`} onClick={onClick} onPointerEnter={setOrigin} onPointerLeave={setOrigin}>
+    <button className="cta-btn" onClick={onClick} onPointerEnter={setOrigin} onPointerLeave={setOrigin}>
       <span>{label}</span>
     </button>
   )
@@ -264,10 +266,18 @@ export function Home() {
           </nav>
 
           <div className="home-cta">
-            <p className="cta-line">between what we understand<br />and what we can build</p>
+            <p className="cta-line">
+              {CTA_LINES.map((line, l) => (
+                <span key={l} className="cta-row">
+                  {line.split(' ').map((w, i) => (
+                    <span key={i} className="cta-word" style={{ '--i': l * 4 + i } as React.CSSProperties}>{w}</span>
+                  ))}
+                </span>
+              ))}
+            </p>
             <p className="cta-line zh">在理解与创造之间</p>
             <div className="cta-actions">
-              <CtaButton primary label={t(UI.navAtlas)} onClick={() => go('/atlas')} />
+              <CtaButton label={t(UI.navAtlas)} onClick={() => go('/atlas')} />
               <CtaButton label={t(UI.navAi)} onClick={() => go('/ai')} />
             </div>
           </div>
