@@ -40,6 +40,21 @@ interface Store {
   resetView: () => void
 }
 
+/** View settings at start, restored by Reset view. */
+const DEFAULT_VIEW: ViewState = {
+  cortexOpacity: 0.3,
+  explode: 0,
+  clipAxis: 'none',
+  clipOffset: 0,
+  colorMode: 'anatomy',
+  showSubcortex: true,
+  showNuclei: true,
+  showBody: true,
+  showLabels: true,
+  showPathways: true,
+  showPulses: true,
+}
+
 export const useStore = create<Store>((set) => ({
   lang: 'zh',
   viewMode: '3d',
@@ -47,24 +62,13 @@ export const useStore = create<Store>((set) => ({
   focusStep: 0,
   selected: null,
   hovered: null,
-  view: {
-    cortexOpacity: 0.3,
-    explode: 0,
-    clipAxis: 'none',
-    clipOffset: 0,
-    colorMode: 'anatomy',
-    showSubcortex: true,
-    showNuclei: true,
-    showBody: true,
-    showLabels: true,
-    showPathways: true,
-    showPulses: true,
-  },
+  view: DEFAULT_VIEW,
   resetTick: 0,
   setLang: (lang) => set({ lang }),
   setViewMode: (viewMode) => set({ viewMode }),
   select: (selected) => set({ selected }),
   hover: (hovered) => set({ hovered }),
   setView: (v) => set((s) => ({ view: { ...s.view, ...v } })),
-  resetView: () => set((s) => ({ selected: null, resetTick: s.resetTick + 1 })),
+  // camera back home and every view setting back to its default
+  resetView: () => set((s) => ({ selected: null, view: DEFAULT_VIEW, resetTick: s.resetTick + 1 })),
 }))
