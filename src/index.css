@@ -496,9 +496,22 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .card-page .col h3 { display: flex; align-items: center; gap: 8px; margin: 16px 0; font-size: 15px; color: var(--text-h); }
 .card-page .col h3 svg { width: 17px; height: 17px; }
 .card-math { margin: 16px 0 4px; border-top: 1px solid var(--panel-border); padding-top: 12px; }
-.card-math summary { cursor: pointer; color: var(--accent); font-size: 13px; }
-.card-math summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-.card-math[open] .formulas { margin-top: 14px; }
+.card-math h4 { margin: 0 0 10px; color: var(--accent); font-size: 13px; font-weight: 500; }
+.card-architecture { margin-top: 36px; }
+.architecture-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.architecture-col { min-width: 0; padding: 16px; border: 1px solid var(--panel-border); border-top-width: 2px; border-radius: 10px; background: rgba(170,195,230,0.025); }
+.architecture-col.brain-col { border-top-color: var(--pink); }
+.architecture-col.ai-col { border-top-color: var(--accent); }
+.architecture-summary { margin: 0 0 14px; color: var(--text-h); font-size: 14px; line-height: 1.65; }
+.architecture-flow { list-style: none; display: grid; gap: 8px; margin: 0; padding: 0; }
+.architecture-step { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; align-items: start; padding-top: 8px; border-top: 1px solid var(--panel-border); }
+.architecture-step-no { color: var(--accent); font: 12px/1.5 var(--mono); }
+.architecture-step strong { display: block; margin-bottom: 2px; color: var(--text-h); font-size: 13px; font-weight: 500; }
+.architecture-step div { color: var(--text); font-size: 13px; line-height: 1.65; }
+.architecture-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0 0; }
+.architecture-meta > div { padding-top: 10px; border-top: 1px solid var(--panel-border); }
+.architecture-meta dt { color: var(--text-dim); font-size: 11px; }
+.architecture-meta dd { margin: 4px 0 0; font-size: 13px; line-height: 1.6; }
 .card-lessons { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .card-lessons > div { padding-left: 16px; border-left: 2px solid var(--accent-line); min-width: 0; }
 .card-lessons > div + div { border-color: var(--lemon); }
@@ -592,7 +605,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .ai-section { grid-template-columns: 1fr; }
   .ai-nav { display: none; }
   .ai-main { padding: 14px 16px 60px; }
-  .two-col, .lab-grid, .lab-grid.two, .bp-wrap { grid-template-columns: 1fr; }
+  .two-col, .architecture-grid, .lab-grid, .lab-grid.two, .bp-wrap { grid-template-columns: 1fr; }
+  .architecture-meta { grid-template-columns: 1fr; gap: 10px; }
   .bp-grid { grid-template-columns: repeat(5, minmax(96px, 1fr)); overflow-x: auto; }
   .bp-detail { position: static; max-height: none; }
   .lab-slider { grid-template-columns: 1fr 120px 48px; }

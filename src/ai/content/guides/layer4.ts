@@ -83,6 +83,29 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
     question: b('怎样记住一次经历，又不忘掉已有知识？', 'How can a new experience be retained without losing old knowledge?'),
     answer: b('互补学习系统把快速记经历与慢速学规律分开。AI 可以用记忆库与模型更新协作，但两者不会自动融合。', 'Complementary learning separates rapid episode storage from gradual learning of regularities. AI can combine a memory store with model updates, but integration is not automatic.'),
     scope: b('比较互补学习系统理论与上下文、检索增强和经验回放；不是对所有记忆系统的完整分类。', 'Compares complementary learning theory with context, retrieval augmentation and replay, rather than classifying every memory system.'),
+    architecture: {
+      brain: {
+        summary: b('快速绑定具体经历，慢速提取跨经历的规律。', 'Rapidly bind episodes, then slowly extract regularities across them.'),
+        steps: [
+          { label: b('感觉与皮层输入', 'Sensory and cortical input'), detail: b('当前知觉、目标和已有知识共同构成待编码的事件。', 'Current perception, goals and prior knowledge define the event to be encoded.') },
+          { label: b('海马快速绑定', 'Hippocampal binding'), detail: b('海马把内容与时间、地点和情境绑定，形成可由线索检索的情景表征。', 'The hippocampus binds content with time, place and context into a cue-addressable episode.') },
+          { label: b('回放与巩固', 'Replay and consolidation'), detail: b('离线或低输入阶段的回放让新皮层逐步吸收跨事件的统计规律。', 'Replay during offline or low-input periods lets cortex gradually absorb statistics across episodes.') },
+          { label: b('检索与行为', 'Retrieval and behaviour'), detail: b('线索激活相关经历和知识，影响当前判断、预测与行动。', 'Cues activate related episodes and knowledge, shaping current judgement, prediction and action.') },
+        ],
+      },
+      ai: {
+        summary: b('上下文、外部记忆和参数更新是不同的存储层。', 'Context, external memory and parameter updates are distinct storage layers.'),
+        steps: [
+          { label: b('输入与上下文', 'Input and context'), detail: b('当前输入进入上下文窗口；它只影响本次计算，通常不会改写基础权重。', 'The current input enters the context window; it affects this computation but usually does not rewrite base weights.') },
+          { label: b('检索外部记忆', 'Retrieve external memory'), detail: b('检索器依据查询选择文档、向量或结构化事件，再把结果拼接回上下文。', 'A retriever selects documents, vectors or structured events and inserts them into the context.') },
+          { label: b('训练与蒸馏', 'Training and distillation'), detail: b('只有显式训练、适配器更新或蒸馏步骤才会改变长期参数。', 'Long-term parameters change only through explicit training, adapter updates or distillation.') },
+          { label: b('生成与下次调用', 'Generation and next call'), detail: b('模型根据当前上下文生成输出；是否保留结果并影响下一次调用由系统策略决定。', 'The model generates from the current context; retention for the next call depends on system policy.') },
+        ],
+      },
+      state: b('海马情景记忆、新皮层知识与身体状态相互作用；AI 的上下文、向量库和权重更新必须分别管理。', 'Hippocampal episodes, cortical knowledge and bodily state interact; AI context, vector stores and weight updates must be managed separately.'),
+      timescale: b('神经活动为毫秒至秒，情景写入为秒至分钟，巩固和遗忘为小时至多年；AI 检索为毫秒至秒，参数更新通常是独立离线过程。', 'Neural activity spans milliseconds to seconds, episodic encoding seconds to minutes, and consolidation and forgetting hours to years; AI retrieval takes milliseconds to seconds, while parameter updates are usually separate offline processes.'),
+      caveat: b('功能上的“快速写入—慢速巩固”对应不等于海马与 RAG 或权重更新具有相同机制。', 'The functional pattern of “fast writing and slow consolidation” does not make hippocampus, RAG and weight updates the same mechanism.'),
+    },
     comparisons: [
       { dimension: b('记录一次经历', 'Recording an episode'), brain: b('海马系统参与把事件与时间、地点等背景绑定。', 'The hippocampal system helps bind events with temporal and spatial context.'), ai: b('记忆库能保存事件和元数据；普通文本分块未必保留这些关联。', 'Stores can retain events and metadata; plain text chunks may omit these relationships.') },
       { dimension: b('形成长期知识', 'Forming lasting knowledge'), brain: b('回放与巩固被认为支持经验和皮层知识的相互作用。', 'Replay and consolidation are thought to support interactions between episodes and cortical knowledge.'), ai: b('检索不会自动改写权重；需要独立的学习或蒸馏步骤。', 'Retrieval does not automatically rewrite weights; learning or distillation needs a separate step.') },
@@ -99,6 +122,31 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
     question: b('发现危险后，为什么整个系统都要改变状态？', 'Why should detecting danger change the state of the whole system?'),
     answer: b('情绪相关机制会同时影响注意、行动和学习。工程上可借鉴这种协调作用，而不把情绪词汇当作情绪机制。', 'Emotion-related mechanisms coordinate attention, action and learning. Engineering can borrow that coordination without treating emotional language as an emotional mechanism.'),
     scope: b('比较情绪相关的全局调节与奖励、安全控制和状态调度；这里讨论功能，不判断主观体验。', 'Compares global emotion-related regulation with rewards, safety control and state scheduling. The comparison concerns function, not subjective experience.'),
+    architecture: {
+      brain: {
+        summary: b('威胁线索改变全身状态，并由调节回路逐步恢复任务控制。', 'Threat cues shift whole-body state, with regulatory circuits gradually restoring task control.'),
+        steps: [
+          { label: b('威胁线索', 'Threat cue'), detail: b('感觉输入与既有学习共同判断潜在危险和不确定性。', 'Sensory input and prior learning estimate potential danger and uncertainty.') },
+          { label: b('防御回路', 'Defensive circuitry'), detail: b('杏仁核及相关通路快速提高警觉，联动脑干、自主神经和内分泌反应。', 'Amygdala-related pathways rapidly raise vigilance and recruit brainstem, autonomic and endocrine responses.') },
+          { label: b('全局状态变化', 'Global state shift'), detail: b('注意范围、行动阈值、记忆编码和能量分配同时改变。', 'Attention, action thresholds, memory encoding and energy allocation shift together.') },
+          { label: b('前额叶调节', 'Prefrontal regulation'), detail: b('情境和结果信息参与抑制、维持或重新评估防御反应。', 'Context and outcome information help inhibit, sustain or reappraise the defensive response.') },
+          { label: b('趋避与恢复', 'Approach, avoidance and recovery'), detail: b('系统选择防御动作或撤离，并在风险下降后逐步回到基线。', 'The system selects defence or withdrawal and gradually returns toward baseline as risk falls.') },
+        ],
+      },
+      ai: {
+        summary: b('风险估计、安全控制和策略调度可以共享状态，但并不产生主观恐惧。', 'Risk estimation, safety control and policy scheduling can share state without producing subjective fear.'),
+        steps: [
+          { label: b('输入状态', 'Input state'), detail: b('传感器、任务上下文和历史轨迹提供风险判断所需的信息。', 'Sensors, task context and history provide inputs for risk estimation.') },
+          { label: b('风险与代价估计', 'Risk and cost estimate'), detail: b('模型估计碰撞、失败或不可逆损失的概率与代价。', 'A model estimates the probability and cost of collision, failure or irreversible loss.') },
+          { label: b('安全门控', 'Safety gating'), detail: b('硬约束或独立控制器可以限制动作范围，并在必要时抢占规划器。', 'Hard constraints or an independent controller can limit actions and pre-empt the planner when needed.') },
+          { label: b('策略与记忆更新', 'Policy and memory update'), detail: b('风险状态可调节探索、推理预算、动作速度和经验写入。', 'Risk state can regulate exploration, inference budget, action speed and memory writing.') },
+          { label: b('动作与恢复', 'Action and recovery'), detail: b('系统执行避险或降级动作，并按明确条件恢复正常策略。', 'The system executes avoidance or degraded actions and resumes normal policy under explicit conditions.') },
+        ],
+      },
+      state: b('生物状态包含自主神经、激素、身体感觉与学习历史；AI 通常只有显式接入的风险变量和控制门。', 'Biological state includes autonomic, hormonal, bodily and learned components; AI usually has only explicitly connected risk variables and control gates.'),
+      timescale: b('快速防御可在毫秒至秒内启动，激素和记忆调节持续分钟至小时；AI 安全门控可很快执行，但跨任务状态保持需要额外设计。', 'Rapid defence can start within milliseconds to seconds, while hormonal and memory effects last minutes to hours; AI safety gates can act quickly, but cross-task state persistence requires extra design.'),
+      caveat: b('负奖励、风险向量或安全停机描述的是控制功能，不能据此推断系统具有恐惧体验。', 'Negative reward, risk vectors and safety stops describe control functions and do not imply a fear experience.'),
+    },
     comparisons: [
       { dimension: b('影响范围', 'Scope of influence'), brain: b('威胁可同时改变注意、身体反应和记忆形成。', 'Threat can jointly change attention, bodily responses and memory formation.'), ai: b('奖励或安全模块通常只控制特定目标；也可设计跨模块调节。', 'Reward or safety modules usually target specific objectives; cross-module regulation can be designed.') },
       { dimension: b('紧急反应', 'Urgent response'), brain: b('某些防御反应可以先于详细判断发生。', 'Some defensive responses can precede detailed appraisal.'), ai: b('专用安全控制器可先执行保守动作，再交给规划器。', 'A safety controller can take conservative action before handing back to a planner.') },
@@ -159,6 +207,31 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
     question: b('信息太多时，应该看什么、想多久？', 'When information is abundant, what deserves attention and for how long?'),
     answer: b('大脑的注意涉及目标、资源分配和行动选择；Transformer 注意力是内容加权运算，只对应其中一部分功能。', 'Brain attention involves goals, resource allocation and action selection; Transformer attention is content weighting and covers only part of that function.'),
     scope: b('比较认知注意和执行控制与标准 Transformer 注意力、门控和推理预算分配。', 'Compares cognitive attention and executive control with standard Transformer attention, gating and inference-budget allocation.'),
+    architecture: {
+      brain: {
+        summary: b('目标和显著性驱动选择，有限工作空间协调感知、记忆与行动。', 'Goals and salience drive selection; a limited workspace coordinates perception, memory and action.'),
+        steps: [
+          { label: b('感觉输入', 'Sensory input'), detail: b('多通道输入并行到达，强度、位置和新奇性形成候选线索。', 'Parallel inputs arrive across modalities; intensity, location and novelty form candidate cues.') },
+          { label: b('目标与显著性', 'Goals and salience'), detail: b('任务目标、预期、情绪和不确定性改变竞争结果。', 'Task goals, expectations, affect and uncertainty alter the competition.') },
+          { label: b('门控与工作记忆', 'Gating and working memory'), detail: b('基底节和前额叶回路选择要维持、更新或抑制的信息。', 'Basal-ganglia and prefrontal circuits select information to maintain, update or suppress.') },
+          { label: b('全局广播', 'Global broadcast'), detail: b('少量内容进入共享工作空间，供多个系统读取和整合。', 'A small amount enters a shared workspace for access by multiple systems.') },
+          { label: b('行动或持续思考', 'Action or continued deliberation'), detail: b('系统根据任务难度和不确定性决定行动、换焦点或投入更多控制。', 'The system acts, shifts focus or invests more control according to difficulty and uncertainty.') },
+        ],
+      },
+      ai: {
+        summary: b('注意力先对表示做内容加权；门控、路由和停止规则才承担更广义的控制作用。', 'Attention first weights representations by content; gating, routing and stopping rules provide broader control.'),
+        steps: [
+          { label: b('词元表示', 'Token representations'), detail: b('输入被编码为向量序列，位置和上下文信息随层级传播。', 'Inputs become vector sequences, with position and context propagated through layers.') },
+          { label: b('查询、键和值', 'Queries, keys and values'), detail: b('每个查询与键计算相关性，再对值做加权汇聚。', 'Each query scores keys, then forms a weighted sum of values.') },
+          { label: b('层内整合', 'Layer-wise integration'), detail: b('多头注意力和前馈层更新表示，但不自动形成跨模块共享工作空间。', 'Multi-head attention and feed-forward layers update representations without automatically forming a cross-module workspace.') },
+          { label: b('路由与预算', 'Routing and budget'), detail: b('外部控制器可选择专家、追加推理步骤、检索信息或停止。', 'An external controller can select experts, add reasoning steps, retrieve information or stop.') },
+          { label: b('输出', 'Output'), detail: b('生成器、策略或工具调用读取最终表示并产生响应。', 'A generator, policy or tool caller reads the final representation and produces a response.') },
+        ],
+      },
+      state: b('工作记忆依赖持续神经活动和突触状态；Transformer 的上下文是当前前向计算中的表示，路由器状态则另行维护。', 'Working memory depends on persistent neural activity and synaptic state; a Transformer context is a representation within the current forward pass, while router state is maintained separately.'),
+      timescale: b('感觉选择可在几十至数百毫秒内变化，工作记忆可维持秒级；AI 注意力在一次前向传播内计算，额外推理依赖离散步骤和延迟预算。', 'Sensory selection can change over tens to hundreds of milliseconds, with working memory lasting seconds; AI attention is computed within a forward pass, while extra reasoning adds discrete steps and latency.'),
+      caveat: b('Transformer 注意力是内容加权算子；它不单独说明目标维持、意识、元认知或行为控制。', 'Transformer attention is a content-weighting operator; by itself it does not explain goal maintenance, consciousness, metacognition or behavioural control.'),
+    },
     comparisons: [
       { dimension: b('选择依据', 'Basis of selection'), brain: b('目标、显著性和已有经验共同影响注意。', 'Goals, salience and experience jointly shape attention.'), ai: b('标准注意力按学习到的查询与键计算权重，目标通过输入和训练影响它。', 'Standard attention weights learned queries and keys; goals influence it through inputs and training.') },
       { dimension: b('容量限制', 'Capacity limits'), brain: b('工作记忆有任务相关的容量限制。', 'Working memory has task-dependent capacity limits.'), ai: b('上下文长度受架构和计算预算限制，不等于人的工作记忆项数。', 'Context length depends on architecture and compute, not a human working-memory item count.') },

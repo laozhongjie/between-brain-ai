@@ -42,6 +42,24 @@ export interface DesignExperiment {
   tradeoff: Bi
 }
 
+export interface ArchitectureStep {
+  label: Bi
+  detail: Bi
+}
+
+export interface ArchitectureTrack {
+  summary: Bi
+  steps: ArchitectureStep[]
+}
+
+export interface ArchitectureSection {
+  brain: ArchitectureTrack
+  ai: ArchitectureTrack
+  state?: Bi
+  timescale?: Bi
+  caveat?: Bi
+}
+
 export interface CardGuide {
   question: Bi
   answer: Bi
@@ -50,6 +68,7 @@ export interface CardGuide {
   borrow: Bi
   boundary: Bi
   experiments: DesignExperiment[]
+  architecture?: ArchitectureSection
 }
 
 export interface CardMechanism {

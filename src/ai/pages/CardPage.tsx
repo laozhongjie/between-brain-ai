@@ -7,7 +7,7 @@ import { LAYERS, READING_ORDER } from '../content'
 import { FIGS } from '../figs'
 import { LABS } from '../labs/registry'
 import { Rich, Tex } from '../Tex'
-import type { Card, Formula } from '../types'
+import type { ArchitectureTrack, Card, Formula } from '../types'
 import { CorrBadge, EvidenceBadge, PagerLink, RefList } from './common'
 import { Icon } from '../../ui/Icon'
 import { ComparisonText } from '../../ui/ComparisonText'
@@ -26,8 +26,8 @@ function Formulas({ list }: { list?: Formula[] }) {
   const t = useT()
   if (!list?.length) return null
   return (
-    <details className="card-math">
-      <summary>{t(UI.showMath)}</summary>
+    <div className="card-math">
+      <h4>{t(UI.showMath)}</h4>
       <div className="formulas">
         {list.map((f, i) => (
           <figure key={i} className="formula">
@@ -36,7 +36,24 @@ function Formulas({ list }: { list?: Formula[] }) {
           </figure>
         ))}
       </div>
-    </details>
+    </div>
+  )
+}
+
+function ArchitectureTrackView({ track, className }: { track: ArchitectureTrack; className: string }) {
+  const t = useT()
+  return (
+    <section className={`architecture-col ${className}`}>
+      <p className="architecture-summary"><Rich text={t(track.summary)} /></p>
+      <ol className="architecture-flow">
+        {track.steps.map((step, index) => (
+          <li key={index} className="architecture-step">
+            <span className="architecture-step-no" aria-hidden>{String(index + 1).padStart(2, '0')}</span>
+            <div><strong>{t(step.label)}</strong><Rich text={t(step.detail)} /></div>
+          </li>
+        ))}
+      </ol>
+    </section>
   )
 }
 
@@ -93,6 +110,21 @@ export function CardPage({ card }: { card: Card }) {
           </tbody>
         </table>
       </section>
+
+      {guide.architecture && (
+        <section aria-labelledby="card-architecture-title" className="card-architecture">
+          <h2 id="card-architecture-title">{t(UI.secArchitecture)}</h2>
+          <div className="architecture-grid">
+            <ArchitectureTrackView track={guide.architecture.brain} className="brain-col" />
+            <ArchitectureTrackView track={guide.architecture.ai} className="ai-col" />
+          </div>
+          <dl className="architecture-meta">
+            {guide.architecture.state && <div><dt>{t(UI.architectureState)}</dt><dd><Rich text={t(guide.architecture.state)} /></dd></div>}
+            {guide.architecture.timescale && <div><dt>{t(UI.architectureTimescale)}</dt><dd><Rich text={t(guide.architecture.timescale)} /></dd></div>}
+            {guide.architecture.caveat && <div><dt>{t(UI.architectureCaveat)}</dt><dd><Rich text={t(guide.architecture.caveat)} /></dd></div>}
+          </dl>
+        </section>
+      )}
 
       <section aria-labelledby="card-mechanisms-title">
         <h2 id="card-mechanisms-title">{t(UI.secMechanisms)}</h2>

@@ -38,8 +38,21 @@ describe('bilingual comparison cards', () => {
         expect(html).toContain(escaped(UI.designStatus[lang]))
         expect(html).toContain(escaped(card.guide.boundary[lang]))
         const formulaGroups = [card.brainMath, card.aiMath].filter((group) => group?.length).length
-        expect(html.match(/<details class="card-math">/g) ?? []).toHaveLength(formulaGroups)
-        expect(html).not.toContain('<details class="card-math" open')
+        expect(html.match(/<div class="card-math">/g) ?? []).toHaveLength(formulaGroups)
+        expect(html).not.toContain('<details class="card-math">')
+        if (card.guide.architecture) {
+          expect(html).toContain(escaped(UI.secArchitecture[lang]))
+          for (const track of [card.guide.architecture.brain, card.guide.architecture.ai]) {
+            expect(html).toContain(escaped(track.summary[lang]))
+            for (const step of track.steps) {
+              expect(html).toContain(escaped(step.label[lang]))
+              expect(html).toContain(escaped(step.detail[lang]))
+            }
+          }
+          for (const field of [card.guide.architecture.state, card.guide.architecture.timescale, card.guide.architecture.caveat]) {
+            if (field) expect(html).toContain(escaped(field[lang]))
+          }
+        }
         expect(html).not.toContain('原理还是约束？')
       })
     }
