@@ -829,16 +829,15 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 .cta-line.zh { font: 400 15px/1.4 var(--sans); color: var(--text-dim); letter-spacing: 0.14em; }
 .cta-actions { display: flex; gap: 12px; margin-top: 22px; flex-wrap: wrap; justify-content: center; }
 /* hover: a disc of fill spreads from where the pointer entered (--x, --y, set in Home.tsx) and recedes to
-   where it left. The white button fills ice blue; the outlined one fills white, and its label (difference
-   blend) inverts exactly where the disc has reached */
-.cta-btn { position: relative; overflow: hidden; isolation: isolate; --x: 50%; --y: 50%; --fill: #f2f4f7; font: 500 13px/1 var(--sans); letter-spacing: 0.08em; padding: 14px 24px; border-radius: 999px; cursor: pointer; color: #f2f4f7; background: rgba(255,255,255,0.03); border: 1px solid rgba(242,244,247,0.3); transition: border-color .45s var(--ease); }
+   where it left: the white button fills black, the outlined one fills white. The label (difference blend)
+   inverts exactly where the disc has reached */
+.cta-btn { position: relative; overflow: hidden; isolation: isolate; --x: 50%; --y: 50%; --fill: #f2f4f7; font: 500 13px/1 var(--sans); letter-spacing: 0.08em; padding: 14px 24px; border-radius: 999px; cursor: pointer; color: #f2f4f7; background: rgba(255,255,255,0.03); border: 1px solid rgba(242,244,247,0.3); transition: border-color .3s var(--ease); }
 .cta-btn > span { display: block; color: #fff; mix-blend-mode: difference; }
-.cta-btn.primary > span { color: inherit; mix-blend-mode: normal; }
-.cta-btn::before { content: ''; position: absolute; z-index: -1; left: var(--x); top: var(--y); width: 260%; aspect-ratio: 1; border-radius: 50%; background: var(--fill); transform: translate(-50%, -50%) scale(0); transition: transform .55s var(--ease); pointer-events: none; }
+.cta-btn::before { content: ''; position: absolute; z-index: -1; left: var(--x); top: var(--y); width: 240%; aspect-ratio: 1; border-radius: 50%; background: var(--fill); transform: translate(-50%, -50%) scale(0); transition: transform .3s var(--ease); pointer-events: none; }
 .cta-btn:hover, .cta-btn:focus-visible { border-color: var(--fill); }
 .cta-btn:hover::before, .cta-btn:focus-visible::before { transform: translate(-50%, -50%) scale(1); }
-.cta-btn.primary { --fill: var(--accent); background: #f2f4f7; color: #05070b; border-color: #f2f4f7; }
-.cta-btn.primary:hover, .cta-btn.primary:focus-visible { border-color: var(--fill); }
+.cta-btn.primary { --fill: #05070b; background: #f2f4f7; border-color: #f2f4f7; }
+.cta-btn.primary:hover, .cta-btn.primary:focus-visible { border-color: #f2f4f7; }
 
 @media (max-width: 760px) {
   .hl-fact, .hero-foot.left { display: none; }
