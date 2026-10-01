@@ -57,7 +57,7 @@ export function RegionPanel() {
             <span className="tag" style={{ borderColor: sys.color, color: sys.color }}>{t(sys.name)}</span>
             <span className="tag">{t(LOBES[info.lobe])}</span>
             {side && <span className="tag">{side}</span>}
-            {info.abbr && <span className="tag mono">{info.abbr}</span>}
+            {info.abbr && <span className="tag">{info.abbr}</span>}
           </div>
           <h2><DecodeText text={t(info.name)} /></h2>
         </div>

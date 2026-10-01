@@ -1,6 +1,8 @@
 /** Dark observatory theme constants shared by canvas/SVG/WebGL code (CSS uses the matching custom properties). */
 export const FONT = "'Inter Variable', 'MiSans VF', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif"
 export const FONT_MONO = "'JetBrains Mono Variable', 'MiSans VF', ui-monospace, Menlo, monospace"
+/** Titles and small labels (mirrors --label in index.css). */
+export const FONT_LABEL = "'Jost Variable', 'MiSans VF', 'PingFang SC', system-ui, sans-serif"
 
 export const THEME = {
   bg: '#05070b',

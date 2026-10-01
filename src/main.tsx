@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-// Fonts (bundled): Inter for Latin text, MiSans for Chinese, JetBrains Mono for numbers / tags / code
+// Fonts (bundled): Inter for Latin text, MiSans for Chinese, JetBrains Mono for numbers / code, Jost for the
+// wordmark, landing titles and small labels
 import '@fontsource-variable/inter'
 import 'misans-vf-4web/dist/result.css'
 import '@fontsource-variable/jetbrains-mono'

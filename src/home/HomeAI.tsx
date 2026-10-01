@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
+import { FONT_LABEL } from '../theme'
 import { homeState } from './chapters'
 
 const LAYERS = [4, 7, 9, 9, 7, 3]
 const INK = '230,235,242'
 const ICE = '125,211,252'
-const MONO = "'JetBrains Mono Variable', ui-monospace, monospace"
 
 interface Pulse { layer: number; from: number; to: number; t: number }
 
@@ -121,7 +121,7 @@ export function HomeAI() {
       }
 
       // chapter overlays
-      ctx.font = `10.5px ${MONO}`
+      ctx.font = `11px ${FONT_LABEL}`
       ctx.textAlign = 'center'
       const box = (la: number, lb: number, label: string) => {
         const pad = 22
