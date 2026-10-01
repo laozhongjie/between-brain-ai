@@ -140,7 +140,7 @@ export function Timeline() {
         <button className="icon-btn sm" title={t(UI.nextEvent)} onClick={() => director.jump(1)}><Icon name="skip-forward" /></button>
         <div className="seg">
           {SPEEDS.map((s) => (
-            <button key={s} className={speed === s ? 'on' : ''} onClick={() => useScenario.setState({ speed: s })}>{s}×</button>
+            <button key={s} className={speed === s ? 'on' : ''} onClick={() => useScenario.setState({ speed: s })}>{s}x</button>
           ))}
         </div>
         {/* the colon is drawn (.clock-colon), so its dots are larger and centred on the digits' height */}

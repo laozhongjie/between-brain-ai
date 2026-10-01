@@ -24,7 +24,7 @@ function LinkList({ items, dir, hemi }: { items: Link[]; dir: 'in' | 'out'; hemi
           <li key={i}>
             <button className="link-btn" disabled={!id} onClick={() => id && select(id)}>
               <span className="dot" style={{ background: other ? SYSTEMS[other.system].color : '#888' }} />
-              {dir === 'in' ? '← ' : '→ '}
+              <Icon name="chevron" size={14} className={`link-chev ${dir}`} />
               {other ? t(other.name) : x.key}
             </button>
             <div className="link-what"><Rich text={t(x.what)} /></div>
