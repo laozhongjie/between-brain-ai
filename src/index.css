@@ -60,7 +60,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   /* borderless frosted glass: set apart by translucency and blur alone (no outline, no drop shadow, which
      merged into a dark layer under neighbouring panels) */
   background: linear-gradient(180deg, rgba(150,175,210,0.035), rgba(150,175,210,0.012)); border: 1px solid transparent; border-radius: 24px;
-  backdrop-filter: blur(6px) saturate(130%); padding: 12px 14px; box-shadow: none;
+  backdrop-filter: blur(2px) saturate(120%); padding: 12px 14px; box-shadow: none;
   position: relative; isolation: isolate;
 }
 .panel h3 { margin: 10px 0 8px; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); font-family: var(--label); }
@@ -825,7 +825,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
     padding: 12px 16px 8px; flex-wrap: wrap; align-content: center; justify-content: space-between; row-gap: 8px;
   }
   .tl-shape { display: none; }
-  .atlas .tl-shape { display: block; position: absolute; left: -1px; z-index: -1; overflow: visible; pointer-events: none; backdrop-filter: blur(6px) saturate(130%); -webkit-backdrop-filter: blur(6px) saturate(130%); }
+  .atlas .tl-shape { display: block; position: absolute; left: -1px; z-index: -1; overflow: visible; pointer-events: none; backdrop-filter: blur(2px) saturate(120%); -webkit-backdrop-filter: blur(2px) saturate(120%); }
   .atlas .tl-shape path { fill: url(#tl-glass); stroke: none; }
   .atlas .timeline .icon-btn { align-self: center; }
   .atlas .timeline .clock { margin-left: 0; }
