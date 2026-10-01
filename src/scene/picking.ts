@@ -20,14 +20,21 @@ export function updateClipPlane(axis: ClipAxis, offset: number) {
   clipPlane.constant = -along * (c + offset * half)
 }
 
-/** First intersection that is pickable and not cut away by the section plane. */
+/**
+ * First intersection that is pickable and not cut away by the section plane. While the cortex is
+ * see-through, a structure inside the brain (userData.deep) under the cursor wins over the cortex in front
+ * of it; otherwise the cortical region is picked, so it can be hovered at any opacity.
+ */
 export function pickValid(hits: THREE.Intersection[]): string | null {
-  const clipping = useStore.getState().view.clipAxis !== 'none'
+  const { clipAxis, cortexOpacity } = useStore.getState().view
+  const preferDeep = cortexOpacity < 0.6
+  let first: string | null = null
   for (const h of hits) {
     const id = h.object.userData.nodeId as string | undefined
     if (!id || !h.object.userData.pickable || !h.object.visible) continue
-    if (clipping && clipPlane.distanceToPoint(h.point) < 0) continue
-    return id
+    if (clipAxis !== 'none' && clipPlane.distanceToPoint(h.point) < 0) continue
+    if (!preferDeep || h.object.userData.deep) return id
+    first ??= id
   }
-  return null
+  return first
 }

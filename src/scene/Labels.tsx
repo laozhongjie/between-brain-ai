@@ -307,6 +307,6 @@ function visibleKind(n: GraphNode, view: ReturnType<typeof useStore.getState>['v
   if (n.kind === 'io') return view.showBody
   if (n.kind === 'nucleus') return view.showNuclei && seeInside
   if (n.info.lobe === 'subcortical') return view.showSubcortex && seeInside
-  if (isCortex(n)) return view.cortexOpacity > 0.3
+  if (isCortex(n)) return view.cortexOpacity > 0.2
   return true // cerebellum, brainstem
 }

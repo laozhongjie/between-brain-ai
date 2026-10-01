@@ -73,6 +73,8 @@ export function BrainModel() {
       o.userData.baseX ??= o.position.x
       o.material = mat
       o.userData.nodeId = node.id
+      // structures inside the brain, preferred by picking while the cortex is see-through (picking.ts)
+      o.userData.deep = node.info.lobe === 'subcortical'
       list.push({ mesh: o, node, mat, glow: glowColor(node), base: new THREE.Color(), cortex: isCortex(node) })
     })
     return list
@@ -112,8 +114,7 @@ export function BrainModel() {
       p.mesh.visible = visible
       p.mesh.position.x = p.mesh.userData.baseX + hemiOffset(p.node.hemi, view.explode)
       p.mesh.renderOrder = p.cortex ? 2 : 1
-      // Let clicks pass through a faded cortex to the structures underneath
-      p.mesh.userData.pickable = visible && (!p.cortex || opacity > 0.35)
+      p.mesh.userData.pickable = visible
     }
   }, [parts, view, focus])
 

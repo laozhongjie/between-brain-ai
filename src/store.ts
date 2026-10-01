@@ -48,7 +48,7 @@ export const useStore = create<Store>((set) => ({
   selected: null,
   hovered: null,
   view: {
-    cortexOpacity: 1,
+    cortexOpacity: 0.3,
     explode: 0,
     clipAxis: 'none',
     clipOffset: 0,

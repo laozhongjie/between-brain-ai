@@ -31,6 +31,7 @@ export function Markers() {
         const mesh = new THREE.Mesh(node.kind === 'io' ? ioGeo : nucleusGeo, mat)
         mesh.userData.nodeId = node.id
         mesh.userData.pickable = true
+        mesh.userData.deep = node.kind === 'nucleus'
         if (node.kind === 'io') {
           const hit = new THREE.Mesh(hitGeo, hitMat)
           hit.userData.nodeId = node.id
