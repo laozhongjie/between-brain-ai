@@ -61,6 +61,10 @@ export default function App() {
   const t = useT()
   const lang = useStore((s) => s.lang)
   const setLang = useStore((s) => s.setLang)
+  // Keep <html lang> in step with the UI language (screen readers, font selection, :lang() styles)
+  useEffect(() => {
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en'
+  }, [lang])
   const viewMode = useStore((s) => s.viewMode)
   const setViewMode = useStore((s) => s.setViewMode)
   const selected = useStore((s) => s.selected)
