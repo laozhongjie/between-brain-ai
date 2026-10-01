@@ -28,10 +28,8 @@ const CH = [at(OPENING_VH), at(OPENING_VH + CHAPTERS.length * CHAPTER_VH)] // fi
 const CTA = CH[1] // closing call to action
 const CTA_RAMP = at(46)
 const chapterAt = (i: number) => CH[0] + ((i + 0.5) / CHAPTERS.length) * (CH[1] - CH[0])
-/** Where the arrow keys step: the top, the fully opened brain | AI view just before the first chapter,
- *  each chapter's centre, the closing view. */
-const OPENED = at(OPENING_VH - 4)
-const KEY_STOPS = [0, OPENED, ...CHAPTERS.map((_, i) => chapterAt(i)), 1]
+/** Where the arrow keys step: the top, each chapter's centre, the closing view. */
+const KEY_STOPS = [0, ...CHAPTERS.map((_, i) => chapterAt(i)), 1]
 // ease-out: the glide answers the key press at once and settles softly
 const easeOut = (k: number) => 1 - (1 - k) ** 3
 const SMOOTH_MS = 110 // the stage eases toward the scroll position, so mouse-wheel steps glide like a trackpad
@@ -249,7 +247,7 @@ export function Home() {
       aim = to
       const y0 = sc.scrollTop
       const y1 = to * max
-      const dur = Math.max(from, to) < OPENED + 1e-3 ? 1600 : 900 // the opening unfolds slower than a chapter turn
+      const dur = Math.min(from, to) < CH[0] ? 1600 : 900 // through the opening: slower than a chapter turn
       const t0 = performance.now()
       const step = (now: number) => {
         const k = Math.min(1, (now - t0) / dur)
