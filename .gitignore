@@ -27,3 +27,6 @@ AGENTS.md
 # python pipeline
 __pycache__/
 pipeline/.cache/
+
+# Claude Code conversation exports (/export)
+conversation-*.txt
