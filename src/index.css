@@ -164,7 +164,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .tl-event:hover { color: var(--accent); border-color: var(--accent); background: var(--panel-solid); z-index: 3; }
 
 /* ── Output panel ── */
-.output-head { display: flex; justify-content: space-between; align-items: center; }
+.output-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 8px; }
+.output-head h3, .output-head .stage-chip { white-space: nowrap; }
 .output-head h3 { margin: 0; }
 .stage-chip { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; padding: 3px 9px; border-radius: 999px; border: 1px solid color-mix(in srgb, currentColor 45%, transparent); background: color-mix(in srgb, currentColor 8%, transparent); }
 .stage-chip::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 8px currentColor; animation: breathe 2.4s ease-in-out infinite; }
@@ -655,7 +656,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   .atlas .right-col { top: var(--top); bottom: var(--low); width: var(--side); }
   .atlas:not(.focusing) .right-col { bottom: calc(var(--low) + var(--ctl-h) + 6px); }
   /* the output panel spreads over the full column height: EEG grows, modulator rows spread out */
-  .atlas .right-col > .output-panel { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
+  .atlas .output-panel { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
   .atlas .output-panel .eeg-wrap { flex: 1 1 68px; min-height: 68px; max-height: 190px; }
   .atlas .output-panel .levels { flex: 1 1 auto; justify-content: space-evenly; min-height: 132px; }
   .atlas .output-panel .body-svg { width: 96px; height: 152px; }
@@ -672,8 +673,27 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
      floats at the top of the middle column */
   .view-3d .stage { bottom: var(--low); }
   .view-3d .systems.compact { top: var(--top); left: calc(16px + var(--side) + var(--gap)); right: calc(16px + var(--side) + var(--gap)); }
-  /* 3D: view controls and narration (or the region panel) share the left column equally */
-  .view-3d .left-col > .panel { flex: 1 1 0; min-height: 0; overflow-y: auto; }
+  /* 3D: the output panel keeps its compact height above the narration, which takes what is left;
+     the view controls fill the right column down to the playback tab */
+  .view-3d .left-col > .output-panel { flex: none; overflow: visible; }
+  /* compact output panel: smaller figure, tighter rows, so the narration keeps more room */
+  .view-3d .left-col .output-panel .eeg-wrap { flex: none; height: 56px; margin: 6px 0; }
+  .view-3d .left-col .output-panel .body-row { grid-template-columns: 64px 1fr; gap: 14px; }
+  .view-3d .left-col .output-panel .body-svg { width: 64px; height: 100px; }
+  .view-3d .left-col .output-panel .vitals { flex-flow: row wrap; gap: 6px 18px; }
+  .view-3d .left-col .output-panel .action { flex-basis: 100%; }
+  .view-3d .left-col .output-panel .vital-value { font-size: 20px; }
+  .view-3d .left-col .output-panel h3:not(:first-child) { margin: 6px 0 4px; }
+  .view-3d .left-col .output-panel .levels { flex: none; min-height: 0; gap: 1px; }
+  .view-3d .left-col .output-panel .levels li { font-size: 11px; }
+  .view-3d .left-col > .narration, .view-3d .left-col > .region-panel { flex: 1; min-height: 110px; overflow-y: auto; }
+  .view-3d .right-col > .controls { flex: 1; display: flex; flex-direction: column; }
+  /* row spacing grows with the column height (capped); the reset button sits at the bottom */
+  .view-3d .right-col { container-type: size; }
+  .view-3d .right-col > .controls .row { margin-block: clamp(6px, 1.6cqh, 13px); }
+  .view-3d .right-col > .controls > h3:not(:first-child) { margin-top: clamp(10px, 3cqh, 28px); }
+  .view-3d .right-col > .controls .checks { row-gap: clamp(6px, 1.6cqh, 12px); }
+  .view-3d .right-col > .controls > .btn { margin-top: auto; }
   .atlas .systems.compact h3 { display: none; }
   .atlas .systems.compact .system-grid { justify-content: center; gap: 3px; }
   .atlas .systems.compact .system-btn { padding: 3px 6px; gap: 5px; font-size: 11.5px; }

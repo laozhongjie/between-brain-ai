@@ -1,5 +1,5 @@
 import { useProgress } from '@react-three/drei'
-import { Suspense, lazy, useEffect, useState } from 'react'
+import { Suspense, lazy, useEffect, useState, useSyncExternalStore } from 'react'
 import { TAGLINES, UI, useT } from './i18n'
 import { go, useRoute } from './route'
 import { Schematic } from './schematic/Schematic'
@@ -41,6 +41,15 @@ function Tagline() {
   return <DecodeText className="tagline" text={t(TAGLINES[i])} />
 }
 
+/** Desktop layout breakpoint, the same as the `min-width: 1101px` rules in index.css. */
+const WIDE = '(min-width: 1101px)'
+const subscribeWide = (cb: () => void) => {
+  const mq = matchMedia(WIDE)
+  mq.addEventListener('change', cb)
+  return () => mq.removeEventListener('change', cb)
+}
+const useWide = () => useSyncExternalStore(subscribeWide, () => matchMedia(WIDE).matches)
+
 function Loader() {
   const t = useT()
   const { active, progress } = useProgress()
@@ -60,6 +69,8 @@ export default function App() {
   const [panel, setPanel] = useState<'none' | 'controls' | 'output'>('none')
   const toggle = (p: typeof panel) => setPanel(panel === p ? 'none' : p)
   const route = useRoute()
+  // Desktop 3D: body & outputs join the narration on the left, the view controls take the right column
+  const swap = useWide() && viewMode === '3d'
   // #/ → landing page, #/atlas → the atlas, #/ai/… → the Brain ↔ AI section
   const section = route[0] === 'ai' ? 'ai' : route[0] === 'atlas' ? 'atlas' : 'home'
 
@@ -131,12 +142,13 @@ export default function App() {
       </div>
       {topbar}
       <div className="left-col">
-        {/* the narration takes the left column, mirroring the output panel; in 3D it shares it with the view controls */}
-        {viewMode === '3d' && <Controls />}
+        {/* the narration takes the left column, mirroring the output panel; in 3D it shares it with the
+            output panel (desktop) or the view controls (small screens, toggled from the top bar) */}
+        {swap ? <OutputPanel /> : viewMode === '3d' && <Controls />}
         {selected ? <RegionPanel /> : <Narration />}
       </div>
       <div className="right-col">
-        <OutputPanel />
+        {swap ? <Controls /> : <OutputPanel />}
       </div>
       <div className="bottom">
         {focus ? <FocusPanel /> : <Timeline />}
