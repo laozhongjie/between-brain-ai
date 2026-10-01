@@ -128,7 +128,14 @@ export function Timeline() {
   return (
     <div className={`panel timeline ${outline ? 'has-tab' : ''}`} ref={panel}>
       {outline && (
-        <svg className="tl-shape" style={{ top: outline.top, width: outline.w, height: outline.h }} viewBox={`0 0 ${outline.w} ${outline.h}`} aria-hidden>
+        // Same glass as the panels: the outline clips a backdrop blur and is filled with the panel tint
+        <svg className="tl-shape" style={{ top: outline.top, width: outline.w, height: outline.h, clipPath: `path('${outline.d}')` }} viewBox={`0 0 ${outline.w} ${outline.h}`} aria-hidden>
+          <defs>
+            <linearGradient id="tl-glass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="rgb(150,175,210)" stopOpacity="0.035" />
+              <stop offset="1" stopColor="rgb(150,175,210)" stopOpacity="0.012" />
+            </linearGradient>
+          </defs>
           <path d={outline.d} />
         </svg>
       )}
