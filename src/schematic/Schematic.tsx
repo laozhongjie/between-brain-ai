@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { resolveKey } from '../data/nodes'
+import { NODES, resolveKey } from '../data/nodes'
 import { UI, useT } from '../i18n'
 import { currentFocus } from '../scene/focusState'
 import { engine } from '../sim/engine'
@@ -11,6 +11,15 @@ import type { Pulse } from '../sim/signals'
 const MAX_PULSES = 220
 /** Seconds for an arrival flash to fade out */
 const FLASH_FADE = 1.1
+/** Strongest opacity of the steady activity glow, and how fast it follows activity (per second) */
+const GLOW_MAX = 0.5
+const GLOW_RATE = 5
+/** Activity range stretched onto the glow: resting nodes (~0.06) stay dark, busy ones (~0.3) light fully */
+const GLOW_LO = 0.07
+const GLOW_HI = 0.3
+/** Simulation node indices behind each schematic key (both hemispheres) */
+const INDICES = new Map<string, number[]>()
+for (const n of NODES) INDICES.set(n.key, [...(INDICES.get(n.key) ?? []), n.index])
 
 /**
  * 2D layered schematic of the whole system, driven by the same simulation as the 3D view.
@@ -189,6 +198,8 @@ export function Schematic() {
     const overlay = pulseSvg.current!
     const flashEls = new Map<string, SVGRectElement>()
     overlay.querySelectorAll<SVGRectElement>('[data-flash]').forEach((el) => flashEls.set(el.dataset.flash!, el))
+    // Steady glow: each node lit by its current activity (the more active hemisphere), smoothed
+    const glows = [...overlay.querySelectorAll<SVGRectElement>('[data-glow]')].map((el) => ({ el, idx: INDICES.get(el.dataset.glow!) ?? [], level: 0 }))
     const paths = new Map<string, { el: SVGPathElement; len: number }>()
     root.querySelectorAll<SVGPathElement>('[data-edge]').forEach((el) => paths.set(el.dataset.edge!, { el, len: el.getTotalLength() }))
     const layer = overlay.querySelector<SVGGElement>('.spulses')!
@@ -227,6 +238,14 @@ export function Schematic() {
       for (const p of signals.pulses) {
         if ((now - p.t0) / p.dur >= 1) arrive(p)
         else inFlight.add(p)
+      }
+      const act = engine.activity
+      for (const g of glows) {
+        let a = 0
+        for (const i of g.idx) a = Math.max(a, act[i])
+        const target = Math.min(1, Math.max(0, (a - GLOW_LO) / (GLOW_HI - GLOW_LO)))
+        g.level += (target - g.level) * Math.min(1, dt * GLOW_RATE)
+        g.el.style.opacity = (g.level * GLOW_MAX).toFixed(3)
       }
       for (const [key, level] of flash) {
         const el = flashEls.get(key)!
@@ -363,6 +382,18 @@ export function Schematic() {
               <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
           </defs>
+          {/* steady activity glow under the flashes: unfiltered, so updating every node each frame stays cheap */}
+          <g className="sglow-layer">
+            {(Object.keys(buses) as BusKey[]).map((key) => {
+              const b = buses[key]
+              return <rect key={key} data-glow={key} x={b.x0} y={b.y - 9} width={b.x1 - b.x0} height={18} rx={9}
+                className={`sglow ${busVisible(key) ? '' : 'dim'}`} style={{ fill: 'var(--mint)', opacity: 0 }} />
+            })}
+            {nodes.map((n) => (
+              <rect key={n.key} data-glow={n.key} x={n.x - NODE_W / 2} y={n.y - NODE_H / 2} width={NODE_W} height={NODE_H} rx={12}
+                className={`sglow ${nodeClass(n.key).includes('dim') ? 'dim' : ''}`} style={{ fill: n.color, opacity: 0 }} />
+            ))}
+          </g>
           {/* only flashing nodes are displayed, so the blur covers just those few; screen-blended, so the
               flash brightens the box and its text stays readable */}
           <g filter="url(#sflash)" className="sflash-layer">

@@ -306,6 +306,9 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .snode text { fill: var(--text-h); font-size: 13.5px; pointer-events: none; }
 .sflash { fill-opacity: 0.45; stroke-width: 2.8; pointer-events: none; }
 .sflash-layer { mix-blend-mode: screen; }
+.sglow { pointer-events: none; }
+.sglow.dim { visibility: hidden; }
+.sglow-layer { mix-blend-mode: screen; }
 .sflash.dim { visibility: hidden; }
 .snode:hover .sbox { fill: #16202e; }
 .snode.sel .sbox { stroke-width: 3; }
