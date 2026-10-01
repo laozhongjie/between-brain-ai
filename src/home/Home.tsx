@@ -20,6 +20,7 @@ const FILL = [0.02, 0.13] // the white disc turns into a window onto brain | AI
 const OPEN = [0.03, 0.32] // the disc grows until it fills the screen
 const CH = [0.32, 0.9] // five chapters
 const CTA = 0.9 // closing call to action
+const SMOOTH_MS = 110 // the stage eases toward the scroll position, so mouse-wheel steps glide like a trackpad
 /** Closing headline, one entry per line; its words rise in one after another (see .cta-word). */
 const CTA_LINES = ['between what we understand', 'and what we can build']
 
@@ -153,10 +154,16 @@ export function Home() {
     const sc = scroller.current!
     const st = stage.current!
     let raf = 0
-    const update = () => {
+    let p = -1 // displayed progress; -1 until the first frame, which jumps straight to the scroll position
+    let last = 0
+    const update = (now: number) => {
       raf = 0
       const max = sc.scrollHeight - sc.clientHeight
-      const p = max > 0 ? sc.scrollTop / max : 0
+      const target = max > 0 ? sc.scrollTop / max : 0
+      const dt = last ? Math.min(64, Math.max(0, now - last)) : 16
+      p = p < 0 ? target : p + (target - p) * (1 - Math.exp(-dt / SMOOTH_MS))
+      if (Math.abs(target - p) < 1e-4) p = target
+      last = p === target ? 0 : now
       const h = clamp(p / HERO_END)
       const fill = 1 - clamp((p - FILL[0]) / (FILL[1] - FILL[0]))
       const open = ease(clamp((p - OPEN[0]) / (OPEN[1] - OPEN[0])))
@@ -176,12 +183,13 @@ export function Home() {
       homeState.chapter = c
       homeState.open = open
       setChapter(c)
+      if (p !== target) raf = requestAnimationFrame(update)
     }
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update) }
     const onResize = () => { setGeom(heroGeom(st.clientWidth, st.clientHeight)); onScroll() }
     sc.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onResize)
-    update()
+    update(performance.now())
     return () => {
       sc.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onResize)

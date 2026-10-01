@@ -1,4 +1,4 @@
-import { CameraControls } from '@react-three/drei'
+import { CameraControls, CameraControlsImpl } from '@react-three/drei'
 import { useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
@@ -9,6 +9,9 @@ import { BRAIN_CENTER, isCortex, nodePosition } from './layout'
 
 const HOME_DIR = new THREE.Vector3(-0.75, 0.32, -0.55).normalize()
 const HOME_DIST = 3.9
+// left drag pans, right drag orbits; middle button and wheel zoom
+const { ACTION } = CameraControlsImpl
+const MOUSE = { left: ACTION.TRUCK, middle: ACTION.DOLLY, right: ACTION.ROTATE, wheel: ACTION.DOLLY }
 
 export function CameraRig() {
   const ref = useRef<CameraControls>(null)
@@ -68,5 +71,5 @@ export function CameraRig() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- frame once per focus change
   }, [focus])
 
-  return <CameraControls ref={ref} makeDefault minDistance={0.4} maxDistance={9} dollyToCursor smoothTime={0.45} />
+  return <CameraControls ref={ref} makeDefault mouseButtons={MOUSE} minDistance={0.4} maxDistance={9} dollyToCursor smoothTime={0.45} />
 }
