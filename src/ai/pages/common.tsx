@@ -2,6 +2,8 @@ import { Rich } from '../../rich'
 import { CORR_INFO, EVIDENCE_INFO, LEVEL_COLORS } from '../content'
 import { REF_BY_ID } from '../content/refs'
 import { UI, useT } from '../../i18n'
+import { ComparisonText } from '../../ui/ComparisonText'
+import { Icon } from '../../ui/Icon'
 import type { Corr, Evidence } from '../types'
 
 /** Ordinal level bar (0–3) with a text label, so meaning never relies on colour alone. */
@@ -62,5 +64,22 @@ export function Legend() {
         ))}
       </div>
     </div>
+  )
+}
+
+/**
+ * Previous / next link at the foot of a page. Every one has the same shape (layer line over a one-line
+ * title, a chevron on the outer side), so the pair is always equally tall.
+ */
+export function PagerLink({ dir, layer, title, onClick }: { dir: 'prev' | 'next'; layer: number; title: string; onClick: () => void }) {
+  const t = useT()
+  return (
+    <button className={`pager-link ${dir}`} onClick={onClick} title={title} aria-label={`${t(dir === 'prev' ? UI.previousCard : UI.nextCard)}: ${title}`}>
+      <Icon name="chevron" size={18} className="pager-chev" />
+      <span className="pager-text">
+        <small className="pager-layer">{t(UI.layer).replace('{n}', String(layer))}</small>
+        <span className="pager-title"><ComparisonText text={title} /></span>
+      </span>
+    </button>
   )
 }

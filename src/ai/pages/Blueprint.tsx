@@ -3,7 +3,7 @@ import { go } from '../../route'
 import { CARD_BY_ID, LEVEL_COLORS, READING_ORDER } from '../content'
 import { DIFFERENCES, MODULES, MODULE_BY_ID } from '../content/blueprint'
 import { Rich } from '../Tex'
-import { CorrBadge, LevelBar, RefList } from './common'
+import { CorrBadge, LevelBar, PagerLink, RefList } from './common'
 import { Icon } from '../../ui/Icon'
 import { ComparisonText } from '../../ui/ComparisonText'
 
@@ -86,10 +86,7 @@ export function Blueprint({ moduleId }: { moduleId?: string }) {
 
       <nav className="pager">
         <span />
-        <button className="next" onClick={() => go(`/ai/card/${READING_ORDER[0].id}`)}>
-          <small className="pager-layer">{t(UI.layer).replace('{n}', String(READING_ORDER[0].layer))}</small>
-          <span><ComparisonText text={t(READING_ORDER[0].title)} /> →</span>
-        </button>
+        <PagerLink dir="next" layer={READING_ORDER[0].layer} title={t(READING_ORDER[0].title)} onClick={() => go(`/ai/card/${READING_ORDER[0].id}`)} />
       </nav>
     </article>
   )

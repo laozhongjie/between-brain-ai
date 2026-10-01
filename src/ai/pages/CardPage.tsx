@@ -8,7 +8,7 @@ import { FIGS } from '../figs'
 import { LABS } from '../labs/registry'
 import { Rich, Tex } from '../Tex'
 import type { Card, Formula } from '../types'
-import { CorrBadge, EvidenceBadge, RefList } from './common'
+import { CorrBadge, EvidenceBadge, PagerLink, RefList } from './common'
 import { Icon } from '../../ui/Icon'
 import { ComparisonText } from '../../ui/ComparisonText'
 
@@ -48,7 +48,6 @@ export function CardPage({ card }: { card: Card }) {
   const idx = READING_ORDER.findIndex((c) => c.id === card.id)
   const prev = READING_ORDER[idx - 1]
   const next = READING_ORDER[idx + 1]
-  const layerTag = (c: Card) => c.layer !== card.layer && <small className="pager-layer">{t(UI.layer).replace('{n}', String(c.layer))}</small>
   const Lab = card.lab ? LABS[card.lab] : null
   const figs = FIGS[card.id]
   const guide = card.guide
@@ -153,11 +152,11 @@ export function CardPage({ card }: { card: Card }) {
 
       <nav className="pager">
         {prev ? (
-          <button onClick={() => go(`/ai/card/${prev.id}`)}><small>{t(UI.previousCard)}</small>{layerTag(prev)}<span><ComparisonText text={t(prev.title)} /></span></button>
+          <PagerLink dir="prev" layer={prev.layer} title={t(prev.title)} onClick={() => go(`/ai/card/${prev.id}`)} />
         ) : (
-          <button onClick={() => go('/ai/blueprint')}><small>{t(UI.previousCard)}</small><small className="pager-layer">{t(UI.layer).replace('{n}', '5')}</small><span>{t(UI.blueprintTitle).split('·')[1]?.trim()}</span></button>
+          <PagerLink dir="prev" layer={5} title={t(UI.blueprintTitle).split('·')[1]?.trim() ?? ''} onClick={() => go('/ai/blueprint')} />
         )}
-        {next ? <button className="next" onClick={() => go(`/ai/card/${next.id}`)}><small>{t(UI.nextCard)}</small>{layerTag(next)}<span><ComparisonText text={t(next.title)} /></span></button> : <span />}
+        {next ? <PagerLink dir="next" layer={next.layer} title={t(next.title)} onClick={() => go(`/ai/card/${next.id}`)} /> : <span />}
       </nav>
     </article>
   )
