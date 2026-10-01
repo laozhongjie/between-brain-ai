@@ -128,7 +128,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .play-btn { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; color: var(--text-h); border: 1px solid var(--accent-line); background: var(--accent-soft); transition: background .25s, border-color .25s; }
 .play-btn:hover { background: rgba(125,211,252,0.16); border-color: var(--accent); }
 .icon-btn.sm { font-size: 14px; }
-.clock { font-family: var(--mono); font-size: 26px; color: var(--text-h); margin-left: 6px; font-variant-numeric: tabular-nums; }
+/* the clock in the label face (Jost) light, tabular digits so it never jitters as it counts */
+.clock { font-family: var(--label); font-weight: 300; font-size: 30px; letter-spacing: 0.02em; color: var(--text-h); margin-left: 6px; font-variant-numeric: tabular-nums; }
 .tl-title { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-h); }
 .tl-title svg { color: var(--accent); }
 .decode-noise { opacity: 0.9; }
@@ -578,7 +579,7 @@ h1, h2, h3, h4, strong, b { font-weight: 500; }
 h1, h2, .topbar h1, .ai-page h1, .ai-page h2 { letter-spacing: -0.01em; }
 
 /* Numbers and code in JetBrains Mono; tags and metadata in the label face */
-code, kbd, .tl-hour, .narr-time, .clock, .vital-value {
+code, kbd, .tl-hour, .narr-time, .vital-value {
   font-family: var(--mono);
   font-weight: 400;
 }
