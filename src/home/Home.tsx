@@ -14,12 +14,19 @@ const MARK_GAP_RATIO = 0.11
 const clamp = (x: number) => Math.max(0, Math.min(1, x))
 const ease = (x: number) => x * x * (3 - 2 * x)
 
-// Scroll timeline (fractions of the whole page)
-const HERO_END = 0.09 // the hero's labels, lines and wordmark fade away
-const FILL = [0.02, 0.13] // the white disc turns into a window onto brain | AI
-const OPEN = [0.03, 0.32] // the disc grows until it fills the screen
-const CH = [0.32, 0.9] // five chapters
-const CTA = 0.9 // closing call to action
+// Scroll timeline, laid out in vh of scroll distance and used as fractions of it. Each chapter gets about
+// one and a half screens, so a light trackpad flick does not carry past it.
+const OPENING_VH = 211
+const CHAPTER_VH = 153
+const CLOSING_VH = 66
+const SCROLL_VH = OPENING_VH + CHAPTERS.length * CHAPTER_VH + CLOSING_VH // the track is this plus one screen
+const at = (vh: number) => vh / SCROLL_VH
+const HERO_END = at(59) // the hero's labels, lines and wordmark fade away
+const FILL = [at(13), at(86)] // the white disc turns into a window onto brain | AI
+const OPEN = [at(20), at(OPENING_VH)] // the disc grows until it fills the screen
+const CH = [at(OPENING_VH), at(OPENING_VH + CHAPTERS.length * CHAPTER_VH)] // five chapters
+const CTA = CH[1] // closing call to action
+const CTA_RAMP = at(46)
 const SMOOTH_MS = 110 // the stage eases toward the scroll position, so mouse-wheel steps glide like a trackpad
 /** Closing headline, one entry per line; its words rise in one after another (see .cta-word). */
 const CTA_LINES = ['between what we understand', 'and what we can build']
@@ -169,7 +176,7 @@ export function Home() {
       const open = ease(clamp((p - OPEN[0]) / (OPEN[1] - OPEN[0])))
       const g = heroGeom(st.clientWidth, st.clientHeight)
       const cover = Math.hypot(st.clientWidth / 2, st.clientHeight / 2) + PANEL_GAP
-      const cta = clamp((p - CTA) / 0.07)
+      const cta = clamp((p - CTA) / CTA_RAMP)
       for (const el of [sc, st]) el.style.setProperty('--hero', h.toFixed(3))
       st.style.setProperty('--fill', fill.toFixed(3))
       st.style.setProperty('--reveal', (1 - fill).toFixed(3))
@@ -234,7 +241,7 @@ export function Home() {
         </div>
       </header>
 
-      <div className="home-track">
+      <div className="home-track" style={{ height: `${SCROLL_VH + 100}vh` }}>
         <div className="home-stage" ref={stage}>
           {/* the two worlds, seen through the split disc */}
           <div className="home-half left">
