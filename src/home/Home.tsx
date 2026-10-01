@@ -31,7 +31,7 @@ const chapterAt = (i: number) => CH[0] + ((i + 0.5) / CHAPTERS.length) * (CH[1] 
 /** Where the arrow keys step: the top, each chapter's centre, the closing view. */
 const KEY_STOPS = [0, ...CHAPTERS.map((_, i) => chapterAt(i)), 1]
 // ease-out: the glide answers the key press at once and settles softly
-const easeOut = (k: number) => 1 - (1 - k) ** 3
+const easeOut = (k: number, n: number) => 1 - (1 - k) ** n
 const SMOOTH_MS = 110 // the stage eases toward the scroll position, so mouse-wheel steps glide like a trackpad
 /** Closing headline, one entry per line; its words rise in one after another (see .cta-word). */
 const CTA_LINES = ['between what we understand', 'and what we can build']
@@ -247,11 +247,14 @@ export function Home() {
       aim = to
       const y0 = sc.scrollTop
       const y1 = to * max
-      const dur = Math.min(from, to) < CH[0] ? 1600 : 900 // through the opening: slower than a chapter turn
+      // through the opening: longer and a softer curve, so the unfold is spread out rather than front-loaded
+      const opening = Math.min(from, to) < CH[0]
+      const dur = opening ? 2600 : 900
+      const n = opening ? 2 : 3
       const t0 = performance.now()
       const step = (now: number) => {
         const k = Math.min(1, (now - t0) / dur)
-        sc.scrollTop = y0 + (y1 - y0) * easeOut(k)
+        sc.scrollTop = y0 + (y1 - y0) * easeOut(k, n)
         if (k < 1) glide = requestAnimationFrame(step)
         else { glide = 0; aim = null; keyGlide.current = false }
       }
