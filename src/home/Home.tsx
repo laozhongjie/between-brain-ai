@@ -3,7 +3,6 @@ import { UI, useT } from '../i18n'
 import { go } from '../route'
 import { useStore } from '../store'
 import { DecodeText } from '../ui/DecodeText'
-import { Icon } from '../ui/Icon'
 import { ComparisonText } from '../ui/ComparisonText'
 import { CHAPTERS, homeState } from './chapters'
 import { HomeAI } from './HomeAI'
@@ -39,12 +38,18 @@ function Mark() {
   )
 }
 
-/** Closing call to action: on hover the label rolls up into a copy of itself and an arrow slides in. */
+/** Point where the pointer crossed the button's edge, for the fill to grow from or shrink back to. */
+const setOrigin = (e: React.PointerEvent<HTMLElement>) => {
+  const r = e.currentTarget.getBoundingClientRect()
+  e.currentTarget.style.setProperty('--x', `${e.clientX - r.left}px`)
+  e.currentTarget.style.setProperty('--y', `${e.clientY - r.top}px`)
+}
+
+/** Closing call to action: on hover a fill spreads from where the pointer entered and recedes to where it left. */
 function CtaButton({ label, primary = false, onClick }: { label: string; primary?: boolean; onClick: () => void }) {
   return (
-    <button className={`cta-btn ${primary ? 'primary' : ''}`} onClick={onClick}>
-      <span className="cta-roll"><span>{label}</span><span aria-hidden>{label}</span></span>
-      <Icon name="arrow-right" size={14} className="cta-arrow" />
+    <button className={`cta-btn ${primary ? 'primary' : ''}`} onClick={onClick} onPointerEnter={setOrigin} onPointerLeave={setOrigin}>
+      <span>{label}</span>
     </button>
   )
 }

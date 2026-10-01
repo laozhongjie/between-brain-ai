@@ -828,20 +828,17 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 .cta-line { margin: 0; font: 400 clamp(26px, 3.6vw, 46px)/1.25 'Jost Variable', var(--sans); color: #f2f4f7; letter-spacing: 0.01em; }
 .cta-line.zh { font: 400 15px/1.4 var(--sans); color: var(--text-dim); letter-spacing: 0.14em; }
 .cta-actions { display: flex; gap: 12px; margin-top: 22px; flex-wrap: wrap; justify-content: center; }
-/* hover: the label rolls up into its copy and shifts left while an arrow slides into the right padding;
-   the button keeps its size */
-.cta-btn { position: relative; display: inline-flex; align-items: center; font: 500 13px/1 var(--sans); letter-spacing: 0.08em; padding: 12px 28px; border-radius: 999px; cursor: pointer; color: #f2f4f7; background: rgba(255,255,255,0.03); border: 1px solid rgba(242,244,247,0.3); transition: border-color .4s var(--ease), background .4s var(--ease); }
-.cta-btn:hover { border-color: rgba(242,244,247,0.7); background: rgba(255,255,255,0.06); }
-.cta-btn.primary { background: #f2f4f7; color: #05070b; border-color: #f2f4f7; }
-.cta-btn.primary:hover { background: #fff; border-color: #fff; }
-.cta-roll { display: inline-grid; overflow: hidden; line-height: 1.35; transition: transform .45s var(--ease); }
-.cta-roll > span { grid-area: 1 / 1; transition: transform .45s var(--ease); }
-.cta-roll > span + span { transform: translateY(100%); }
-.cta-arrow { position: absolute; right: 15px; top: 50%; margin-top: -7px; opacity: 0; transform: translateX(-8px); transition: opacity .3s var(--ease), transform .45s var(--ease); }
-.cta-btn:hover .cta-roll, .cta-btn:focus-visible .cta-roll { transform: translateX(-9px); }
-.cta-btn:hover .cta-roll > span, .cta-btn:focus-visible .cta-roll > span { transform: translateY(-100%); }
-.cta-btn:hover .cta-roll > span + span, .cta-btn:focus-visible .cta-roll > span + span { transform: translateY(0); }
-.cta-btn:hover .cta-arrow, .cta-btn:focus-visible .cta-arrow { opacity: 1; transform: none; }
+/* hover: a disc of fill spreads from where the pointer entered (--x, --y, set in Home.tsx) and recedes to
+   where it left. The white button fills ice blue; the outlined one fills white, and its label (difference
+   blend) inverts exactly where the disc has reached */
+.cta-btn { position: relative; overflow: hidden; isolation: isolate; --x: 50%; --y: 50%; --fill: #f2f4f7; font: 500 13px/1 var(--sans); letter-spacing: 0.08em; padding: 14px 24px; border-radius: 999px; cursor: pointer; color: #f2f4f7; background: rgba(255,255,255,0.03); border: 1px solid rgba(242,244,247,0.3); transition: border-color .45s var(--ease); }
+.cta-btn > span { display: block; color: #fff; mix-blend-mode: difference; }
+.cta-btn.primary > span { color: inherit; mix-blend-mode: normal; }
+.cta-btn::before { content: ''; position: absolute; z-index: -1; left: var(--x); top: var(--y); width: 260%; aspect-ratio: 1; border-radius: 50%; background: var(--fill); transform: translate(-50%, -50%) scale(0); transition: transform .55s var(--ease); pointer-events: none; }
+.cta-btn:hover, .cta-btn:focus-visible { border-color: var(--fill); }
+.cta-btn:hover::before, .cta-btn:focus-visible::before { transform: translate(-50%, -50%) scale(1); }
+.cta-btn.primary { --fill: var(--accent); background: #f2f4f7; color: #05070b; border-color: #f2f4f7; }
+.cta-btn.primary:hover, .cta-btn.primary:focus-visible { border-color: var(--fill); }
 
 @media (max-width: 760px) {
   .hl-fact, .hero-foot.left { display: none; }
