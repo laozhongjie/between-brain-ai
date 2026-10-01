@@ -9,6 +9,13 @@ import { BASE_H, HOP_EDGE, NODE_H, NODE_W, W, makeLayout, type BusKey } from './
 import type { Pulse } from '../sim/signals'
 
 const MAX_PULSES = 220
+/** Comet tail behind each pulse: nested dashes along the edge, longest faintest (length in diagram units) */
+const TAIL = 96
+const TAIL_PARTS = [
+  { len: 1, width: 2.4, alpha: 0.16 },
+  { len: 0.55, width: 2.8, alpha: 0.3 },
+  { len: 0.24, width: 3.2, alpha: 0.55 },
+]
 /** Seconds for an arrival flash to fade out */
 const FLASH_FADE = 1.1
 /** Strongest opacity of the steady activity glow, and how fast it follows activity (per second) */
@@ -226,16 +233,25 @@ export function Schematic() {
     const paths = new Map<string, { el: SVGPathElement; len: number }>()
     root.querySelectorAll<SVGPathElement>('[data-edge]').forEach((el) => paths.set(el.dataset.edge!, { el, len: el.getTotalLength() }))
     const layer = overlay.querySelector<SVGGElement>('.spulses')!
-    // Each pulse is a bright core plus a faint wide halo: a glow without per-dot filters
-    const dots: { halo: SVGCircleElement; core: SVGCircleElement; on: boolean }[] = []
+    // Each pulse is a bright core plus a faint wide halo (a glow without per-dot filters), trailing a comet
+    // tail: copies of its edge path shown only as a dash ending at the pulse
+    const svgNS = 'http://www.w3.org/2000/svg'
+    const dots: { halo: SVGCircleElement; core: SVGCircleElement; tail: SVGPathElement[]; d: string; on: boolean }[] = []
     for (let i = 0; i < MAX_PULSES; i++) {
-      const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
-      const core = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
+      const tail = TAIL_PARTS.map((part) => {
+        const el = document.createElementNS(svgNS, 'path')
+        el.setAttribute('class', 'sp-tail')
+        el.style.strokeWidth = String(part.width)
+        el.style.opacity = String(part.alpha)
+        return el
+      })
+      const halo = document.createElementNS(svgNS, 'circle')
+      const core = document.createElementNS(svgNS, 'circle')
       halo.setAttribute('class', 'sp-halo')
       core.setAttribute('class', 'sp-core')
-      halo.style.display = core.style.display = 'none'
-      layer.append(halo, core)
-      dots.push({ halo, core, on: false })
+      for (const el of [...tail, halo, core]) el.style.display = 'none'
+      layer.append(...tail, halo, core)
+      dots.push({ halo, core, tail, d: '', on: false })
     }
 
     // A node flashes once when a pulse finishes its hop into it, then fades
@@ -287,7 +303,8 @@ export function Schematic() {
         const fr = (now - p.t0) / p.dur
         const edge = paths.get(HOP_EDGE[p.path][p.hop])
         if (!edge || fr < 0 || fr > 1) continue
-        const pt = edge.el.getPointAtLength(fr * edge.len)
+        const at = fr * edge.len
+        const pt = edge.el.getPointAtLength(at)
         const d = dots[n++]
         const x = pt.x.toFixed(1)
         const y = pt.y.toFixed(1)
@@ -296,16 +313,27 @@ export function Schematic() {
         d.core.setAttribute('cx', x); d.core.setAttribute('cy', y); d.core.setAttribute('r', r.toFixed(1))
         d.halo.setAttribute('cx', x); d.halo.setAttribute('cy', y); d.halo.setAttribute('r', (r * 2.6).toFixed(1))
         d.core.style.fill = d.halo.style.fill = color
+        // tail: the stretch of the edge just behind the pulse, never reaching back past the edge's start
+        const path = edge.el.getAttribute('d') ?? ''
+        const reach = TAIL * (0.7 + 0.6 * p.strength)
+        d.tail.forEach((el, k) => {
+          if (d.d !== path) el.setAttribute('d', path)
+          const len = Math.min(at, reach * TAIL_PARTS[k].len)
+          el.style.strokeDasharray = `${len.toFixed(1)} 100000`
+          el.style.strokeDashoffset = (len - at).toFixed(1)
+          el.style.stroke = color
+        })
+        d.d = path
         if (!d.on) {
           d.on = true
-          d.core.style.display = d.halo.style.display = ''
+          for (const el of [...d.tail, d.halo, d.core]) el.style.display = ''
         }
       }
       for (let i = n; i < MAX_PULSES; i++) {
         const d = dots[i]
         if (d.on) {
           d.on = false
-          d.core.style.display = d.halo.style.display = 'none'
+          for (const el of [...d.tail, d.halo, d.core]) el.style.display = 'none'
         }
       }
       raf = requestAnimationFrame(frame)
@@ -313,7 +341,7 @@ export function Schematic() {
     frame()
     return () => {
       cancelAnimationFrame(raf)
-      dots.forEach((d) => { d.halo.remove(); d.core.remove() })
+      dots.forEach((d) => { d.halo.remove(); d.core.remove(); d.tail.forEach((el) => el.remove()) })
     }
   }, [layout])
 

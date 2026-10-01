@@ -368,6 +368,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .schem-view { position: absolute; inset: 0; transform-origin: 0 0; }
 .schem-view.moving { will-change: transform; }
 .schematic svg.spulse-layer { position: absolute; inset: 0; pointer-events: none; will-change: transform; }
+.sp-tail { fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .sp-halo { opacity: 0.22; }
 .sp-core { stroke: rgba(255,255,255,0.7); stroke-width: 0.8; }
 

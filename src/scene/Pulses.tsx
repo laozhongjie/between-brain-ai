@@ -9,7 +9,8 @@ import { signals } from '../sim/signals'
 import { useStore } from '../store'
 import { pathCurves } from './curves'
 
-const TRAIL = 4
+const TRAIL = 9 // trail particles behind each head
+const TRAIL_STEP = 0.045 // spacing along the hop (fraction of a hop)
 const MAX = 1200 * TRAIL
 const PATH_COLORS = PATHWAYS.map((p) => new THREE.Color(ink(SYSTEMS[p.system].color, 0.35)))
 const BLACK = new THREE.Color('#000000')
@@ -39,7 +40,7 @@ export function Pulses() {
       const f = (now - pulse.t0) / pulse.dur
       if (f < 0 || f > 1) continue
       for (let k = 0; k < TRAIL && n < MAX; k++) {
-        const ff = f - k * 0.07
+        const ff = f - k * TRAIL_STEP
         if (ff < 0) break
         curve.getPoint(Math.min(0.9999, (pulse.hop + ff) / hops), tmp.p)
         const size = (0.016 + 0.014 * pulse.strength) * (1 - k / TRAIL)
