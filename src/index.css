@@ -132,9 +132,9 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .clock { font-family: var(--label); font-weight: 300; font-size: 30px; letter-spacing: 0.02em; color: var(--text-h); margin-left: 6px; font-variant-numeric: tabular-nums; }
 /* two round dots spanning the digits' cap height (≈0.7em), so the colon sits centred between them */
 .clock-colon { display: inline-block; position: relative; width: 0.32em; height: 0.7em; vertical-align: baseline; }
-.clock-colon::before, .clock-colon::after { content: ''; position: absolute; left: 50%; width: 0.12em; height: 0.12em; margin-left: -0.06em; border-radius: 50%; background: currentColor; }
-.clock-colon::before { top: 0.14em; }
-.clock-colon::after { bottom: 0.14em; }
+.clock-colon::before, .clock-colon::after { content: ''; position: absolute; left: 50%; width: 0.1em; height: 0.1em; margin-left: -0.05em; border-radius: 50%; background: currentColor; }
+.clock-colon::before { top: 0.15em; }
+.clock-colon::after { bottom: 0.15em; }
 .tl-title { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-h); }
 .tl-title svg { color: var(--accent); }
 .decode-noise { opacity: 0.9; }
