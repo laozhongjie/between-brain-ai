@@ -335,15 +335,20 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 /* ── Top-bar navigation ── */
 .brand { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-/* flat text tabs; a hairline draws in under the label on hover (left to right, retracting to the right)
-   and stays, in the accent colour, under the current section */
-.nav-tabs { display: flex; flex-wrap: wrap; gap: 22px; margin-left: 8px; }
-.nav-tabs button { position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 5px 0; font-size: 13px; white-space: nowrap; cursor: pointer; color: var(--text-dim); background: none; border: 0; transition: color .25s var(--ease); }
-.nav-tabs button::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .35s var(--ease); }
+/* flat text tabs; on hover a pill outline is drawn around the label, clockwise from its left end (a conic
+   mask sweeping --p), and erased the same way on leave. The current section keeps its outline in accent. */
+@property --p { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+.nav-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-left: 4px; }
+.nav-tabs button { position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; font-size: 13px; white-space: nowrap; cursor: pointer; color: var(--text-dim); background: none; border: 0; border-radius: 999px; transition: color .25s var(--ease); }
+.nav-tabs button::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; border: 1px solid var(--line-hi); pointer-events: none;
+  -webkit-mask: conic-gradient(from 270deg, #000 var(--p), transparent 0); mask: conic-gradient(from 270deg, #000 var(--p), transparent 0);
+  transition: --p .5s var(--ease), border-color .25s var(--ease);
+}
 .nav-tabs button:hover { color: var(--text-h); }
-.nav-tabs button:hover::after, .nav-tabs button.on::after { transform: scaleX(1); transform-origin: left; }
+.nav-tabs button:hover::after, .nav-tabs button.on::after { --p: 100%; }
 .nav-tabs button.on { color: var(--text-h); }
-.nav-tabs button.on::after { background: var(--accent); }
+.nav-tabs button.on::after { border-color: var(--accent-line); }
 .nav-tabs button.on svg { color: var(--accent); }
 .comparison-divider { display: inline-block; width: 1px; height: 0.85em; margin-inline: 0.6em; vertical-align: -0.06em; background: currentColor; opacity: 0.35; }
 .comparison-join { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
@@ -488,7 +493,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .bp-grid { grid-template-columns: repeat(5, minmax(96px, 1fr)); overflow-x: auto; }
   .bp-detail { position: static; max-height: none; }
   .lab-slider { grid-template-columns: 1fr 120px 48px; }
-  .nav-tabs { gap: 16px; }
+  .nav-tabs button { padding: 4px 8px; }
 }
 @media (max-width: 760px) {
   .ai-section { top: 92px; }
