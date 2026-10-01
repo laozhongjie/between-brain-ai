@@ -10,7 +10,7 @@ import type { Pulse } from '../sim/signals'
 
 const MAX_PULSES = 220
 /** Seconds for an arrival flash to fade out */
-const FLASH_FADE = 0.7
+const FLASH_FADE = 1.1
 
 /**
  * 2D layered schematic of the whole system, driven by the same simulation as the 3D view.
@@ -237,7 +237,7 @@ export function Schematic() {
         } else {
           flash.set(key, next)
           el.style.display = ''
-          el.style.opacity = (next * next).toFixed(3) // ease-out fade
+          el.style.opacity = (next ** 1.4).toFixed(3) // ease-out fade
         }
       }
       for (const p of signals.pulses) {
@@ -359,20 +359,21 @@ export function Schematic() {
           <defs>
             {/* glowing outline: blurred copy under the crisp stroke */}
             <filter id="sflash" x="-20%" y="-60%" width="140%" height="220%">
-              <feGaussianBlur stdDeviation="4" result="b" />
+              <feGaussianBlur stdDeviation="6" result="b" />
               <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
           </defs>
-          {/* only flashing outlines are displayed, so the blur covers just those few nodes */}
-          <g filter="url(#sflash)">
+          {/* only flashing nodes are displayed, so the blur covers just those few; screen-blended, so the
+              flash brightens the box and its text stays readable */}
+          <g filter="url(#sflash)" className="sflash-layer">
             {(Object.keys(buses) as BusKey[]).map((key) => {
               const b = buses[key]
               return <rect key={key} data-flash={key} x={b.x0} y={b.y - 9} width={b.x1 - b.x0} height={18} rx={9}
-                className={`sflash ${busVisible(key) ? '' : 'dim'}`} style={{ stroke: 'var(--mint)', display: 'none' }} />
+                className={`sflash ${busVisible(key) ? '' : 'dim'}`} style={{ stroke: 'var(--mint)', fill: 'var(--mint)', display: 'none' }} />
             })}
             {nodes.map((n) => (
               <rect key={n.key} data-flash={n.key} x={n.x - NODE_W / 2} y={n.y - NODE_H / 2} width={NODE_W} height={NODE_H} rx={12}
-                className={`sflash ${nodeClass(n.key).includes('dim') ? 'dim' : ''}`} style={{ stroke: n.color, display: 'none' }} />
+                className={`sflash ${nodeClass(n.key).includes('dim') ? 'dim' : ''}`} style={{ stroke: n.ink, fill: n.color, display: 'none' }} />
             ))}
           </g>
           <g className="spulses" />
