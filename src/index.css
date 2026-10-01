@@ -45,6 +45,18 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .stage { position: absolute; inset: 0; background: #070a10; }
 /* Dot grid and a cool haze over the 3D canvas (pointer-transparent) */
 .stage::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 45% 50% at 50% 42%, rgba(56,130,200,0.10), transparent 70%), radial-gradient(circle, rgba(160,190,230,0.07) 1px, transparent 1.3px) 0 0 / 24px 24px; -webkit-mask: radial-gradient(ellipse 70% 70% at 50% 45%, #000 30%, transparent 85%); mask: radial-gradient(ellipse 70% 70% at 50% 45%, #000 30%, transparent 85%); }
+/* Schematic: an engineering-drawing ground in the 3D view's teal (a soft glow, fine and coarse grid);
+   static, so it never competes with the pulses. The stage's dot grid would clash with it. */
+.atlas.view-schematic {
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 45%, rgba(40,110,150,0.16), transparent 70%),
+    linear-gradient(rgba(150,190,230,0.045) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(90deg, rgba(150,190,230,0.045) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(rgba(150,190,230,0.02) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(150,190,230,0.02) 1px, transparent 1px) 0 0 / 24px 24px,
+    #070a10;
+}
+.view-schematic .stage::after { display: none; }
 .label-layer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 
 .label {
