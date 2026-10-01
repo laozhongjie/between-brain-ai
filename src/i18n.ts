@@ -133,14 +133,12 @@ export const UI = {
 
 /** Brand taglines, rotated in the top bar; the first one is the primary line. */
 export const TAGLINES: Bi[] = [
-  b('在大脑与 AI 之间', 'between brain and AI'),
+  b('在心智与模型之间', 'between minds and models'),
   b('在生物与计算之间', 'between biology and computation'),
-  b('在神经元与智能之间', 'between neurons and intelligence'),
+  b('在神经与算法之间', 'between neurons and algorithms'),
+  b('在经验与数据之间', 'between experience and data'),
+  b('在感知与推理之间', 'between perception and reasoning'),
+  b('在进化与训练之间', 'between evolution and training'),
   b('在突触与权重之间', 'between synapses and weights'),
-  b('在记忆与决策之间', 'between memory and decision'),
-  b('在脉冲与词元之间', 'between spikes and tokens'),
-  b('在睡眠与学习之间', 'between sleep and learning'),
-  b('在可塑性与训练之间', 'between plasticity and training'),
-  b('在结构与功能之间', 'between structure and function'),
-  b('在已理解的与能构建的之间', 'between what we understand and what we can build'),
+  b('在理解与创造之间', 'between understanding and creation'),
 ]
