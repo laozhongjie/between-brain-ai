@@ -167,7 +167,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .output-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 8px; }
 .output-head h3, .output-head .stage-chip { white-space: nowrap; }
 .output-head h3 { margin: 0; }
-.stage-chip { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; padding: 3px 9px; border-radius: 999px; border: 1px solid color-mix(in srgb, currentColor 45%, transparent); background: color-mix(in srgb, currentColor 8%, transparent); }
+.stage-chip { display: inline-flex; align-items: center; gap: 6px; font: 500 11.5px/1.2 var(--sans); letter-spacing: 0.02em; padding: 3px 9px; border-radius: 999px; border: 1px solid color-mix(in srgb, currentColor 45%, transparent); background: color-mix(in srgb, currentColor 8%, transparent); }
 .stage-chip::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 8px currentColor; animation: breathe 2.4s ease-in-out infinite; }
 @keyframes breathe { 50% { opacity: .35; } }
 .stage-wake { color: var(--ok); }
@@ -527,7 +527,7 @@ h1, h2, h3, h4, strong, b { font-weight: 500; }
 h1, h2, .topbar h1, .ai-page h1, .ai-page h2 { letter-spacing: -0.01em; }
 
 /* Numbers, tags and metadata in JetBrains Mono */
-code, kbd, .tag, .badge, .stage-chip, .step-no, .rung-no, .rung h2 small, .tl-hour, .narr-time, .clock, .vital-value, .crumbs, .spark-label, .refs em {
+code, kbd, .tag, .badge, .step-no, .rung-no, .rung h2 small, .tl-hour, .narr-time, .clock, .vital-value, .crumbs, .spark-label, .refs em {
   font-family: var(--mono);
   font-weight: 400;
 }
