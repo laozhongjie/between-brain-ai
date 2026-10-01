@@ -113,13 +113,14 @@ export default function App() {
   }
 
   return (
-    <div className={`app show-${panel} view-${viewMode} ${focus ? 'focusing' : ''} ${selected ? 'selecting' : ''}`}>
+    <div className={`app atlas show-${panel} view-${viewMode} ${focus ? 'focusing' : ''} ${selected ? 'selecting' : ''}`}>
       <div className="stage">
         {viewMode === '3d' ? (
           <>
             <BrainScene />
             <div className="label-layer" ref={(el) => { labelLayer.el = el }} />
             <Loader />
+            <SystemPicker compact />
           </>
         ) : (
           <>
@@ -130,22 +131,15 @@ export default function App() {
       </div>
       {topbar}
       <div className="left-col">
+        {/* the narration takes the left column, mirroring the output panel; in 3D it shares it with the view controls */}
         {viewMode === '3d' && <Controls />}
-        {/* Schematic view: the narration takes the left column, mirroring the output panel */}
-        {selected ? <RegionPanel /> : viewMode === '3d' ? <SystemPicker /> : <Narration />}
+        {selected ? <RegionPanel /> : <Narration />}
       </div>
       <div className="right-col">
         <OutputPanel />
       </div>
       <div className="bottom">
-        {focus ? (
-          <FocusPanel />
-        ) : (
-          <>
-            {viewMode === '3d' && <Narration />}
-            <Timeline />
-          </>
-        )}
+        {focus ? <FocusPanel /> : <Timeline />}
         <footer className="hint">{t(viewMode === '3d' ? UI.hint : UI.hintSchematic)} · {t(UI.disclaimer)}</footer>
       </div>
     </div>
