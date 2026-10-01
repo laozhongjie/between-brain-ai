@@ -1,14 +1,12 @@
 import { Rich } from '../../rich'
 import { UI, useT } from '../../i18n'
 import { go } from '../../route'
-import { INTRO_REFS, LAYERS, cardsOfLayer } from '../content'
-import { MODULES } from '../content/blueprint'
+import { CROSS_CUTTING, DOMAINS, cardsOfDomain } from '../content'
+import { INTRO_REFS } from '../content'
 import { LABS } from '../labs/registry'
-import { CorrBadge, Legend, LevelBar, RefList } from './common'
+import { CorrBadge, Legend, RefList } from './common'
 import { Icon } from '../../ui/Icon'
 import { ComparisonText } from '../../ui/ComparisonText'
-
-const COV = [UI.cov0, UI.cov1, UI.cov2, UI.cov3]
 
 export function AiHome() {
   const t = useT()
@@ -19,39 +17,58 @@ export function AiHome() {
       <h3>{t(UI.howToRead)}</h3>
       <Legend />
 
-      <div className="ladder">
-        {[...LAYERS].reverse().map((l) => (
-          <section key={l.id} className={`rung rung-${l.id}`}>
+      <h3>{t(UI.functionalDomains)}</h3>
+      <div className="ladder domain-directory">
+        {DOMAINS.map((domain) => (
+          <section key={domain.id} className="rung domain-rung">
             <header>
-              <span className="rung-no">{l.id}</span>
+              <span className="rung-no">{domain.id}</span>
               <div>
-                <h2>{t(l.name)} <small>{t(l.scale)}</small></h2>
-                <p><Rich text={t(l.desc)} /></p>
+                <h2>{t(domain.name)}</h2>
+                <p><Rich text={t(domain.desc)} /></p>
               </div>
             </header>
-            {l.id === 5 ? (
-              <div className="rung-cards">
-                {MODULES.map((m) => (
-                  <button key={m.id} className="chip" onClick={() => go(`/ai/blueprint/${m.id}`)}>
-                    <span>{t(m.name)}</span>
-                    <LevelBar level={m.coverage} label={t(COV[m.coverage])} />
-                  </button>
-                ))}
-                <button className="chip more" onClick={() => go('/ai/blueprint')}>{t(UI.openBlueprint)}</button>
-              </div>
-            ) : (
-              <div className="rung-cards">
-                {cardsOfLayer(l.id).map((c) => (
-                  <button key={c.id} className="chip" onClick={() => go(`/ai/card/${c.id}`)}>
-                    <ComparisonText text={t(c.title)} />
-                    <CorrBadge corr={c.corr} />
-                  </button>
-                ))}
-              </div>
-            )}
+            <div className="rung-cards">
+              {cardsOfDomain(domain).map((c) => (
+                <button key={c.id} className="chip" onClick={() => go(`/ai/card/${c.id}`)}>
+                  <ComparisonText text={t(c.title)} />
+                  <CorrBadge corr={c.corr} />
+                </button>
+              ))}
+            </div>
           </section>
         ))}
       </div>
+
+      <h3>{t(UI.crossCuttingTopics)}</h3>
+      <div className="ladder domain-directory">
+        {CROSS_CUTTING.map((domain) => (
+          <section key={domain.id} className="rung domain-rung">
+            <header>
+              <span className="rung-no">{domain.id}</span>
+              <div><h2>{t(domain.name)}</h2><p><Rich text={t(domain.desc)} /></p></div>
+            </header>
+            <div className="rung-cards">
+              {cardsOfDomain(domain).map((c) => (
+                <button key={c.id} className="chip" onClick={() => go(`/ai/card/${c.id}`)}>
+                  <ComparisonText text={t(c.title)} />
+                  <CorrBadge corr={c.corr} />
+                </button>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+
+      <section className="rung blueprint-entry">
+        <header>
+          <span className="rung-no">A</span>
+          <div><h2>{t(UI.blueprintTitle).split('·')[1]?.trim() ?? t(UI.blueprintTitle)}</h2><p><Rich text={t(UI.blueprintIntro)} /></p></div>
+        </header>
+        <div className="rung-cards">
+          <button className="chip more" onClick={() => go('/ai/blueprint')}>{t(UI.openBlueprint)}</button>
+        </div>
+      </section>
 
       <h3>{t(UI.labs)}</h3>
       <div className="rung-cards">

@@ -106,6 +106,34 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
       timescale: b('神经活动为毫秒至秒，情景写入为秒至分钟，巩固和遗忘为小时至多年；AI 检索为毫秒至秒，参数更新通常是独立离线过程。', 'Neural activity spans milliseconds to seconds, episodic encoding seconds to minutes, and consolidation and forgetting hours to years; AI retrieval takes milliseconds to seconds, while parameter updates are usually separate offline processes.'),
       caveat: b('功能上的“快速写入、慢速巩固”对应不等于海马与 RAG 或权重更新具有相同机制。', 'The functional pattern of “fast writing and slow consolidation” does not make hippocampus, RAG and weight updates the same mechanism.'),
     },
+    review: {
+      systems: {
+        biological: b('海马与新皮层互补学习系统', 'Hippocampal and neocortical complementary learning system'),
+        computational: b('上下文、检索增强与参数更新系统', 'Context, retrieval and parameter update system'),
+      },
+      thesis: b('人脑把一次经历的快速绑定与跨经历的慢速知识学习分开，再通过回放与检索协同；现有 AI 可以拼接上下文、外部记忆和参数更新，但这些存储层通常没有自动的统一巩固过程。', 'The brain separates rapid binding of an episode from slow learning across episodes, then coordinates them through replay and retrieval. Current AI can combine context, external memory and parameter updates, but these storage layers usually lack an automatic consolidation process.'),
+      capabilities: [
+        { dimension: b('新经历的快速写入', 'Rapid encoding of a new episode'), brain: b('一次经历可以绑定时间、地点、人物和结果，形成可检索的情景记忆。', 'An episode can bind time, place, people and outcome into a retrievable event memory.'), ai: b('上下文或外部存储可以快速加入新内容，但写入格式、来源和关联需要系统显式决定。', 'Context or external stores can add new content quickly, but format, provenance and associations must be specified.'), gap: b('AI 可快速保存信息，但事件结构和写入选择通常依赖外部设计。', 'AI can save information quickly, but event structure and write selection usually depend on external design.') },
+        { dimension: b('跨经历形成知识', 'Learning knowledge across episodes'), brain: b('新皮层在多次经历和回放中提取规律，并与既有知识整合。', 'The neocortex extracts regularities across experiences and replay, integrating them with prior knowledge.'), ai: b('检索能提供相关材料；只有继续训练、适配器更新或蒸馏才会改变长期参数。', 'Retrieval supplies relevant material; long-term parameters change only through further training, adapters or distillation.'), gap: b('检索与长期学习分离，系统不会因为读到资料就自动获得稳定知识。', 'Retrieval and long-term learning are separate, so reading material does not automatically create stable knowledge.') },
+        { dimension: b('相似经历的区分', 'Distinguishing similar episodes'), brain: b('情境、时间和空间关系帮助区分相似事件，但回忆也会受干扰和错误补全影响。', 'Context, time and spatial relations help distinguish similar events, while recall remains vulnerable to interference and false completion.'), ai: b('向量相似度和元数据可支持区分，但相近文本、错误标签或检索偏差会导致混淆。', 'Vector similarity and metadata can help, but near-duplicate text, bad labels or retrieval bias cause confusion.'), gap: b('两者都可能混淆经历；AI 的错误更多暴露在索引、元数据和检索策略上。', 'Both can confuse episodes; AI errors are often exposed in indexing, metadata and retrieval policy.') },
+        { dimension: b('遗忘与更新', 'Forgetting and updating'), brain: b('遗忘、重组和巩固共同控制旧知识与新经验的平衡。', 'Forgetting, reconstruction and consolidation balance old knowledge with new experience.'), ai: b('外部记忆可删除或过期，模型参数更新则可能引起灾难性遗忘和版本冲突。', 'External memories can expire or be deleted, while parameter updates can cause catastrophic forgetting and version conflicts.'), gap: b('AI 的存储层有明确控制接口，但跨层更新的稳定性和一致性仍然不足。', 'AI storage layers have explicit controls, but stable and consistent cross-layer updating remains limited.') },
+      ],
+      state: [
+        { dimension: b('当前状态', 'Current state'), brain: b('知觉、目标、身体状态和情境共同决定当前可访问的记忆。', 'Perception, goals, bodily state and context jointly determine accessible memories.'), ai: b('当前输入、系统提示、上下文窗口和检索结果构成一次调用的工作状态。', 'Current input, system prompt, context window and retrieval results form the working state for one call.') },
+        { dimension: b('长期状态', 'Long-term state'), brain: b('海马情景痕迹与新皮层分布式知识持续相互作用。', 'Hippocampal traces and distributed cortical knowledge continue to interact.'), ai: b('长期状态分散在参数、外部数据库、缓存和版本记录中。', 'Long-term state is distributed across parameters, external databases, caches and version records.') },
+        { dimension: b('更新路径', 'Update path'), brain: b('经历先快速写入，随后通过回放、重组和巩固改变长期表征。', 'An experience is written quickly, then changes long-term representations through replay, reconstruction and consolidation.'), ai: b('检索本身不更新权重；训练、蒸馏或人工写入流程需要单独触发。', 'Retrieval itself does not update weights; training, distillation or an explicit write process must be triggered separately.') },
+      ],
+      timescale: [
+        { dimension: b('毫秒到秒', 'Milliseconds to seconds'), brain: b('神经活动、注意选择和线索驱动的记忆激活。', 'Neural activity, attentional selection and cue-driven memory activation.'), ai: b('一次前向计算、检索和上下文拼接。', 'One forward pass, retrieval and context assembly.') },
+        { dimension: b('秒到小时', 'Seconds to hours'), brain: b('经历编码、反复提取、干扰和初步巩固。', 'Encoding, repeated retrieval, interference and early consolidation.'), ai: b('会话状态、缓存写入和批处理更新，是否发生取决于部署流程。', 'Session state, cache writes and batch updates, depending on deployment.') },
+        { dimension: b('天到多年', 'Days to years'), brain: b('睡眠相关回放、结构重组、遗忘和长期能力变化。', 'Sleep-related replay, structural reorganisation, forgetting and long-term ability change.'), ai: b('持续训练、版本迭代和外部知识库维护；没有统一的生物式巩固周期。', 'Continued training, version updates and external knowledge-base maintenance, without one unified biological consolidation cycle.') },
+      ],
+      limits: {
+        biological: b('人脑并非无误数据库：记忆会遗忘、重组、受情绪和先验影响，也会形成虚假记忆。', 'The brain is not an infallible database: memory is forgotten, reconstructed and biased by emotion and prior knowledge, and false memories occur.'),
+        computational: b('AI 可以精确保存文本或向量，但缺少可靠的跨层写入、巩固、冲突处理和长期自我更新机制。', 'AI can store text or vectors precisely, but lacks reliable cross-layer writing, consolidation, conflict handling and long-term self-update.'),
+        evidence: b('互补学习系统是有影响力的理论框架；海马回放与皮层学习的具体因果链，以及 AI 系统能否形成同等整合，仍需区分证据与功能类比。', 'Complementary learning systems are an influential framework; the exact causal chain from hippocampal replay to cortical learning, and whether AI can achieve comparable integration, must remain distinct from functional analogy.'),
+      },
+    },
     comparisons: [
       { dimension: b('记录一次经历', 'Recording an episode'), brain: b('海马系统参与把事件与时间、地点等背景绑定。', 'The hippocampal system helps bind events with temporal and spatial context.'), ai: b('记忆库能保存事件和元数据；普通文本分块未必保留这些关联。', 'Stores can retain events and metadata; plain text chunks may omit these relationships.') },
       { dimension: b('形成长期知识', 'Forming lasting knowledge'), brain: b('回放与巩固被认为支持经验和皮层知识的相互作用。', 'Replay and consolidation are thought to support interactions between episodes and cortical knowledge.'), ai: b('检索不会自动改写权重；需要独立的学习或蒸馏步骤。', 'Retrieval does not automatically rewrite weights; learning or distillation needs a separate step.') },

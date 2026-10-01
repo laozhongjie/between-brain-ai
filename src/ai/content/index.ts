@@ -1,19 +1,37 @@
 import type { Bi } from '../../data/types'
-import type { Card, Corr, Evidence, Layer } from '../types'
+import type { AtlasDomain, Card, Corr, Evidence, Layer } from '../types'
 import { LAYER1 } from './layer1'
 import { LAYER2 } from './layer2'
 import { LAYER3 } from './layer3'
 import { LAYER4 } from './layer4'
 import { CARD_GUIDES } from './guides'
 
+const b = (zh: string, en: string): Bi => ({ zh, en })
+
 export const CARDS: Card[] = [...LAYER1, ...LAYER2, ...LAYER3, ...LAYER4].map((card) => ({ ...card, guide: CARD_GUIDES[card.id] }))
 export const CARD_BY_ID: Record<string, Card> = Object.fromEntries(CARDS.map((c) => [c.id, c]))
 export const cardsOfLayer = (l: Layer) => CARDS.filter((c) => c.layer === l)
 export const cardForTour = (tour: string) => CARDS.find((c) => c.tour === tour)
+
+export const DOMAINS: AtlasDomain[] = [
+  { id: 'D1', name: b('感知与表征', 'Perception & representation'), desc: b('从输入形成可用表征，并在变化与冲突中保持稳健。', 'Build usable representations from input and remain robust under change and conflict.'), cards: ['sys-vision', 'sys-hearing', 'sys-touch', 'normalization', 'expansion'] },
+  { id: 'D2', name: b('学习与适应', 'Learning & adaptation'), desc: b('经验如何改变系统、行为和对新任务的适应速度。', 'How experience changes a system, behaviour and adaptation to new tasks.'), cards: ['short-term-plasticity', 'stdp', 'three-factor', 'noise'] },
+  { id: 'D3', name: b('记忆与知识', 'Memory & knowledge'), desc: b('信息如何保持、组织、检索、巩固与遗忘。', 'How information is retained, organised, retrieved, consolidated and forgotten.'), cards: ['sys-memory', 'consolidation', 'attractors'] },
+  { id: 'D4', name: b('预测、推理与规划', 'Prediction, reasoning & planning'), desc: b('如何推断未知、预测后果，并形成多步方案。', 'How systems infer the unknown, predict consequences and form multi-step plans.'), cards: ['feedback-predictive', 'neuron-models'] },
+  { id: 'D5', name: b('注意与认知控制', 'Attention & cognitive control'), desc: b('如何选择信息、维持目标、抑制干扰并调节计算。', 'How systems select information, maintain goals, suppress interference and regulate computation.'), cards: ['sys-attention', 'ei-celltypes'] },
+  { id: 'D6', name: b('行动与具身交互', 'Action & embodied interaction'), desc: b('身体、动作和环境反馈如何形成闭环。', 'How bodies, actions and environmental feedback form a closed loop.'), cards: ['sys-motor', 'dendrites', 'spikes'] },
+  { id: 'D7', name: b('价值、动机与调节', 'Value, motivation & regulation'), desc: b('价值、风险、情绪和内部状态如何改变行为优先级。', 'How value, risk, emotion and internal state change behavioural priorities.'), cards: ['sys-fear', 'sys-reward', 'sys-homeostasis'] },
+  { id: 'D8', name: b('语言与社会认知', 'Language & social cognition'), desc: b('符号交流、情境理解、他人模型与协作。', 'Symbolic communication, contextual understanding, models of others and cooperation.'), cards: ['sys-language'] },
+  { id: 'D9', name: b('发育与长期组织', 'Development & long-term organisation'), desc: b('学习起点、阶段变化、结构重塑与长期能力轨迹。', 'Learning starting points, developmental change, structural remodelling and long-term ability trajectories.'), cards: ['synapse-weight', 'structural-plasticity', 'glia', 'energy-sparsity'] },
+]
+
+export const CROSS_CUTTING: AtlasDomain[] = [
+  { id: 'X1', name: b('睡眠、觉醒与离线处理', 'Sleep, arousal & offline processing'), desc: b('连接记忆巩固、资源调节和离线学习的综合专题。', 'A cross-domain topic linking consolidation, resource regulation and offline learning.'), cards: ['sys-sleep'] },
+]
+
+export const cardsOfDomain = (domain: AtlasDomain) => domain.cards.map((id) => CARD_BY_ID[id]).filter(Boolean)
 /** Cards in the order the section nav lists them (layer 4 down to layer 1), for prev/next paging across layers. */
 export const READING_ORDER: Card[] = ([4, 3, 2, 1] as Layer[]).flatMap(cardsOfLayer)
-
-const b = (zh: string, en: string): Bi => ({ zh, en })
 
 export const LAYERS: { id: Layer; name: Bi; scale: Bi; desc: Bi }[] = [
   { id: 1, name: b('分子与突触', 'Molecules & synapses'), scale: b('纳米–微米 · 毫秒到年', 'nm–µm · ms to years'), desc: b('知识储存在哪里、如何被改写：权重、可塑性、学习规则。', 'Where knowledge is stored and how it is rewritten: weights, plasticity, learning rules.') },

@@ -2,7 +2,7 @@ import { Rich, splitComparison } from '../../rich'
 import { useEffect, useRef } from 'react'
 import { UI, useT } from '../../i18n'
 import { go } from '../../route'
-import { CARD_BY_ID, LAYERS, cardsOfLayer } from '../content'
+import { CARD_BY_ID, CROSS_CUTTING, DOMAINS, cardsOfDomain } from '../content'
 import { LABS } from '../labs/registry'
 import { Blueprint } from './Blueprint'
 import { CardPage } from './CardPage'
@@ -32,18 +32,27 @@ export function AiSection({ route }: { route: string[] }) {
     <div className="ai-section">
       <nav className="ai-nav">
         <button className={`ai-nav-home ${active('')}`} onClick={() => go('/ai')}>{t(UI.overview)}</button>
-        {[...LAYERS].reverse().map((l) => (
-          <div key={l.id} className="ai-nav-layer">
-            <div className="ai-nav-layer-title">{t(UI.layer).replace('{n}', String(l.id))} · {t(l.name)}</div>
-            {l.id === 5 ? (
-              <button className={active('blueprint')} onClick={() => go('/ai/blueprint')}>{t(UI.blueprintTitle).split('·')[1]?.trim()}</button>
-            ) : (
-              cardsOfLayer(l.id).map((c) => (
+        <div className="ai-nav-layer ai-nav-domains">
+          <div className="ai-nav-layer-title">{t(UI.functionalDomains)}</div>
+          {DOMAINS.map((domain) => (
+            <div key={domain.id} className="ai-nav-domain">
+              <div className="ai-nav-domain-title">{domain.id} · {t(domain.name)}</div>
+              {cardsOfDomain(domain).map((c) => (
                 <button key={c.id} className={active(`card/${c.id}`)} onClick={() => go(`/ai/card/${c.id}`)}><Rich text={splitComparison(t(c.title))[0]} /></button>
-              ))
-            )}
-          </div>
-        ))}
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className="ai-nav-layer">
+          <div className="ai-nav-layer-title">{t(UI.crossCuttingTopics)}</div>
+          {CROSS_CUTTING.flatMap((domain) => cardsOfDomain(domain)).map((c) => (
+            <button key={c.id} className={active(`card/${c.id}`)} onClick={() => go(`/ai/card/${c.id}`)}><Rich text={splitComparison(t(c.title))[0]} /></button>
+          ))}
+        </div>
+        <div className="ai-nav-layer">
+          <div className="ai-nav-layer-title">{t(UI.blueprintTitle).split('·')[0].trim()}</div>
+          <button className={active('blueprint')} onClick={() => go('/ai/blueprint')}>{t(UI.blueprintTitle).split('·')[1]?.trim()}</button>
+        </div>
         <div className="ai-nav-layer">
           <div className="ai-nav-layer-title">{t(UI.labs)}</div>
           {Object.entries(LABS).map(([lid, lab]) => (

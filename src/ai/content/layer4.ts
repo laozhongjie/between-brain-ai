@@ -59,7 +59,7 @@ export const LAYER4: CardMechanism[] = [
   },
   {
     id: 'sys-memory', layer: 4, tour: 'memory',
-    title: b('记忆系统 ↔ 上下文窗口 / 检索增强 / 经验回放', 'Memory systems ↔ context windows / RAG / experience replay'),
+    title: b('海马与新皮层互补学习系统 / 上下文、检索增强与参数更新系统', 'Hippocampal and neocortical complementary learning / context, retrieval and parameter update systems'),
     brain: b('互补学习系统理论（McClelland 1995; Kumaran 2016）：海马一次就能把一段经历绑定存储，新皮层慢慢地提取统计规律；睡眠中海马回放经历，逐渐教会新皮层。海马-内嗅系统还用位置细胞和网格细胞构建结构化的“认知地图”，Tolman–Eichenbaum 机器（TEM）把它形式化，并被证明与 Transformer 存在形式上的联系。', 'Complementary learning systems (McClelland 1995; Kumaran 2016): the hippocampus binds an episode in one shot, the neocortex slowly extracts statistics, and hippocampal replay during sleep gradually teaches the cortex. The hippocampal–entorhinal system also builds structured cognitive maps with place and grid cells; the Tolman–Eichenbaum Machine (TEM) formalises this and relates to Transformers.'),
     brainMath: [{ tex: t`M \leftarrow M + \eta\,v\,k^{\top},\qquad \hat v = M\,q`, caption: b('海马式快速联想存储（一次写入、按线索读取）', 'Hippocampus-like fast associative storage (one-shot write, cued read)') }],
     ai: b('上下文窗口相当于短期工作记忆；检索增强生成（RAG）从外部库检索文本；DQN 的经验回放借鉴了海马回放；TEM 与 Transformer 的联系（Whittington 2022）为结构化记忆提供了新方向。', 'Context windows act like working memory; retrieval-augmented generation (RAG) fetches external text; DQN’s experience replay borrowed from hippocampal replay; the TEM–Transformer link (Whittington 2022) points to structured memory.'),

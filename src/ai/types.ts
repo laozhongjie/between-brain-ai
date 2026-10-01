@@ -14,6 +14,13 @@ export type Evidence = 'established' | 'debated' | 'speculative'
 
 export type Layer = 1 | 2 | 3 | 4 | 5
 
+export interface AtlasDomain {
+  id: string
+  name: Bi
+  desc: Bi
+  cards: string[]
+}
+
 export interface Formula {
   tex: string
   caption: Bi
@@ -33,6 +40,26 @@ export interface ComparisonRow {
   dimension: Bi
   brain: Bi
   ai: Bi
+}
+
+export interface CapabilityComparison extends ComparisonRow {
+  gap: Bi
+}
+
+export interface ReviewCard {
+  systems: {
+    biological: Bi
+    computational: Bi
+  }
+  thesis: Bi
+  capabilities: CapabilityComparison[]
+  state: ComparisonRow[]
+  timescale: ComparisonRow[]
+  limits: {
+    biological: Bi
+    computational: Bi
+    evidence: Bi
+  }
 }
 
 export interface DesignExperiment {
@@ -69,6 +96,7 @@ export interface CardGuide {
   boundary: Bi
   experiments: DesignExperiment[]
   architecture?: ArchitectureSection
+  review?: ReviewCard
 }
 
 export interface CardMechanism {

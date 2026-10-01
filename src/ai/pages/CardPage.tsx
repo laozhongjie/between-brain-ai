@@ -1,4 +1,5 @@
 import { TOUR_BY_ID } from '../../data/tours'
+import type { Bi } from '../../data/types'
 import { UI, useT } from '../../i18n'
 import { go } from '../../route'
 import { enterFocus } from '../../sim/focus'
@@ -57,43 +58,92 @@ function ArchitectureTrackView({ track, className }: { track: ArchitectureTrack;
   )
 }
 
-export function CardPage({ card }: { card: Card }) {
+function ReviewTable({ rows, systems, gap }: { rows: { dimension: Bi; brain: Bi; ai: Bi; gap?: Bi }[]; systems: { biological: Bi; computational: Bi }; gap?: boolean }) {
   const t = useT()
-  const layer = LAYERS.find((l) => l.id === card.layer)!
-  // Paging runs across layers: the first card of a layer goes back to the previous layer's last one,
-  // and the first card overall goes back to the layer-5 blueprint
-  const idx = READING_ORDER.findIndex((c) => c.id === card.id)
-  const prev = READING_ORDER[idx - 1]
-  const next = READING_ORDER[idx + 1]
-  const Lab = card.lab ? LABS[card.lab] : null
-  const figs = FIGS[card.id]
-  const guide = card.guide
-
-  const openInAtlas = () => {
-    useStore.getState().setViewMode('3d')
-    go('/atlas')
-    enterFocus(card.tour!)
-  }
-
   return (
-    <article className="ai-page card-page">
-      <div className="crumbs">
-        <button onClick={() => go('/ai')}>{t(UI.backToLadder)}</button>
-        <span>{t(UI.layer).replace('{n}', String(layer.id))} · {t(layer.name)}</span>
-      </div>
-      <h1><ComparisonText text={t(card.title)} /></h1>
-      <div className="card-intro">
-        <span className="card-kicker">{t(UI.cardQuestion)}</span>
-        <h2>{t(guide.question)}</h2>
-        <p className="lead"><Rich text={t(guide.answer)} /></p>
-      </div>
-      <div className="card-badges">
-        <CorrBadge corr={card.corr} />
-        <EvidenceBadge ev={card.evidence} />
-        {card.tour && (
-          <button className="btn-sm" onClick={openInAtlas}><Icon name="brain" />{t(UI.viewInAtlas)}：{t(TOUR_BY_ID[card.tour].name)}</button>
-        )}
-      </div>
+    <table className={`card-comparison review-table ${gap ? 'review-table-gap' : ''}`}>
+      <thead><tr><th scope="col">{t(UI.dimension)}</th><th scope="col">{t(systems.biological)}</th><th scope="col">{t(systems.computational)}</th>{gap && <th scope="col">{t(UI.gapColumn)}</th>}</tr></thead>
+      <tbody>
+        {rows.map((row, index) => (
+          <tr key={index}>
+            <th scope="row">{t(row.dimension)}</th>
+            <td><span className="comparison-mobile-label" aria-hidden>{t(systems.biological)}</span><Rich text={t(row.brain)} /></td>
+            <td><span className="comparison-mobile-label" aria-hidden>{t(systems.computational)}</span><Rich text={t(row.ai)} /></td>
+            {gap && row.gap && <td><span className="comparison-mobile-label" aria-hidden>{t(UI.gapColumn)}</span><Rich text={t(row.gap)} /></td>}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
+
+function ReviewCardContent({ card, figs }: { card: Card; figs?: import('../figs/types').FigPair }) {
+  const t = useT()
+  const review = card.guide.review!
+  return (
+    <>
+      <section aria-labelledby="card-capabilities-title">
+        <h2 id="card-capabilities-title">{t(UI.secDiffs)}</h2>
+        <ReviewTable rows={review.capabilities} systems={review.systems} gap />
+      </section>
+
+      <section aria-labelledby="card-architecture-title" className="review-architecture">
+        <h2 id="card-architecture-title">{t(UI.secArchitecture)}</h2>
+        <div className="review-architecture-grid">
+          <section className="review-system biological-system">
+            <h3>{t(review.systems.biological)}</h3>
+            {figs && <Figure Fig={figs.brain} cap={figs.brainCap} />}
+          </section>
+          <section className="review-system computational-system">
+            <h3>{t(review.systems.computational)}</h3>
+            {figs && <Figure Fig={figs.ai} cap={figs.aiCap} />}
+          </section>
+        </div>
+      </section>
+
+      <section aria-labelledby="card-state-title">
+        <h2 id="card-state-title">{t(UI.secState)}</h2>
+        <ReviewTable rows={review.state} systems={review.systems} />
+      </section>
+
+      <section aria-labelledby="card-timescales-title">
+        <h2 id="card-timescales-title">{t(UI.secTimescales)}</h2>
+        <ReviewTable rows={review.timescale} systems={review.systems} />
+      </section>
+
+      <section aria-labelledby="card-mechanisms-title">
+        <h2 id="card-mechanisms-title">{t(UI.secMechanisms)}</h2>
+        <div className="two-col review-mechanisms">
+          <section className="col brain-col">
+            <h3>{t(review.systems.biological)}</h3>
+            <p><Rich text={t(card.brain)} /></p>
+            <Formulas list={card.brainMath} />
+          </section>
+          <section className="col ai-col">
+            <h3>{t(review.systems.computational)}</h3>
+            <p><Rich text={t(card.ai)} /></p>
+            <Formulas list={card.aiMath} />
+          </section>
+        </div>
+      </section>
+
+      <section aria-labelledby="card-limits-title">
+        <h2 id="card-limits-title">{t(UI.secLimits)}</h2>
+        <div className="review-limits">
+          <div><h3>{t(review.systems.biological)}</h3><p><Rich text={t(review.limits.biological)} /></p></div>
+          <div><h3>{t(review.systems.computational)}</h3><p><Rich text={t(review.limits.computational)} /></p></div>
+          <div><h3>{t(UI.reviewEvidence)}</h3><p><Rich text={t(review.limits.evidence)} /></p></div>
+        </div>
+      </section>
+    </>
+  )
+}
+
+function LegacyCardContent({ card, figs }: { card: Card; figs?: import('../figs/types').FigPair }) {
+  const t = useT()
+  const guide = card.guide
+  return (
+    <>
       <section aria-labelledby="card-comparison-title">
         <h2 id="card-comparison-title">{t(UI.secDiffs)}</h2>
         <p className="card-scope"><strong>{t(UI.comparisonScope)}</strong> · {t(guide.scope)}</p>
@@ -168,6 +218,48 @@ export function CardPage({ card }: { card: Card }) {
           ))}
         </ol>
       </section>
+    </>
+  )
+}
+
+export function CardPage({ card }: { card: Card }) {
+  const t = useT()
+  const layer = LAYERS.find((l) => l.id === card.layer)!
+  // Paging runs across layers: the first card of a layer goes back to the previous layer's last one,
+  // and the first card overall goes back to the layer-5 blueprint
+  const idx = READING_ORDER.findIndex((c) => c.id === card.id)
+  const prev = READING_ORDER[idx - 1]
+  const next = READING_ORDER[idx + 1]
+  const Lab = card.lab ? LABS[card.lab] : null
+  const figs = FIGS[card.id]
+  const guide = card.guide
+
+  const openInAtlas = () => {
+    useStore.getState().setViewMode('3d')
+    go('/atlas')
+    enterFocus(card.tour!)
+  }
+
+  return (
+    <article className="ai-page card-page">
+      <div className="crumbs">
+        <button onClick={() => go('/ai')}>{t(UI.backToLadder)}</button>
+        <span>{t(UI.layer).replace('{n}', String(layer.id))} · {t(layer.name)}</span>
+      </div>
+      <h1><ComparisonText text={t(card.title)} /></h1>
+      <div className="card-intro">
+        <span className="card-kicker">{t(guide.review ? UI.secThesis : UI.cardQuestion)}</span>
+        <h2>{t(guide.review ? guide.review.thesis : guide.question)}</h2>
+        {!guide.review && <p className="lead"><Rich text={t(guide.answer)} /></p>}
+      </div>
+      <div className="card-badges">
+        <CorrBadge corr={card.corr} />
+        <EvidenceBadge ev={card.evidence} />
+        {card.tour && (
+          <button className="btn-sm" onClick={openInAtlas}><Icon name="brain" />{t(UI.viewInAtlas)}：{t(TOUR_BY_ID[card.tour].name)}</button>
+        )}
+      </div>
+      {guide.review ? <ReviewCardContent card={card} figs={figs} /> : <LegacyCardContent card={card} figs={figs} />}
 
       {Lab && (
         <section className="lab-section">

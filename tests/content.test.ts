@@ -1,7 +1,7 @@
 import katex from 'katex'
 import { describe, expect, it } from 'vitest'
 import { MODULES } from '../src/ai/content/blueprint'
-import { CARDS, CARD_BY_ID, INTRO_REFS } from '../src/ai/content/index'
+import { CARDS, CARD_BY_ID, CROSS_CUTTING, DOMAINS, INTRO_REFS } from '../src/ai/content/index'
 import { REF_BY_ID, REFS } from '../src/ai/content/refs'
 import { LABS } from '../src/ai/labs/registry'
 import { TOUR_BY_ID } from '../src/data/tours'
@@ -32,6 +32,13 @@ describe('AI correspondence content', () => {
     expect(new Set(CARDS.map((c) => c.id)).size).toBe(CARDS.length)
     expect(new Set(REFS.map((r) => r.id)).size).toBe(REFS.length)
     expect(new Set(MODULES.map((m) => m.id)).size).toBe(MODULES.length)
+  })
+
+  it('functional directory covers each card exactly once', () => {
+    const grouped = [...DOMAINS, ...CROSS_CUTTING].flatMap((domain) => domain.cards)
+    expect(new Set(grouped).size).toBe(grouped.length)
+    expect(grouped.sort()).toEqual(CARDS.map((card) => card.id).sort())
+    for (const id of grouped) expect(CARD_BY_ID[id], id).toBeDefined()
   })
 
   it('every formula renders with KaTeX', () => {
