@@ -59,7 +59,7 @@ function useTabOutline(panel: React.RefObject<HTMLDivElement | null>, tab: React
       const ht = P.top - T.top // tab height above the track
       const h = ht + P.height
       const tw = T.width
-      const r = 12
+      const r = 24 // matches the panels' corner radius
       const i = 0.5 // half the stroke, keeps the line crisp and inside the box
       const x0 = W - tw
       const d = [
