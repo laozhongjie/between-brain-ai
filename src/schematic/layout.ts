@@ -15,9 +15,9 @@ const b = (zh: string, en: string): Bi => ({ zh, en })
  * node and text sizes stay fixed. Edges are routed orthogonally: vertical runs in the channels between
  * columns, horizontal runs in the corridors between rows, so no line crosses a node.
  */
-export const NODE_W = 118
+export const NODE_W = 130
 export const NODE_H = 28
-const STEP = 140
+const STEP = 152
 const GUTTER = 28
 const colX = (c: number) => 75 + c * STEP + (c >= 1 ? GUTTER : 0) + (c >= 8 ? GUTTER : 0)
 export const W = colX(8) + 80
