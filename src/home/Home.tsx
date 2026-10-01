@@ -21,6 +21,19 @@ const OPEN = [0.03, 0.32] // the disc grows until it fills the screen
 const CH = [0.32, 0.9] // five chapters
 const CTA = 0.9 // closing call to action
 const SMOOTH_MS = 110 // the stage eases toward the scroll position, so mouse-wheel steps glide like a trackpad
+const chapterAt = (i: number) => CH[0] + ((i + 0.5) / CHAPTERS.length) * (CH[1] - CH[0])
+/** Rest points from the first chapter on: each chapter's centre, then the end (closing call to action). */
+const STOPS = [...CHAPTERS.map((_, i) => chapterAt(i)), 1]
+const nearestStop = (p: number) => STOPS.reduce((a, s) => (Math.abs(s - p) < Math.abs(a - p) ? s : a))
+/** Where a scroll gesture from `from` that stopped at `to` should glide on to, or null to stay put. Inside the
+ *  chapters every gesture moves at least one stop in its direction; back past the first chapter (into the
+ *  opening animation) scrolling stays free. */
+const snapTarget = (from: number, to: number) => {
+  if (to < CH[0] || Math.abs(to - from) < 1e-3) return null
+  if (to > from) return Math.max(STOPS.find((s) => s > from + 1e-3) ?? 1, nearestStop(to))
+  const prev = STOPS.filter((s) => s < from - 1e-3).pop()
+  return prev === undefined ? null : Math.min(prev, nearestStop(to))
+}
 /** Closing headline, one entry per line; its words rise in one after another (see .cta-word). */
 const CTA_LINES = ['between what we understand', 'and what we can build']
 
@@ -185,13 +198,57 @@ export function Home() {
       setChapter(c)
       if (p !== target) raf = requestAnimationFrame(update)
     }
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update) }
+    // Chapter snapping: when a gesture ends (scrollend, or a pause where unsupported), glide to its stop.
+    // The glide is our own tween: a browser smooth scroll gets cut short by the tail of a wheel gesture.
+    const progress = () => { const max = sc.scrollHeight - sc.clientHeight; return max > 0 ? sc.scrollTop / max : 0 }
+    let rest = progress()
+    let pause = 0
+    let glide = 0
+    const glideTo = (to: number) => {
+      const y0 = sc.scrollTop
+      const y1 = to * (sc.scrollHeight - sc.clientHeight)
+      const dur = Math.min(900, 350 + Math.abs(y1 - y0) * 0.5)
+      const t0 = performance.now()
+      const step = (now: number) => {
+        const k = Math.min(1, (now - t0) / dur)
+        sc.scrollTop = y0 + (y1 - y0) * (k < 0.5 ? 4 * k ** 3 : 1 - (-2 * k + 2) ** 3 / 2)
+        glide = k < 1 ? requestAnimationFrame(step) : 0
+        if (!glide) rest = progress()
+      }
+      glide = requestAnimationFrame(step)
+    }
+    const onEnd = () => {
+      if (glide) return
+      const from = rest
+      rest = progress()
+      const to = snapTarget(from, rest)
+      if (to !== null && Math.abs(to - rest) * (sc.scrollHeight - sc.clientHeight) > 2) glideTo(to)
+    }
+    // new input takes over from a glide; the gesture then counts from where the glide was cut
+    const onInput = (e: Event) => {
+      if (!glide || (e instanceof WheelEvent && e.deltaY === 0)) return
+      cancelAnimationFrame(glide)
+      glide = 0
+      rest = progress()
+    }
+    const endEvent = 'onscrollend' in window
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update)
+      if (!endEvent) { clearTimeout(pause); pause = window.setTimeout(onEnd, 150) }
+    }
+    const INPUTS = ['wheel', 'touchstart', 'pointerdown', 'keydown'] as const
     const onResize = () => { setGeom(heroGeom(st.clientWidth, st.clientHeight)); onScroll() }
     sc.addEventListener('scroll', onScroll, { passive: true })
+    if (endEvent) sc.addEventListener('scrollend', onEnd)
+    for (const t of INPUTS) window.addEventListener(t, onInput, { passive: true })
     window.addEventListener('resize', onResize)
     update(performance.now())
     return () => {
       sc.removeEventListener('scroll', onScroll)
+      sc.removeEventListener('scrollend', onEnd)
+      clearTimeout(pause)
+      cancelAnimationFrame(glide)
+      for (const t of INPUTS) window.removeEventListener(t, onInput)
       window.removeEventListener('resize', onResize)
       cancelAnimationFrame(raf)
       homeState.chapter = -1
@@ -213,8 +270,7 @@ export function Home() {
   const toChapter = (i: number) => {
     const sc = scroller.current!
     const max = sc.scrollHeight - sc.clientHeight
-    const p = CH[0] + ((i + 0.5) / CHAPTERS.length) * (CH[1] - CH[0])
-    sc.scrollTo({ top: p * max, behavior: 'smooth' })
+    sc.scrollTo({ top: chapterAt(i) * max, behavior: 'smooth' })
   }
 
   const ch = chapter >= 0 ? CHAPTERS[chapter] : null
