@@ -17,6 +17,13 @@ const GLOW_RATE = 5
 /** Activity range stretched onto the glow: resting nodes (~0.06) stay dark, busy ones (~0.3) light fully */
 const GLOW_LO = 0.07
 const GLOW_HI = 0.3
+/** Background glow per brain state: teal awake, cooler and brighter focused, deep blue asleep, violet dreaming */
+const STATE_GLOW = {
+  wake: 'rgba(40,110,150,0.26)',
+  focus: 'rgba(60,140,195,0.32)',
+  nrem: 'rgba(30,55,140,0.24)',
+  rem: 'rgba(95,70,165,0.27)',
+} as const
 /** Simulation node indices behind each schematic key (both hemispheres) */
 const INDICES = new Map<string, number[]>()
 for (const n of NODES) INDICES.set(n.key, [...(INDICES.get(n.key) ?? []), n.index])
@@ -39,6 +46,22 @@ export function Schematic() {
   const pick = (id: string | undefined) => {
     if (!dragged.current && id) select(id)
   }
+
+  // Background glow tinted by the brain state (CSS eases the change over ~20 s, see .atlas.view-schematic)
+  useEffect(() => {
+    const app = svg.current?.closest<HTMLElement>('.atlas')
+    if (!app) return
+    const tint = () => {
+      const st = engine.state
+      app.style.setProperty('--state-glow', STATE_GLOW[st.stage === 'wake' ? (st.focus > 0.6 ? 'focus' : 'wake') : st.stage])
+    }
+    tint()
+    const id = setInterval(tint, 1000)
+    return () => {
+      clearInterval(id)
+      app.style.removeProperty('--state-glow')
+    }
+  }, [])
 
   // Stretch the layout vertically so the diagram fills its panel exactly (node and text sizes stay fixed)
   const box = useRef<HTMLDivElement>(null)
