@@ -165,8 +165,11 @@ export function Timeline() {
         }}
         onPointerMove={(e) => e.buttons && seekFromPointer(e)}
       >
-        <div className="tl-sky" style={{ background: SKY_GRADIENT }} />
-        <div className="tl-fill" ref={fill} />
+        {/* sky and progress line are clipped to the track's rounded ends */}
+        <div className="tl-clip">
+          <div className="tl-sky" style={{ background: SKY_GRADIENT }} />
+          <div className="tl-fill" ref={fill} />
+        </div>
         {hours.map((h) => (
           <span key={h} className="tl-hour" style={{ left: pct(h) }}>{fmtClock(DAY_START + h)}</span>
         ))}
