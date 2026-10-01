@@ -273,6 +273,20 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .systems.compact h3 { margin: 0; white-space: nowrap; }
 .systems.compact .system-grid { display: flex; flex-wrap: wrap; gap: 5px; }
 .systems.compact .system-btn { padding: 3px 8px; font-size: 12px; white-space: nowrap; }
+/* compact strip: one pill frame of flat labels, each marked by a dot in its system colour; hover draws a
+   pill outline in that colour (same conic sweep as the top-bar pill tabs), the focused system keeps it */
+.systems.compact { border-radius: 999px; }
+.systems.compact .system-btn { gap: 7px; border: 0; background: none; border-radius: 999px; overflow: visible; }
+.systems.compact .system-btn::before { display: none; }
+.systems.compact .system-btn::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); pointer-events: none;
+  -webkit-mask: conic-gradient(from 270deg, #000 var(--p), transparent 0); mask: conic-gradient(from 270deg, #000 var(--p), transparent 0);
+  transition: --p .5s var(--ease), border-color .25s var(--ease);
+}
+.systems.compact .system-btn:hover, .systems.compact .system-btn.on { color: var(--text-h); background: none; }
+.systems.compact .system-btn:hover::after, .systems.compact .system-btn.on::after { --p: 100%; }
+.systems.compact .system-btn.on::after { border-color: var(--c); }
+.system-dot { flex: none; width: 5px; height: 5px; border-radius: 50%; background: var(--c); box-shadow: 0 0 6px color-mix(in srgb, var(--c) 60%, transparent); }
 .atlas .left-col { top: 150px; }
 .schem-reset { position: absolute; right: 8px; bottom: 8px; }
 .scol { fill: var(--text-dim); font-size: 11.5px; letter-spacing: 0.08em; }
@@ -676,7 +690,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
     inset: var(--top) calc(16px + var(--side) + var(--gap)) var(--low);
     display: flex; flex-direction: column; gap: 8px; background: transparent;
   }
-  .atlas .systems.compact { justify-content: center; padding: 6px 8px; }
+  .atlas .systems.compact { justify-content: center; padding: 4px 6px; }
   .view-schematic .systems.compact { position: static; }
   /* 3D: the canvas spans the full width behind the side columns but stops above the timeline; the picker
      floats at the top of the middle column */
@@ -705,7 +719,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   .view-3d .right-col > .controls > .btn { margin-top: auto; }
   .atlas .systems.compact h3 { display: none; }
   .atlas .systems.compact .system-grid { justify-content: center; gap: 3px; }
-  .atlas .systems.compact .system-btn { padding: 3px 6px; gap: 5px; font-size: 11.5px; }
+  .atlas .systems.compact .system-btn { padding: 5px 10px; gap: 7px; font-size: 12px; }
   .view-schematic .schematic { position: relative; inset: auto; flex: 1; min-height: 0; }
   .atlas .bottom { grid-template-columns: 1fr; }
 

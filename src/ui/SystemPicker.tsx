@@ -26,7 +26,7 @@ export function SystemPicker({ compact = false }: { compact?: boolean }) {
             style={{ '--c': SYSTEMS[tour.system].color } as React.CSSProperties}
             onClick={() => (focus === tour.id ? exitFocus() : enterFocus(tour.id))}
           >
-            <span className="system-icon"><Icon name={tour.icon} /></span>
+            {compact ? <span className="system-dot" /> : <span className="system-icon"><Icon name={tour.icon} /></span>}
             {t(compact ? tour.short ?? tour.name : tour.name)}
           </button>
         ))}
