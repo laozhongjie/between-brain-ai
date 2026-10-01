@@ -6,7 +6,7 @@ import { SYSTEMS } from '../data/regions'
 import type { Bi } from '../data/types'
 import { useStore } from '../store'
 import { currentFocus } from './focusState'
-import { BRAIN_CENTER, isCortex, nodePosition } from './layout'
+import { nodePosition } from './layout'
 
 /** DOM layer the labels are rendered into (set by App). */
 export const labelLayer: { el: HTMLDivElement | null } = { el: null }
@@ -15,20 +15,12 @@ interface Label {
   el: HTMLDivElement
   text: Bi
   pos: THREE.Vector3
-  /** outward direction used for back-face culling; null = always facing */
-  normal: THREE.Vector3 | null
   node: GraphNode
 }
 
-/** Camera distance beyond which (the default view and farther) no labels show until a structure is hovered. */
-const FAR = 3.6
 const v = new THREE.Vector3()
 const tmpP = new THREE.Vector3()
 const tmpQ = new THREE.Vector3()
-const toCam = new THREE.Vector3()
-
-/** Centre of one hemisphere: outward direction from here approximates the cortical surface normal. */
-const hemiCenter = (hemi?: string) => BRAIN_CENTER.clone().setX(hemi === 'lh' ? -0.35 : hemi === 'rh' ? 0.35 : 0)
 
 /** Brain bounding box in three.js coordinates (union of all mesh regions), used to find free space around it on screen. */
 const BOX_MIN = new THREE.Vector3(Infinity, Infinity, Infinity)
@@ -42,7 +34,7 @@ const clamp = (x: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, x
 
 /**
  * Hover callout: a card placed in the free space outside the brain's silhouette, joined to the hovered
- * structure by a dashed elbow leader. Falls back to the small inline label when zoomed in too far.
+ * structure by a dashed elbow leader; with no free space on screen it sits beside the structure instead.
  */
 function makeCallout() {
   const root = document.createElement('div')
@@ -108,12 +100,7 @@ export function Labels() {
     const list: Label[] = []
     for (const n of NODES) {
       if (n.inert) continue
-      const base = new THREE.Vector3(...n.anchor)
-      // Outward direction for back-face culling. Deep nuclei/subcortex only show when the cortex is faded.
-      const deep = n.kind === 'nucleus' || n.info.lobe === 'subcortical'
-      const normal = deep ? null : base.clone().sub(isCortex(n) ? hemiCenter(n.hemi) : BRAIN_CENTER).normalize()
-      const el = makeEl(`label label-${n.kind}`)
-      list.push({ el, text: n.info.name, pos: new THREE.Vector3(), normal, node: n })
+      list.push({ el: makeEl(`label label-${n.kind}`), text: n.info.name, pos: new THREE.Vector3(), node: n })
     }
     return list
   }, [])
@@ -135,9 +122,6 @@ export function Labels() {
 
   useFrame(() => {
     const { view, hovered, selected, lang } = useStore.getState()
-    const dist = camera.position.distanceTo(BRAIN_CENTER)
-    const far = dist > FAR
-    const seeInside = view.cortexOpacity < 0.6
     const placed: [number, number, number, number][] = []
     const f = currentFocus()
     // Focus mode: one label per structure (the hemisphere nearer the camera), current step first
@@ -151,59 +135,44 @@ export function Labels() {
       }
     }
 
-    const calloutRect = updateCallout(hovered !== selected ? hovered : null, view.explode, lang)
+    // The hovered structure (else the selected one) is named by the callout; the Labels layer switch turns it off
+    const target = view.showLabels ? hovered ?? selected : null
+    const calloutRect = updateCallout(target, view.explode, lang)
     if (calloutRect) placed.push(calloutRect)
 
-    // Selected, hovered and current-step labels first so they win overlap tests
-    const order = labels.slice().sort((a, b) => rank(b) - rank(a))
+    // Small labels only in focus mode (the guided walk-through); current-step labels first so they win overlaps
+    const order = f ? labels.slice().sort((a, b) => rank(b) - rank(a)) : labels
     function rank(l: Label) {
-      if (l.node.id === selected) return 4
-      if (l.node.id === hovered) return 3
-      return f?.step.nodes.has(l.node.id) ? 2 : 0
+      if (l.node.id === selected) return 2
+      return f?.step.nodes.has(l.node.id) ? 1 : 0
     }
 
     for (const l of order) {
       const id = l.node.id
-      // The hovered structure is shown by the callout instead of its small label
-      if (calloutRect && id === hovered) {
-        l.el.style.display = 'none'
-        continue
-      }
-      const forced = id === selected || id === hovered
-      let show = forced
-      if (f) {
-        show = forced || nearer.get(l.node.key) === id
-      } else if (!forced && view.showLabels) {
-        // Default view and farther: a clean brain, labels only on hover; zoomed in: labels for what is in view
-        show = !far && visibleKind(l.node, view, seeInside)
-      }
-
+      let show = !!f && id !== target && (id === selected || nearer.get(l.node.key) === id)
       if (show) {
         nodePosition(l.node, view.explode, true, l.pos)
-        if (!forced && !f && l.normal && !(seeInside && l.node.kind !== 'io')) {
-          toCam.copy(camera.position).sub(l.pos).normalize()
-          if (toCam.dot(l.normal) < 0.3) show = false
-        }
-      }
-      if (show) {
         v.copy(l.pos).project(camera)
-        if (v.z > 1) show = false
         const x = (v.x * 0.5 + 0.5) * size.width
         const y = (-v.y * 0.5 + 0.5) * size.height
         const w = l.el.textContent!.length * (lang === 'zh' ? 11.5 : 6.2) + 14
         const h = 18
-        if (show && !forced && placed.some(([px, py, pw, ph]) => Math.abs(px - x) * 2 < pw + w && Math.abs(py - y) * 2 < ph + h)) show = false
+        show = v.z <= 1 && !placed.some(([px, py, pw, ph]) => Math.abs(px - x) * 2 < pw + w && Math.abs(py - y) * 2 < ph + h)
         if (show) {
           placed.push([x, y, w, h])
           l.el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`
-          l.el.classList.toggle('active', forced || !!f?.step.nodes.has(l.node.id))
+          l.el.classList.toggle('active', id === selected || !!f?.step.nodes.has(id))
         }
       }
       l.el.style.display = show ? '' : 'none'
     }
   })
 
-  /** Places the callout for `id`; returns its screen rect (centre x, centre y, w, h) or null when not shown. */
+  /**
+   * Places the callout for `id`; returns its screen rect (centre x, centre y, w, h) or null when not shown.
+   * The card goes into free space outside the brain's silhouette when there is room; zoomed in (no free
+   * space on screen) it sits right beside the structure on the 3D view instead.
+   */
   function updateCallout(id: string | null, explode: number, lang: 'zh' | 'en'): [number, number, number, number] | null {
     const n = id ? NODE_BY_ID[id] : null
     const hide = () => {
@@ -220,22 +189,7 @@ export function Labels() {
       return [(v.x * 0.5 + 0.5) * W, (-v.y * 0.5 + 0.5) * H, v.z] as const
     }
     const [px, py, pz] = toScreen(nodePosition(n, explode, true, tmpP))
-    if (pz > 1) return hide()
-
-    // Brain silhouette ≈ ellipse inscribed in the projected bounding box
-    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity
-    for (let i = 0; i < 8; i++) {
-      corner.set(i & 1 ? BOX_MAX.x + explode : BOX_MIN.x - explode, i & 2 ? BOX_MAX.y : BOX_MIN.y, i & 4 ? BOX_MAX.z : BOX_MIN.z)
-      const [sx, sy, sz] = toScreen(corner)
-      if (sz > 1) return hide() // camera is at or inside the brain
-      x0 = Math.min(x0, sx); x1 = Math.max(x1, sx); y0 = Math.min(y0, sy); y1 = Math.max(y1, sy)
-    }
-    const cx = (x0 + x1) / 2
-    const cy = (y0 + y1) / 2
-    const a = ((x1 - x0) / 2) * 0.86
-    const b = ((y1 - y0) / 2) * 0.86
-    // Zoomed in so the brain fills the view: no free space, keep the small label
-    if (a > W * 0.45 || b > H * 0.45) return hide()
+    if (pz > 1 || px < 0 || px > W || py < 0 || py > H) return hide()
 
     const key = `${n.id}|${lang}`
     if (key !== co.key) {
@@ -253,29 +207,12 @@ export function Labels() {
       co.root.classList.add('in')
     }
 
-    // Free space: step out of the silhouette along the centre → structure direction
-    let dx = px - cx
-    let dy = py - cy
-    const len = Math.hypot(dx, dy)
-    if (len < 1) { dx = 1; dy = -0.3 } else { dx /= len; dy /= len }
-    const rim = 1 / Math.sqrt((dx / a) ** 2 + (dy / b) ** 2)
-    const inside = (x: number, y: number) => ((x - cx) / a) ** 2 + ((y - cy) / b) ** 2 < 1
-
     // Keep clear of the side columns and the system strip (measured, in canvas coordinates)
     const box = freeBox(W, H)
-    const side = dx >= 0 ? 1 : -1
-
-    // Walk outward from the rim (at least 40 px past the structure) until the whole card clears the silhouette
-    let ex = 0, ey = 0, cardX = 0
-    for (let r = Math.max(rim + 26, len + 40), i = 0; i < 24; r += 12, i++) {
-      ex = cx + dx * r
-      ey = clamp(cy + dy * r, box.t + co.h / 2, box.b - co.h / 2)
-      cardX = clamp(side > 0 ? ex + 44 : ex - 44 - co.w, box.l, box.r - co.w)
-      const top = ey - co.h / 2
-      if (![[cardX, top], [cardX + co.w, top], [cardX, top + co.h], [cardX + co.w, top + co.h]].some(([x, y]) => inside(x, y))) break
-    }
-    // Zoomed in so far that the free space is off screen: use the small label instead
-    if (ex < box.l - 30 || ex > box.r + 30 || cy + dy * rim < box.t - 30 || cy + dy * rim > box.b + 30) return hide()
+    const spot = freeSpot(px, py, explode, W, H, box, toScreen) ?? besideSpot(px, py, box)
+    const { side } = spot
+    let { ex } = spot
+    const { ey, cardX } = spot
     const tail = side > 0 ? cardX - 4 : cardX + co.w + 4
     ex = side > 0 ? Math.min(ex, tail - 14) : Math.max(ex, tail + 14)
 
@@ -300,13 +237,59 @@ export function Labels() {
     return [co.cx + co.w / 2, co.cy, co.w + 8, co.h + 8]
   }
 
-  return null
-}
+  type Spot = { ex: number; ey: number; cardX: number; side: number }
+  type Box = ReturnType<typeof freeBox>
 
-function visibleKind(n: GraphNode, view: ReturnType<typeof useStore.getState>['view'], seeInside: boolean) {
-  if (n.kind === 'io') return view.showBody
-  if (n.kind === 'nucleus') return view.showNuclei && seeInside
-  if (n.info.lobe === 'subcortical') return view.showSubcortex && seeInside
-  if (isCortex(n)) return view.cortexOpacity > 0.2
-  return true // cerebellum, brainstem
+  /** Card position in the free space outside the brain silhouette, or null when there is none on screen. */
+  function freeSpot(
+    px: number, py: number, explode: number, W: number, H: number, box: Box,
+    toScreen: (p: THREE.Vector3) => readonly [number, number, number],
+  ): Spot | null {
+    // Brain silhouette ≈ ellipse inscribed in the projected bounding box
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity
+    for (let i = 0; i < 8; i++) {
+      corner.set(i & 1 ? BOX_MAX.x + explode : BOX_MIN.x - explode, i & 2 ? BOX_MAX.y : BOX_MIN.y, i & 4 ? BOX_MAX.z : BOX_MIN.z)
+      const [sx, sy, sz] = toScreen(corner)
+      if (sz > 1) return null // camera is at or inside the brain
+      x0 = Math.min(x0, sx); x1 = Math.max(x1, sx); y0 = Math.min(y0, sy); y1 = Math.max(y1, sy)
+    }
+    const cx = (x0 + x1) / 2
+    const cy = (y0 + y1) / 2
+    const a = ((x1 - x0) / 2) * 0.86
+    const b = ((y1 - y0) / 2) * 0.86
+    if (a > W * 0.45 || b > H * 0.45) return null // the brain fills the view
+
+    // Step out of the silhouette along the centre → structure direction
+    let dx = px - cx
+    let dy = py - cy
+    const len = Math.hypot(dx, dy)
+    if (len < 1) { dx = 1; dy = -0.3 } else { dx /= len; dy /= len }
+    const rim = 1 / Math.sqrt((dx / a) ** 2 + (dy / b) ** 2)
+    const inside = (x: number, y: number) => ((x - cx) / a) ** 2 + ((y - cy) / b) ** 2 < 1
+    const side = dx >= 0 ? 1 : -1
+
+    // Walk outward from the rim (at least 40 px past the structure) until the whole card clears the silhouette
+    let ex = 0, ey = 0, cardX = 0
+    for (let r = Math.max(rim + 26, len + 40), i = 0; i < 24; r += 12, i++) {
+      ex = cx + dx * r
+      ey = clamp(cy + dy * r, box.t + co.h / 2, box.b - co.h / 2)
+      cardX = clamp(side > 0 ? ex + 44 : ex - 44 - co.w, box.l, box.r - co.w)
+      const top = ey - co.h / 2
+      if (![[cardX, top], [cardX + co.w, top], [cardX, top + co.h], [cardX + co.w, top + co.h]].some(([x, y]) => inside(x, y))) break
+    }
+    // The free space is off screen
+    if (ex < box.l - 30 || ex > box.r + 30 || cy + dy * rim < box.t - 30 || cy + dy * rim > box.b + 30) return null
+    return { ex, ey, cardX, side }
+  }
+
+  /** Card right beside the structure, on whichever side has room, slightly raised so the leader bends. */
+  function besideSpot(px: number, py: number, box: Box): Spot {
+    const side = px + 44 + co.w <= box.r ? 1 : -1
+    const ex = px + side * 30
+    const ey = clamp(py - 28, box.t + co.h / 2, box.b - co.h / 2)
+    const cardX = clamp(side > 0 ? ex + 14 : ex - 14 - co.w, box.l, box.r - co.w)
+    return { ex, ey, cardX, side }
+  }
+
+  return null
 }
