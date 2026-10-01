@@ -153,11 +153,12 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   position: absolute; top: 50%; transform: translate(-50%, -50%); z-index: 1;
   background: var(--panel-solid); border: 1px solid var(--line-hi); border-radius: 50%; width: 26px; height: 26px; cursor: pointer; padding: 0;
   display: grid; place-items: center; color: var(--text-dim);
-  transition: color .2s, border-color .2s, background .2s;
+  transition: transform .2s var(--ease), color .2s, border-color .2s, background .2s;
 }
+/* the playhead touches the marker: pop up quickly with a slight overshoot; eases back once it has passed */
 .tl-event.hit {
-  z-index: 3; color: var(--accent); border-color: rgba(125,211,252,0.8); background: var(--panel-solid);
-  transition: color .1s, border-color .1s, background .1s;
+  transform: translate(-50%, -50%) scale(1.45); z-index: 3; color: var(--accent); border-color: rgba(125,211,252,0.8); background: var(--panel-solid);
+  transition: transform .14s cubic-bezier(.2,1.5,.4,1), color .1s, border-color .1s, background .1s;
 }
 .tl-event svg { width: 13px; height: 13px; }
 .tl-event.on { color: var(--accent); border-color: rgba(125,211,252,0.7); }

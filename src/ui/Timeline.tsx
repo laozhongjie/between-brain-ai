@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { DAY, fmtClock } from '../data/scenario'
 import { UI, useT } from '../i18n'
 import { DAY_START, EVENTS, director, useScenario } from '../sim/director'
@@ -96,6 +96,24 @@ export function Timeline() {
   const panel = useRef<HTMLDivElement>(null)
   const tab = useRef<HTMLDivElement>(null)
   const outline = useTabOutline(panel, tab)
+  const head = useRef<HTMLDivElement>(null)
+  const fill = useRef<HTMLDivElement>(null)
+  const marks = useRef<(HTMLButtonElement | null)[]>([])
+
+  // Playhead, fill and marker hits follow the director every frame (the React state is throttled)
+  useEffect(() => {
+    let raf = 0
+    const frame = () => {
+      const now = director.tl
+      if (head.current) head.current.style.left = pct(now)
+      if (fill.current) fill.current.style.width = pct(now)
+      const pxPerMin = (bar.current?.clientWidth ?? 1000) / 1440
+      EVENTS.forEach((e, i) => marks.current[i]?.classList.toggle('hit', isHit((now - e.tl) * pxPerMin)))
+      raf = requestAnimationFrame(frame)
+    }
+    frame()
+    return () => cancelAnimationFrame(raf)
+  }, [])
 
   const seekFromPointer = (e: React.PointerEvent) => {
     const r = bar.current!.getBoundingClientRect()
@@ -103,7 +121,6 @@ export function Timeline() {
   }
 
   const ev = current >= 0 ? DAY[current] : null
-  const pxPerMin = (bar.current?.clientWidth ?? 1000) / 1440
   const hours = Array.from({ length: 8 }, (_, i) => i * 3 * 60 + (9 * 60 - DAY_START)) // 09:00, 12:00, …
 
   return (
@@ -137,14 +154,15 @@ export function Timeline() {
         onPointerMove={(e) => e.buttons && seekFromPointer(e)}
       >
         <div className="tl-sky" style={{ background: SKY_GRADIENT }} />
-        <div className="tl-fill" style={{ width: pct(tl) }} />
+        <div className="tl-fill" ref={fill} />
         {hours.map((h) => (
           <span key={h} className="tl-hour" style={{ left: pct(h) }}>{fmtClock(DAY_START + h)}</span>
         ))}
         {EVENTS.map((e, i) => (
           <button
             key={e.index}
-            className={`tl-event ${current === e.index ? 'on' : ''} ${isHit((tl - e.tl) * pxPerMin) ? 'hit' : ''}`}
+            ref={(el) => { marks.current[i] = el }}
+            className={`tl-event ${current === e.index ? 'on' : ''}`}
             style={{ left: pct(e.tl), marginTop: crowded(i) ? (i % 2 ? -15 : 15) : 0 }}
             title={`${DAY[e.index].time} ${t(DAY[e.index].title)}`}
             onPointerDown={(x) => {
@@ -155,7 +173,7 @@ export function Timeline() {
             <Icon name={DAY[e.index].icon} />
           </button>
         ))}
-        <div className="tl-head" style={{ left: pct(tl) }} />
+        <div className="tl-head" ref={head} />
       </div>
     </div>
   )
