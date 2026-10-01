@@ -674,7 +674,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 .checks label { justify-content: space-between; flex-direction: row-reverse; color: var(--text-dim); transition: color .2s; }
 .checks label:hover { color: var(--text-h); }
 .checks input { -webkit-appearance: none; appearance: none; flex: none; width: 26px; height: 15px; border-radius: 99px; background: none; border: 1px solid var(--panel-border); position: relative; cursor: pointer; transition: background .25s, border-color .25s; }
-.checks input::after { content: ''; position: absolute; top: 2px; left: 2px; width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--text-faint); transition: transform .28s var(--ease), border-color .25s; }
+.checks input::after { content: ''; box-sizing: border-box; position: absolute; top: 2px; left: 2px; width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--text-faint); transition: transform .28s var(--ease), border-color .25s; }
 .checks input:checked { border-color: var(--accent-line); }
 .checks input:checked::after { transform: translateX(11px); border-color: var(--accent); }
 
@@ -863,6 +863,8 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
     /* English labels are longer: a wider label column on one line, slimmer segment buttons */
     :root:lang(en) .view-3d .right-col > .controls .row { grid-template-columns: 112px 1fr; gap: 6px; font-size: 13px; }
     :root:lang(en) .view-3d .right-col > .controls .row > span { white-space: nowrap; }
+    /* the picker rows have short labels: give the segment buttons the room */
+    :root:lang(en) .view-3d .right-col > .controls .row:has(> .seg) { grid-template-columns: 72px 1fr; }
     :root:lang(en) .view-3d .right-col > .controls .row .seg button { padding-inline: 3px; }
   }
   .view-3d .right-col > .controls > .btn { margin-top: auto; }
