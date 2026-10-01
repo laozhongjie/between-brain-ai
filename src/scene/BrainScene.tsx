@@ -7,6 +7,7 @@ import { BrainModel } from './BrainModel'
 import { CameraRig } from './CameraRig'
 import { Labels } from './Labels'
 import { Markers } from './Markers'
+import { Medium } from './Medium'
 import { Pathways } from './Pathways'
 import { Pulses } from './Pulses'
 import { updateClipPlane } from './picking'
@@ -34,6 +35,7 @@ export function BrainScene() {
       <directionalLight position={[3, -1, 3]} intensity={0.5} color="#7dd3fc" />
       <directionalLight position={[2, 1, -4]} intensity={0.35} color="#8ab4ff" />
       <ClipSync />
+      <Medium />
       <Suspense fallback={null}>
         <BrainModel />
       </Suspense>
