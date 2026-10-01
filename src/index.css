@@ -674,9 +674,9 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 .checks label { justify-content: space-between; flex-direction: row-reverse; color: var(--text-dim); transition: color .2s; }
 .checks label:hover { color: var(--text-h); }
 .checks input { -webkit-appearance: none; appearance: none; flex: none; width: 26px; height: 15px; border-radius: 99px; background: none; border: 1px solid var(--panel-border); position: relative; cursor: pointer; transition: background .25s, border-color .25s; }
-.checks input::after { content: ''; position: absolute; top: 2px; left: 2px; width: 9px; height: 9px; border-radius: 50%; background: var(--text-faint); transition: transform .28s var(--ease), background .25s; }
-.checks input:checked { border-color: transparent; } /* the accent outline is the ::before ring below */
-.checks input:checked::after { transform: translateX(11px); background: var(--accent); }
+.checks input::after { content: ''; position: absolute; top: 2px; left: 2px; width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--text-faint); transition: transform .28s var(--ease), border-color .25s; }
+.checks input:checked { border-color: var(--accent-line); }
+.checks input:checked::after { transform: translateX(11px); border-color: var(--accent); }
 
 .row { color: var(--text-dim); }
 .logo { flex: none; width: 24px; height: 24px; }
@@ -697,11 +697,13 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 /* ── View controls: segmented options on an even grid ── */
 .controls .row .seg { display: grid; grid-template-columns: repeat(2, 1fr); width: 100%; border-radius: 999px; padding: 3px; }
 .controls .row .seg button { justify-content: center; padding-inline: 4px; border-radius: 999px; }
+:root:lang(en) .controls .row .seg button { font-size: 11px; }
 /* the two-row section picker keeps quarter-circle corners; full half-circle ends would bulge at that height */
 .controls .row .seg:has(> :nth-child(3)) { border-radius: 18px; }
 .controls > .btn { border-radius: 999px; }
 /* Segment options and layer switches share the top-bar pill-tab look: no fill; hover sweeps a pill outline
-   in clockwise (conic mask on --p), the selected / on state keeps it in accent */
+   in clockwise (conic mask on --p), the selected option keeps it in accent. An on switch already has an accent
+   border, so its hover sweep is drawn in full accent on top */
 .controls .row .seg button { position: relative; }
 .controls .row .seg button::after, .checks input::before {
   content: ''; position: absolute; inset: 0; border-radius: inherit; border: 1px solid var(--line-hi); pointer-events: none;
@@ -711,8 +713,9 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 .checks input::before { inset: -1px; }
 .controls .row .seg button:hover, .controls .row .seg button.on { color: var(--text-h); background: none; }
 .controls .row .seg button:hover::after, .controls .row .seg button.on::after,
-.checks label:hover input::before, .checks input:checked::before { --p: 100%; }
-.controls .row .seg button.on::after, .checks input:checked::before { border-color: var(--accent-line); }
+.checks label:hover input::before { --p: 100%; }
+.controls .row .seg button.on::after { border-color: var(--accent-line); }
+.checks input:checked::before { border-color: var(--accent); }
 
 /* ── Brain ↔ AI: motion ── */
 /* Navigation: an accent bar slides in on hover and stays lit on the current page */
