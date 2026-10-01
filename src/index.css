@@ -308,6 +308,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .schematic { position: absolute; top: 112px; left: 16px; right: 332px; bottom: 212px; }
 .schematic svg { width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
 .schematic svg:active { cursor: grabbing; }
+.schematic svg text { font-weight: 350; text-rendering: geometricPrecision; }
 .systems.compact { position: absolute; top: 64px; left: 16px; right: 332px; display: flex; align-items: center; gap: 10px; padding: 6px 10px; z-index: 2; }
 .systems.compact h3 { margin: 0; white-space: nowrap; }
 .systems.compact .system-grid { display: flex; flex-wrap: wrap; gap: 5px; }
@@ -334,14 +335,14 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .sstage-tag { fill: #0b1019; stroke: rgba(170,205,245,0.22); stroke-width: 1; }
 /* Zones (input · brain loop · output) and functional lanes behind the diagram */
 .szone { fill: rgba(170,195,230,0.025); stroke: rgba(170,205,245,0.13); stroke-width: 1; pointer-events: none; }
-.szone-title { fill: var(--text-h); font-size: 13px; font-weight: 500; letter-spacing: 0.08em; }
+.szone-title { fill: var(--text-h); font-size: 13px; font-weight: 430; letter-spacing: 0.08em; }
 .slane { pointer-events: none; }
 .slane-box { fill: color-mix(in srgb, var(--c) 4%, transparent); stroke: color-mix(in srgb, var(--c) 32%, transparent); stroke-width: 1; stroke-dasharray: 4 4; }
 .slane-tag { fill: #0b1019; stroke: color-mix(in srgb, var(--c) 45%, transparent); stroke-width: 1; }
 .slane-text { fill: var(--c); font-size: 10.5px; letter-spacing: 0.06em; }
 .snode { cursor: pointer; transition: opacity 0.3s; }
 .snode .sbox { fill: #0f1520; stroke-width: 1.3; transition: fill .2s; }
-.snode text { fill: var(--text-h); font-size: 14.5px; font-weight: 500; pointer-events: none; }
+.snode text { fill: var(--text-h); font-size: 14.5px; font-weight: 380; pointer-events: none; }
 .sflash { fill-opacity: 0.45; stroke-width: 2.8; pointer-events: none; }
 .sflash-layer { mix-blend-mode: screen; }
 .sglow { pointer-events: none; }
