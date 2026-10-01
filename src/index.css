@@ -782,7 +782,12 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   .view-3d .right-col > .controls .checks { row-gap: clamp(6px, 1.6cqh, 12px); }
   /* tall enough: the layer switches stack in one column and spread into the free height */
   @container (min-height: 470px) {
-    .view-3d .right-col > .controls .checks { grid-template-columns: 1fr; row-gap: clamp(10px, 2.4cqh, 18px); }
+    .view-3d .right-col > .controls .checks { grid-template-columns: 1fr; row-gap: clamp(12px, 3cqh, 22px); font-size: 13.5px; }
+    /* larger switches to match the roomier rows */
+    .view-3d .right-col > .controls .checks input { width: 36px; height: 20px; }
+    .view-3d .right-col > .controls .checks input::after { top: 3px; left: 3px; width: 12px; height: 12px; }
+    .view-3d .right-col > .controls .checks input:checked::after { transform: translateX(16px); }
+    .view-3d .right-col > .controls .row { font-size: 13.5px; }
   }
   .view-3d .right-col > .controls > .btn { margin-top: auto; }
   .atlas .systems.compact h3 { display: none; }
