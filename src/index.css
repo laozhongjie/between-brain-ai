@@ -145,8 +145,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .tl-bar { position: relative; height: 64px; margin: 8px 4px 18px; border-radius: 9px; background: rgba(0,0,0,0.3); border: 1px solid var(--panel-border); cursor: pointer; touch-action: none; }
 .tl-sky { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
 /* played part: a thin progress line along the bottom, leaving the sky tint clean */
-.tl-fill { position: absolute; left: 0; bottom: 0; height: 2px; background: linear-gradient(90deg, rgba(94,234,212,0.2), var(--accent)); border-radius: 0 0 0 9px; box-shadow: 0 0 8px rgba(125,211,252,0.6); pointer-events: none; }
-.tl-head { position: absolute; top: -7px; bottom: -7px; width: 1px; background: linear-gradient(var(--accent), rgba(125,211,252,0.15)); box-shadow: 0 0 10px var(--accent); pointer-events: none; z-index: 2; }
+.tl-fill { position: absolute; left: 0; bottom: 0; width: 100%; height: 2px; transform-origin: left; transform: scaleX(0); will-change: transform; background: linear-gradient(90deg, rgba(94,234,212,0.2), var(--accent)); border-radius: 0 0 0 9px; box-shadow: 0 0 8px rgba(125,211,252,0.6); pointer-events: none; }
+.tl-head { position: absolute; left: 0; top: -7px; bottom: -7px; width: 1px; will-change: transform; background: linear-gradient(var(--accent), rgba(125,211,252,0.15)); box-shadow: 0 0 10px var(--accent); pointer-events: none; z-index: 2; }
 .tl-head::before { content: ''; position: absolute; top: -3px; left: -3px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
 .tl-hour { position: absolute; bottom: -17px; transform: translateX(-50%); font-size: 10px; color: var(--text-dim); font-family: var(--mono); pointer-events: none; }
 .tl-event {

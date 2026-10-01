@@ -105,9 +105,11 @@ export function Timeline() {
     let raf = 0
     const frame = () => {
       const now = director.tl
-      if (head.current) head.current.style.left = pct(now)
-      if (fill.current) fill.current.style.width = pct(now)
       const pxPerMin = (bar.current?.clientWidth ?? 1000) / 1440
+      // Transforms, not left/width: inside an event the playhead moves ~0.01 px per frame, which a
+      // pixel-snapped left would turn into a one-pixel jump every second or so
+      if (head.current) head.current.style.transform = `translateX(${now * pxPerMin}px)`
+      if (fill.current) fill.current.style.transform = `scaleX(${now / 1440})`
       EVENTS.forEach((e, i) => marks.current[i]?.classList.toggle('hit', isHit((now - e.tl) * pxPerMin)))
       raf = requestAnimationFrame(frame)
     }
