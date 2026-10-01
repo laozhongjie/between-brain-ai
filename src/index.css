@@ -673,9 +673,9 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 .checks { gap: 6px 14px; }
 .checks label { justify-content: space-between; flex-direction: row-reverse; color: var(--text-dim); transition: color .2s; }
 .checks label:hover { color: var(--text-h); }
-.checks input { -webkit-appearance: none; appearance: none; flex: none; width: 26px; height: 15px; border-radius: 99px; background: rgba(255,255,255,0.07); border: 1px solid var(--panel-border); position: relative; cursor: pointer; transition: background .25s, border-color .25s; }
+.checks input { -webkit-appearance: none; appearance: none; flex: none; width: 26px; height: 15px; border-radius: 99px; background: none; border: 1px solid var(--panel-border); position: relative; cursor: pointer; transition: background .25s, border-color .25s; }
 .checks input::after { content: ''; position: absolute; top: 2px; left: 2px; width: 9px; height: 9px; border-radius: 50%; background: var(--text-faint); transition: transform .28s var(--ease), background .25s; }
-.checks input:checked { background: rgba(125,211,252,0.16); border-color: rgba(125,211,252,0.5); }
+.checks input:checked { border-color: transparent; } /* the accent outline is the ::before ring below */
 .checks input:checked::after { transform: translateX(11px); background: var(--accent); }
 
 .row { color: var(--text-dim); }
@@ -700,6 +700,19 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 /* the two-row section picker keeps quarter-circle corners; full half-circle ends would bulge at that height */
 .controls .row .seg:has(> :nth-child(3)) { border-radius: 18px; }
 .controls > .btn { border-radius: 999px; }
+/* Segment options and layer switches share the top-bar pill-tab look: no fill; hover sweeps a pill outline
+   in clockwise (conic mask on --p), the selected / on state keeps it in accent */
+.controls .row .seg button { position: relative; }
+.controls .row .seg button::after, .checks input::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; border: 1px solid var(--line-hi); pointer-events: none;
+  -webkit-mask: conic-gradient(from 270deg, #000 var(--p), transparent 0); mask: conic-gradient(from 270deg, #000 var(--p), transparent 0);
+  transition: --p .5s var(--ease), border-color .25s var(--ease);
+}
+.checks input::before { inset: -1px; }
+.controls .row .seg button:hover, .controls .row .seg button.on { color: var(--text-h); background: none; }
+.controls .row .seg button:hover::after, .controls .row .seg button.on::after,
+.checks label:hover input::before, .checks input:checked::before { --p: 100%; }
+.controls .row .seg button.on::after, .checks input:checked::before { border-color: var(--accent-line); }
 
 /* ── Brain ↔ AI: motion ── */
 /* Navigation: an accent bar slides in on hover and stays lit on the current page */
