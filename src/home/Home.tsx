@@ -27,6 +27,13 @@ const OPEN = [at(20), at(OPENING_VH)] // the disc grows until it fills the scree
 const CH = [at(OPENING_VH), at(OPENING_VH + CHAPTERS.length * CHAPTER_VH)] // five chapters
 const CTA = CH[1] // closing call to action
 const CTA_RAMP = at(46)
+const chapterAt = (i: number) => CH[0] + ((i + 0.5) / CHAPTERS.length) * (CH[1] - CH[0])
+/** Where the arrow keys step: the top, the fully opened brain | AI view just before the first chapter,
+ *  each chapter's centre, the closing view. */
+const OPENED = at(OPENING_VH - 4)
+const KEY_STOPS = [0, OPENED, ...CHAPTERS.map((_, i) => chapterAt(i)), 1]
+// a gentle ease: the opening already eases its own progress, a steeper curve would bunch it into a jolt
+const easeInOut = (k: number) => (1 - Math.cos(Math.PI * k)) / 2
 const SMOOTH_MS = 110 // the stage eases toward the scroll position, so mouse-wheel steps glide like a trackpad
 /** Closing headline, one entry per line; its words rise in one after another (see .cta-word). */
 const CTA_LINES = ['between what we understand', 'and what we can build']
@@ -219,10 +226,46 @@ export function Home() {
 
   const toChapter = (i: number) => {
     const sc = scroller.current!
-    const max = sc.scrollHeight - sc.clientHeight
-    const p = CH[0] + ((i + 0.5) / CHAPTERS.length) * (CH[1] - CH[0])
-    sc.scrollTo({ top: p * max, behavior: 'smooth' })
+    sc.scrollTo({ top: chapterAt(i) * (sc.scrollHeight - sc.clientHeight), behavior: 'smooth' })
   }
+
+  // Arrow up / down glide one stop (our own eased tween: a browser smooth scroll rushes the long opening).
+  // Presses during a glide count from where it is heading; any other input (wheel, touch, click) stops it
+  useEffect(() => {
+    const sc = scroller.current!
+    let aim: number | null = null
+    let glide = 0
+    const stop = () => { cancelAnimationFrame(glide); glide = 0; aim = null }
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.key !== 'ArrowDown' && e.key !== 'ArrowUp') || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
+      const max = sc.scrollHeight - sc.clientHeight
+      if (max <= 0) return
+      e.preventDefault()
+      const from = aim ?? sc.scrollTop / max
+      const to = e.key === 'ArrowDown' ? KEY_STOPS.find((s) => s > from + 1e-3) : KEY_STOPS.findLast((s) => s < from - 1e-3)
+      if (to === undefined) return
+      cancelAnimationFrame(glide)
+      aim = to
+      const y0 = sc.scrollTop
+      const y1 = to * max
+      const dur = Math.min(from, to) < OPENED + 1e-3 ? 1800 : 1100 // the opening unfolds slower than a chapter turn
+      const t0 = performance.now()
+      const step = (now: number) => {
+        const k = Math.min(1, (now - t0) / dur)
+        sc.scrollTop = y0 + (y1 - y0) * easeInOut(k)
+        if (k < 1) glide = requestAnimationFrame(step)
+        else { glide = 0; aim = null }
+      }
+      glide = requestAnimationFrame(step)
+    }
+    window.addEventListener('keydown', onKey)
+    for (const t of ['wheel', 'touchstart', 'pointerdown'] as const) window.addEventListener(t, stop, { passive: true })
+    return () => {
+      cancelAnimationFrame(glide)
+      window.removeEventListener('keydown', onKey)
+      for (const t of ['wheel', 'touchstart', 'pointerdown'] as const) window.removeEventListener(t, stop)
+    }
+  }, [])
 
   const ch = chapter >= 0 ? CHAPTERS[chapter] : null
 
