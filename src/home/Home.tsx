@@ -8,6 +8,7 @@ import { CHAPTERS, homeState } from './chapters'
 import { HomeAI } from './HomeAI'
 import { HeroField } from './HeroField'
 import { HomeBrain } from './HomeBrain'
+import { HomeMorph } from './HomeMorph'
 
 const PANEL_GAP = 8
 const MARK_GAP_RATIO = 0.11
@@ -22,7 +23,8 @@ const CLOSING_VH = 66
 const SCROLL_VH = OPENING_VH + CHAPTERS.length * CHAPTER_VH + CLOSING_VH // the track is this plus one screen
 const at = (vh: number) => vh / SCROLL_VH
 const HERO_END = at(59) // the hero's labels, lines and wordmark fade away
-const FILL = [at(13), at(130)] // the white halves turn into brain | AI, from the centre outward
+const MORPH = [at(70), at(OPENING_VH - 1)] // the white halves flow out as a liquid that washes brain | AI clean
+const BAND = 0.24 // width of the running liquid, fraction of a panel
 const OPEN = [at(20), at(OPENING_VH)] // the disc grows until it fills the screen
 const CH = [at(OPENING_VH), at(OPENING_VH + CHAPTERS.length * CHAPTER_VH)] // five chapters
 const CTA = CH[1] // closing call to action
@@ -178,24 +180,36 @@ export function Home() {
       if (Math.abs(target - p) < 1e-4) p = target
       last = p === target ? 0 : now
       const h = clamp(p / HERO_END)
-      const wipe = clamp((p - FILL[0]) / (FILL[1] - FILL[0]))
+      const morph = clamp((p - MORPH[0]) / (MORPH[1] - MORPH[0]))
       const open = ease(clamp((p - OPEN[0]) / (OPEN[1] - OPEN[0])))
       const g = heroGeom(st.clientWidth, st.clientHeight)
       const cover = Math.hypot(st.clientWidth / 2, st.clientHeight / 2) + PANEL_GAP
       const cta = clamp((p - CTA) / CTA_RAMP)
+      const gap = g.r * MARK_GAP_RATIO * (1 - open) + PANEL_GAP / 2 * open
+      const r = g.r + open * open * (cover - g.r)
+      // the solid white hands over to the liquid (same shape) as soon as it starts to flow. The liquid runs
+      // out of the slit as a band, as far as the disc has opened; behind it brain | AI are washed clean
+      const flood = (1 + BAND + 0.1) * clamp((r - g.r) / ((cover - g.r) * 0.92))
+      const front = flood - BAND
       for (const el of [sc, st]) el.style.setProperty('--hero', h.toFixed(3))
-      st.style.setProperty('--wipe', wipe.toFixed(4))
-      // the worlds switch on under the still-solid white, before it starts to recede
-      st.style.setProperty('--reveal', clamp(p / FILL[0]).toFixed(3))
+      // the white disc itself stays on faintly, so the window is seen growing, and goes as the liquid soaks in
+      st.style.setProperty('--fill', (1 - clamp(morph / 0.01) * (1 - 0.05 * (1 - clamp(front)))).toFixed(3))
+      st.style.setProperty('--front', front.toFixed(4))
       st.style.setProperty('--open', open.toFixed(3))
-      st.style.setProperty('--half-gap', `${g.r * MARK_GAP_RATIO * (1 - open) + PANEL_GAP / 2 * open}px`)
-      st.style.setProperty('--r', `${(g.r + open * open * (cover - g.r)).toFixed(1)}px`)
+      st.style.setProperty('--half-gap', `${gap}px`)
+      st.style.setProperty('--r', `${r.toFixed(1)}px`)
       st.style.setProperty('--cta', cta.toFixed(3))
       st.classList.toggle('cta-on', cta > 0.5)
       homeState.hero = h
       const c = p < CH[0] ? -1 : Math.min(CHAPTERS.length - 1, Math.floor(((p - CH[0]) / (CH[1] - CH[0])) * CHAPTERS.length))
       homeState.chapter = c
       homeState.open = open
+      homeState.morph = morph
+      homeState.flood = flood
+      homeState.front = front
+      homeState.r0 = g.r
+      homeState.r = r
+      homeState.gap = gap
       setChapter(c)
       if (p !== target) raf = requestAnimationFrame(update)
     }
@@ -211,6 +225,7 @@ export function Home() {
       homeState.chapter = -1
       homeState.open = 0
       homeState.hero = 0
+      homeState.morph = 0
     }
   }, [])
 
@@ -307,10 +322,16 @@ export function Home() {
           </div>
 
           {/* the mark itself: white halves that turn into windows as the page scrolls */}
-          <div className="hero-glow left" />
-          <div className="hero-glow right" />
           <div className="hero-fill left" />
           <div className="hero-fill right" />
+          <HomeMorph />
+          {/* goo: blur the liquid's alpha, then threshold it, so nearby shapes melt together (HomeMorph) */}
+          <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden>
+            <filter id="home-goo" colorInterpolationFilters="sRGB">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
+              <feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9" />
+            </filter>
+          </svg>
           <HeroField />
           <Hero g={geom} />
 
