@@ -19,10 +19,10 @@ const GLOW_LO = 0.07
 const GLOW_HI = 0.3
 /** Background glow per brain state: teal awake, cooler and brighter focused, deep blue asleep, violet dreaming */
 const STATE_GLOW = {
-  wake: 'rgba(40,110,150,0.26)',
-  focus: 'rgba(60,140,195,0.32)',
-  nrem: 'rgba(30,55,140,0.24)',
-  rem: 'rgba(95,70,165,0.27)',
+  wake: 'rgba(40,120,165,0.36)',
+  focus: 'rgba(70,160,215,0.44)',
+  nrem: 'rgba(35,60,175,0.36)',
+  rem: 'rgba(125,80,205,0.38)',
 } as const
 /** Simulation node indices behind each schematic key (both hemispheres) */
 const INDICES = new Map<string, number[]>()

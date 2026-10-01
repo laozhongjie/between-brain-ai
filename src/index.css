@@ -45,28 +45,20 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .stage { position: absolute; inset: 0; background: #070a10; }
 /* Dot grid and a cool haze over the 3D canvas (pointer-transparent) */
 .stage::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 45% 50% at 50% 42%, rgba(56,130,200,0.10), transparent 70%), radial-gradient(circle, rgba(160,190,230,0.07) 1px, transparent 1.3px) 0 0 / 24px 24px; -webkit-mask: radial-gradient(ellipse 70% 70% at 50% 45%, #000 30%, transparent 85%); mask: radial-gradient(ellipse 70% 70% at 50% 45%, #000 30%, transparent 85%); }
-/* Schematic: an engineering-drawing ground in the 3D view's teal (a soft glow, fine and coarse grid);
-   static, so it never competes with the pulses. The stage's dot grid would clash with it. */
-@property --state-glow { syntax: '<color>'; inherits: true; initial-value: rgba(40,110,150,0.26); }
-.atlas.view-schematic {
-  transition: --state-glow 20s linear;
-  background:
-    linear-gradient(rgba(150,190,230,0.07) 1px, transparent 1px) 0 0 / 120px 120px,
-    linear-gradient(90deg, rgba(150,190,230,0.07) 1px, transparent 1px) 0 0 / 120px 120px,
-    linear-gradient(rgba(150,190,230,0.032) 1px, transparent 1px) 0 0 / 24px 24px,
-    linear-gradient(90deg, rgba(150,190,230,0.032) 1px, transparent 1px) 0 0 / 24px 24px,
-    #070a10;
-}
+/* Schematic: a dark ground lit only by a soft glow (below), tinted by the brain state; no grid, which
+   competed with the diagram's own lines. The stage's dot grid is hidden for the same reason. */
+@property --state-glow { syntax: '<color>'; inherits: true; initial-value: rgba(40,120,165,0.36); }
+.atlas.view-schematic { transition: --state-glow 20s linear; background: #070a10; }
 .view-schematic .stage::after { display: none; }
 /* the glow: tinted by the brain state (--state-glow, set in Schematic.tsx) and slowly breathing */
 .atlas.view-schematic::before {
   content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(ellipse 60% 55% at 50% 45%, var(--state-glow), transparent 70%);
-  animation: glow-breathe 22s ease-in-out infinite alternate;
+  background: radial-gradient(ellipse 68% 62% at 50% 45%, var(--state-glow), transparent 72%);
+  animation: glow-breathe 16s ease-in-out infinite alternate;
 }
 @keyframes glow-breathe {
-  from { opacity: 0.7; transform: translate(-1.5%, -1%); }
-  to { opacity: 1; transform: translate(1.5%, 1%) scale(1.06); }
+  from { opacity: 0.35; transform: translate(-4%, -3%) scale(0.95); }
+  to { opacity: 1; transform: translate(4%, 3%) scale(1.12); }
 }
 .label-layer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 
