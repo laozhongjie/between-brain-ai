@@ -1,6 +1,6 @@
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useThree } from '@react-three/fiber'
 import { Bloom, EffectComposer, Vignette } from '@react-three/postprocessing'
-import { Suspense, useEffect } from 'react'
+import { Suspense, useEffect, useLayoutEffect } from 'react'
 import * as THREE from 'three'
 import { useStore } from '../store'
 import { BrainModel } from './BrainModel'
@@ -16,6 +16,31 @@ function ClipSync() {
   const axis = useStore((s) => s.view.clipAxis)
   const offset = useStore((s) => s.view.clipOffset)
   useEffect(() => updateClipPlane(axis, offset), [axis, offset])
+  return null
+}
+
+/**
+ * The canvas fills the window behind translucent panels, but the brain should sit in the middle of the
+ * part above the timeline. On wide screens the projection is framed on that upper part (aspect and view
+ * offset), and the rest of the canvas simply extends below it.
+ */
+function FrameAboveTimeline() {
+  const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera
+  const size = useThree((s) => s.size)
+  const gl = useThree((s) => s.gl)
+  useLayoutEffect(() => {
+    const bottom = document.querySelector('.atlas .bottom')?.getBoundingClientRect()
+    const top = gl.domElement.getBoundingClientRect().top
+    const h = size.width > 1100 && bottom ? Math.max(240, Math.min(size.height, bottom.top - top)) : size.height
+    if (h < size.height) {
+      camera.aspect = size.width / h
+      camera.setViewOffset(size.width, h, 0, 0, size.width, size.height)
+    } else {
+      camera.aspect = size.width / size.height
+      camera.clearViewOffset()
+    }
+    camera.updateProjectionMatrix()
+  }, [camera, size, gl])
   return null
 }
 
@@ -35,6 +60,7 @@ export function BrainScene() {
       <directionalLight position={[3, -1, 3]} intensity={0.5} color="#7dd3fc" />
       <directionalLight position={[2, 1, -4]} intensity={0.35} color="#8ab4ff" />
       <ClipSync />
+      <FrameAboveTimeline />
       <Medium />
       <Suspense fallback={null}>
         <BrainModel />

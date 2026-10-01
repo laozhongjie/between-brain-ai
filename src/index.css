@@ -771,9 +771,8 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   }
   .atlas .systems.compact { justify-content: center; padding: 4px 6px; }
   .view-schematic .systems.compact { position: static; }
-  /* 3D: the canvas spans the full width behind the side columns but stops above the timeline; the picker
-     floats at the top of the middle column */
-  .view-3d .stage { bottom: var(--low); }
+  /* 3D: the canvas fills the window behind the translucent panels (BrainScene centres the view above the
+     timeline); the picker floats at the top of the middle column */
   .view-3d .systems.compact { top: var(--top); left: calc(16px + var(--side) + var(--gap)); right: calc(16px + var(--side) + var(--gap)); }
   /* 3D: the output panel keeps its compact height above the narration, which takes what is left;
      the view controls fill the right column down to the playback tab */
