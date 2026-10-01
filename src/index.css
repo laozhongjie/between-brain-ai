@@ -49,14 +49,31 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
    static, so it never competes with the pulses. The stage's dot grid would clash with it. */
 .atlas.view-schematic {
   background:
-    radial-gradient(ellipse 60% 55% at 50% 45%, rgba(40,110,150,0.16), transparent 70%),
-    linear-gradient(rgba(150,190,230,0.045) 1px, transparent 1px) 0 0 / 120px 120px,
-    linear-gradient(90deg, rgba(150,190,230,0.045) 1px, transparent 1px) 0 0 / 120px 120px,
-    linear-gradient(rgba(150,190,230,0.02) 1px, transparent 1px) 0 0 / 24px 24px,
-    linear-gradient(90deg, rgba(150,190,230,0.02) 1px, transparent 1px) 0 0 / 24px 24px,
+    radial-gradient(ellipse 60% 55% at 50% 45%, rgba(40,110,150,0.26), transparent 70%),
+    linear-gradient(rgba(150,190,230,0.07) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(90deg, rgba(150,190,230,0.07) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(rgba(150,190,230,0.032) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(150,190,230,0.032) 1px, transparent 1px) 0 0 / 24px 24px,
     #070a10;
 }
 .view-schematic .stage::after { display: none; }
+/* a soft scan band sweeps the grid left to right every 14 s, lighting only the grid lines it crosses */
+.atlas.view-schematic::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(rgba(150,200,240,0.22) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(90deg, rgba(150,200,240,0.22) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(rgba(150,200,240,0.12) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(150,200,240,0.12) 1px, transparent 1px) 0 0 / 24px 24px;
+  -webkit-mask: linear-gradient(90deg, transparent, #000 50%, transparent) no-repeat;
+  mask: linear-gradient(90deg, transparent, #000 50%, transparent) no-repeat;
+  -webkit-mask-size: 26% 100%; mask-size: 26% 100%;
+  animation: grid-scan 14s linear infinite;
+}
+@keyframes grid-scan {
+  from { -webkit-mask-position: -40% 0; mask-position: -40% 0; }
+  to { -webkit-mask-position: 140% 0; mask-position: 140% 0; }
+}
 .label-layer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 
 .label {
