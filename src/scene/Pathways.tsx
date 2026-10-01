@@ -6,7 +6,9 @@ import { SYSTEMS } from '../data/regions'
 import { ink } from '../theme'
 import { signals } from '../sim/signals'
 import { useStore } from '../store'
-import { pathCurves } from './curves'
+import { NODE_BY_ID } from '../data/nodes'
+import { ORGAN_HOPS, arc, pathCurves } from './curves'
+import { nodePosition } from './layout'
 import { currentFocus } from './focusState'
 
 /** Tubes along the pathways, shown while signals travel them, when touching the selected region, or in focus mode. */
@@ -44,6 +46,29 @@ export function Pathways() {
 
   useEffect(() => () => meshes.forEach((m) => m.geometry.dispose()), [meshes])
 
+  // Body organs keep a very faint permanent link to the brain, so they never float unattached
+  const organMat = useMemo(
+    () => new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.1, blending: THREE.AdditiveBlending, depthTest: false, depthWrite: false, toneMapped: false }),
+    [],
+  )
+  const organLinks = useMemo(
+    () =>
+      ORGAN_HOPS.map(({ organ, other }) => {
+        const o = NODE_BY_ID[organ]
+        const n = NODE_BY_ID[other]
+        const geo = new THREE.TubeGeometry(arc(nodePosition(o, explode), nodePosition(n, explode, n.kind === 'mesh')), 24, 0.0035, 4, false)
+        const c = new THREE.Color(ink(SYSTEMS[o.info.system].color, 0.3))
+        geo.setAttribute('color', new THREE.Float32BufferAttribute(Array.from({ length: geo.attributes.position.count }, () => [c.r, c.g, c.b]).flat(), 3))
+        const m = new THREE.Mesh(geo, organMat)
+        m.renderOrder = 19
+        m.raycast = () => {}
+        return m
+      }),
+    [explode, organMat],
+  )
+  useEffect(() => () => organLinks.forEach((m) => m.geometry.dispose()), [organLinks])
+  const showBody = useStore((s) => s.view.showBody)
+
   useFrame(() => {
     const sel = useStore.getState().selected
     const f = currentFocus()
@@ -71,6 +96,7 @@ export function Pathways() {
       {meshes.map((m, i) => (
         <primitive key={i} object={m} />
       ))}
+      {show && showBody && !focus && organLinks.map((m, i) => <primitive key={`o${i}`} object={m} />)}
     </group>
   )
 }

@@ -33,7 +33,7 @@ const BOW = 0.14
 const UP = new THREE.Vector3(0, 1, 0)
 const SIDE = new THREE.Vector3(1, 0, 0)
 
-function arc(a: THREE.Vector3, b: THREE.Vector3) {
+export function arc(a: THREE.Vector3, b: THREE.Vector3) {
   const chord = b.clone().sub(a)
   const len = chord.length()
   const dir = chord.divideScalar(len || 1)
@@ -64,3 +64,20 @@ export function pathCurves(explode: number): PathCurve[] {
   cacheKey = explode
   return cache
 }
+
+/** Each distinct hop with a body organ at one end, keyed by the organ (for its colour). */
+export const ORGAN_HOPS: { organ: string; other: string }[] = (() => {
+  const seen = new Set<string>()
+  const out: { organ: string; other: string }[] = []
+  for (const p of PATHWAYS) {
+    for (let i = 1; i < p.nodes.length; i++) {
+      const [a, b] = [p.nodes[i - 1], p.nodes[i]]
+      const organ = NODE_BY_ID[a].kind === 'io' ? a : NODE_BY_ID[b].kind === 'io' ? b : null
+      const key = [a, b].sort().join('|')
+      if (!organ || seen.has(key)) continue
+      seen.add(key)
+      out.push({ organ, other: organ === a ? b : a })
+    }
+  }
+  return out
+})()
