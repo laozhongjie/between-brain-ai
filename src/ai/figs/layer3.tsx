@@ -10,7 +10,7 @@ function PoolFig({ t }: FigProps) {
   const id = 'f-pool'
   const pool = [[60, 150], [110, 170], [210, 170], [260, 150], [160, 190]]
   return (
-    <Svg id={id} label={t(b('除法归一化环路', 'Divisive normalisation circuit'))}>
+    <Svg id={id} label={t(b('除法归一化环路', 'Divisive normalization circuit'))}>
       <Arrow id={id} x1={160} y1={14} x2={160} y2={50} color="pink" label={t(b('驱动输入 xᵢ', 'drive xᵢ'))} lx={44} ly={0} />
       <Dot cx={160} cy={70} r={18} fill={C.pink} stroke={C.pinkD} label="rᵢ" size={12} />
       <Arrow id={id} x1={160} y1={88} x2={160} y2={120} color="pink" head="none" />
@@ -22,7 +22,7 @@ function PoolFig({ t }: FigProps) {
       ))}
       <Dot cx={160} cy={134} r={14} fill={C.sky} stroke={C.skyD} label="I" size={11} />
       <Arrow id={id} x1={148} y1={124} x2={150} y2={90} color="sky" head="bar" bend={-18} label={t(b('÷ 群体总活动', '÷ pooled activity'))} lx={-50} ly={-2} />
-      <T x={60} y={210} size={9.5} color={C.dim} s={t(b('邻近群体', 'neighbouring pool'))} />
+      <T x={60} y={210} size={9.5} color={C.dim} s={t(b('邻近群体', 'neighboring pool'))} />
       <T x={290} y={70} size={10.5} s="rᵢ = xᵢ / (σ + Σⱼ xⱼ)" />
       <T x={290} y={100} size={9.5} color={C.skyD} s={t(b('由抑制性中间\n神经元实现', 'implemented by\ninhibitory interneurons'))} />
     </Svg>
@@ -158,7 +158,7 @@ function CerebellumFig({ t }: FigProps) {
   const gy = Array.from({ length: 12 }, (_, i) => 40 + i * 13)
   return (
     <Svg id={id} label={t(b('小脑的扩展编码环路', 'Cerebellar expansion circuit'))}>
-      {[70, 110, 150].map((y, i) => <Arrow key={i} id={id} x1={10} y1={y} x2={62} y2={y} color="sky" label={i === 0 ? t(b('苔藓纤维（少）', 'mossy fibres (few)')) : ''} ly={-24} lx={16} />)}
+      {[70, 110, 150].map((y, i) => <Arrow key={i} id={id} x1={10} y1={y} x2={62} y2={y} color="sky" label={i === 0 ? t(b('苔藓纤维（少）', 'mossy fibers (few)')) : ''} ly={-24} lx={16} />)}
       {gy.map((y, i) => (
         <g key={i}>
           {[0, 1, 2, 3].map((k) => <line key={k} x1={64} y1={70 + ((i + k) % 3) * 40} x2={108} y2={y} stroke={C.skyD} strokeWidth={0.5} opacity={0.5} />)}
@@ -167,11 +167,11 @@ function CerebellumFig({ t }: FigProps) {
         </g>
       ))}
       <T x={112} y={206} size={9.5} color={C.pinkD} s={t(b('颗粒细胞（极多、稀疏）\n每个只有约 4 个输入', 'granule cells (many, sparse)\n~4 inputs each'))} />
-      <T x={190} y={26} size={9.5} color={C.dim} s={t(b('平行纤维', 'parallel fibres'))} />
+      <T x={190} y={26} size={9.5} color={C.dim} s={t(b('平行纤维', 'parallel fibers'))} />
       <path d="M270,40 L262,200 L290,200 Z" fill={C.lav} stroke={C.lavD} strokeWidth={1.4} />
       <T x={300} y={122} anchor="start" size={9.5} color={C.lavD} s={t(b('浦肯野细胞\n线性读出', 'Purkinje cell\nlinear read-out'))} />
       <Arrow id={id} x1={340} y1={216} x2={292} y2={186} color="peach" />
-      <T x={300} y={18} size={9.5} color={C.peachD} s={t(b('攀缘纤维（右下）\n送来误差教学信号', 'climbing fibre (bottom right)\nbrings the error signal'))} />
+      <T x={300} y={18} size={9.5} color={C.peachD} s={t(b('攀缘纤维（右下）\n送来误差教学信号', 'climbing fiber (bottom right)\nbrings the error signal'))} />
     </Svg>
   )
 }
@@ -200,7 +200,7 @@ function FfnFig({ t }: FigProps) {
 export const LAYER3_FIGS: Record<string, FigPair> = {
   normalization: {
     brain: PoolFig, ai: SoftmaxFig,
-    brainCap: b('除法归一化：神经元 rᵢ 的驱动被邻近群体的总活动除一下，这一步由抑制性中间神经元（I）完成，于是响应对整体强度不敏感。', 'Divisive normalisation: neuron rᵢ’s drive is divided by the pool’s total activity via an inhibitory interneuron (I), making responses insensitive to overall intensity.'),
+    brainCap: b('除法归一化：神经元 rᵢ 的驱动被邻近群体的总活动除一下，这一步由抑制性中间神经元（I）完成，于是响应对整体强度不敏感。', 'Divisive normalization: neuron rᵢ’s drive is divided by the pool’s total activity via an inhibitory interneuron (I), making responses insensitive to overall intensity.'),
     aiCap: b('Softmax：先取指数再除以总和，强者更强、弱者更弱，输出和为 1。它是一个固定的全局运算。', 'Softmax: exponentiate then divide by the sum; strong entries grow, weak ones shrink, outputs sum to 1. It is a fixed global op.'),
   },
   'feedback-predictive': {
@@ -215,7 +215,7 @@ export const LAYER3_FIGS: Record<string, FigPair> = {
   },
   expansion: {
     brain: CerebellumFig, ai: FfnFig,
-    brainCap: b('小脑：少量苔藓纤维投射到数量极多的颗粒细胞（每个约 4 个输入，只有少数活跃），再由浦肯野细胞线性读出；攀缘纤维送来误差信号。', 'Cerebellum: few mossy fibres fan out to vast numbers of granule cells (~4 inputs each, few active), read out linearly by Purkinje cells; climbing fibres bring the error signal.'),
+    brainCap: b('小脑：少量苔藓纤维投射到数量极多的颗粒细胞（每个约 4 个输入，只有少数活跃），再由浦肯野细胞线性读出；攀缘纤维送来误差信号。', 'Cerebellum: few mossy fibers fan out to vast numbers of granule cells (~4 inputs each, few active), read out linearly by Purkinje cells; climbing fibers bring the error signal.'),
     aiCap: b('Transformer 前馈层：把 d 维扩展到 4d，经过 ReLU 后再压回 d。结构相似，但这里的扩展是稠密且全部参与训练的。', 'Transformer FFN: expand d to 4d, apply ReLU, project back to d. Similar shape, but the expansion is dense and fully trained.'),
   },
 }

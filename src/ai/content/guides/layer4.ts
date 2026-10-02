@@ -4,7 +4,7 @@ const b = (zh: string, en: string) => ({ zh, en })
 
 export const SYSTEM_GUIDES: Record<string, CardGuide> = {
   'sys-vision': {
-    question: b('看清一个物体，需要一次识别还是不断观察？', 'Does recognising an object take one pass or repeated observation?'),
+    question: b('看清一个物体，需要一次识别还是不断观察？', 'Does recognizing an object take one pass or repeated observation?'),
     answer: b('人会移动眼睛、结合上下文重新观察；标准图像分类器通常对给定图像完成一次识别。', 'People move their eyes and revisit what they see using context; a standard image classifier typically makes one prediction from a supplied image.'),
     scope: b('这里主要比较人类视觉与前馈 CNN、ViT 图像分类器。主动视觉、循环视觉和具身模型已有相关探索。', 'The main comparison is human vision versus feedforward CNN and ViT classifiers. Active, recurrent and embodied vision already explore alternatives.'),
     comparisons: [
@@ -25,12 +25,12 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
     scope: b('比较人类听觉与音频识别、语音分离及语音生成系统，不把所有音频 AI 视为同一种模型。', 'Compares human hearing with audio recognition, speech separation and speech generation, rather than treating all audio AI as one model.'),
     comparisons: [
       { dimension: b('选择声源', 'Selecting a source'), brain: b('目标和上下文帮助持续跟踪感兴趣的声音。', 'Goals and context help track a sound of interest over time.'), ai: b('分离或识别模型依赖训练目标，可通过说话人信息引导。', 'Separation and recognition models follow training objectives and can use speaker conditioning.') },
-      { dimension: b('听与说的联系', 'Listening while speaking'), brain: b('听到自己的声音后，可以在线调整发音。', 'Hearing one’s own voice supports online correction.'), ai: b('语音合成输出不一定回到识别器；闭环需要主动设计。', 'Synthesised speech need not feed back to a recogniser; a closed loop must be designed.') },
+      { dimension: b('听与说的联系', 'Listening while speaking'), brain: b('听到自己的声音后，可以在线调整发音。', 'Hearing one’s own voice supports online correction.'), ai: b('语音合成输出不一定回到识别器；闭环需要主动设计。', 'Synthesized speech need not feed back to a recognizer; a closed loop must be designed.') },
     ],
-    borrow: b('让声源选择和输出校正随环境变化，而不是只优化一段录音的识别分数。', 'Adapt source selection and output correction to the environment, rather than only optimising recognition on a recording.'),
+    borrow: b('让声源选择和输出校正随环境变化，而不是只优化一段录音的识别分数。', 'Adapt source selection and output correction to the environment, rather than only optimizing recognition on a recording.'),
     boundary: b('相似的分层表示不代表相同的听觉体验，也不说明所有音频任务已被统一解决。', 'Similar hierarchical representations imply neither the same auditory experience nor a unified solution to all audio tasks.'),
     experiments: [
-      { title: b('让语音系统监听自己的输出', 'Monitor generated speech'), change: b('将实际播放后录到的声音送回识别器，检测漏词或失真。', 'Feed recorded playback to a recogniser to detect missing words or distortion.'), test: b('在噪声与回声变化下比较词错误率和纠错延迟。', 'Compare word error rate and correction latency under noise and echo changes.'), tradeoff: b('回声消除和重复纠正可能增加延迟或形成循环。', 'Echo cancellation and repeated correction can add latency or create loops.') },
+      { title: b('让语音系统监听自己的输出', 'Monitor generated speech'), change: b('将实际播放后录到的声音送回识别器，检测漏词或失真。', 'Feed recorded playback to a recognizer to detect missing words or distortion.'), test: b('在噪声与回声变化下比较词错误率和纠错延迟。', 'Compare word error rate and correction latency under noise and echo changes.'), tradeoff: b('回声消除和重复纠正可能增加延迟或形成循环。', 'Echo cancellation and repeated correction can add latency or create loops.') },
       { title: b('持续跟踪目标说话人', 'Track a target speaker'), change: b('保留目标声源的短时状态，并用任务提示引导分离。', 'Maintain short-term target-source state and use task cues to guide separation.'), test: b('对比无状态模型在多人交谈中丢失目标的次数。', 'Compare target loss with a stateless model in multi-speaker conversations.'), tradeoff: b('状态可能锁定错误说话人，需要重新选择机制。', 'State can lock onto the wrong speaker and needs a reset mechanism.') },
     ],
   },
@@ -40,7 +40,7 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
     scope: b('比较人体触觉与装有触觉传感器的机器人；传感器覆盖范围和控制系统差异很大。', 'Compares human touch with tactile robots, whose sensor coverage and control systems vary widely.'),
     comparisons: [
       { dimension: b('身体地图', 'Body map'), brain: b('触觉与本体感觉共同定位身体上的接触。', 'Touch and proprioception jointly locate contact on the body.'), ai: b('需要标定传感器位置，并把触觉数据接入机器人状态估计。', 'Needs sensor calibration and integration of touch with robot-state estimation.') },
-      { dimension: b('快速保护', 'Fast protection'), brain: b('部分保护反射无需等待有意识的判断。', 'Some protective reflexes act before conscious judgement.'), ai: b('可以用本地控制器和硬性限值提供快速保护。', 'Local controllers and hard limits can provide rapid protection.') },
+      { dimension: b('快速保护', 'Fast protection'), brain: b('部分保护反射无需等待有意识的判断。', 'Some protective reflexes act before conscious judgment.'), ai: b('可以用本地控制器和硬性限值提供快速保护。', 'Local controllers and hard limits can provide rapid protection.') },
     ],
     borrow: b('把快速安全回路与慢速任务规划分开，触觉变化先触发保护，再更新计划。', 'Separate fast safety loops from slower planning: tactile changes trigger protection before revising the plan.'),
     boundary: b('损伤检测不是主观痛苦；设计机器人保护机制无需宣称赋予它疼痛体验。', 'Damage detection is not subjective suffering; protective robot control does not require claims of pain experience.'),
@@ -67,7 +67,7 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
   'sys-language': {
     question: b('会预测下一个词，是否就等于懂得语言？', 'Is predicting the next word the same as understanding language?'),
     answer: b('语言预测能学到丰富结构，但人与模型获取词义、使用语言和更新知识的方式仍有区别。', 'Language prediction learns rich structure, but people and models still differ in how they acquire meaning, use language and update knowledge.'),
-    scope: b('主要比较人类语言学习与文本预训练模型，同时承认多模态训练、工具使用和在线学习的扩展。', 'Mainly compares human language learning with text-pretrained models, while recognising multimodal training, tool use and online-learning extensions.'),
+    scope: b('主要比较人类语言学习与文本预训练模型，同时承认多模态训练、工具使用和在线学习的扩展。', 'Mainly compares human language learning with text-pretrained models, while recognizing multimodal training, tool use and online-learning extensions.'),
     comparisons: [
       { dimension: b('词义从哪里来', 'Sources of meaning'), brain: b('语言与感知、行动、互动和社会情境共同发展。', 'Language develops alongside perception, action, interaction and social context.'), ai: b('文本模型主要从语言数据学习；多模态模型还使用图像、声音等数据。', 'Text models mainly learn from language data; multimodal models also use images, audio and other data.') },
       { dimension: b('对话后如何变化', 'Learning after a conversation'), brain: b('新经历可以改变长期记忆与后续用语。', 'New experiences can change long-term memory and future language use.'), ai: b('上下文能改变本次回答，但通常不会自动更新基础权重。', 'Context changes the current response but usually does not automatically update base weights.') },
@@ -90,7 +90,7 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
           { label: b('感觉与皮层输入', 'Sensory and cortical input'), detail: b('当前知觉、目标和已有知识共同构成待编码的事件。', 'Current perception, goals and prior knowledge define the event to be encoded.') },
           { label: b('海马快速绑定', 'Hippocampal binding'), detail: b('海马把内容与时间、地点和情境绑定，形成可由线索检索的情景表征。', 'The hippocampus binds content with time, place and context into a cue-addressable episode.') },
           { label: b('回放与巩固', 'Replay and consolidation'), detail: b('离线或低输入阶段的回放让新皮层逐步吸收跨事件的统计规律。', 'Replay during offline or low-input periods lets cortex gradually absorb statistics across episodes.') },
-          { label: b('检索与行为', 'Retrieval and behaviour'), detail: b('线索激活相关经历和知识，影响当前判断、预测与行动。', 'Cues activate related episodes and knowledge, shaping current judgement, prediction and action.') },
+          { label: b('检索与行为', 'Retrieval and behavior'), detail: b('线索激活相关经历和知识，影响当前判断、预测与行动。', 'Cues activate related episodes and knowledge, shaping current judgment, prediction and action.') },
         ],
       },
       ai: {
@@ -126,7 +126,7 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
       timescale: [
         { dimension: b('毫秒到秒', 'Milliseconds to seconds'), brain: b('神经活动、注意选择和线索驱动的记忆激活。', 'Neural activity, attentional selection and cue-driven memory activation.'), ai: b('一次前向计算、检索和上下文拼接。', 'One forward pass, retrieval and context assembly.') },
         { dimension: b('秒到小时', 'Seconds to hours'), brain: b('经历编码、反复提取、干扰和初步巩固。', 'Encoding, repeated retrieval, interference and early consolidation.'), ai: b('会话状态、缓存写入和批处理更新，是否发生取决于部署流程。', 'Session state, cache writes and batch updates, depending on deployment.') },
-        { dimension: b('天到多年', 'Days to years'), brain: b('睡眠相关回放、结构重组、遗忘和长期能力变化。', 'Sleep-related replay, structural reorganisation, forgetting and long-term ability change.'), ai: b('持续训练、版本迭代和外部知识库维护；没有统一的生物式巩固周期。', 'Continued training, version updates and external knowledge-base maintenance, without one unified biological consolidation cycle.') },
+        { dimension: b('天到多年', 'Days to years'), brain: b('睡眠相关回放、结构重组、遗忘和长期能力变化。', 'Sleep-related replay, structural reorganization, forgetting and long-term ability change.'), ai: b('持续训练、版本迭代和外部知识库维护；没有统一的生物式巩固周期。', 'Continued training, version updates and external knowledge-base maintenance, without one unified biological consolidation cycle.') },
       ],
       limits: {
         biological: b('人脑并非无误数据库：记忆会遗忘、重组、受情绪和先验影响，也会形成虚假记忆。', 'The brain is not an infallible database: memory is forgotten, reconstructed and biased by emotion and prior knowledge, and false memories occur.'),
@@ -158,7 +158,7 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
           { label: b('防御回路', 'Defensive circuitry'), detail: b('杏仁核及相关通路快速提高警觉，联动脑干、自主神经和内分泌反应。', 'Amygdala-related pathways rapidly raise vigilance and recruit brainstem, autonomic and endocrine responses.') },
           { label: b('全局状态变化', 'Global state shift'), detail: b('注意范围、行动阈值、记忆编码和能量分配同时改变。', 'Attention, action thresholds, memory encoding and energy allocation shift together.') },
           { label: b('前额叶调节', 'Prefrontal regulation'), detail: b('情境和结果信息参与抑制、维持或重新评估防御反应。', 'Context and outcome information help inhibit, sustain or reappraise the defensive response.') },
-          { label: b('趋避与恢复', 'Approach, avoidance and recovery'), detail: b('系统选择防御动作或撤离，并在风险下降后逐步回到基线。', 'The system selects defence or withdrawal and gradually returns toward baseline as risk falls.') },
+          { label: b('趋避与恢复', 'Approach, avoidance and recovery'), detail: b('系统选择防御动作或撤离，并在风险下降后逐步回到基线。', 'The system selects defense or withdrawal and gradually returns toward baseline as risk falls.') },
         ],
       },
       ai: {
@@ -172,7 +172,7 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
         ],
       },
       state: b('生物状态包含自主神经、激素、身体感觉与学习历史；AI 通常只有显式接入的风险变量和控制门。', 'Biological state includes autonomic, hormonal, bodily and learned components; AI usually has only explicitly connected risk variables and control gates.'),
-      timescale: b('快速防御可在毫秒至秒内启动，激素和记忆调节持续分钟至小时；AI 安全门控可很快执行，但跨任务状态保持需要额外设计。', 'Rapid defence can start within milliseconds to seconds, while hormonal and memory effects last minutes to hours; AI safety gates can act quickly, but cross-task state persistence requires extra design.'),
+      timescale: b('快速防御可在毫秒至秒内启动，激素和记忆调节持续分钟至小时；AI 安全门控可很快执行，但跨任务状态保持需要额外设计。', 'Rapid defense can start within milliseconds to seconds, while hormonal and memory effects last minutes to hours; AI safety gates can act quickly, but cross-task state persistence requires extra design.'),
       caveat: b('负奖励、风险向量或安全停机描述的是控制功能，不能据此推断系统具有恐惧体验。', 'Negative reward, risk vectors and safety stops describe control functions and do not imply a fear experience.'),
     },
     comparisons: [
@@ -209,7 +209,7 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
       { dimension: b('需要维持的状态', 'Variables to maintain'), brain: b('持续感知并调节温度、水分和能量等。', 'Continuously senses and regulates temperature, hydration and energy.'), ai: b('只有接入传感器和目标函数的资源变量才影响决策。', 'Resource variables affect decisions only when connected to sensing and objectives.') },
       { dimension: b('目标如何变化', 'Changing priorities'), brain: b('饥饿、疲劳等状态会改变行动优先级。', 'Hunger and fatigue change action priorities.'), ai: b('可让充电、冷却和维护需求参与任务调度。', 'Charging, cooling and maintenance needs can influence scheduling.') },
     ],
-    borrow: b('把「完成任务」与「持续可运行」一起优化，让维护行为有明确的状态依据。', 'Optimise task completion together with continued operability, grounding maintenance actions in measured state.'),
+    borrow: b('把「完成任务」与「持续可运行」一起优化，让维护行为有明确的状态依据。', 'Optimize task completion together with continued operability, grounding maintenance actions in measured state.'),
     boundary: b('人的目标不只来自生理需要；加入内部奖励也不自动产生自主意图或意识。', 'Human goals are not solely physiological; internal rewards do not automatically create autonomous intentions or consciousness.'),
     experiments: [
       { title: b('把维护安排进任务规划', 'Plan for maintenance'), change: b('让规划器同时跟踪电量、温度和剩余任务。', 'Track battery, temperature and remaining work in the planner.'), test: b('比较长时间运行的完成任务数、停机时间和资源超限次数。', 'Compare long-run completed tasks, downtime and resource-limit violations.'), tradeoff: b('过重的维护奖励可能让智能体回避工作。', 'Overweighting maintenance can make an agent avoid work.') },
@@ -218,13 +218,13 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
   },
   'sys-sleep': {
     question: b('暂时停止接收新任务，能不能学得更稳？', 'Can time away from new tasks make learning more stable?'),
-    answer: b('睡眠与记忆巩固有关，回放是其中一种候选机制。AI 可借鉴离线整理经验，但不需要复制生物睡眠。', 'Sleep is associated with memory consolidation, with replay as one candidate mechanism. AI can organise experience offline without copying biological sleep.'),
+    answer: b('睡眠与记忆巩固有关，回放是其中一种候选机制。AI 可借鉴离线整理经验，但不需要复制生物睡眠。', 'Sleep is associated with memory consolidation, with replay as one candidate mechanism. AI can organize experience offline without copying biological sleep.'),
     scope: b('比较睡眠相关学习理论与经验回放、生成式回放及离线训练，不把这些算法等同于做梦。', 'Compares sleep-related learning theories with experience replay, generative replay and offline training, without equating these algorithms with dreaming.'),
     comparisons: [
       { dimension: b('学习的时机', 'When learning occurs'), brain: b('清醒学习与睡眠中的活动共同影响后续记忆。', 'Waking learning and sleep activity both influence later memory.'), ai: b('可以在交互间隙回放经验；部署模型是否继续训练取决于设计。', 'Experience can be replayed between interactions; continued deployment-time training is a design choice.') },
-      { dimension: b('整理的内容', 'What gets reorganised'), brain: b('再激活、突触调整与不同睡眠阶段的作用仍在研究。', 'Reactivation, synaptic changes and the roles of sleep stages remain under study.'), ai: b('可明确选择旧样本、生成样本和需要更新的参数。', 'Old samples, generated samples and parameters to update can be explicitly selected.') },
+      { dimension: b('整理的内容', 'What gets reorganized'), brain: b('再激活、突触调整与不同睡眠阶段的作用仍在研究。', 'Reactivation, synaptic changes and the roles of sleep stages remain under study.'), ai: b('可明确选择旧样本、生成样本和需要更新的参数。', 'Old samples, generated samples and parameters to update can be explicitly selected.') },
     ],
-    borrow: b('把收集经验与整理经验分开，利用离线阶段检查遗忘、筛选回放和更新模型。', 'Separate experience collection from organisation, using offline periods to check forgetting, select replay and update models.'),
+    borrow: b('把收集经验与整理经验分开，利用离线阶段检查遗忘、筛选回放和更新模型。', 'Separate experience collection from organization, using offline periods to check forgetting, select replay and update models.'),
     boundary: b('整体突触下调和梦的具体学习作用仍属理论问题；不能直接把全体权重缩小当作有益维护。', 'Global synaptic downscaling and the learning role of dreams remain theoretical questions; shrinking every weight is not automatically useful maintenance.'),
     experiments: [
       { title: b('安排短时离线巩固', 'Schedule short consolidation periods'), change: b('在任务间隙混合回放新旧经验，更新小型适配模块。', 'Replay mixed old and new experiences between tasks to update a small adapter.'), test: b('与同等训练预算的连续更新比较遗忘和停机成本。', 'Compare forgetting and downtime with continuous updates at the same training budget.'), tradeoff: b('离线时间降低可用性，回放样本也可能有偏。', 'Offline periods reduce availability and replay samples can be biased.') },
@@ -258,7 +258,7 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
       },
       state: b('工作记忆依赖持续神经活动和突触状态；Transformer 的上下文是当前前向计算中的表示，路由器状态则另行维护。', 'Working memory depends on persistent neural activity and synaptic state; a Transformer context is a representation within the current forward pass, while router state is maintained separately.'),
       timescale: b('感觉选择可在几十至数百毫秒内变化，工作记忆可维持秒级；AI 注意力在一次前向传播内计算，额外推理依赖离散步骤和延迟预算。', 'Sensory selection can change over tens to hundreds of milliseconds, with working memory lasting seconds; AI attention is computed within a forward pass, while extra reasoning adds discrete steps and latency.'),
-      caveat: b('Transformer 注意力是内容加权算子；它不单独说明目标维持、意识、元认知或行为控制。', 'Transformer attention is a content-weighting operator; by itself it does not explain goal maintenance, consciousness, metacognition or behavioural control.'),
+      caveat: b('Transformer 注意力是内容加权算子；它不单独说明目标维持、意识、元认知或行为控制。', 'Transformer attention is a content-weighting operator; by itself it does not explain goal maintenance, consciousness, metacognition or behavioral control.'),
     },
     comparisons: [
       { dimension: b('选择依据', 'Basis of selection'), brain: b('目标、显著性和已有经验共同影响注意。', 'Goals, salience and experience jointly shape attention.'), ai: b('标准注意力按学习到的查询与键计算权重，目标通过输入和训练影响它。', 'Standard attention weights learned queries and keys; goals influence it through inputs and training.') },

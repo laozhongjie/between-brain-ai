@@ -6,16 +6,16 @@ export const CIRCUIT_GUIDES: Record<string, CardGuide> = {
   normalization: {
     question: b('输入忽然变强，系统怎样避免被淹没？', 'How does a system cope when inputs suddenly get stronger?'),
     answer: b('大脑和 AI 都会调节信号强度。相似的是控制增益的作用，不是完全相同的运算。', 'Both brains and AI regulate signal strength. They share a gain-control function, not an identical operation.'),
-    scope: b('比较感觉系统的除法归一化与 softmax、LayerNorm；这些方法各自归一化的对象不同。', 'Compares sensory divisive normalisation with softmax and LayerNorm, which normalise different quantities.'),
+    scope: b('比较感觉系统的除法归一化与 softmax、LayerNorm；这些方法各自归一化的对象不同。', 'Compares sensory divisive normalization with softmax and LayerNorm, which normalize different quantities.'),
     comparisons: [
-      { dimension: b('参考谁的活动', 'Reference pool'), brain: b('响应受周围或相关神经元群体的活动调节。', 'Responses depend on activity in neighbouring or related populations.'), ai: b('LayerNorm 通常使用单个 token 的特征；softmax 使用一组分数。', 'LayerNorm typically uses a token’s features; softmax uses a set of scores.') },
-      { dimension: b('怎样调节', 'Operation'), brain: b('输入除以活动池与常数项，增益可随情境改变。', 'Divides input by pooled activity plus a constant; gain can vary with context.'), ai: b('LayerNorm 居中并缩放；softmax 把分数变成总和为 1 的权重。', 'LayerNorm centres and scales; softmax produces weights that sum to one.') },
+      { dimension: b('参考谁的活动', 'Reference pool'), brain: b('响应受周围或相关神经元群体的活动调节。', 'Responses depend on activity in neighboring or related populations.'), ai: b('LayerNorm 通常使用单个 token 的特征；softmax 使用一组分数。', 'LayerNorm typically uses a token’s features; softmax uses a set of scores.') },
+      { dimension: b('怎样调节', 'Operation'), brain: b('输入除以活动池与常数项，增益可随情境改变。', 'Divides input by pooled activity plus a constant; gain can vary with context.'), ai: b('LayerNorm 居中并缩放；softmax 把分数变成总和为 1 的权重。', 'LayerNorm centers and scales; softmax produces weights that sum to one.') },
     ],
     borrow: b('让单元根据其他单元的活动调整响应，避免少数强信号主导整个网络。', 'Adjust each unit relative to other units so a few strong signals do not dominate.'),
-    boundary: b('归一化有多种神经机制解释，不能简单等同于某一种抑制细胞，也不能把 LayerNorm 当作皮层模型。', 'Several neural mechanisms can explain normalisation. Neither one inhibitory cell type nor LayerNorm is a complete cortical account.'),
+    boundary: b('归一化有多种神经机制解释，不能简单等同于某一种抑制细胞，也不能把 LayerNorm 当作皮层模型。', 'Several neural mechanisms can explain normalization. Neither one inhibitory cell type nor LayerNorm is a complete cortical account.'),
     experiments: [
-      { title: b('按邻域归一化', 'Normalise within neighbourhoods'), change: b('用局部特征池替换一层全局特征归一化。', 'Replace one global feature normalisation with local pools.'), test: b('对比亮度和对比度变化下的准确率，并保持参数预算一致。', 'Compare accuracy under brightness and contrast shifts at matched parameter budgets.'), tradeoff: b('局部池可能丢失跨区域信息；池大小需要调参。', 'Local pools can miss distant context; pool size needs tuning.') },
-      { title: b('让增益随任务变化', 'Condition gain on the task'), change: b('用任务信号控制归一化后的缩放系数。', 'Use a task signal to set post-normalisation scaling.'), test: b('比较固定增益与任务增益在干扰物任务中的误差。', 'Compare fixed and task-conditioned gain on distractor tasks.'), tradeoff: b('错误任务信号可能压制真正重要的输入。', 'An incorrect task signal may suppress relevant inputs.') },
+      { title: b('按邻域归一化', 'Normalize within neighborhoods'), change: b('用局部特征池替换一层全局特征归一化。', 'Replace one global feature normalization with local pools.'), test: b('对比亮度和对比度变化下的准确率，并保持参数预算一致。', 'Compare accuracy under brightness and contrast shifts at matched parameter budgets.'), tradeoff: b('局部池可能丢失跨区域信息；池大小需要调参。', 'Local pools can miss distant context; pool size needs tuning.') },
+      { title: b('让增益随任务变化', 'Condition gain on the task'), change: b('用任务信号控制归一化后的缩放系数。', 'Use a task signal to set post-normalization scaling.'), test: b('比较固定增益与任务增益在干扰物任务中的误差。', 'Compare fixed and task-conditioned gain on distractor tasks.'), tradeoff: b('错误任务信号可能压制真正重要的输入。', 'An incorrect task signal may suppress relevant inputs.') },
     ],
   },
   'feedback-predictive': {
@@ -54,7 +54,7 @@ export const CIRCUIT_GUIDES: Record<string, CardGuide> = {
     scope: b('比较小脑颗粒细胞的稀疏扩展、随机特征与常见 Transformer 前馈层。', 'Compares sparse cerebellar granule-cell expansion, random features and typical Transformer feedforward layers.'),
     comparisons: [
       { dimension: b('连接方式', 'Connectivity'), brain: b('颗粒细胞从少量输入组合出大量不同特征。', 'Granule cells combine a small number of inputs into many distinct features.'), ai: b('常见前馈层采用可训练的稠密矩阵；随机特征可固定扩展矩阵。', 'Typical feedforward layers use learned dense matrices; random features can fix the expansion matrix.') },
-      { dimension: b('学习的位置', 'Where learning occurs'), brain: b('简化小脑模型强调扩展后读出连接的误差驱动学习。', 'Simplified cerebellar models emphasise error-driven learning at the readout.'), ai: b('标准前馈层两侧矩阵都训练；随机特征方法主要训练读出。', 'Standard feedforward layers train both matrices; random-feature methods mainly train the readout.') },
+      { dimension: b('学习的位置', 'Where learning occurs'), brain: b('简化小脑模型强调扩展后读出连接的误差驱动学习。', 'Simplified cerebellar models emphasize error-driven learning at the readout.'), ai: b('标准前馈层两侧矩阵都训练；随机特征方法主要训练读出。', 'Standard feedforward layers train both matrices; random-feature methods mainly train the readout.') },
     ],
     borrow: b('把稳定的特征展开与快速更新的读出分开，让在线适应只改少量参数。', 'Separate stable feature expansion from a fast-changing readout so online adaptation updates few parameters.'),
     boundary: b('扩展维度不是越大越好；真实小脑还有时间动态、多处可塑性和反馈，不能简化成一个固定随机层。', 'Larger is not always better. Real cerebellar circuits also have temporal dynamics, multiple plastic sites and feedback.'),

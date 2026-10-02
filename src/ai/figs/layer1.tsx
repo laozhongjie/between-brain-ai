@@ -75,7 +75,7 @@ function StpFig({ t }: FigProps) {
       <Line pts={[[100, 212], [345, 212]]} color={C.line} width={1} />
       <Arrow id={id} x1={292} y1={24} x2={322} y2={24} color="dim" label={t(b('500 ms 后', '500 ms later'))} ly={-8} />
       <T x={225} y={132} size={9.5} color={C.dim} s={t(b('资源 x 耗尽 → 越来越弱', 'resources x deplete → weaker'))} />
-      <T x={205} y={226} size={9.5} color={C.dim} s={t(b('利用率 u 升高 → 越来越强', 'utilisation u rises → stronger'))} />
+      <T x={205} y={226} size={9.5} color={C.dim} s={t(b('利用率 u 升高 → 越来越强', 'utilization u rises → stronger'))} />
     </Svg>
   )
 }
@@ -345,7 +345,7 @@ function GliaFig({ t }: FigProps) {
 function HyperFig({ t }: FigProps) {
   const id = 'f-hy'
   return (
-    <Svg id={id} label={t(b('超网络（最接近的对应）', 'Hypernetwork (closest analogue)'))}>
+    <Svg id={id} label={t(b('超网络（最接近的对应）', 'Hypernetwork (closest analog)'))}>
       <T x={180} y={16} size={10.5} color={C.dim} s={t(b('主流 AI 中缺失，最接近的是超网络/慢速调制', 'absent in mainstream AI; closest: hypernetworks / slow modulation'))} />
       {[0, 1, 2].map((i) => (
         <g key={i}>
@@ -369,7 +369,7 @@ export const LAYER1_FIGS: Record<string, FigPair> = {
   },
   'short-term-plasticity': {
     brain: StpFig, ai: FastWeightFig,
-    brainCap: b('同一串突触前脉冲：抑制型突触一次比一次弱（资源 x 耗尽），易化型突触一次比一次强（利用率 u 升高），停顿后恢复。', 'The same spike train: a depressing synapse weakens (resources x deplete), a facilitating one strengthens (utilisation u rises), both recover after a pause.'),
+    brainCap: b('同一串突触前脉冲：抑制型突触一次比一次弱（资源 x 耗尽），易化型突触一次比一次强（利用率 u 升高），停顿后恢复。', 'The same spike train: a depressing synapse weakens (resources x deplete), a facilitating one strengthens (utilization u rises), both recover after a pause.'),
     aiCap: b('快权重 / 线性注意力：每个 token 把 v kᵀ 叠加进矩阵 W，查询 q 乘以 W 读出相关内容。W 随上下文变化，像一组会变的突触。', 'Fast weights / linear attention: each token adds v kᵀ to a matrix W; a query q reads W. W changes with context, like plastic synapses.'),
   },
   stdp: {

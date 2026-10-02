@@ -103,7 +103,7 @@ export const PATHWAY_DEFS: PathwayDef[] = [
   p('dmn', b('默认模式网络（走神/回忆/自我）', 'Default mode network'), 'default', 'excit', ['$.medialorbitofrontal', '$.posteriorcingulate', '$.precuneus', '$.inferiorparietal', '$.medialorbitofrontal']),
   p('sensorimotor', b('感觉-运动整合', 'Sensorimotor integration'), 'somatosensory', 'excit', ['$.postcentral', '$.precentral']),
   p('reach', b('视觉引导伸手', 'Visually guided reaching'), 'motor', 'excit', ['$.superiorparietal', '$.caudalmiddlefrontal', '$.precentral']),
-  p('socialFace', b('认出熟人：面孔 → 身份 → 情感', 'Recognising a friend: face → identity → feeling'), 'emotion', 'excit', ['$.fusiform', '$.temporalpole', '$.medialorbitofrontal']),
+  p('socialFace', b('认出熟人：面孔 → 身份 → 情感', 'Recognizing a friend: face → identity → feeling'), 'emotion', 'excit', ['$.fusiform', '$.temporalpole', '$.medialorbitofrontal']),
 ]
 
 function expand(): Pathway[] {

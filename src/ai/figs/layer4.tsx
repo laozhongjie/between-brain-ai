@@ -73,7 +73,7 @@ function CnnFig({ t }: FigProps) {
       <T x={332} y={108} size={9.5} color={C.mintD} s="0.93" />
       <T x={170} y={160} size={9.5} color={C.dim} s={t(b('逐层：空间变小、通道变多、特征变抽象', 'layer by layer: smaller, deeper, more abstract'))} />
       <Missing x={40} y={180} s={t(b('没有反馈、没有眼动', 'no feedback, no eye movements'))} />
-      <Missing x={196} y={180} s={t(b('需要大量标注样本', 'needs many labelled examples'))} />
+      <Missing x={196} y={180} s={t(b('需要大量标注样本', 'needs many labeled examples'))} />
     </Svg>
   )
 }
@@ -550,13 +550,13 @@ function AttentionHeadFig({ t }: FigProps) {
 export const LAYER4_FIGS: Record<string, FigPair> = {
   'sys-vision': {
     brain: VisionBrainFig, ai: CnnFig,
-    brainCap: b('视觉通路示意：输入经丘脑进入初级视觉皮层，腹侧流侧重物体，背侧流侧重空间与动作。两路互相联系，并有反馈和眼动参与。', 'Schematic visual pathways: input reaches primary visual cortex through the thalamus; ventral processing emphasises objects and dorsal processing space and action. The streams interact with feedback and eye movements.'),
+    brainCap: b('视觉通路示意：输入经丘脑进入初级视觉皮层，腹侧流侧重物体，背侧流侧重空间与动作。两路互相联系，并有反馈和眼动参与。', 'Schematic visual pathways: input reaches primary visual cortex through the thalamus; ventral processing emphasizes objects and dorsal processing space and action. The streams interact with feedback and eye movements.'),
     aiCap: b('图中是前馈 CNN：卷积与池化组合特征，最后输出类别。这个示例没有主动采样控制器，其他视觉系统可以加入循环或主动观察。', 'The diagram shows a feedforward CNN: convolution and pooling combine features before classification. This example lacks active sampling; other vision systems can add recurrence or active observation.'),
   },
   'sys-hearing': {
     brain: HearingBrainFig, ai: AudioNetFig,
-    brainCap: b('听觉：耳蜗把声音按频率展开，脑干比较两只耳朵的时间差来定位，经丘脑到 A1 的频率地图，再到颞上回处理语音和音乐。', 'Hearing: the cochlea spreads sound by frequency, the brainstem compares the two ears to localise, then thalamus → A1’s frequency map → STG for speech and music.'),
-    aiCap: b('图中的音频识别器把声波转换为频谱特征，再编码成文字或标签。双耳输入、目标声源选择和输出监听都需要在系统中另外设计。', 'The illustrated recogniser converts sound to spectral features, then text or labels. Binaural input, target-source selection and output monitoring need explicit system design.'),
+    brainCap: b('听觉：耳蜗把声音按频率展开，脑干比较两只耳朵的时间差来定位，经丘脑到 A1 的频率地图，再到颞上回处理语音和音乐。', 'Hearing: the cochlea spreads sound by frequency, the brainstem compares the two ears to localize, then thalamus → A1’s frequency map → STG for speech and music.'),
+    aiCap: b('图中的音频识别器把声波转换为频谱特征，再编码成文字或标签。双耳输入、目标声源选择和输出监听都需要在系统中另外设计。', 'The illustrated recognizer converts sound to spectral features, then text or labels. Binaural input, target-source selection and output monitoring need explicit system design.'),
   },
   'sys-touch': {
     brain: TouchBrainFig, ai: RobotTouchFig,
@@ -570,7 +570,7 @@ export const LAYER4_FIGS: Record<string, FigPair> = {
   },
   'sys-language': {
     brain: LanguageBrainFig, ai: LlmFig,
-    brainCap: b('图示是语言网络的简化导览，连接听觉、语义、发音与自我监听。标出的脑区共同参与多种过程，不是各自独立的理解或说话开关。', 'This simplified language-network map links hearing, meaning, articulation and self-monitoring. The labelled areas contribute to multiple processes rather than acting as separate comprehension or speaking switches.'),
+    brainCap: b('图示是语言网络的简化导览，连接听觉、语义、发音与自我监听。标出的脑区共同参与多种过程，不是各自独立的理解或说话开关。', 'This simplified language-network map links hearing, meaning, articulation and self-monitoring. The labeled areas contribute to multiple processes rather than acting as separate comprehension or speaking switches.'),
     aiCap: b('图中是文本自回归模型：词元经过 Transformer，得到下一个词元的概率，选出后继续生成。多模态输入、工具和动作接口可以扩展这个基本流程。', 'The diagram shows a text autoregressive model: tokens pass through a Transformer to predict the next token, which is selected before generation continues. Multimodal input, tools and action interfaces can extend this pipeline.'),
   },
   'sys-memory': {
@@ -596,7 +596,7 @@ export const LAYER4_FIGS: Record<string, FigPair> = {
   'sys-sleep': {
     brain: HypnogramFig, ai: OfflineTrainFig,
     brainCap: b('典型睡眠结构示意：前半夜深睡较多，后半夜 REM 较多，周期与时长因人而异。睡眠与记忆巩固有关，各阶段具体承担什么作用仍在研究。', 'Schematic sleep architecture: deep sleep is more common early and REM later, with cycles and duration varying across people. Sleep relates to consolidation, while the precise roles of its stages remain under study.'),
-    aiCap: b('AI 的对应：在线交互收集经验进回放缓冲区，离线时用缓冲区和生成模型「做梦」产生的样本训练或蒸馏模型。多数部署中的系统没有这种定期离线周期。', 'The AI analogue: online interaction fills a replay buffer; offline, the model trains or distils on buffer samples plus generated “dreams”. Most deployed systems have no such regular offline cycle.'),
+    aiCap: b('AI 的对应：在线交互收集经验进回放缓冲区，离线时用缓冲区和生成模型「做梦」产生的样本训练或蒸馏模型。多数部署中的系统没有这种定期离线周期。', 'The AI analog: online interaction fills a replay buffer; offline, the model trains or distils on buffer samples plus generated “dreams”. Most deployed systems have no such regular offline cycle.'),
   },
   'sys-attention': {
     brain: AttentionBrainFig, ai: AttentionHeadFig,

@@ -54,10 +54,10 @@ export const NEURON_GUIDES: Record<string, CardGuide> = {
     scope: b('比较皮层细胞类型的功能分工与人工网络的控制模块；这里的兴奋、抑制是信号作用，不是情绪。', 'Compares functional roles of cortical cell types with artificial control modules. Excitation and inhibition refer to signal effects, not emotions.'),
     comparisons: [
       { dimension: b('连接作用', 'Connection effects'), brain: b('主要细胞类型通常有稳定的递质身份，效应还取决于受体和回路。', 'Major cell types usually retain transmitter identity; effects also depend on receptors and circuits.'), ai: b('普通权重可正可负，不要求一个单元的输出有统一符号。', 'Ordinary weights can be positive or negative without a common output sign per unit.') },
-      { dimension: b('调节方式', 'Regulation'), brain: b('不同抑制性细胞可参与局部门控、增益和时序协调。', 'Different inhibitory cells can contribute to local gating, gain and temporal coordination.'), ai: b('归一化、门控和路由器分别承担部分控制功能。', 'Normalisation, gates and routers perform some related control functions.') },
+      { dimension: b('调节方式', 'Regulation'), brain: b('不同抑制性细胞可参与局部门控、增益和时序协调。', 'Different inhibitory cells can contribute to local gating, gain and temporal coordination.'), ai: b('归一化、门控和路由器分别承担部分控制功能。', 'Normalization, gates and routers perform some related control functions.') },
     ],
     borrow: b('用小型控制模块调节主网络，而不要求每个计算单元都兼顾所有调节任务。', 'Use small control modules to regulate the main network rather than giving every unit every control role.'),
-    boundary: b('强制权重符号一致并不自动带来更好泛化；细胞类型与工程模块也不是逐一对应的。', 'Constraining weight signs does not automatically improve generalisation; cell types and engineering modules do not map one to one.'),
+    boundary: b('强制权重符号一致并不自动带来更好泛化；细胞类型与工程模块也不是逐一对应的。', 'Constraining weight signs does not automatically improve generalization; cell types and engineering modules do not map one to one.'),
     experiments: [
       { title: b('分离控制器与内容网络', 'Separate control from content'), change: b('让小控制器输出各层的增益和稀疏门控。', 'Let a small controller output layer gains and sparse gates.'), test: b('在任务切换和输入干扰下，与等参数量网络比较表现。', 'Compare with a parameter-matched network under task switches and distracting inputs.'), tradeoff: b('控制器可能成为瓶颈，并引入新的不稳定反馈。', 'The controller can become a bottleneck and introduce unstable feedback.') },
       { title: b('检验符号约束的作用', 'Test sign constraints'), change: b('仅在一个子模块限制输出权重符号，其他条件保持一致。', 'Constrain output-weight signs in one module while matching other conditions.'), test: b('比较学习速度、抗扰动能力和最终精度。', 'Compare learning speed, perturbation robustness and final accuracy.'), tradeoff: b('限制表达能力可能需要更多单元才能补偿。', 'Restricted expressivity may require more units to compensate.') },
@@ -83,10 +83,10 @@ export const NEURON_GUIDES: Record<string, CardGuide> = {
     answer: b('稀疏活动和条件计算都尝试减少不必要的工作，但实际能耗还取决于存储访问、硬件和任务。', 'Sparse activity and conditional computation both reduce unnecessary work, but real energy use also depends on memory access, hardware and task.'),
     scope: b('比较生物能量约束与稀疏网络、MoE 和能耗感知设计；大脑 20 W 不能直接作为模型能效排名。', 'Compares biological energy constraints with sparse networks, MoE and energy-aware design; the brain’s 20 W is not a direct model-efficiency ranking.'),
     comparisons: [
-      { dimension: b('计算预算', 'Compute budget'), brain: b('信号传递和维持细胞状态都需要代谢资源。', 'Both signalling and maintaining cellular state require metabolic resources.'), ai: b('算术、存储和通信消耗电能，部署配置决定实际功率。', 'Arithmetic, storage and communication consume energy; deployment determines actual power.') },
+      { dimension: b('计算预算', 'Compute budget'), brain: b('信号传递和维持细胞状态都需要代谢资源。', 'Both signaling and maintaining cellular state require metabolic resources.'), ai: b('算术、存储和通信消耗电能，部署配置决定实际功率。', 'Arithmetic, storage and communication consume energy; deployment determines actual power.') },
       { dimension: b('减少哪些工作', 'What work is skipped'), brain: b('不同区域和任务的活动稀疏程度不同。', 'Activity sparsity varies across regions and tasks.'), ai: b('剪枝减少连接，MoE 选择专家，动态计算跳过部分步骤。', 'Pruning removes connections, MoE selects experts and dynamic computation skips steps.') },
     ],
-    borrow: b('把精度、响应时间与实测能耗一起作为设计目标，而不是只追求更少参数。', 'Optimise accuracy, response time and measured energy together rather than minimising parameters alone.'),
+    borrow: b('把精度、响应时间与实测能耗一起作为设计目标，而不是只追求更少参数。', 'Optimize accuracy, response time and measured energy together rather than minimizing parameters alone.'),
     boundary: b('生物与数字硬件的任务和测量边界不同；稀疏模型还可能受不规则访存限制。', 'Biological and digital systems differ in tasks and measurement boundaries; sparse models can also be limited by irregular memory access.'),
     experiments: [
       { title: b('按输入选择计算模块', 'Select modules by input'), change: b('给模型加入容量受限的路由器，只激活部分专家。', 'Add a capacity-limited router that activates a subset of experts.'), test: b('与稠密模型在同一设备上比较准确率、吞吐和每次任务能量。', 'Compare accuracy, throughput and energy per task with a dense model on the same device.'), tradeoff: b('专家负载失衡和通信可能抵消算术节省。', 'Load imbalance and communication can erase arithmetic savings.') },

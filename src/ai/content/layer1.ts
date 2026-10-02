@@ -30,7 +30,7 @@ export const LAYER1: CardMechanism[] = [
       '连续放电时，有的突触因为囊泡耗尽而越来越弱（短时抑制），有的因为残余钙而越来越强（短时易化），在几百毫秒到几秒内恢复。于是突触变成了一个随时间变化的滤波器：抑制型突触对「变化」敏感，易化型突触对「连发」敏感。这也是一种不需要改变长期权重的短时记忆。',
       'During repeated firing some synapses weaken as vesicles deplete (short-term depression) and others strengthen via residual calcium (facilitation), recovering over hundreds of ms to seconds. The synapse becomes a time-varying filter: depressing synapses detect change, facilitating ones detect bursts, a short-term memory that leaves long-term weights untouched.'),
     brainMath: [
-      { tex: t`\frac{dx}{dt} = \frac{1-x}{\tau_{\text{rec}}} - u\,x\,\delta(t-t_{\text{sp}}),\qquad \frac{du}{dt} = \frac{U-u}{\tau_f} + U(1-u)\,\delta(t-t_{\text{sp}})`, caption: b('Tsodyks–Markram 模型：x 是可用资源，u 是利用率', 'Tsodyks–Markram model: x = available resources, u = utilisation') },
+      { tex: t`\frac{dx}{dt} = \frac{1-x}{\tau_{\text{rec}}} - u\,x\,\delta(t-t_{\text{sp}}),\qquad \frac{du}{dt} = \frac{U-u}{\tau_f} + U(1-u)\,\delta(t-t_{\text{sp}})`, caption: b('Tsodyks–Markram 模型：x 是可用资源，u 是利用率', 'Tsodyks–Markram model: x = available resources, u = utilization') },
       { tex: t`\text{PSC}_n = A\,u_n\,x_n`, caption: b('第 n 个脉冲引起的突触后电流', 'Postsynaptic current of the n-th spike') },
     ],
     ai: b(
@@ -52,11 +52,11 @@ export const LAYER1: CardMechanism[] = [
       'Hebb (1949) proposed that joint activity can strengthen connections. Classical STDP experiments found that relative spike timing affects strengthening or weakening, often over tens of milliseconds. Classical models commonly associate pre-before-post firing with strengthening, but direction, timing windows and modulation vary by cell and experimental conditions; order alone does not prove causation.'),
     brainMath: [
       { tex: t`\Delta w = \begin{cases} A_+\,e^{-\Delta t/\tau_+}, & \Delta t > 0 \\ -A_-\,e^{\Delta t/\tau_-}, & \Delta t < 0 \end{cases},\qquad \Delta t = t_{\text{post}} - t_{\text{pre}}`, caption: b('STDP 时间窗（Bi & Poo 1998）', 'STDP window (Bi & Poo 1998)') },
-      { tex: t`\Delta w = \eta\,y\,x \quad\longrightarrow\quad \Delta w = \eta\,y\,(x - y\,w)`, caption: b('Hebb 规则与 Oja 规则（加入归一化后收敛到第一主成分）', 'Hebb rule and Oja’s rule (normalised; converges to the first principal component)') },
+      { tex: t`\Delta w = \eta\,y\,x \quad\longrightarrow\quad \Delta w = \eta\,y\,(x - y\,w)`, caption: b('Hebb 规则与 Oja 规则（加入归一化后收敛到第一主成分）', 'Hebb rule and Oja’s rule (normalized; converges to the first principal component)') },
     ],
     ai: b(
       '主流深度学习几乎不用 Hebb 规则，而是依赖反向传播。Hebb 类规则出现在自组织映射、Hopfield 网络、部分脉冲神经网络的无监督学习中。「可微可塑性」（Miconi 2018）把 Hebb 项做成可训练的，让网络学会在推理时自我修改。',
-      'Mainstream deep learning rarely uses Hebbian rules, relying on backprop. They appear in self-organising maps, Hopfield nets and unsupervised SNN learning. Differentiable plasticity (Miconi 2018) makes Hebbian terms trainable so networks learn to modify themselves at inference.'),
+      'Mainstream deep learning rarely uses Hebbian rules, relying on backprop. They appear in self-organizing maps, Hopfield nets and unsupervised SNN learning. Differentiable plasticity (Miconi 2018) makes Hebbian terms trainable so networks learn to modify themselves at inference.'),
     aiMath: [{ tex: t`y_j = \sigma\Big(\sum_i \big(w_{ij} + \alpha_{ij}\,\mathrm{Hebb}_{ij}(t)\big)x_i\Big),\quad \mathrm{Hebb}_{ij}(t{+}1) = \eta\,x_i y_j + (1-\eta)\,\mathrm{Hebb}_{ij}(t)`, caption: b('可微可塑性：$w$ 和 $\\alpha$ 由反向传播学习，Hebb 项在推理时在线更新', 'Differentiable plasticity: $w$ and $\\alpha$ learned by backprop; the Hebbian trace updates online') }],
     corr: 'crude', evidence: 'debated',
     refs: ['hebb1949', 'bi1998', 'markram1997', 'song2000', 'miconi2018'],
@@ -67,7 +67,7 @@ export const LAYER1: CardMechanism[] = [
     title: b('三因子学习与信用分配 ↔ 反向传播', 'Three-factor learning & credit assignment ↔ backpropagation'),
     brain: b(
       '一个流行的理论是「三因子规则」：突触前活动 × 突触后活动先留下一个会慢慢衰减的「资格迹」，几秒后到来的第三个信号（多巴胺等神经调质，表示奖赏或意外）决定这个迹是否被写成真正的权重变化。这样就把行为时间尺度（秒）的结果分配给毫秒级的突触事件。此外，还有假说认为树突顶端的「爆发式放电」携带了类似误差的信号。',
-      'A leading theory is the three-factor rule: pre × post activity leaves a decaying eligibility trace, and a third signal arriving seconds later (dopamine or another neuromodulator signalling reward or surprise) decides whether it becomes a weight change, bridging behavioural (s) and synaptic (ms) timescales. Other proposals have apical-dendrite bursts carrying error-like signals.'),
+      'A leading theory is the three-factor rule: pre × post activity leaves a decaying eligibility trace, and a third signal arriving seconds later (dopamine or another neuromodulator signaling reward or surprise) decides whether it becomes a weight change, bridging behavioral (s) and synaptic (ms) timescales. Other proposals have apical-dendrite bursts carrying error-like signals.'),
     brainMath: [
       { tex: t`\frac{de_{ij}}{dt} = -\frac{e_{ij}}{\tau_e} + f(\text{pre}_j)\,g(\text{post}_i),\qquad \frac{dw_{ij}}{dt} = \eta\,M(t)\,e_{ij}(t)`, caption: b('三因子规则：资格迹 e × 神经调质 M', 'Three-factor rule: eligibility trace e × neuromodulator M') },
     ],
@@ -103,8 +103,8 @@ export const LAYER1: CardMechanism[] = [
     title: b('结构可塑性 ↔ 剪枝与稀疏训练', 'Structural plasticity ↔ pruning & sparse training'),
     brain: b(
       '树突棘（突触所在处）会随经验不断出现和消失。发育早期突触过量生成，随后按使用情况大量修剪；成年后仍有持续的周转，学习新技能时新棘增加并被选择性保留。关键期内结构可塑性特别强（Hensch 2005）。',
-      'Dendritic spines (where synapses sit) appear and disappear with experience. Early development overproduces synapses and then prunes heavily by use; adults keep turning them over, adding and selectively stabilising spines when learning skills. Critical periods show especially strong structural plasticity (Hensch 2005).'),
-    brainMath: [{ tex: t`P(\text{spine survives}) \uparrow \ \text{with correlated pre/post activity}`, caption: b('定性规律：相关活动使新突触更可能被保留（Holtmaat & Svoboda 2009）', 'Qualitative rule: correlated activity stabilises new synapses (Holtmaat & Svoboda 2009)') }],
+      'Dendritic spines (where synapses sit) appear and disappear with experience. Early development overproduces synapses and then prunes heavily by use; adults keep turning them over, adding and selectively stabilizing spines when learning skills. Critical periods show especially strong structural plasticity (Hensch 2005).'),
+    brainMath: [{ tex: t`P(\text{spine survives}) \uparrow \ \text{with correlated pre/post activity}`, caption: b('定性规律：相关活动使新突触更可能被保留（Holtmaat & Svoboda 2009）', 'Qualitative rule: correlated activity stabilizes new synapses (Holtmaat & Svoboda 2009)') }],
     ai: b(
       '剪枝通常在训练后进行，用于压缩模型。彩票假说（Frankle & Carbin 2019）发现稠密网络中存在可以单独训练到同等精度的稀疏子网络。动态稀疏训练会在训练中剪掉弱连接、再生长新连接。MoE 则在运行时按输入选择激活哪些专家。',
       'Pruning usually happens after training for compression. The lottery-ticket hypothesis (Frankle & Carbin 2019) found sparse subnetworks trainable to full accuracy. Dynamic sparse training prunes and regrows connections during training; MoE selects which experts to activate per input.'),
@@ -117,7 +117,7 @@ export const LAYER1: CardMechanism[] = [
     title: b('胶质细胞与三方突触 ↔（缺失）', 'Glia & the tripartite synapse ↔ (absent)'),
     brain: b(
       '胶质细胞数量与神经元相当。星形胶质细胞包裹大量突触，回收递质、调节离子与能量供应，并能通过钙信号以秒到分钟的尺度调节突触传递，形成「突触前-突触后-胶质」三方突触。它们的计算作用仍在研究中。',
-      'Glia are about as numerous as neurons. Astrocytes wrap many synapses, recycle transmitter, regulate ions and energy, and can modulate transmission via calcium signalling over seconds to minutes. Together they form the pre–post–glia tripartite synapse. Their computational role is still being worked out.'),
+      'Glia are about as numerous as neurons. Astrocytes wrap many synapses, recycle transmitter, regulate ions and energy, and can modulate transmission via calcium signaling over seconds to minutes. Together they form the pre–post–glia tripartite synapse. Their computational role is still being worked out.'),
     ai: b('主流 AI 没有对应机制。最接近的是超网络或慢速调制网络：一个较慢的网络生成或调节另一个网络的参数。', 'No mainstream counterpart. The closest are hypernetworks or slow modulatory networks that generate or scale another network’s parameters.'),
     corr: 'absent', evidence: 'debated',
     refs: ['araque1999'],

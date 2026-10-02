@@ -39,8 +39,8 @@ export const CHAPTERS: Chapter[] = [
   {
     tag: 'MICROCIRCUIT ↔ MODULE',
     title: b('在微环路与模块之间', 'between microcircuits and modules'),
-    brain: b('微环路可参与归一化、预测和记忆维持。', 'Microcircuits can support normalisation, prediction, and memory maintenance.'),
-    ai: b('归一化与注意力调节信息处理，权重编码学习到的模式。', 'Normalisation and attention shape processing; weights encode learned patterns.'),
+    brain: b('微环路可参与归一化、预测和记忆维持。', 'Microcircuits can support normalization, prediction, and memory maintenance.'),
+    ai: b('归一化与注意力调节信息处理，权重编码学习到的模式。', 'Normalization and attention shape processing; weights encode learned patterns.'),
     dist: 5.6,
   },
   {

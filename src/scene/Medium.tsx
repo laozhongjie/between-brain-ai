@@ -40,9 +40,9 @@ const backdropFrag = /* glsl */ `
     float c1 = fbm(uv * 1.6 + vec2(t, -t * 0.7));
     float c2 = fbm(uv * 2.3 - vec2(t * 0.8, t * 0.5) + c1);
     float caustic = pow(1.0 - abs(c2 * 2.0 - 1.0), 6.0);
-    // deep teal, lighter towards the horizon band the camera mostly looks through, black above and below
+    // deep teal, lighter toward the horizon band the camera mostly looks through, black above and below
     float band = 1.0 - smoothstep(0.0, 0.9, abs(d.y + 0.05));
-    // linear colours (the composer converts to sRGB): deep ≈ #070a10, teal ≈ #0c1d26
+    // linear colors (the composer converts to sRGB): deep ≈ #070a10, teal ≈ #0c1d26
     vec3 deep = vec3(0.0021, 0.0030, 0.0052);
     vec3 teal = vec3(0.0042, 0.0130, 0.0200);
     vec3 col = mix(deep, teal, band);

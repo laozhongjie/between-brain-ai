@@ -40,7 +40,7 @@ export const LAYER2: CardMechanism[] = [
     ],
     ai: b(
       '标准人工单元是「点神经元」。最接近树突的是乘性门控：GLU、LSTM 门、以及「主动树突」网络（Iyer 2022），用上下文向量选择每个单元的哪个树突段起作用，从而在多任务中减少遗忘。',
-      'Standard units are point neurons. The closest analogues are multiplicative gates: GLU, LSTM gates, and active-dendrite networks (Iyer 2022), where a context vector selects which dendritic segment drives each unit, reducing forgetting across tasks.'),
+      'Standard units are point neurons. The closest analogs are multiplicative gates: GLU, LSTM gates, and active-dendrite networks (Iyer 2022), where a context vector selects which dendritic segment drives each unit, reducing forgetting across tasks.'),
     aiMath: [
       { tex: t`y = \big(W x\big) \odot \sigma\big(U c\big)`, caption: b('上下文门控：c 是上下文（类比顶树突输入）', 'Context gating: c is context (cf. apical input)') },
       { tex: t`y = (W_1x)\odot\sigma(W_2x)`, caption: b('GLU：前馈信号自身的乘性门控', 'GLU: multiplicative self-gating') },
@@ -68,7 +68,7 @@ export const LAYER2: CardMechanism[] = [
   },
   {
     id: 'ei-celltypes', layer: 2,
-    title: b('兴奋/抑制与细胞类型多样性 ↔ 同质单元 + 归一化', 'Excitation/inhibition & cell-type diversity ↔ uniform units + normalisation'),
+    title: b('兴奋/抑制与细胞类型多样性 ↔ 同质单元 + 归一化', 'Excitation/inhibition & cell-type diversity ↔ uniform units + normalization'),
     brain: b(
       '皮层中大约 80% 是兴奋性锥体神经元，约 20% 是抑制性中间神经元（比例因物种和脑区而异），后者又分为 PV（快速抑制、同步振荡）、SST（抑制树突、调节输入）、VIP（抑制其他抑制神经元，即「去抑制」，打开信息通道）等类型。兴奋与抑制保持动态平衡，使网络既灵敏又不失控。',
       'Roughly 80% of cortical neurons are excitatory pyramidal cells and ~20% inhibitory interneurons (varying by species and area): PV (fast inhibition, gamma oscillations), SST (dendritic inhibition, input control), VIP (inhibiting other interneurons, i.e. disinhibition that opens a channel), and more. Excitation and inhibition stay dynamically balanced, keeping the network sensitive but stable.'),
@@ -78,7 +78,7 @@ export const LAYER2: CardMechanism[] = [
     ai: b(
       'AI 单元基本同质，权重可正可负，没有专门的抑制性单元。增益控制由 LayerNorm/BatchNorm 等全局操作完成，门控由乘性门实现。',
       'AI units are essentially uniform with signed weights and no dedicated inhibitory cells. Gain control comes from global ops like LayerNorm/BatchNorm; gating from multiplicative gates.'),
-    aiMath: [{ tex: t`\mathrm{LN}(x) = \gamma\,\frac{x - \mu}{\sigma} + \beta`, caption: b('LayerNorm：一种全局的增益归一化', 'LayerNorm: a global gain normalisation') }],
+    aiMath: [{ tex: t`\mathrm{LN}(x) = \gamma\,\frac{x - \mu}{\sigma} + \beta`, caption: b('LayerNorm：一种全局的增益归一化', 'LayerNorm: a global gain normalization') }],
     corr: 'crude', evidence: 'established',
     refs: ['tremblay2016', 'carandini2012'],
   },
@@ -87,7 +87,7 @@ export const LAYER2: CardMechanism[] = [
     title: b('噪声与随机性 ↔ Dropout / 采样', 'Noise & stochasticity ↔ dropout / sampling'),
     brain: b(
       '离子通道开闭、递质释放、突触整合都是随机的，同一刺激引起的放电每次不同。这种变异性可能被用于概率推断（放电模式代表后验分布的样本）和行为探索，而神经调质（如去甲肾上腺素）会改变这种变异性。',
-      'Channel gating, transmitter release and synaptic integration are all stochastic; the same stimulus evokes different spikes each time. This variability may serve probabilistic inference (activity as samples from a posterior) and behavioural exploration, and neuromodulators such as noradrenaline alter it.'),
+      'Channel gating, transmitter release and synaptic integration are all stochastic; the same stimulus evokes different spikes each time. This variability may serve probabilistic inference (activity as samples from a posterior) and behavioral exploration, and neuromodulators such as noradrenaline alter it.'),
     brainMath: [{ tex: t`F = \frac{\mathrm{Var}(N)}{\mathbb{E}[N]} \approx 1 \ \text{(Poisson-like cortical spiking)}`, caption: b('Fano 因子：皮层放电计数的变异性通常接近泊松过程', 'Fano factor: cortical spike-count variability is often near-Poisson') }],
     ai: b(
       'AI 在训练中刻意注入噪声（dropout、数据增强），在生成时用温度控制采样随机性，扩散模型更是以噪声为核心。但推理中的随机性通常是外加的，而非来自单元本身。',
@@ -101,7 +101,7 @@ export const LAYER2: CardMechanism[] = [
     title: b('能耗与稀疏编码 ↔ 稠密计算 / MoE', 'Energy & sparse coding ↔ dense compute / MoE'),
     brain: b(
       '信号传递（动作电位与突触传递）占据了大脑能量预算的主要部分（Attwell & Laughlin 2001），因此大脑倾向于稀疏放电：用少数活跃神经元表示信息。Olshausen & Field（1996）表明，只要要求编码稀疏，就能从自然图像中自动学出与 V1 简单细胞相似的感受野。',
-      'Signalling (spikes and synaptic transmission) dominates the brain’s energy budget (Attwell & Laughlin 2001), so the brain favours sparse firing: few active neurons per representation. Olshausen & Field (1996) showed that demanding sparsity alone makes V1-like simple-cell receptive fields emerge from natural images.'),
+      'Signaling (spikes and synaptic transmission) dominates the brain’s energy budget (Attwell & Laughlin 2001), so the brain favors sparse firing: few active neurons per representation. Olshausen & Field (1996) showed that demanding sparsity alone makes V1-like simple-cell receptive fields emerge from natural images.'),
     brainMath: [{ tex: t`\min_{\Phi,\,a}\ \big\|x - \Phi a\big\|_2^2 + \lambda \sum_i |a_i|`, caption: b('稀疏编码：用尽量少的激活重建输入', 'Sparse coding: reconstruct the input with as few active units as possible') }],
     ai: b(
       '主流网络是稠密计算，训练与推理耗能巨大。条件计算提供了部分稀疏：MoE 每个 token 只激活少数专家（Switch Transformer），ReLU 网络也有天然的激活稀疏。',

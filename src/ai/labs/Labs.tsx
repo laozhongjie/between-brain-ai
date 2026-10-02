@@ -66,7 +66,7 @@ export function NeuronLab() {
         '同一个阶跃输入（20 ms 开始）分别送进三种神经元。人工神经元只输出一个恒定的「频率」；LIF 会积分、放电、重置；Izhikevich 模型还能产生适应、爆发等模式。右下图比较三者的频率-输入曲线：ReLU 正是这条曲线的平滑近似，但丢掉了时间过程。',
         'The same step input (from 20 ms) drives three neuron models. The artificial unit outputs a constant “rate”; LIF integrates, fires and resets; Izhikevich adds adaptation and bursting. The bottom-right plot compares rate–input curves: ReLU approximates this curve but discards the time course.'))} /></p>
       <div className="lab-controls">
-        <Slider label={t(b('输入强度（归一化）', 'Input (normalised)'))} value={s} min={0} max={1} step={0.01} onChange={setS} fmt={(v) => v.toFixed(2)} />
+        <Slider label={t(b('输入强度（归一化）', 'Input (normalized)'))} value={s} min={0} max={1} step={0.01} onChange={setS} fmt={(v) => v.toFixed(2)} />
         <Seg value={preset} options={Object.keys(IZH_PRESETS).map((k) => [k, t(IZH_NAMES[k])])} onChange={setPreset} />
       </div>
       <div className="lab-grid">

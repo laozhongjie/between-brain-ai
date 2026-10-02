@@ -35,17 +35,17 @@ export const SYNAPSE_GUIDES: Record<string, CardGuide> = {
     ],
   },
   stdp: {
-    question: b('只靠相邻单元的活动，能学到什么？', 'What can be learned from neighbouring units alone?'),
+    question: b('只靠相邻单元的活动，能学到什么？', 'What can be learned from neighboring units alone?'),
     answer: b('Hebb 类学习利用共同活动，STDP 还利用放电先后顺序。它们能形成局部关联，但并不自动解决复杂任务的目标分配。', 'Hebbian learning uses joint activity and STDP also uses spike order. They form local associations but do not automatically solve credit assignment for complex tasks.'),
     scope: b('比较经典 Hebb、STDP 模型与反向传播和可微可塑性；真实时序规则随细胞和状态而变。', 'Compares classical Hebbian and STDP models with backpropagation and differentiable plasticity; biological timing rules vary by cell and state.'),
     comparisons: [
       { dimension: b('需要哪些信息', 'Required information'), brain: b('经典 STDP 根据突触前后放电的相对时刻更新连接。', 'Classical STDP updates connections using relative pre- and postsynaptic spike timing.'), ai: b('反向传播用任务损失的梯度；局部学习模型可只读取附近活动。', 'Backpropagation uses task-loss gradients; local-learning models can use nearby activity only.') },
-      { dimension: b('如何避免失控', 'Keeping learning stable'), brain: b('活动相关增强需要稳态调节、抑制等机制配合。', 'Activity-dependent strengthening needs homeostatic regulation, inhibition and related mechanisms.'), ai: b('可使用归一化、权重约束或学习到的局部更新规则。', 'Normalisation, weight constraints or learned local update rules can stabilise changes.') },
+      { dimension: b('如何避免失控', 'Keeping learning stable'), brain: b('活动相关增强需要稳态调节、抑制等机制配合。', 'Activity-dependent strengthening needs homeostatic regulation, inhibition and related mechanisms.'), ai: b('可使用归一化、权重约束或学习到的局部更新规则。', 'Normalization, weight constraints or learned local update rules can stabilize changes.') },
     ],
     borrow: b('让少量连接利用最近活动快速适应，同时显式限制更新幅度。', 'Let a small set of connections adapt quickly to recent activity while explicitly bounding updates.'),
     boundary: b('先后相关不等于证明因果；STDP 在体外有充分证据，但对活体复杂学习的贡献仍有争议。', 'Temporal correlation does not prove causation. STDP has strong in-vitro evidence, but its role in complex in-vivo learning remains debated.'),
     experiments: [
-      { title: b('叠加局部适应通道', 'Add a local adaptation path'), change: b('冻结主模型，在小型适配器中加入有界 Hebb 更新。', 'Freeze the main model and add bounded Hebbian updates in a small adapter.'), test: b('在缓慢分布变化下，比较适应速度与旧任务保持率。', 'Compare adaptation speed and old-task retention under gradual distribution shift.'), tradeoff: b('无标签更新也可能强化模型自己的错误。', 'Unlabelled updates can reinforce the model’s own mistakes.') },
+      { title: b('叠加局部适应通道', 'Add a local adaptation path'), change: b('冻结主模型，在小型适配器中加入有界 Hebb 更新。', 'Freeze the main model and add bounded Hebbian updates in a small adapter.'), test: b('在缓慢分布变化下，比较适应速度与旧任务保持率。', 'Compare adaptation speed and old-task retention under gradual distribution shift.'), tradeoff: b('无标签更新也可能强化模型自己的错误。', 'Unlabeled updates can reinforce the model’s own mistakes.') },
       { title: b('从事件时序学习特征', 'Learn features from event timing'), change: b('用 STDP 训练事件传感器前端，再训练一个监督读出。', 'Train an event-sensor front end with STDP, then fit a supervised readout.'), test: b('在相同标签预算下，与随机特征和端到端训练比较。', 'Compare with random features and end-to-end training at the same label budget.'), tradeoff: b('局部学到的特征未必对下游任务最有用。', 'Locally learned features may not be optimal for the downstream task.') },
     ],
   },
@@ -66,10 +66,10 @@ export const SYNAPSE_GUIDES: Record<string, CardGuide> = {
   },
   consolidation: {
     question: b('学新知识时，哪些旧参数应该少改一点？', 'Which old parameters should change less when learning something new?'),
-    answer: b('巩固让部分变化更稳定；持续学习算法则估计哪些参数重要，并限制它们被新任务覆盖。', 'Consolidation stabilises some changes; continual-learning methods estimate important parameters and protect them from new-task interference.'),
+    answer: b('巩固让部分变化更稳定；持续学习算法则估计哪些参数重要，并限制它们被新任务覆盖。', 'Consolidation stabilizes some changes; continual-learning methods estimate important parameters and protect them from new-task interference.'),
     scope: b('比较突触巩固模型与 EWC、参数重要性方法，不把脑内遗忘视为不存在。', 'Compares synaptic-consolidation models with EWC and parameter-importance methods, without assuming biological memory never forgets.'),
     comparisons: [
-      { dimension: b('如何保留历史', 'Retaining history'), brain: b('多个分子过程在不同时间尺度参与突触变化的稳定。', 'Multiple molecular processes help stabilise synaptic changes over different timescales.'), ai: b('EWC 保存旧参数与重要性估计，惩罚对重要参数的大幅改动。', 'EWC retains old parameters and importance estimates to penalise large changes to important weights.') },
+      { dimension: b('如何保留历史', 'Retaining history'), brain: b('多个分子过程在不同时间尺度参与突触变化的稳定。', 'Multiple molecular processes help stabilize synaptic changes over different timescales.'), ai: b('EWC 保存旧参数与重要性估计，惩罚对重要参数的大幅改动。', 'EWC retains old parameters and importance estimates to penalize large changes to important weights.') },
       { dimension: b('何时保护', 'When protection happens'), brain: b('巩固受活动、调质和时间影响，并非明确的任务结束按钮。', 'Consolidation depends on activity, modulation and time, not an explicit task-end switch.'), ai: b('经典 EWC 常在任务边界估计重要性；在线变体可连续更新。', 'Classical EWC often estimates importance at task boundaries; online variants can update continuously.') },
     ],
     borrow: b('让学习速度取决于历史重要性，而不是所有参数始终用同样的可修改程度。', 'Make learning rates depend on historical importance instead of treating every parameter as equally changeable.'),
@@ -84,14 +84,14 @@ export const SYNAPSE_GUIDES: Record<string, CardGuide> = {
     answer: b('大脑会形成和移除部分突触；动态稀疏训练也会调整连接，区别在于时机、依据和持续时间。', 'Brains form and remove some synapses; dynamic sparse training also changes connections, with different timing, criteria and duration.'),
     scope: b('比较经验相关结构变化、训练后剪枝和动态稀疏训练；MoE 选择专家不等于形成新连接。', 'Compares experience-related structural change, post-training pruning and dynamic sparse training; selecting an MoE expert is not growing a connection.'),
     comparisons: [
-      { dimension: b('何时改结构', 'When structure changes'), brain: b('发育和成年学习都伴随部分连接的形成、稳定与消失。', 'Development and adult learning involve formation, stabilisation and loss of some connections.'), ai: b('剪枝可在训练后进行；动态稀疏方法在训练中改连接。', 'Pruning can happen after training; dynamic sparse methods rewire during training.') },
+      { dimension: b('何时改结构', 'When structure changes'), brain: b('发育和成年学习都伴随部分连接的形成、稳定与消失。', 'Development and adult learning involve formation, stabilization and loss of some connections.'), ai: b('剪枝可在训练后进行；动态稀疏方法在训练中改连接。', 'Pruning can happen after training; dynamic sparse methods rewire during training.') },
       { dimension: b('如何分配容量', 'Allocating capacity'), brain: b('活动、细胞过程和空间成本共同约束连接变化。', 'Activity, cellular processes and spatial costs constrain rewiring.'), ai: b('可按权重、梯度或任务需求选择移除与新增位置。', 'Weights, gradients or task demands can guide removal and growth.') },
     ],
     borrow: b('把容量分配也纳入学习：在预算内新增有用连接，同时保留支撑旧任务的路径。', 'Learn capacity allocation too: add useful connections within a budget while retaining paths that support old tasks.'),
     boundary: b('生物关键期不能直接变成通用训练日程；更像生长的算法也可能只是增加了计算预算。', 'Biological critical periods do not directly specify a universal training schedule; growth-like algorithms may simply spend more compute.'),
     experiments: [
-      { title: b('在固定预算内重新连接', 'Rewire within a fixed budget'), change: b('移除低贡献连接，并按梯度信息补充相同数量的新连接。', 'Remove low-contribution connections and add the same number using gradient information.'), test: b('与固定稀疏结构比较新任务适应、旧任务保持和训练耗时。', 'Compare adaptation, retention and training time with fixed sparse wiring.'), tradeoff: b('重连会改变优化状态，也可能损伤看似不重要的旧通路。', 'Rewiring changes optimisation state and can damage seemingly unimportant old pathways.') },
-      { title: b('逐步降低结构变化率', 'Gradually reduce rewiring'), change: b('训练前期允许更多连接替换，后期减少，并设置任务变化时的重启条件。', 'Allow more replacement early, reduce it later and define restart conditions for task changes.'), test: b('在相同连接预算下比较恒定与递减重连率。', 'Compare constant and decreasing rewiring rates at the same connection budget.'), tradeoff: b('过早稳定结构会限制后续任务适应。', 'Stabilising structure too early limits later adaptation.') },
+      { title: b('在固定预算内重新连接', 'Rewire within a fixed budget'), change: b('移除低贡献连接，并按梯度信息补充相同数量的新连接。', 'Remove low-contribution connections and add the same number using gradient information.'), test: b('与固定稀疏结构比较新任务适应、旧任务保持和训练耗时。', 'Compare adaptation, retention and training time with fixed sparse wiring.'), tradeoff: b('重连会改变优化状态，也可能损伤看似不重要的旧通路。', 'Rewiring changes optimization state and can damage seemingly unimportant old pathways.') },
+      { title: b('逐步降低结构变化率', 'Gradually reduce rewiring'), change: b('训练前期允许更多连接替换，后期减少，并设置任务变化时的重启条件。', 'Allow more replacement early, reduce it later and define restart conditions for task changes.'), test: b('在相同连接预算下比较恒定与递减重连率。', 'Compare constant and decreasing rewiring rates at the same connection budget.'), tradeoff: b('过早稳定结构会限制后续任务适应。', 'Stabilizing structure too early limits later adaptation.') },
     ],
   },
   glia: {
@@ -99,7 +99,7 @@ export const SYNAPSE_GUIDES: Record<string, CardGuide> = {
     answer: b('星形胶质细胞参与递质回收、离子环境和代谢支持。把它们类比成慢速资源调节器有启发性，但仍是粗略类比。', 'Astrocytes contribute to transmitter recycling, ionic conditions and metabolic support. A slow resource regulator is an instructive but rough engineering analogy.'),
     scope: b('比较胶质细胞的支持与调节作用和工程资源控制；没有公认的一一对应 AI 模块。', 'Compares glial support and regulation with engineering resource control; there is no accepted one-to-one AI module.'),
     comparisons: [
-      { dimension: b('调节对象', 'What is regulated'), brain: b('细胞外环境和局部突触活动与胶质过程相互作用。', 'Extracellular conditions and local synaptic activity interact with glial processes.'), ai: b('优化器和调度器能调节学习率、计算和内存，但不是细胞模型。', 'Optimisers and schedulers regulate learning rates, compute and memory, but are not cell models.') },
+      { dimension: b('调节对象', 'What is regulated'), brain: b('细胞外环境和局部突触活动与胶质过程相互作用。', 'Extracellular conditions and local synaptic activity interact with glial processes.'), ai: b('优化器和调度器能调节学习率、计算和内存，但不是细胞模型。', 'Optimizers and schedulers regulate learning rates, compute and memory, but are not cell models.') },
       { dimension: b('时间尺度', 'Timescale'), brain: b('许多胶质过程比单次神经脉冲慢，且作用具有空间范围。', 'Many glial processes are slower than individual spikes and have spatial extent.'), ai: b('可为一组计算单元设置低频更新的资源控制器。', 'A group of units can be governed by a slower resource controller.') },
     ],
     borrow: b('在快速计算之外，试验慢速、区域性的资源与稳定性调节。', 'Explore slow, regional resource and stability regulation alongside fast computation.'),

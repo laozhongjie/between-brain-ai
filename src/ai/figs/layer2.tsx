@@ -271,7 +271,7 @@ function SparsePopFig({ t }: FigProps) {
       <T x={300} y={60} size={11} color={C.pinkD} weight={600} s={t(b('约 20 W', '~20 W'))} />
       <T x={300} y={82} size={9.5} color={C.dim} s={t(b('全脑功耗', 'whole brain'))} />
       <T x={300} y={130} size={10} s={t(b('任一时刻\n只有少数\n神经元活跃', 'only a few\nneurons active\nat any moment'))} />
-      <T x={150} y={210} size={10} color={C.dim} s={t(b('信号传递占大部分能耗 → 稀疏编码更省能', 'signalling dominates energy use → sparse codes save energy'))} />
+      <T x={150} y={210} size={10} color={C.dim} s={t(b('信号传递占大部分能耗 → 稀疏编码更省能', 'signaling dominates energy use → sparse codes save energy'))} />
     </Svg>
   )
 }
