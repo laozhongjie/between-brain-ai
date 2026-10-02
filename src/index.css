@@ -567,6 +567,40 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .thesis-gap strong { display: block; margin-bottom: 2px; font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; color: var(--lemon); }
 .grammar-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; margin: 0 0 12px; padding: 0; font-size: 13px; color: var(--text-dim); }
 .grammar-legend li { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+/* Capabilities as a face-off: dimension on the spine, the two systems facing each other, a pointer to the side ahead */
+.duel { margin-top: 6px; }
+.duel-head, .duel-row, .duel-verdict { display: grid; grid-template-columns: 1fr 8.5em 1fr; column-gap: 22px; }
+.duel-head { padding: 0 0 8px; border-bottom: 1px solid var(--panel-border); font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; color: var(--text-dim); }
+.duel-head > span:nth-child(2) { text-align: center; }
+.duel-head .bio { text-align: right; color: var(--pink); }
+.duel-head .comp { color: var(--accent); }
+.duel-row { row-gap: 8px; padding: 18px 0 16px; border-bottom: 1px solid rgba(170,195,230,0.08); }
+.duel-side { font-size: 15px; line-height: 1.75; color: var(--text-h); }
+.duel-side.bio { text-align: right; }
+.duel-dim { align-self: center; text-align: center; padding: 7px 10px; border: 1px solid var(--panel-border); border-radius: 999px; font-size: 14px; font-weight: 600; color: var(--text-h); background: rgba(170,195,230,0.04); }
+.duel-verdict { grid-column: 1 / -1; align-items: center; row-gap: 2px; }
+.v-label { font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; }
+.v-label.left { text-align: right; color: var(--pink); }
+.v-label.right { color: var(--accent); }
+.v-label.center { grid-column: 2; text-align: center; color: var(--lemon); }
+.v-track { position: relative; height: 12px; }
+.v-track::before { content: ''; position: absolute; left: 0; right: 0; top: 5.5px; height: 1px; background: var(--line-hi); }
+.v-track::after { content: ''; position: absolute; left: calc(50% - 0.5px); top: 1px; width: 1px; height: 10px; background: var(--text-dim); }
+.v-track i { position: absolute; top: 4.5px; height: 3px; border-radius: 2px; }
+.lead-bio .v-track i { right: 50%; left: 6px; background: var(--pink); }
+.lead-comp .v-track i { left: 50%; right: 6px; background: var(--accent); }
+.lead-even .v-track i, .lead-mixed .v-track i { left: 20%; right: 20%; background: var(--lemon); opacity: 0.7; }
+.lead-bio .v-track i::before, .lead-comp .v-track i::after { content: ''; position: absolute; top: -3.5px; border: 5px solid transparent; }
+.lead-bio .v-track i::before { left: -8px; border-right: 7px solid var(--pink); border-left-width: 0; }
+.lead-comp .v-track i::after { right: -8px; border-left: 7px solid var(--accent); border-right-width: 0; }
+.ai-page .duel-gap { grid-column: 1 / -1; margin: 2px auto 0; max-width: 46em; text-align: center; font-size: 13.5px; line-height: 1.7; color: var(--text-dim); }
+@media (max-width: 760px) {
+  .duel-head, .duel-row { grid-template-columns: 1fr 1fr; }
+  .duel-head > span:nth-child(2) { display: none; }
+  .duel-dim { grid-column: 1 / -1; grid-row: 1; justify-self: center; }
+  .duel-verdict { grid-template-columns: 1fr 6em 1fr; }
+}
+
 /* Architecture: two columns whose rows (name, figure, flow, notes) line up across the columns */
 .arch-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, auto); gap: 0 16px; }
 .arch-col { min-width: 0; display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 12px; padding: 12px 16px 16px; border: 1px solid var(--panel-border); border-top: 2px solid var(--side); border-radius: 10px; background: rgba(170,195,230,0.025); }

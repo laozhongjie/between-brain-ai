@@ -35,6 +35,8 @@ describe('topic pages', () => {
         // the three figures render as SVG, each followed by its numbered explanation
         expect(html.match(/<svg[^>]*class="fig-svg"/g) ?? []).toHaveLength(3)
         expect(html.match(/<ol class="fig-steps/g) ?? []).toHaveLength(4)
+        // every capability row gets a verdict pointer
+        expect(html.match(/class="duel-row lead-/g) ?? []).toHaveLength(page.capabilities.length)
         // cross-references render as links
         for (const m of JSON.stringify(page).matchAll(/\]\((card|topic):([a-z0-9-]+)\)/g)) expect(html).toContain(`href="#/ai/${m[1]}/${m[2]}"`)
         // equations are always shown, never folded

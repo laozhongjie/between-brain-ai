@@ -106,6 +106,8 @@ export const UI = {
   mathConsequences: b('推论', 'Consequences'),
   mathLimitations: b('局限', 'Limitations'),
   thesisGap: b('关键差距', 'Key gap'),
+  leadEven: b('相当', 'Even'),
+  leadMixed: b('各有所长', 'Each has strengths'),
   archNotes: b('补充说明', 'Notes'),
   limitsUnsupported: b('证据不能支持的结论', 'Not supported by the evidence'),
   secEvidence: b('证据与参考文献', 'Evidence and references'),

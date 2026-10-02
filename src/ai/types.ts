@@ -204,15 +204,24 @@ export interface FigStep {
   points: Bi[]
 }
 
+/** Which side does better on one capability, judged from the row's own evidence. */
+export type Lead = 'bio' | 'comp' | 'even' | 'mixed'
+
+export interface TopicCapability extends CapabilityComparison {
+  lead: Lead
+}
+
 /** The full page of a functional topic (docs/atlas-v1-plan.md §5). */
 export interface TopicContent {
+  /** short names of the two systems for verdict labels, e.g. 海马 / RAG */
+  short: { biological: Bi; computational: Bi }
   /** one short paragraph per side, then the key gap */
   thesis: { biological: Bi; computational: Bi; gap: Bi }
   kinds: Kind[]
   evidence: Evidence
   /** which systems the computational column describes, and as of when */
   asOf: Bi
-  capabilities: CapabilityComparison[]
+  capabilities: TopicCapability[]
   /** the information flow through each architecture figure, step by step */
   archSteps: { biological: FigStep[]; computational: FigStep[] }
   /** background under each architecture column: definitions, mechanisms, scale, debated points */

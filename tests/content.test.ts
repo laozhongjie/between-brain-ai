@@ -105,6 +105,7 @@ describe('AI correspondence content', () => {
       const figs = TOPIC_FIGS[id]
       expect(figs?.arch.brain && figs.arch.ai && figs.dynamics, id).toBeTruthy()
       expect(page.capabilities.length, id).toBeGreaterThanOrEqual(3)
+      for (const r of page.capabilities) expect(['bio', 'comp', 'even', 'mixed'], `${id}: ${r.dimension.en}`).toContain(r.lead)
       expect(page.bioMath.length && page.compMath.length, id).toBeTruthy()
       expect(page.refs.neuro.length && page.refs.models.length && page.refs.ai.length, id).toBeTruthy()
       for (const steps of [page.dynamicsSteps.biological, page.dynamicsSteps.computational])
@@ -113,7 +114,7 @@ describe('AI correspondence content', () => {
       expect(page.archNotes.biological.length && page.archNotes.computational.length, id).toBeTruthy()
       for (const f of [...page.bioMath, ...page.compMath])
         expect(f.symbols.length && f.steps.length && f.consequences.length && f.limitations.length, `${id}: ${f.tex}`).toBeTruthy()
-      const fields = [page.thesis.biological, page.thesis.computational, page.thesis.gap, page.asOf,
+      const fields = [page.short.biological, page.short.computational, page.thesis.biological, page.thesis.computational, page.thesis.gap, page.asOf,
         ...page.limits.biological, ...page.limits.computational, ...page.limits.unsupported,
         ...page.capabilities.flatMap((r) => [r.dimension, r.brain, r.ai, r.gap]),
         ...[...page.archSteps.biological, ...page.archSteps.computational].flatMap((s) => [s.title, ...s.points]),

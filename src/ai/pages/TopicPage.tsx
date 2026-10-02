@@ -10,7 +10,7 @@ import { TOPIC_FIGS } from '../figs'
 import { GRAMMAR_LEGEND, LegendMark } from '../figs/grammar'
 import type { FigProps } from '../figs/types'
 import { Rich, Tex } from '../Tex'
-import type { FigStep, Topic, TopicFormula } from '../types'
+import type { FigStep, Lead, Topic, TopicCapability, TopicFormula } from '../types'
 import { EvidenceBadge, KindTags, PagerLink, RefList } from './common'
 import { Icon } from '../../ui/Icon'
 import { ComparisonText } from '../../ui/ComparisonText'
@@ -35,6 +35,43 @@ function Steps({ steps, side }: { steps: FigStep[]; side: 'bio' | 'comp' }) {
         </li>
       ))}
     </ol>
+  )
+}
+
+/** 「海马占优」 / 「RAG 占优」: a Latin short name takes a space before Chinese. */
+const aheadLabel = (name: string, lang: 'zh' | 'en') => (lang === 'zh' ? (/[A-Za-z0-9]$/.test(name) ? `${name} 占优` : `${name}占优`) : `${name} ahead`)
+
+/**
+ * Capabilities as a face-off: the dimension on a central spine, the biological system on the left, the
+ * computational one on the right, a pointer toward the side that does better, and the gap underneath.
+ */
+function CapabilityDuel({ rows, bio, comp, short }: { rows: TopicCapability[]; bio: string; comp: string; short: { biological: Bi; computational: Bi } }) {
+  const t = useT()
+  const lang = t({ zh: 'zh', en: 'en' }) as 'zh' | 'en'
+  const verdict = (lead: Lead) =>
+    lead === 'bio' ? aheadLabel(t(short.biological), lang) : lead === 'comp' ? aheadLabel(t(short.computational), lang) : t(lead === 'even' ? UI.leadEven : UI.leadMixed)
+  return (
+    <div className="duel" role="table">
+      <div className="duel-head" role="row">
+        <span className="bio" role="columnheader">{bio}</span>
+        <span role="columnheader">{t(UI.dimension)}</span>
+        <span className="comp" role="columnheader">{comp}</span>
+      </div>
+      {rows.map((r, i) => (
+        <div key={i} className={`duel-row lead-${r.lead}`} role="row">
+          <div className="duel-side bio" role="cell"><Rich text={t(r.brain)} /></div>
+          <div className="duel-dim" role="rowheader">{t(r.dimension)}</div>
+          <div className="duel-side comp" role="cell"><Rich text={t(r.ai)} /></div>
+          <div className="duel-verdict" aria-label={verdict(r.lead)}>
+            <span className="v-label left">{r.lead === 'bio' ? verdict('bio') : ''}</span>
+            <span className="v-track"><i /></span>
+            <span className="v-label right">{r.lead === 'comp' ? verdict('comp') : ''}</span>
+            {(r.lead === 'even' || r.lead === 'mixed') && <span className="v-label center">{verdict(r.lead)}</span>}
+          </div>
+          <p className="duel-gap"><Rich text={t(r.gap)} /></p>
+        </div>
+      ))}
+    </div>
   )
 }
 
@@ -139,19 +176,7 @@ export function TopicPage({ topic }: { topic: Topic }) {
       <section aria-labelledby="topic-capabilities">
         <h2 id="topic-capabilities">{t(UI.secCapabilities)}</h2>
         <p className="card-scope">{t(c.asOf)}</p>
-        <table className="card-comparison review-table review-table-gap">
-          <thead><tr><th scope="col">{t(UI.dimension)}</th><th scope="col">{bio}</th><th scope="col">{comp}</th><th scope="col">{t(UI.gapColumn)}</th></tr></thead>
-          <tbody>
-            {c.capabilities.map((row, i) => (
-              <tr key={i}>
-                <th scope="row">{t(row.dimension)}</th>
-                <td><span className="comparison-mobile-label" aria-hidden>{bio}</span><Rich text={t(row.brain)} /></td>
-                <td><span className="comparison-mobile-label" aria-hidden>{comp}</span><Rich text={t(row.ai)} /></td>
-                <td><span className="comparison-mobile-label" aria-hidden>{t(UI.gapColumn)}</span><Rich text={t(row.gap)} /></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <CapabilityDuel rows={c.capabilities} bio={bio} comp={comp} short={c.short} />
       </section>
 
       <section aria-labelledby="topic-architecture" className="review-architecture">
