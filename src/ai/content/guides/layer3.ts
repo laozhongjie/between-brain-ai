@@ -20,14 +20,14 @@ export const CIRCUIT_GUIDES: Record<string, CardGuide> = {
   },
   'feedback-predictive': {
     question: b('第一眼看不清时，能不能再想一轮？', 'Can a system take another look when the first pass is unclear?'),
-    answer: b('反馈让高层解释影响低层处理。预测编码用“预测与输入的差距”描述这个过程，但其脑内实现仍有争议。', 'Feedback lets high-level interpretations influence lower-level processing. Predictive coding models this using prediction errors, but its neural implementation remains debated.'),
+    answer: b('反馈让高层解释影响低层处理。预测编码用「预测与输入的差距」描述这个过程，但其脑内实现仍有争议。', 'Feedback lets high-level interpretations influence lower-level processing. Predictive coding models this using prediction errors, but its neural implementation remains debated.'),
     scope: b('比较预测编码模型与单次前馈网络；JEPA、扩散和循环网络提供不同形式的预测或迭代。', 'Compares predictive-coding models with single-pass networks; JEPA, diffusion and recurrent models offer distinct forms of prediction or iteration.'),
     comparisons: [
       { dimension: b('信息方向', 'Information flow'), brain: b('感觉皮层既有前馈连接，也有大量反馈连接。', 'Sensory cortex has both feedforward and extensive feedback connections.'), ai: b('单次前馈模型逐层计算；循环或迭代模型可以反复更新。', 'Single-pass models compute layer by layer; recurrent or iterative models can update repeatedly.') },
       { dimension: b('误差在哪里用', 'Use of error'), brain: b('预测编码假说认为局部预测误差参与更新表征。', 'Predictive coding proposes that local errors update representations.'), ai: b('训练损失用于学习参数；不一定在部署时迭代修正当前表征。', 'Training losses update parameters; deployed inference need not iteratively refine the current representation.') },
     ],
     borrow: b('对难以解释的输入追加计算，对已经稳定的部分提前停止。', 'Spend extra computation on hard-to-explain inputs and stop updating stable parts.'),
-    boundary: b('不能把“大脑只上传误差”当作已确定事实；多步生成也不自动等于皮层预测编码。', 'It is not established that the brain sends only errors upward; multi-step generation is not automatically cortical predictive coding.'),
+    boundary: b('不能把「大脑只上传误差」当作已确定事实；多步生成也不自动等于皮层预测编码。', 'It is not established that the brain sends only errors upward; multi-step generation is not automatically cortical predictive coding.'),
     experiments: [
       { title: b('按误差更新局部区域', 'Update regions by prediction error'), change: b('在视频模型中缓存稳定区域，仅重算预测误差较大的区域。', 'Cache stable regions in a video model and recompute regions with larger errors.'), test: b('对比完整重算，记录准确率、延迟及漏掉突发事件的比例。', 'Compare with full recomputation on accuracy, latency and missed sudden events.'), tradeoff: b('错误预测可能让系统反复忽略重要变化。', 'Bad predictions can cause important changes to be repeatedly ignored.') },
       { title: b('为困难输入多迭代几次', 'Refine difficult inputs'), change: b('增加可重复使用的修正模块，并限制最大迭代数。', 'Add a reusable refinement module with a capped iteration count.'), test: b('与固定步数模型比较遮挡识别和平均计算量。', 'Compare occlusion recognition and average compute against fixed-step models.'), tradeoff: b('需要可靠停止条件，否则可能更慢却没有更准确。', 'Without a reliable stopping rule it may be slower without becoming more accurate.') },

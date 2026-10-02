@@ -110,7 +110,7 @@ function HearingBrainFig({ t }: FigProps) {
       <Arrow id={id} x1={316} y1={100} x2={316} y2={74} color="pink" />
       <Box x={272} y={40} w={80} h={32} label={t(b('颞上回\n语音 / 音乐', 'STG\nspeech / music'))} {...L} size={9.5} />
       <T x={178} y={170} size={9.5} color={C.dim} s={t(b('双耳时间差 → 声源方向', 'interaural delay → direction'))} />
-      <T x={180} y={212} size={9.5} color={C.lavD} s={t(b('注意可以从嘈杂中“挑出”一个声音', 'attention can pick one voice out of a crowd'))} />
+      <T x={180} y={212} size={9.5} color={C.lavD} s={t(b('注意可以从嘈杂中「挑出」一个声音', 'attention can pick one voice out of a crowd'))} />
     </Svg>
   )
 }
@@ -152,7 +152,7 @@ function TouchBrainFig({ t }: FigProps) {
       <Arrow id={id} x1={286} y1={76} x2={300} y2={52} color="pink" label={t(b('在哪、多重', 'where, how strong'))} lx={-46} ly={-4} />
       <Box x={276} y={20} w={76} h={32} label={t(b('S1 身体地图', 'S1 body map'))} {...P} size={9.5} />
       <Arrow id={id} x1={296} y1={104} x2={306} y2={150} color="pink" dashed />
-      <Box x={262} y={152} w={90} h={36} label={t(b('前扣带 / 岛叶\n“好痛”', 'ACC / insula\n“it hurts”'))} {...P} size={9.5} />
+      <Box x={262} y={152} w={90} h={36} label={t(b('前扣带 / 岛叶\n「好痛」', 'ACC / insula\n“it hurts”'))} {...P} size={9.5} />
       <T x={308} y={204} size={9.5} color={C.pinkD} s={t(b('痛觉情绪 → 学习', 'pain affect → learning'))} />
     </Svg>
   )
@@ -332,7 +332,7 @@ function FearBrainFig({ t }: FigProps) {
       <Dot cx={200} cy={160} r={22} fill={C.pink} stroke={C.pinkD} label={t(b('杏仁核', 'amygdala'))} size={9.5} />
       <Box x={228} y={20} w={70} h={30} label="vmPFC" {...L} size={10} />
       <Arrow id={id} x1={250} y1={50} x2={212} y2={140} color="lav" head="bar" />
-      <T x={312} y={62} size={9.5} color={C.lavD} s={t(b('刹车：“没事了”', 'brake: “it’s OK”'))} />
+      <T x={312} y={62} size={9.5} color={C.lavD} s={t(b('刹车：「没事了」', 'brake: “it’s OK”'))} />
       <Arrow id={id} x1={222} y1={160} x2={266} y2={120} color="pink" />
       <Box x={268} y={100} w={84} h={30} label={t(b('下丘脑：应激', 'hypothal.: stress'))} {...P} size={9} />
       <Arrow id={id} x1={222} y1={168} x2={266} y2={190} color="pink" />
@@ -560,12 +560,12 @@ export const LAYER4_FIGS: Record<string, FigPair> = {
   },
   'sys-touch': {
     brain: TouchBrainFig, ai: RobotTouchFig,
-    brainCap: b('躯体感觉：皮肤信号进入脊髓后兵分两路。反射直接回到肌肉（不经大脑）；上行经脑干、丘脑到 S1 身体地图，痛觉另到前扣带和岛叶产生“好痛”的感受。', 'Somatosensation: skin signals split at the spinal cord. Reflexes return straight to muscle; the ascending path reaches the S1 body map via brainstem and thalamus, and pain also reaches ACC/insula as suffering.'),
+    brainCap: b('躯体感觉：皮肤信号进入脊髓后兵分两路。反射直接回到肌肉（不经大脑）；上行经脑干、丘脑到 S1 身体地图，痛觉另到前扣带和岛叶产生「好痛」的感受。', 'Somatosensation: skin signals split at the spinal cord. Reflexes return straight to muscle; the ascending path reaches the S1 body map via brainstem and thalamus, and pain also reaches ACC/insula as suffering.'),
     aiCap: b('图中展示触觉传感、编码、策略和电机的连接，以及一个阈值保护模块。实际机器人可以加入快速局部反馈；是否将风险信号用于学习取决于控制设计。', 'The diagram connects tactile sensing, encoding, policy and motors with a threshold protection module. Real robots can add fast local feedback; using risk signals for learning depends on the controller design.'),
   },
   'sys-motor': {
     brain: MotorBrainFig, ai: RobotPolicyFig,
-    brainCap: b('运动：目标 → 计划 → 基底节选择 → M1 → 脊髓 → 肌肉。M1 同时把“传出副本”发给小脑，小脑预测结果并和本体感觉比较，经丘脑实时校正 M1。', 'Movement: goal → plan → basal ganglia select → M1 → cord → muscles. M1 also sends an efference copy to the cerebellum, which predicts the outcome, compares it with proprioception and corrects M1 via the thalamus.'),
+    brainCap: b('运动：目标 → 计划 → 基底节选择 → M1 → 脊髓 → 肌肉。M1 同时把「传出副本」发给小脑，小脑预测结果并和本体感觉比较，经丘脑实时校正 M1。', 'Movement: goal → plan → basal ganglia select → M1 → cord → muscles. M1 also sends an efference copy to the cerebellum, which predicts the outcome, compares it with proprioception and corrects M1 via the thalamus.'),
     aiCap: b('图像与指令被编码为状态，策略给出动作，底层控制器执行。世界模型可预测结果；快速适应、柔顺性和本体感觉的能力随机器人硬件与控制方法而变。', 'Images and instructions are encoded into state, a policy selects actions and a low-level controller executes them. A world model can predict outcomes; adaptation, compliance and proprioception depend on the robot and controller.'),
   },
   'sys-language': {
@@ -575,13 +575,13 @@ export const LAYER4_FIGS: Record<string, FigPair> = {
   },
   'sys-memory': {
     brain: MemoryBrainFig, ai: LlmMemoryFig,
-    brainCap: b('互补学习系统：新皮层经内嗅皮层把经历交给海马一次记住；睡眠中海马回放，反过来把经历慢慢“教会”新皮层，变成长期知识。', 'Complementary learning systems: the neocortex passes experience via entorhinal cortex to the hippocampus for one-shot storage; in sleep, hippocampal replay slowly teaches the neocortex, turning episodes into knowledge.'),
+    brainCap: b('互补学习系统：新皮层经内嗅皮层把经历交给海马一次记住；睡眠中海马回放，反过来把经历慢慢「教会」新皮层，变成长期知识。', 'Complementary learning systems: the neocortex passes experience via entorhinal cortex to the hippocampus for one-shot storage; in sleep, hippocampal replay slowly teaches the neocortex, turning episodes into knowledge.'),
     aiCap: b('AI 的记忆由三块拼成：冻结的权重、会话结束就消失的上下文窗口、按相似度检索文本片段的向量库。三者之间没有自动的巩固过程。', 'AI memory is three separate parts: frozen weights, a context window that vanishes after the session, and a vector DB that retrieves text chunks. Nothing consolidates between them automatically.'),
   },
   'sys-fear': {
     brain: FearBrainFig, ai: RlAgentFig,
-    brainCap: b('恐惧：丘脑经“低通路”约 12 毫秒直达杏仁核，皮层“高通路”随后看清是什么。杏仁核瞬间切换全身状态（应激、心跳、僵住），腹内侧前额叶负责刹车。', 'Fear: the thalamus reaches the amygdala via the low road in ~12 ms, the cortical high road identifies the object later. The amygdala flips the whole-body state (stress, heart, freezing); vmPFC applies the brake.'),
-    aiCap: b('强化学习智能体：状态 → 策略 → 安全过滤 → 动作，环境返回一个标量奖赏。没有能同时改变注意、学习率、风险偏好和记忆写入的“情绪状态”。', 'RL agent: state → policy → safety filter → action, and the environment returns one scalar reward. There is no emotion state that jointly changes attention, learning rate, risk taking and memory writes.'),
+    brainCap: b('恐惧：丘脑经「低通路」约 12 毫秒直达杏仁核，皮层「高通路」随后看清是什么。杏仁核瞬间切换全身状态（应激、心跳、僵住），腹内侧前额叶负责刹车。', 'Fear: the thalamus reaches the amygdala via the low road in ~12 ms, the cortical high road identifies the object later. The amygdala flips the whole-body state (stress, heart, freezing); vmPFC applies the brake.'),
+    aiCap: b('强化学习智能体：状态 → 策略 → 安全过滤 → 动作，环境返回一个标量奖赏。没有能同时改变注意、学习率、风险偏好和记忆写入的「情绪状态」。', 'RL agent: state → policy → safety filter → action, and the environment returns one scalar reward. There is no emotion state that jointly changes attention, learning rate, risk taking and memory writes.'),
   },
   'sys-reward': {
     brain: RewardBrainFig, ai: ActorCriticFig,
@@ -590,13 +590,13 @@ export const LAYER4_FIGS: Record<string, FigPair> = {
   },
   'sys-homeostasis': {
     brain: HomeoBrainFig, ai: HomeoRlFig,
-    brainCap: b('稳态：体温、血糖、水分等内部变量经内感受送到下丘脑，与设定点比较后，通过自主神经、激素和“想吃想喝”的驱力把身体拉回平衡，形成闭环。', 'Homeostasis: temperature, glucose, water and other internal variables reach the hypothalamus via interoception; compared with set points, autonomic, hormonal and drive outputs pull the body back into balance.'),
+    brainCap: b('稳态：体温、血糖、水分等内部变量经内感受送到下丘脑，与设定点比较后，通过自主神经、激素和「想吃想喝」的驱力把身体拉回平衡，形成闭环。', 'Homeostasis: temperature, glucose, water and other internal variables reach the hypothalamus via interoception; compared with set points, autonomic, hormonal and drive outputs pull the body back into balance.'),
     aiCap: b('稳态强化学习示意：根据电量、温度等内部状态离目标范围的距离构造驱力，并把驱力减少量与任务奖励组合。这里的内部变量和奖励都需要明确设计。', 'Schematic homeostatic RL: deviations of battery, temperature and other internal variables from targets define drive; drive reduction is combined with task reward. Both variables and rewards require explicit design.'),
   },
   'sys-sleep': {
     brain: HypnogramFig, ai: OfflineTrainFig,
     brainCap: b('典型睡眠结构示意：前半夜深睡较多，后半夜 REM 较多，周期与时长因人而异。睡眠与记忆巩固有关，各阶段具体承担什么作用仍在研究。', 'Schematic sleep architecture: deep sleep is more common early and REM later, with cycles and duration varying across people. Sleep relates to consolidation, while the precise roles of its stages remain under study.'),
-    aiCap: b('AI 的对应：在线交互收集经验进回放缓冲区，离线时用缓冲区和生成模型“做梦”产生的样本训练或蒸馏模型。多数部署中的系统没有这种定期离线周期。', 'The AI analogue: online interaction fills a replay buffer; offline, the model trains or distils on buffer samples plus generated “dreams”. Most deployed systems have no such regular offline cycle.'),
+    aiCap: b('AI 的对应：在线交互收集经验进回放缓冲区，离线时用缓冲区和生成模型「做梦」产生的样本训练或蒸馏模型。多数部署中的系统没有这种定期离线周期。', 'The AI analogue: online interaction fills a replay buffer; offline, the model trains or distils on buffer samples plus generated “dreams”. Most deployed systems have no such regular offline cycle.'),
   },
   'sys-attention': {
     brain: AttentionBrainFig, ai: AttentionHeadFig,

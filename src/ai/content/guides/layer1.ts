@@ -57,7 +57,7 @@ export const SYNAPSE_GUIDES: Record<string, CardGuide> = {
       { dimension: b('保存什么', 'What is retained'), brain: b('资格迹模型保留近期突触活动，等待后续调制。', 'Eligibility-trace models retain recent synaptic activity for later modulation.'), ai: b('反向传播通常保存或重算中间激活；在线方法可以保留资格迹。', 'Backpropagation typically stores or recomputes activations; online methods can maintain eligibility traces.') },
       { dimension: b('谁决定更新', 'What drives the update'), brain: b('局部活动与多巴胺等调质信号共同影响可塑性。', 'Local activity and modulatory signals such as dopamine jointly influence plasticity.'), ai: b('损失梯度给出参数更新方向；近似规则可用广播信号调节。', 'Loss gradients give parameter-update directions; approximate rules can use broadcast modulation.') },
     ],
-    borrow: b('把“刚才哪些连接参与过”与“后来结果好不好”分开记录，再组合成学习信号。', 'Record which connections recently participated separately from whether the later outcome was good, then combine them for learning.'),
+    borrow: b('把「刚才哪些连接参与过」与「后来结果好不好」分开记录，再组合成学习信号。', 'Record which connections recently participated separately from whether the later outcome was good, then combine them for learning.'),
     boundary: b('资格迹解决部分时间归因问题，不保证精确梯度，也不代表所有脑区都使用同一种规则。', 'Eligibility traces address part of temporal credit assignment, but guarantee neither exact gradients nor one rule across brain regions.'),
     experiments: [
       { title: b('用延迟反馈更新小模块', 'Adapt a small module with delayed feedback'), change: b('离线训练主模型，部署时只让少量参数按资格迹与奖励更新。', 'Pretrain the main model and update only a small parameter subset using traces and rewards at deployment.'), test: b('逐步增加奖励延迟，比较任务收益、遗忘与内存开销。', 'Increase reward delays and compare return, forgetting and memory overhead.'), tradeoff: b('迹衰减太快会漏掉贡献，太慢会混入无关活动。', 'Fast decay loses relevant events; slow decay includes irrelevant ones.') },

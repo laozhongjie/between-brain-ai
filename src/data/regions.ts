@@ -25,7 +25,7 @@ function r(
 export const REGIONS: RegionInfo[] = [
   // ───────────────────────── Frontal lobe ─────────────────────────
   r('precentral', b('中央前回 · 初级运动皮层', 'Precentral gyrus · Primary motor cortex'), 'M1', 'motor', 'frontal',
-    b('发出随意运动指令。身体各部位在这里按“运动小人”有序排列，面部和手占的面积最大。',
+    b('发出随意运动指令。身体各部位在这里按「运动小人」有序排列，面部和手占的面积最大。',
       'Issues voluntary movement commands. Body parts are laid out as the motor homunculus; face and hands take the most space.'),
     [l('superiorfrontal', '运动序列计划（辅助运动区）', 'Movement sequence plans (SMA)'),
      l('caudalmiddlefrontal', '运动准备（前运动皮层）', 'Movement preparation (premotor)'),
@@ -46,7 +46,7 @@ export const REGIONS: RegionInfo[] = [
      l('paracentral', '下肢运动计划', 'Leg movement plans')]),
 
   r('caudalmiddlefrontal', b('额中回后部 · 前运动皮层 / 额叶眼区', 'Caudal middle frontal · Premotor cortex / FEF'), 'PMd/FEF', 'executive', 'frontal',
-    b('控制眼跳和视觉注意的指向，把“看到什么”转成“准备怎么动”。',
+    b('控制眼跳和视觉注意的指向，把「看到什么」转成「准备怎么动」。',
       'Controls saccades and where visual attention points; turns what is seen into how to move.'),
     [l('superiorparietal', '目标的空间位置', 'Spatial location of targets'),
      l('lateraloccipital', '视觉物体信息', 'Visual object information'),
@@ -56,7 +56,7 @@ export const REGIONS: RegionInfo[] = [
      l('lateraloccipital', '自上而下的注意增益', 'Top-down attentional gain')]),
 
   r('rostralmiddlefrontal', b('额中回前部 · 背外侧前额叶', 'Rostral middle frontal · Dorsolateral prefrontal cortex'), 'DLPFC', 'executive', 'frontal',
-    b('工作记忆、计划、推理与认知控制：把目标“记在心里”并指挥其他脑区为之服务。',
+    b('工作记忆、计划、推理与认知控制：把目标「记在心里」并指挥其他脑区为之服务。',
       'Working memory, planning, reasoning and cognitive control: keeps goals in mind and directs other areas toward them.'),
     [l('superiorparietal', '空间与注意信息', 'Spatial & attention information'),
      l('caudalanteriorcingulate', '冲突/错误信号：需要加强控制', 'Conflict/error signals: increase control'),
@@ -74,7 +74,7 @@ export const REGIONS: RegionInfo[] = [
     [l('rostralmiddlefrontal', '高层目标与分支计划', 'High-level goals & branching plans')]),
 
   r('lateralorbitofrontal', b('外侧眶额皮层', 'Lateral orbitofrontal cortex'), 'lOFC', 'reward', 'frontal',
-    b('评估事物的奖赏/惩罚价值（包括食物“好不好吃”），在规则变化时抑制旧习惯。',
+    b('评估事物的奖赏/惩罚价值（包括食物「好不好吃」），在规则变化时抑制旧习惯。',
       'Evaluates reward/punishment value (including how good food tastes) and suppresses outdated habits when rules change.'),
     [l('insula', '味觉', 'Taste'),
      l('nose', '嗅觉（经梨状皮层）', 'Smell (via piriform cortex)'),
@@ -84,7 +84,7 @@ export const REGIONS: RegionInfo[] = [
      l('hypothalamus', '进食动机', 'Feeding motivation')]),
 
   r('medialorbitofrontal', b('内侧眶额 · 腹内侧前额叶', 'Medial orbitofrontal · Ventromedial PFC'), 'vmPFC', 'reward', 'frontal',
-    b('计算主观价值、做社会与道德决策，并能“告诉”杏仁核危险已解除。',
+    b('计算主观价值、做社会与道德决策，并能「告诉」杏仁核危险已解除。',
       'Computes subjective value, supports social/moral decisions, and tells the amygdala when danger is over.'),
     [l('amygdala', '情绪信号', 'Emotional signals'),
      l('hippocampus', '情境记忆', 'Contextual memory'),
@@ -127,7 +127,7 @@ export const REGIONS: RegionInfo[] = [
 
   // ───────────────────────── Parietal lobe ─────────────────────────
   r('postcentral', b('中央后回 · 初级躯体感觉皮层', 'Postcentral gyrus · Primary somatosensory cortex'), 'S1', 'somatosensory', 'parietal',
-    b('感受触、压、温度、疼痛与关节位置（本体感觉），同样按“感觉小人”排列。',
+    b('感受触、压、温度、疼痛与关节位置（本体感觉），同样按「感觉小人」排列。',
       'Feels touch, pressure, temperature, pain and joint position (proprioception), laid out as the sensory homunculus.'),
     [l('vpl', '来自皮肤和关节的感觉（丘脑腹后核中继）', 'Skin & joint signals relayed by thalamic VPL/VPM')],
     [l('superiorparietal', '身体空间整合', 'Body-in-space integration'),
@@ -135,7 +135,7 @@ export const REGIONS: RegionInfo[] = [
      l('precentral', '感觉-运动反馈', 'Sensorimotor feedback')]),
 
   r('superiorparietal', b('顶上小叶', 'Superior parietal lobule'), 'SPL', 'executive', 'parietal',
-    b('背侧“在哪里/怎么做”通路：计算物体位置，引导伸手抓取，控制空间注意。',
+    b('背侧「在哪里/怎么做」通路：计算物体位置，引导伸手抓取，控制空间注意。',
       'Dorsal “where/how” stream: computes object locations, guides reaching and grasping, steers spatial attention.'),
     [l('cuneus', '视觉空间信息', 'Visuospatial input'),
      l('postcentral', '身体位置', 'Body position'),
@@ -197,7 +197,7 @@ export const REGIONS: RegionInfo[] = [
      l('amygdala', '社会信号', 'Social signals')]),
 
   r('middletemporal', b('颞中回', 'Middle temporal gyrus'), 'MTG', 'language', 'temporal',
-    b('储存词义和概念知识，是“心理词典”所在。',
+    b('储存词义和概念知识，是「心理词典」所在。',
       'Stores word meanings and conceptual knowledge, the mental lexicon.'),
     [l('superiortemporal', '语音', 'Speech sounds'),
      l('inferiortemporal', '物体概念', 'Object concepts')],
@@ -205,16 +205,16 @@ export const REGIONS: RegionInfo[] = [
      l('temporalpole', '语义整合', 'Semantic integration')]),
 
   r('inferiortemporal', b('颞下回', 'Inferior temporal gyrus'), 'IT', 'visual', 'temporal',
-    b('腹侧“是什么”通路的终点：识别物体类别，如苹果、杯子、汽车。',
+    b('腹侧「是什么」通路的终点：识别物体类别，如苹果、杯子、汽车。',
       'End of the ventral “what” stream: recognises object categories such as apple, cup, car.'),
     [l('lateraloccipital', '形状特征', 'Shape features'),
      l('fusiform', '面孔与颜色', 'Faces & colour')],
     [l('temporalpole', '物体语义', 'Object semantics'),
      l('entorhinal', '送入记忆系统', 'Into the memory system'),
-     l('amygdala', '慢速“高通路”：看清楚后的情绪评估', 'Slow “high road”: emotional appraisal after recognition')]),
+     l('amygdala', '慢速「高通路」：看清楚后的情绪评估', 'Slow “high road”: emotional appraisal after recognition')]),
 
   r('fusiform', b('梭状回 · 面孔区', 'Fusiform gyrus · Face area'), 'FFA', 'visual', 'temporal',
-    b('识别面孔（右侧为主）和文字字形（左侧“视觉词形区”），也处理颜色。',
+    b('识别面孔（右侧为主）和文字字形（左侧「视觉词形区」），也处理颜色。',
       'Recognises faces (mainly right) and written words (left “visual word form area”); also colour.'),
     [l('lateraloccipital', '形状', 'Shapes'),
      l('lingual', '颜色与细节', 'Colour & detail')],
@@ -223,7 +223,7 @@ export const REGIONS: RegionInfo[] = [
      l('inferiorparietal', '字形 → 阅读', 'Word forms → reading')]),
 
   r('temporalpole', b('颞极', 'Temporal pole'), undefined, 'memory', 'temporal',
-    b('语义中枢：把“是谁/是什么”与名字、个人经历和社会知识联系起来。',
+    b('语义中枢：把「是谁/是什么」与名字、个人经历和社会知识联系起来。',
       'Semantic hub linking who/what with names, personal history and social knowledge.'),
     [l('inferiortemporal', '物体', 'Objects'),
      l('fusiform', '面孔身份', 'Face identity'),
@@ -243,7 +243,7 @@ export const REGIONS: RegionInfo[] = [
      l('medialorbitofrontal', '巩固到新皮层', 'Consolidation to neocortex')]),
 
   r('parahippocampal', b('海马旁回', 'Parahippocampal gyrus'), 'PHC', 'memory', 'temporal',
-    b('识别场景和地点，为记忆提供“在哪里发生”的背景。',
+    b('识别场景和地点，为记忆提供「在哪里发生」的背景。',
       'Recognises scenes and places, giving memories their “where” context.'),
     [l('lingual', '场景视觉', 'Scene vision'),
      l('isthmuscingulate', '空间导航', 'Navigation'),
@@ -261,7 +261,7 @@ export const REGIONS: RegionInfo[] = [
      l('lingual', '下部视野', 'Lower visual field')]),
 
   r('cuneus', b('楔叶', 'Cuneus'), 'V2/V3', 'visual', 'occipital',
-    b('次级视觉处理（主要是下半视野），信号送往背侧“在哪里”通路。',
+    b('次级视觉处理（主要是下半视野），信号送往背侧「在哪里」通路。',
       'Secondary visual processing (mainly lower visual field), feeding the dorsal “where” stream.'),
     [l('pericalcarine', 'V1 输出', 'V1 output')],
     [l('superiorparietal', '空间位置与运动', 'Location & motion'),
@@ -279,13 +279,13 @@ export const REGIONS: RegionInfo[] = [
       'Object shape (LOC), colour (V4) and visual motion (MT/V5).'),
     [l('pericalcarine', 'V1 输出', 'V1 output'),
      l('caudalmiddlefrontal', '注意增益', 'Attentional gain')],
-    [l('fusiform', '腹侧“是什么”通路', 'Ventral “what” stream'),
+    [l('fusiform', '腹侧「是什么」通路', 'Ventral “what” stream'),
      l('inferiortemporal', '物体识别', 'Object recognition'),
      l('superiorparietal', '运动信息 → 背侧通路', 'Motion → dorsal stream')]),
 
   // ───────────────────────── Cingulate / limbic cortex ─────────────────────────
   r('caudalanteriorcingulate', b('前扣带回背侧', 'Caudal (dorsal) anterior cingulate'), 'dACC', 'executive', 'limbic',
-    b('监测冲突和错误，评估“值不值得努力”，承担疼痛中“难受”的部分。',
+    b('监测冲突和错误，评估「值不值得努力」，承担疼痛中「难受」的部分。',
       'Monitors conflict and errors, weighs whether effort is worth it, and carries the unpleasantness of pain.'),
     [l('thalamus', '痛觉（内侧丘脑）', 'Pain (medial thalamus)'),
      l('insula', '身体状态', 'Bodily state'),
@@ -313,7 +313,7 @@ export const REGIONS: RegionInfo[] = [
      l('medialorbitofrontal', '默认模式网络', 'Default mode network')]),
 
   r('isthmuscingulate', b('扣带回峡部 · 压后皮层', 'Isthmus cingulate · Retrosplenial cortex'), 'RSC', 'memory', 'limbic',
-    b('在“以我为中心”与“地图视角”之间转换，支持导航与情景记忆。',
+    b('在「以我为中心」与「地图视角」之间转换，支持导航与情景记忆。',
       'Translates between egocentric and map-like views; supports navigation and episodic memory.'),
     [l('posteriorcingulate', '自我参照', 'Self-reference'),
      l('thalamus', '头朝向信号', 'Head-direction signals')],
@@ -349,7 +349,7 @@ export const REGIONS: RegionInfo[] = [
     [l('precentral', '运动环路', 'Motor loop'),
      l('rostralmiddlefrontal', '认知环路（背内侧核）', 'Cognitive loop (MD nucleus)'),
      l('caudalanteriorcingulate', '痛觉', 'Pain'),
-     l('amygdala', '快速“低通路”：粗糙但极快的危险信号', 'Fast “low road”: crude but rapid danger signal')]),
+     l('amygdala', '快速「低通路」：粗糙但极快的危险信号', 'Fast “low road”: crude but rapid danger signal')]),
 
   r('caudate', b('尾状核', 'Caudate nucleus'), undefined, 'executive', 'subcortical',
     b('基底节的输入端之一：目标导向学习、认知灵活性。',
@@ -368,7 +368,7 @@ export const REGIONS: RegionInfo[] = [
     b('帕金森病中黑质多巴胺减少，使这里的动作启动变得困难。', 'In Parkinson’s disease, loss of nigral dopamine here makes movements hard to start.')),
 
   r('pallidum', b('苍白球', 'Globus pallidus'), 'GP', 'motor', 'subcortical',
-    b('基底节的输出“刹车”：持续抑制丘脑，只对被选中的动作松开刹车。',
+    b('基底节的输出「刹车」：持续抑制丘脑，只对被选中的动作松开刹车。',
       'Basal-ganglia output brake: tonically inhibits thalamus and releases it only for the selected action.'),
     [l('putamen', '运动选择', 'Motor selection'),
      l('caudate', '认知选择', 'Cognitive selection'),
@@ -376,7 +376,7 @@ export const REGIONS: RegionInfo[] = [
     [l('thalamus', '抑制性输出（GABA）', 'Inhibitory output (GABA)')]),
 
   r('accumbens', b('伏隔核', 'Nucleus accumbens'), 'NAc', 'reward', 'subcortical',
-    b('奖赏与动机中枢：产生“想要”的冲动，把价值转化为行动。',
+    b('奖赏与动机中枢：产生「想要」的冲动，把价值转化为行动。',
       'Reward and motivation hub: generates “wanting” and turns value into action.'),
     [l('vta', '多巴胺奖赏信号', 'Dopamine reward signal'),
      l('amygdala', '情绪', 'Emotion'),
@@ -398,8 +398,8 @@ export const REGIONS: RegionInfo[] = [
   r('amygdala', b('杏仁核', 'Amygdala'), undefined, 'emotion', 'subcortical',
     b('威胁探测器：快速识别危险、触发恐惧与应激，并给记忆贴上情绪标签。',
       'Threat detector: spots danger fast, triggers fear/stress, and tags memories with emotion.'),
-    [l('thalamus', '快速“低通路”（约 12 毫秒）', 'Fast “low road” (~12 ms)'),
-     l('inferiortemporal', '慢速“高通路”：看清是什么', 'Slow “high road”: what it is'),
+    [l('thalamus', '快速「低通路」（约 12 毫秒）', 'Fast “low road” (~12 ms)'),
+     l('inferiortemporal', '慢速「高通路」：看清是什么', 'Slow “high road”: what it is'),
      l('nose', '气味', 'Smell'),
      l('medialorbitofrontal', '安全信号（抑制）', 'Safety signal (inhibitory)')],
     [l('hypothalamus', '应激反应（HPA 轴、交感神经）', 'Stress response (HPA axis, sympathetic)'),
@@ -427,7 +427,7 @@ export const REGIONS: RegionInfo[] = [
     b('位置为近似：fsaverage 的 aseg 中没有独立的下丘脑标签。', 'Position is approximate: fsaverage aseg has no separate hypothalamus label.')),
 
   r('cerebellum', b('小脑', 'Cerebellum'), undefined, 'motor', 'cerebellum',
-    b('运动协调与平衡：比较“想做的”和“实际做的”，实时纠正误差；也参与时间感和认知。',
+    b('运动协调与平衡：比较「想做的」和「实际做的」，实时纠正误差；也参与时间感和认知。',
       'Coordination and balance: compares intended vs actual movement and corrects errors in real time; also timing and cognition.'),
     [l('brainstem', '皮层运动计划（经脑桥）与误差信号（下橄榄）', 'Cortical motor plans (via pons) & error signals (inferior olive)'),
      l('spinalcord', '本体感觉：肢体实际位置', 'Proprioception: actual limb position')],
@@ -479,7 +479,7 @@ export const REGIONS: RegionInfo[] = [
      l('hippocampus', '新奇事件更容易被记住', 'Novelty → better memory')]),
 
   r('lc', b('蓝斑', 'Locus coeruleus'), 'LC', 'arousal', 'brainstem',
-    b('全脑去甲肾上腺素的来源，像“音量旋钮”一样调节警觉、专注和应激。', 'Source of brain noradrenaline, a volume knob for alertness, focus and stress.'),
+    b('全脑去甲肾上腺素的来源，像「音量旋钮」一样调节警觉、专注和应激。', 'Source of brain noradrenaline, a volume knob for alertness, focus and stress.'),
     [l('amygdala', '威胁', 'Threat'), l('caudalanteriorcingulate', '任务需求', 'Task demand')],
     [l('thalamus', '提高感觉增益', 'Raises sensory gain'), l('rostralmiddlefrontal', '专注', 'Focus'), l('spinalcord', '交感激活', 'Sympathetic drive')]),
 
@@ -489,7 +489,7 @@ export const REGIONS: RegionInfo[] = [
     [l('medialorbitofrontal', '情绪调节', 'Mood regulation'), l('hippocampus', '记忆与情绪', 'Memory & mood'), l('hypothalamus', '睡眠', 'Sleep')]),
 
   r('aras', b('上行网状激活系统', 'Ascending reticular activating system'), 'ARAS', 'arousal', 'brainstem',
-    b('意识的“电源开关”：让丘脑和皮层保持清醒；睡眠时被下丘脑关闭。', 'The power switch of consciousness: keeps thalamus and cortex awake; switched off by the hypothalamus in sleep.'),
+    b('意识的「电源开关」：让丘脑和皮层保持清醒；睡眠时被下丘脑关闭。', 'The power switch of consciousness: keeps thalamus and cortex awake; switched off by the hypothalamus in sleep.'),
     [l('spinalcord', '各种感觉的侧支', 'Collaterals of all senses'), l('hypothalamus', '睡眠-觉醒指令', 'Sleep–wake commands')],
     [l('thalamus', '唤醒丘脑-皮层系统', 'Activates thalamocortical system')]),
 
@@ -499,12 +499,12 @@ export const REGIONS: RegionInfo[] = [
     [l('hypothalamus', '昼夜节律', 'Circadian timing'), l('pineal', '夜晚 → 褪黑素', 'Night → melatonin')]),
 
   r('pineal', b('松果体', 'Pineal gland'), undefined, 'autonomic', 'subcortical',
-    b('在黑暗中分泌褪黑素，告诉全身“该睡觉了”。', 'Secretes melatonin in darkness, telling the body it is time to sleep.'),
+    b('在黑暗中分泌褪黑素，告诉全身「该睡觉了」。', 'Secretes melatonin in darkness, telling the body it is time to sleep.'),
     [l('scn', '生物钟信号', 'Clock signal')],
     [l('hypothalamus', '褪黑素 → 促进睡眠', 'Melatonin → promotes sleep')]),
 
   r('pituitary', b('垂体', 'Pituitary gland'), undefined, 'autonomic', 'subcortical',
-    b('内分泌的“总开关”：根据下丘脑指令释放 ACTH、生长激素、催产素等。', 'Endocrine master switch: releases ACTH, growth hormone, oxytocin… on hypothalamic command.'),
+    b('内分泌的「总开关」：根据下丘脑指令释放 ACTH、生长激素、催产素等。', 'Endocrine master switch: releases ACTH, growth hormone, oxytocin… on hypothalamic command.'),
     [l('hypothalamus', 'CRH 等释放激素', 'CRH & other releasing hormones')],
     [l('adrenal', 'ACTH → 皮质醇（HPA 轴）', 'ACTH → cortisol (HPA axis)')]),
 

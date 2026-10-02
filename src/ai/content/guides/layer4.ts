@@ -12,7 +12,7 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
       { dimension: b('看不清时怎么办', 'Handling ambiguity'), brain: b('可借助上下文、反馈和再次观察调整判断。', 'Context, feedback and another look can revise the interpretation.'), ai: b('单次前馈分类器不会自行再看一次，需额外的控制机制。', 'A single-pass classifier needs an added controller to request another observation.') },
       { dimension: b('遇到陌生变化', 'Unfamiliar variation'), brain: b('对许多自然变化有适应能力，但同样会受错觉和任务限制影响。', 'Adapts to many natural variations but is also vulnerable to illusions and task constraints.'), ai: b('鲁棒性随数据、训练方法和测试分布变化，不能由标准准确率直接判断。', 'Robustness depends on data, training and test distribution, not just standard accuracy.') },
     ],
-    borrow: b('把视觉设计成“选择下一次观察”的过程：先粗看，再把有限计算用在最能消除疑问的位置。', 'Treat vision as choosing the next observation: look broadly first, then spend compute where it can resolve uncertainty.'),
+    borrow: b('把视觉设计成「选择下一次观察」的过程：先粗看，再把有限计算用在最能消除疑问的位置。', 'Treat vision as choosing the next observation: look broadly first, then spend compute where it can resolve uncertainty.'),
     boundary: b('模型能预测某些视觉皮层响应，不等于完整复现人类视觉；主动采样是否有效必须在同等预算下验证。', 'Predicting some visual-cortex responses does not reproduce all of human vision; active sampling needs evaluation at matched budgets.'),
     experiments: [
       { title: b('低分辨率总览，加局部细看', 'Overview plus focused inspection'), change: b('先处理低分辨率全图，再让控制器选择少量高清局部区域。', 'Process a low-resolution overview, then let a controller select a few high-resolution regions.'), test: b('与整图高清推理比较小物体识别率、处理像素数和延迟。', 'Compare small-object accuracy, pixels processed and latency with full-resolution inference.'), tradeoff: b('选错注视点会漏检；选择器自身也消耗计算。', 'Bad fixations miss objects, and the selector has its own compute cost.') },
@@ -58,7 +58,7 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
       { dimension: b('纠错速度', 'Correction timescale'), brain: b('脊髓、小脑与皮层在不同时间尺度参与控制。', 'Spinal, cerebellar and cortical circuits contribute on different timescales.'), ai: b('高层策略可与高频低层控制器配合，不必每次重算整套计划。', 'A high-level policy can work with a fast low-level controller without replanning everything.') },
     ],
     borrow: b('让小型快速模块处理短时偏差，把大模型留给目标与长期规划。', 'Use a small fast module for short-term deviations and reserve larger models for goals and planning.'),
-    boundary: b('机器人已有成熟反馈控制；称为“小脑模块”只是功能类比，不意味着复制了小脑。', 'Robotics already has mature feedback control; a “cerebellar module” is a functional analogy, not a replica.'),
+    boundary: b('机器人已有成熟反馈控制；称为「小脑模块」只是功能类比，不意味着复制了小脑。', 'Robotics already has mature feedback control; a “cerebellar module” is a functional analogy, not a replica.'),
     experiments: [
       { title: b('增加快速残差控制器', 'Add a fast residual controller'), change: b('在基础策略输出上叠加幅度受限的在线纠正。', 'Add bounded online corrections to a base policy’s output.'), test: b('改变负载或摩擦，与基础策略比较跟踪误差和恢复时间。', 'Change load or friction and compare tracking error and recovery with the base policy.'), tradeoff: b('纠正器与基础策略可能互相抵消，需要稳定性约束。', 'The two controllers can work against each other and need stability constraints.') },
       { title: b('预测自己的感觉反馈', 'Predict self-generated feedback'), change: b('用动作和当前状态预测下一时刻传感器读数。', 'Predict the next sensor readings from the action and current state.'), test: b('比较加入预测残差前后的外部扰动检测率。', 'Compare disturbance detection with and without prediction residuals.'), tradeoff: b('模型误差可能被误判为外部扰动。', 'Model errors can be mistaken for external disturbances.') },
@@ -104,7 +104,7 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
       },
       state: b('海马情景记忆、新皮层知识与身体状态相互作用；AI 的上下文、向量库和权重更新必须分别管理。', 'Hippocampal episodes, cortical knowledge and bodily state interact; AI context, vector stores and weight updates must be managed separately.'),
       timescale: b('神经活动为毫秒至秒，情景写入为秒至分钟，巩固和遗忘为小时至多年；AI 检索为毫秒至秒，参数更新通常是独立离线过程。', 'Neural activity spans milliseconds to seconds, episodic encoding seconds to minutes, and consolidation and forgetting hours to years; AI retrieval takes milliseconds to seconds, while parameter updates are usually separate offline processes.'),
-      caveat: b('功能上的“快速写入、慢速巩固”对应不等于海马与 RAG 或权重更新具有相同机制。', 'The functional pattern of “fast writing and slow consolidation” does not make hippocampus, RAG and weight updates the same mechanism.'),
+      caveat: b('功能上的「快速写入、慢速巩固」对应不等于海马与 RAG 或权重更新具有相同机制。', 'The functional pattern of “fast writing and slow consolidation” does not make hippocampus, RAG and weight updates the same mechanism.'),
     },
     review: {
       systems: {
@@ -180,7 +180,7 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
       { dimension: b('紧急反应', 'Urgent response'), brain: b('某些防御反应可以先于详细判断发生。', 'Some defensive responses can precede detailed appraisal.'), ai: b('专用安全控制器可先执行保守动作，再交给规划器。', 'A safety controller can take conservative action before handing back to a planner.') },
     ],
     borrow: b('用少量可解释的状态协调速度、探索和记忆优先级，避免各模块各自作出冲突决策。', 'Use a few interpretable states to coordinate speed, exploration and memory priority, reducing conflicting module decisions.'),
-    boundary: b('情绪机制与恐惧通路的解释仍在发展；一个“情绪向量”既不是完整生物情绪，也不证明存在感受。', 'Accounts of emotion and fear circuits are evolving; an “emotion vector” is neither complete biological emotion nor evidence of feelings.'),
+    boundary: b('情绪机制与恐惧通路的解释仍在发展；一个「情绪向量」既不是完整生物情绪，也不证明存在感受。', 'Accounts of emotion and fear circuits are evolving; an “emotion vector” is neither complete biological emotion nor evidence of feelings.'),
     experiments: [
       { title: b('把风险状态广播给多个模块', 'Broadcast a risk state'), change: b('让同一风险估计同时约束动作速度、探索幅度和记忆写入。', 'Use one risk estimate to constrain action speed, exploration and memory writing.'), test: b('在仿真危险场景中，与各模块独立控制比较事故率和完成时间。', 'Compare incidents and completion time with independently controlled modules in simulated hazards.'), tradeoff: b('全局误报可能让整个系统过度保守。', 'A global false alarm can make the whole system overly cautious.') },
       { title: b('为紧急情况设置快速通道', 'Add a fast emergency path'), change: b('在慢速规划外设置可解释的避险触发条件。', 'Add interpretable avoidance triggers outside the slow planner.'), test: b('测量最坏情况下的响应延迟、漏报和误触发。', 'Measure worst-case response latency, missed hazards and false triggers.'), tradeoff: b('需要处理快速通道与长期目标之间的控制权交接。', 'Control must transfer cleanly between emergency responses and long-term goals.') },
@@ -209,7 +209,7 @@ export const SYSTEM_GUIDES: Record<string, CardGuide> = {
       { dimension: b('需要维持的状态', 'Variables to maintain'), brain: b('持续感知并调节温度、水分和能量等。', 'Continuously senses and regulates temperature, hydration and energy.'), ai: b('只有接入传感器和目标函数的资源变量才影响决策。', 'Resource variables affect decisions only when connected to sensing and objectives.') },
       { dimension: b('目标如何变化', 'Changing priorities'), brain: b('饥饿、疲劳等状态会改变行动优先级。', 'Hunger and fatigue change action priorities.'), ai: b('可让充电、冷却和维护需求参与任务调度。', 'Charging, cooling and maintenance needs can influence scheduling.') },
     ],
-    borrow: b('把“完成任务”与“持续可运行”一起优化，让维护行为有明确的状态依据。', 'Optimise task completion together with continued operability, grounding maintenance actions in measured state.'),
+    borrow: b('把「完成任务」与「持续可运行」一起优化，让维护行为有明确的状态依据。', 'Optimise task completion together with continued operability, grounding maintenance actions in measured state.'),
     boundary: b('人的目标不只来自生理需要；加入内部奖励也不自动产生自主意图或意识。', 'Human goals are not solely physiological; internal rewards do not automatically create autonomous intentions or consciousness.'),
     experiments: [
       { title: b('把维护安排进任务规划', 'Plan for maintenance'), change: b('让规划器同时跟踪电量、温度和剩余任务。', 'Track battery, temperature and remaining work in the planner.'), test: b('比较长时间运行的完成任务数、停机时间和资源超限次数。', 'Compare long-run completed tasks, downtime and resource-limit violations.'), tradeoff: b('过重的维护奖励可能让智能体回避工作。', 'Overweighting maintenance can make an agent avoid work.') },

@@ -205,8 +205,8 @@ export const LAYER3_FIGS: Record<string, FigPair> = {
   },
   'feedback-predictive': {
     brain: PredictiveFig, ai: JepaFig,
-    brainCap: b('预测编码：每一层的表征向下预测下一层（虚线），误差单元只把“没预测到的部分”向上传（实线），反复迭代直到误差变小。', 'Predictive coding: each level’s representation predicts the level below (dashed); error units send only the unexplained part upward (solid), iterating until error is small.'),
-    aiCap: b('JEPA：x 和 y 分别编码，预测器在潜空间里由 sₓ 预测 sᵧ，损失在表征空间计算。它借鉴了“预测”，但推理仍是一次前馈。', 'JEPA: x and y are encoded separately and a predictor maps sₓ to sᵧ in latent space, with the loss computed there. It borrows prediction, but inference is still one feedforward pass.'),
+    brainCap: b('预测编码：每一层的表征向下预测下一层（虚线），误差单元只把「没预测到的部分」向上传（实线），反复迭代直到误差变小。', 'Predictive coding: each level’s representation predicts the level below (dashed); error units send only the unexplained part upward (solid), iterating until error is small.'),
+    aiCap: b('JEPA：x 和 y 分别编码，预测器在潜空间里由 sₓ 预测 sᵧ，损失在表征空间计算。它借鉴了「预测」，但推理仍是一次前馈。', 'JEPA: x and y are encoded separately and a predictor maps sₓ to sᵧ in latent space, with the loss computed there. It borrows prediction, but inference is still one feedforward pass.'),
   },
   attractors: {
     brain: LandscapeFig, ai: AttentionReadFig,

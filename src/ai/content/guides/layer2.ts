@@ -26,7 +26,7 @@ export const NEURON_GUIDES: Record<string, CardGuide> = {
       { dimension: b('输入怎样汇合', 'Combining inputs'), brain: b('树突分支可局部放大或筛选输入，胞体再整合。', 'Branches can locally amplify or filter inputs before integration at the soma.'), ai: b('点单元先求和再激活；门控结构可让一条通路调节另一条。', 'Point units sum then activate; gated structures let one pathway modulate another.') },
       { dimension: b('上下文的作用', 'Role of context'), brain: b('某些皮层细胞的不同树突区接收不同来源的信号。', 'Different dendritic regions of some cortical cells receive different signal sources.'), ai: b('任务向量可以显式选择通道、专家或子网络。', 'Task vectors can explicitly select channels, experts or subnetworks.') },
     ],
-    borrow: b('把“输入是什么”与“当前要做什么”分开处理，再由上下文调节输入通路。', 'Process input content separately from the current task, then use context to modulate the input pathway.'),
+    borrow: b('把「输入是什么」与「当前要做什么」分开处理，再由上下文调节输入通路。', 'Process input content separately from the current task, then use context to modulate the input pathway.'),
     boundary: b('单个神经元可表现复杂非线性，不意味着能直接替代任意深层网络；活体如何利用这些性质仍在研究。', 'Complex neuronal nonlinearities do not make one neuron a substitute for an arbitrary deep network; their in-vivo use is still under study.'),
     experiments: [
       { title: b('按任务门控特征', 'Gate features by task'), change: b('用任务向量乘性调节共享特征，而不是复制整个模型。', 'Use task vectors to multiplicatively gate shared features rather than copying the whole model.'), test: b('比较多任务准确率、任务间干扰和参数数量。', 'Compare multi-task accuracy, interference and parameter count.'), tradeoff: b('任务识别错误会关闭需要的通路。', 'Misidentifying the task can close needed pathways.') },

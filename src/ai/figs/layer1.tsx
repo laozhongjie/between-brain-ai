@@ -99,7 +99,7 @@ function FastWeightFig({ t }: FigProps) {
       <Arrow id={id} x1={82} y1={126} x2={138} y2={126} color="lav" label={t(b('查询', 'query'))} />
       <Arrow id={id} x1={226} y1={126} x2={282} y2={126} color="lav" label={t(b('读出', 'read'))} />
       <Box x={284} y={110} w={62} h={32} label="y = W q" fill={C.mint} stroke={C.mintD} />
-      <T x={180} y={218} size={10} color={C.dim} s={t(b('矩阵随上下文变化，相当于会变的“突触”', 'the matrix changes with context, like plastic synapses'))} />
+      <T x={180} y={218} size={10} color={C.dim} s={t(b('矩阵随上下文变化，相当于会变的「突触」', 'the matrix changes with context, like plastic synapses'))} />
     </Svg>
   )
 }
@@ -170,7 +170,7 @@ function ThreeFactorFig({ t }: FigProps) {
       ))}
       <rect x={70} y={78} width={34} height={14} rx={3} fill={C.lemon} stroke={C.lemonD} />
       <T x={87} y={85} size={9} color={C.lemonD} weight={600} s="e" />
-      <T x={30} y={172} size={9.5} color={C.lemonD} anchor="start" s={t(b('资格迹：只有刚刚\n共同放电的突触带“标签”', 'eligibility: only synapses that\njust co-fired carry a tag'))} />
+      <T x={30} y={172} size={9.5} color={C.lemonD} anchor="start" s={t(b('资格迹：只有刚刚\n共同放电的突触带「标签」', 'eligibility: only synapses that\njust co-fired carry a tag'))} />
       <Dot cx={210} cy={200} r={14} fill={C.peach} stroke={C.peachD} label="DA" size={10} />
       <T x={250} y={214} size={9.5} color={C.peachD} anchor="start" s={t(b('多巴胺神经元', 'dopamine neuron'))} />
       {[40, 90, 140].map((y, i) => <Arrow key={i} id={id} x1={206} y1={186} x2={96} y2={y + 4} color="peach" dashed bend={-10} width={1.2} />)}
@@ -356,7 +356,7 @@ function HyperFig({ t }: FigProps) {
       ))}
       <Box x={130} y={44} w={100} h={36} label={t(b('慢速调制网络', 'slow modulator'))} fill={C.lav} stroke={C.lavD} dashed />
       <T x={300} y={96} size={9.5} color={C.lavD} s={t(b('生成增益\n或学习率', 'emits gains\nor learning rates'))} />
-      <T x={180} y={200} size={10} color={C.dim} s={t(b('缺少：与“能量”和局部活动挂钩的慢速调节层', 'missing: a slow layer tied to energy and local activity'))} />
+      <T x={180} y={200} size={10} color={C.dim} s={t(b('缺少：与「能量」和局部活动挂钩的慢速调节层', 'missing: a slow layer tied to energy and local activity'))} />
     </Svg>
   )
 }
@@ -364,7 +364,7 @@ function HyperFig({ t }: FigProps) {
 export const LAYER1_FIGS: Record<string, FigPair> = {
   'synapse-weight': {
     brain: SynapseFig, ai: NeuronUnitFig,
-    brainCap: b('化学突触：动作电位让囊泡按概率释放递质，受体把它变成突触后电流。“权重”由受体数量和释放概率共同决定，正负号由神经元类型固定。', 'Chemical synapse: a spike releases vesicles with some probability and receptors turn transmitter into current. “Weight” = receptor count × release probability; the sign is fixed by cell type.'),
+    brainCap: b('化学突触：动作电位让囊泡按概率释放递质，受体把它变成突触后电流。「权重」由受体数量和释放概率共同决定，正负号由神经元类型固定。', 'Chemical synapse: a spike releases vesicles with some probability and receptors turn transmitter into current. “Weight” = receptor count × release probability; the sign is fixed by cell type.'),
     aiCap: b('人工神经元：每条连接只是一个实数权重，可正可负，输入加权求和后经过激活函数 φ。推理时权重不变。', 'Artificial neuron: each connection is one signed real weight; inputs are summed and passed through φ. Weights are fixed at inference.'),
   },
   'short-term-plasticity': {

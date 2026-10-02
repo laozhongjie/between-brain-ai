@@ -27,14 +27,14 @@ export const LAYER1: CardMechanism[] = [
     id: 'short-term-plasticity', layer: 1,
     title: b('短时可塑性 ↔ 快权重 / 线性注意力', 'Short-term plasticity ↔ fast weights / linear attention'),
     brain: b(
-      '连续放电时，有的突触因为囊泡耗尽而越来越弱（短时抑制），有的因为残余钙而越来越强（短时易化），在几百毫秒到几秒内恢复。于是突触变成了一个随时间变化的滤波器：抑制型突触对“变化”敏感，易化型突触对“连发”敏感。这也是一种不需要改变长期权重的短时记忆。',
+      '连续放电时，有的突触因为囊泡耗尽而越来越弱（短时抑制），有的因为残余钙而越来越强（短时易化），在几百毫秒到几秒内恢复。于是突触变成了一个随时间变化的滤波器：抑制型突触对「变化」敏感，易化型突触对「连发」敏感。这也是一种不需要改变长期权重的短时记忆。',
       'During repeated firing some synapses weaken as vesicles deplete (short-term depression) and others strengthen via residual calcium (facilitation), recovering over hundreds of ms to seconds. The synapse becomes a time-varying filter: depressing synapses detect change, facilitating ones detect bursts, a short-term memory that leaves long-term weights untouched.'),
     brainMath: [
       { tex: t`\frac{dx}{dt} = \frac{1-x}{\tau_{\text{rec}}} - u\,x\,\delta(t-t_{\text{sp}}),\qquad \frac{du}{dt} = \frac{U-u}{\tau_f} + U(1-u)\,\delta(t-t_{\text{sp}})`, caption: b('Tsodyks–Markram 模型：x 是可用资源，u 是利用率', 'Tsodyks–Markram model: x = available resources, u = utilisation') },
       { tex: t`\text{PSC}_n = A\,u_n\,x_n`, caption: b('第 n 个脉冲引起的突触后电流', 'Postsynaptic current of the n-th spike') },
     ],
     ai: b(
-      '快权重（Ba et al. 2016）在慢权重之外维护一个随输入快速更新、快速衰减的矩阵。Schlag 等（2021）证明线性注意力本质上就是“快权重编程器”：每个 token 往快权重矩阵里写入 $v k^{\\top}$，查询时用 $q$ 读取。',
+      '快权重（Ba et al. 2016）在慢权重之外维护一个随输入快速更新、快速衰减的矩阵。Schlag 等（2021）证明线性注意力本质上就是「快权重编程器」：每个 token 往快权重矩阵里写入 $v k^{\\top}$，查询时用 $q$ 读取。',
       'Fast weights (Ba et al. 2016) keep a rapidly updated, decaying matrix alongside slow weights. Schlag et al. (2021) showed linear attention is exactly a fast-weight programmer: each token writes $v k^{\\top}$ into a matrix that queries read with $q$.'),
     aiMath: [
       { tex: t`A(t) = \lambda A(t-1) + \eta\,h(t)h(t)^{\top}`, caption: b('快权重（Ba et al. 2016）', 'Fast weights (Ba et al. 2016)') },
@@ -55,7 +55,7 @@ export const LAYER1: CardMechanism[] = [
       { tex: t`\Delta w = \eta\,y\,x \quad\longrightarrow\quad \Delta w = \eta\,y\,(x - y\,w)`, caption: b('Hebb 规则与 Oja 规则（加入归一化后收敛到第一主成分）', 'Hebb rule and Oja’s rule (normalised; converges to the first principal component)') },
     ],
     ai: b(
-      '主流深度学习几乎不用 Hebb 规则，而是依赖反向传播。Hebb 类规则出现在自组织映射、Hopfield 网络、部分脉冲神经网络的无监督学习中。“可微可塑性”（Miconi 2018）把 Hebb 项做成可训练的，让网络学会在推理时自我修改。',
+      '主流深度学习几乎不用 Hebb 规则，而是依赖反向传播。Hebb 类规则出现在自组织映射、Hopfield 网络、部分脉冲神经网络的无监督学习中。「可微可塑性」（Miconi 2018）把 Hebb 项做成可训练的，让网络学会在推理时自我修改。',
       'Mainstream deep learning rarely uses Hebbian rules, relying on backprop. They appear in self-organising maps, Hopfield nets and unsupervised SNN learning. Differentiable plasticity (Miconi 2018) makes Hebbian terms trainable so networks learn to modify themselves at inference.'),
     aiMath: [{ tex: t`y_j = \sigma\Big(\sum_i \big(w_{ij} + \alpha_{ij}\,\mathrm{Hebb}_{ij}(t)\big)x_i\Big),\quad \mathrm{Hebb}_{ij}(t{+}1) = \eta\,x_i y_j + (1-\eta)\,\mathrm{Hebb}_{ij}(t)`, caption: b('可微可塑性：$w$ 和 $\\alpha$ 由反向传播学习，Hebb 项在推理时在线更新', 'Differentiable plasticity: $w$ and $\\alpha$ learned by backprop; the Hebbian trace updates online') }],
     corr: 'crude', evidence: 'debated',
@@ -66,13 +66,13 @@ export const LAYER1: CardMechanism[] = [
     id: 'three-factor', layer: 1,
     title: b('三因子学习与信用分配 ↔ 反向传播', 'Three-factor learning & credit assignment ↔ backpropagation'),
     brain: b(
-      '一个流行的理论是“三因子规则”：突触前活动 × 突触后活动先留下一个会慢慢衰减的“资格迹”，几秒后到来的第三个信号（多巴胺等神经调质，表示奖赏或意外）决定这个迹是否被写成真正的权重变化。这样就把行为时间尺度（秒）的结果分配给毫秒级的突触事件。此外，还有假说认为树突顶端的“爆发式放电”携带了类似误差的信号。',
+      '一个流行的理论是「三因子规则」：突触前活动 × 突触后活动先留下一个会慢慢衰减的「资格迹」，几秒后到来的第三个信号（多巴胺等神经调质，表示奖赏或意外）决定这个迹是否被写成真正的权重变化。这样就把行为时间尺度（秒）的结果分配给毫秒级的突触事件。此外，还有假说认为树突顶端的「爆发式放电」携带了类似误差的信号。',
       'A leading theory is the three-factor rule: pre × post activity leaves a decaying eligibility trace, and a third signal arriving seconds later (dopamine or another neuromodulator signalling reward or surprise) decides whether it becomes a weight change, bridging behavioural (s) and synaptic (ms) timescales. Other proposals have apical-dendrite bursts carrying error-like signals.'),
     brainMath: [
       { tex: t`\frac{de_{ij}}{dt} = -\frac{e_{ij}}{\tau_e} + f(\text{pre}_j)\,g(\text{post}_i),\qquad \frac{dw_{ij}}{dt} = \eta\,M(t)\,e_{ij}(t)`, caption: b('三因子规则：资格迹 e × 神经调质 M', 'Three-factor rule: eligibility trace e × neuromodulator M') },
     ],
     ai: b(
-      '反向传播精确地计算每个权重对损失的梯度，但需要对称的反馈权重（“权重传输问题”）、分开的前向和反向阶段，以及存储所有中间激活。生物上更可行的替代方案包括：反馈对齐（用随机矩阵代替 $W^{\\top}$ 也能学）、预测编码网络（局部误差近似反向传播）、爆发依赖可塑性、e-prop（循环网络的在线资格迹学习）。',
+      '反向传播精确地计算每个权重对损失的梯度，但需要对称的反馈权重（「权重传输问题」）、分开的前向和反向阶段，以及存储所有中间激活。生物上更可行的替代方案包括：反馈对齐（用随机矩阵代替 $W^{\\top}$ 也能学）、预测编码网络（局部误差近似反向传播）、爆发依赖可塑性、e-prop（循环网络的在线资格迹学习）。',
       'Backprop computes exact gradients but needs symmetric feedback weights (the weight-transport problem), separate forward/backward phases and stored activations. More plausible alternatives: feedback alignment (random $B$ instead of $W^{\\top}$ still learns), predictive-coding networks (local errors approximate backprop), burst-dependent plasticity, and e-prop (online eligibility-trace learning for RNNs).'),
     aiMath: [
       { tex: t`\delta_l = \big(W_{l+1}^{\top}\delta_{l+1}\big)\odot f'(a_l),\qquad \Delta W_l = -\eta\,\delta_l\,h_{l-1}^{\top}`, caption: b('反向传播', 'Backpropagation') },
@@ -86,10 +86,10 @@ export const LAYER1: CardMechanism[] = [
     id: 'consolidation', layer: 1,
     title: b('突触巩固 ↔ 持续学习（EWC 等）', 'Synaptic consolidation ↔ continual learning (EWC, …)'),
     brain: b(
-      '一个突触不只有一个“强度”，还有多个在不同时间尺度上变化的内部状态（分子级联、突触标记与捕获）。新的变化先存在快变量里，只有被重复或被标记为重要的才逐渐转移到慢变量中。理论工作表明，这种多变量级联可以让记忆容量随突触数量近乎线性增长，同时保持长时间保存（Benna & Fusi 2016）。',
+      '一个突触不只有一个「强度」，还有多个在不同时间尺度上变化的内部状态（分子级联、突触标记与捕获）。新的变化先存在快变量里，只有被重复或被标记为重要的才逐渐转移到慢变量中。理论工作表明，这种多变量级联可以让记忆容量随突触数量近乎线性增长，同时保持长时间保存（Benna & Fusi 2016）。',
       'A synapse has not one strength but several internal states on different timescales (molecular cascades, synaptic tagging and capture). Changes land in fast variables and only repeated or tagged ones migrate to slow ones. Theory shows such cascades let memory capacity scale nearly linearly with synapse count while retaining memories for long (Benna & Fusi 2016).'),
     brainMath: [
-      { tex: t`C_k\,\frac{du_k}{dt} = g_{k-1,k}\,(u_{k-1}-u_k) + g_{k,k+1}\,(u_{k+1}-u_k)`, caption: b('Benna–Fusi 模型：突触是一串逐级变慢的“水桶”，$u_1$ 是可见的权重', 'Benna–Fusi model: a chain of progressively slower “beakers”; $u_1$ is the visible weight') },
+      { tex: t`C_k\,\frac{du_k}{dt} = g_{k-1,k}\,(u_{k-1}-u_k) + g_{k,k+1}\,(u_{k+1}-u_k)`, caption: b('Benna–Fusi 模型：突触是一串逐级变慢的「水桶」，$u_1$ 是可见的权重', 'Benna–Fusi model: a chain of progressively slower “beakers”; $u_1$ is the visible weight') },
     ],
     ai: b(
       '标准网络按顺序学习多个任务时会覆盖旧知识（灾难性遗忘）。弹性权重巩固（EWC）用 Fisher 信息估计每个参数对旧任务的重要性，限制重要参数的改动；Synaptic Intelligence 则在训练中在线累积每个参数的重要性。',
@@ -116,7 +116,7 @@ export const LAYER1: CardMechanism[] = [
     id: 'glia', layer: 1,
     title: b('胶质细胞与三方突触 ↔（缺失）', 'Glia & the tripartite synapse ↔ (absent)'),
     brain: b(
-      '胶质细胞数量与神经元相当。星形胶质细胞包裹大量突触，回收递质、调节离子与能量供应，并能通过钙信号以秒到分钟的尺度调节突触传递，形成“突触前-突触后-胶质”三方突触。它们的计算作用仍在研究中。',
+      '胶质细胞数量与神经元相当。星形胶质细胞包裹大量突触，回收递质、调节离子与能量供应，并能通过钙信号以秒到分钟的尺度调节突触传递，形成「突触前-突触后-胶质」三方突触。它们的计算作用仍在研究中。',
       'Glia are about as numerous as neurons. Astrocytes wrap many synapses, recycle transmitter, regulate ions and energy, and can modulate transmission via calcium signalling over seconds to minutes. Together they form the pre–post–glia tripartite synapse. Their computational role is still being worked out.'),
     ai: b('主流 AI 没有对应机制。最接近的是超网络或慢速调制网络：一个较慢的网络生成或调节另一个网络的参数。', 'No mainstream counterpart. The closest are hypernetworks or slow modulatory networks that generate or scale another network’s parameters.'),
     corr: 'absent', evidence: 'debated',

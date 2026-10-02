@@ -202,7 +202,7 @@ function BlockFig({ t }: FigProps) {
       ))}
       <T x={275} y={70} size={10} color={C.lavD} s={t(b('每层的单元都一样', 'every unit in a layer is the same'))} />
       <T x={275} y={110} size={10} color={C.dim} s={t(b('增益控制：固定的\nLayerNorm 运算', 'gain control: a fixed\nLayerNorm op'))} />
-      <T x={275} y={160} size={10} color={C.dim} s={t(b('没有专门的\n“抑制性控制单元”', 'no dedicated\ninhibitory control cells'))} />
+      <T x={275} y={160} size={10} color={C.dim} s={t(b('没有专门的\n「抑制性控制单元」', 'no dedicated\ninhibitory control cells'))} />
     </Svg>
   )
 }
@@ -306,7 +306,7 @@ export const LAYER2_FIGS: Record<string, FigPair> = {
   'neuron-models': {
     brain: NeuronAnatomyFig, ai: UnitVsSsmFig,
     brainCap: b('神经元：树突接收输入，胞体积分，膜电位 V(t) 一旦超过阈值就在轴丘产生脉冲并重置，再沿轴突传出。', 'Neuron: dendrites receive, the soma integrates; when V(t) crosses threshold a spike fires at the hillock, V resets and the spike travels down the axon.'),
-    aiCap: b('左：常用的人工单元是“加权求和 + 激活”，没有内部状态。右：状态空间单元带有随时间演化的状态 hₜ，更接近真实神经元。', 'Left: the usual artificial unit is “weighted sum + activation”, with no state. Right: a state-space unit carries an evolving state hₜ, closer to a real neuron.'),
+    aiCap: b('左：常用的人工单元是「加权求和 + 激活」，没有内部状态。右：状态空间单元带有随时间演化的状态 hₜ，更接近真实神经元。', 'Left: the usual artificial unit is “weighted sum + activation”, with no state. Right: a state-space unit carries an evolving state hₜ, closer to a real neuron.'),
   },
   dendrites: {
     brain: PyramidalFig, ai: TwoLayerFig,
@@ -320,7 +320,7 @@ export const LAYER2_FIGS: Record<string, FigPair> = {
   },
   'ei-celltypes': {
     brain: CircuitFig, ai: BlockFig,
-    brainCap: b('皮层微环路：PV 细胞抑制锥体细胞胞体（增益控制），SST 抑制树突（输入控制），VIP 抑制 SST，从而“去抑制”打开一条通路。', 'Cortical microcircuit: PV cells inhibit the pyramidal soma (gain), SST cells the dendrites (input), and VIP cells inhibit SST, disinhibiting and opening a pathway.'),
+    brainCap: b('皮层微环路：PV 细胞抑制锥体细胞胞体（增益控制），SST 抑制树突（输入控制），VIP 抑制 SST，从而「去抑制」打开一条通路。', 'Cortical microcircuit: PV cells inhibit the pyramidal soma (gain), SST cells the dendrites (input), and VIP cells inhibit SST, disinhibiting and opening a pathway.'),
     aiCap: b('Transformer 块：每层单元完全相同，增益控制由固定的 LayerNorm 完成，没有专门负责门控或节律的单元类型。', 'Transformer block: all units are identical, gain control is a fixed LayerNorm, and there are no dedicated gating or rhythm cell types.'),
   },
   noise: {

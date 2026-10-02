@@ -39,7 +39,7 @@ export function OutputPanel() {
       <div className="body-row">
         <div className="body-box">
           <Body cued={body} heartRate={hr} />
-          {speech && <div className="speech">“{t(speech)}”</div>}
+          {speech && <div className="speech">{t({ zh: `「${speech.zh}」`, en: `“${speech.en}”` })}</div>}
         </div>
         <div className="vitals">
           <div className="vital">

@@ -10,7 +10,7 @@ export const LAYER2: CardMechanism[] = [
     id: 'neuron-models', layer: 2,
     title: b('神经元的抽象层次 ↔ 人工神经元', 'Levels of neuron abstraction ↔ the artificial neuron'),
     brain: b(
-      '真实神经元的膜电位随时间积分输入，达到阈值后发放动作电位并重置。Hodgkin–Huxley 方程用离子通道精确描述这一过程；LIF 模型只保留“漏电积分 + 阈值”；Izhikevich 模型用两个变量就能重现规则放电、爆发、快速放电等数十种放电模式。神经元还有适应（持续刺激下放电变慢），因此自带短时记忆。',
+      '真实神经元的膜电位随时间积分输入，达到阈值后发放动作电位并重置。Hodgkin–Huxley 方程用离子通道精确描述这一过程；LIF 模型只保留「漏电积分 + 阈值」；Izhikevich 模型用两个变量就能重现规则放电、爆发、快速放电等数十种放电模式。神经元还有适应（持续刺激下放电变慢），因此自带短时记忆。',
       'A real neuron integrates input over time in its membrane potential and fires a spike at threshold, then resets. Hodgkin–Huxley describes this with ion channels; the LIF model keeps just leaky integration + threshold; the Izhikevich model reproduces dozens of firing patterns (regular, bursting, fast spiking…) with two variables. Neurons also adapt (firing slows under constant drive), giving each cell a built-in short-term memory.'),
     brainMath: [
       { tex: t`C\frac{dV}{dt} = -\bar g_{\text{Na}}m^3h\,(V-E_{\text{Na}}) - \bar g_{\text{K}}n^4(V-E_{\text{K}}) - g_L(V-E_L) + I`, caption: b('Hodgkin–Huxley（1952）：钠、钾通道的门控变量 m, h, n 各有自己的动力学', 'Hodgkin–Huxley (1952): gating variables m, h, n each have their own dynamics') },
@@ -18,7 +18,7 @@ export const LAYER2: CardMechanism[] = [
       { tex: t`\dot v = 0.04v^2 + 5v + 140 - u + I,\quad \dot u = a(bv - u),\quad v \ge 30 \Rightarrow v \leftarrow c,\ u \leftarrow u + d`, caption: b('Izhikevich（2003）：改变 a, b, c, d 就得到不同的放电模式', 'Izhikevich (2003): parameters a, b, c, d select the firing pattern') },
     ],
     ai: b(
-      'McCulloch–Pitts（1943）神经元是一个阈值逻辑单元；感知机（1958）为其加上可学习的权重。现代深度学习的单元是“加权求和 + ReLU/GELU”，可以看作脉冲神经元“频率-电流曲线”的平滑近似，但没有内部状态。状态空间模型（S4、Mamba）重新为每个单元引入了线性动力学和时间常数。',
+      'McCulloch–Pitts（1943）神经元是一个阈值逻辑单元；感知机（1958）为其加上可学习的权重。现代深度学习的单元是「加权求和 + ReLU/GELU」，可以看作脉冲神经元「频率-电流曲线」的平滑近似，但没有内部状态。状态空间模型（S4、Mamba）重新为每个单元引入了线性动力学和时间常数。',
       'The McCulloch–Pitts (1943) neuron is a threshold logic unit; the perceptron (1958) added learnable weights. Modern units are “weighted sum + ReLU/GELU”, a smooth stand-in for a spiking neuron’s rate–current curve, with no internal state. State-space models (S4, Mamba) reintroduce per-unit linear dynamics and time constants.'),
     aiMath: [
       { tex: t`y = H\Big(\sum_i w_i x_i - \theta\Big)\quad\to\quad y = \mathrm{ReLU}(w^{\top}x + b)`, caption: b('从 McCulloch–Pitts 阈值单元到现代 ReLU 单元', 'From the McCulloch–Pitts threshold unit to the ReLU unit') },
@@ -39,7 +39,7 @@ export const LAYER2: CardMechanism[] = [
       { tex: t`\text{burst} \iff V_{\text{basal}} > \theta_b \ \wedge\ V_{\text{apical}} > \theta_a`, caption: b('顶树突-基底树突耦合：前馈与上下文同时满足时才产生爆发（示意）', 'Apical–basal coupling: a burst when feedforward and context coincide (schematic)') },
     ],
     ai: b(
-      '标准人工单元是“点神经元”。最接近树突的是乘性门控：GLU、LSTM 门、以及“主动树突”网络（Iyer 2022），用上下文向量选择每个单元的哪个树突段起作用，从而在多任务中减少遗忘。',
+      '标准人工单元是「点神经元」。最接近树突的是乘性门控：GLU、LSTM 门、以及「主动树突」网络（Iyer 2022），用上下文向量选择每个单元的哪个树突段起作用，从而在多任务中减少遗忘。',
       'Standard units are point neurons. The closest analogues are multiplicative gates: GLU, LSTM gates, and active-dendrite networks (Iyer 2022), where a context vector selects which dendritic segment drives each unit, reducing forgetting across tasks.'),
     aiMath: [
       { tex: t`y = \big(W x\big) \odot \sigma\big(U c\big)`, caption: b('上下文门控：c 是上下文（类比顶树突输入）', 'Context gating: c is context (cf. apical input)') },
@@ -60,7 +60,7 @@ export const LAYER2: CardMechanism[] = [
       { tex: t`P(n \mid r, T) = \frac{(rT)^n e^{-rT}}{n!}`, caption: b('泊松放电模型（常用的一阶近似）', 'Poisson firing (a common first approximation)') },
     ],
     ai: b(
-      '主流网络传递的是同步更新的连续数值。脉冲神经网络（SNN，“第三代神经网络”，Maass 1997）使用事件驱动计算；由于脉冲不可微，训练时用“替代梯度”（Neftci 2019）或 e-prop 等方法。SNN 在神经形态芯片上很节能，但在大规模任务上的精度和生态仍落后于主流模型。',
+      '主流网络传递的是同步更新的连续数值。脉冲神经网络（SNN，「第三代神经网络」，Maass 1997）使用事件驱动计算；由于脉冲不可微，训练时用「替代梯度」（Neftci 2019）或 e-prop 等方法。SNN 在神经形态芯片上很节能，但在大规模任务上的精度和生态仍落后于主流模型。',
       'Mainstream networks pass synchronously updated real values. Spiking neural networks (“third generation”, Maass 1997) compute event-driven; since spikes are non-differentiable, training uses surrogate gradients (Neftci 2019) or e-prop. SNNs are very efficient on neuromorphic chips but lag mainstream models in accuracy and ecosystem at scale.'),
     aiMath: [{ tex: t`\frac{\partial S}{\partial V} \approx \frac{1}{\big(1 + \beta\,|V - \theta|\big)^2}`, caption: b('替代梯度：用平滑函数代替阶跃函数的导数', 'Surrogate gradient: a smooth stand-in for the step-function derivative') }],
     corr: 'crude', evidence: 'debated',
@@ -70,7 +70,7 @@ export const LAYER2: CardMechanism[] = [
     id: 'ei-celltypes', layer: 2,
     title: b('兴奋/抑制与细胞类型多样性 ↔ 同质单元 + 归一化', 'Excitation/inhibition & cell-type diversity ↔ uniform units + normalisation'),
     brain: b(
-      '皮层中大约 80% 是兴奋性锥体神经元，约 20% 是抑制性中间神经元（比例因物种和脑区而异），后者又分为 PV（快速抑制、同步振荡）、SST（抑制树突、调节输入）、VIP（抑制其他抑制神经元，即“去抑制”，打开信息通道）等类型。兴奋与抑制保持动态平衡，使网络既灵敏又不失控。',
+      '皮层中大约 80% 是兴奋性锥体神经元，约 20% 是抑制性中间神经元（比例因物种和脑区而异），后者又分为 PV（快速抑制、同步振荡）、SST（抑制树突、调节输入）、VIP（抑制其他抑制神经元，即「去抑制」，打开信息通道）等类型。兴奋与抑制保持动态平衡，使网络既灵敏又不失控。',
       'Roughly 80% of cortical neurons are excitatory pyramidal cells and ~20% inhibitory interneurons (varying by species and area): PV (fast inhibition, gamma oscillations), SST (dendritic inhibition, input control), VIP (inhibiting other interneurons, i.e. disinhibition that opens a channel), and more. Excitation and inhibition stay dynamically balanced, keeping the network sensitive but stable.'),
     brainMath: [
       { tex: t`\tau_E\dot r_E = -r_E + f(W_{EE}r_E - W_{EI}r_I + I_E),\qquad \tau_I\dot r_I = -r_I + f(W_{IE}r_E - W_{II}r_I + I_I)`, caption: b('兴奋-抑制群体模型（本网站的后台动态就用这种 Wilson–Cowan 形式）', 'E–I population model (the Wilson–Cowan form this site’s background dynamics use)') },
