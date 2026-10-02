@@ -268,6 +268,18 @@ export const REFS: Ref[] = [
   { id: 'dziri2023', authors: 'Dziri, N. et al.', year: 2023, title: 'Faith and fate: limits of transformers on compositionality', venue: 'arXiv (NeurIPS 2023)', url: arxiv('2305.18654') },
   { id: 'webb2023', authors: 'Webb, T., Holyoak, K. J. & Lu, H.', year: 2023, title: 'Emergent analogical reasoning in large language models', venue: 'Nature Human Behaviour 7(9), 1526–1541', url: doi('10.1038/s41562-023-01659-w') },
   { id: 'lewis2024', authors: 'Lewis, M. & Mitchell, M.', year: 2024, title: 'Using counterfactual tasks to evaluate the generality of analogical reasoning in large language models', venue: 'arXiv', url: arxiv('2402.08955') },
+  // ── F20 Planning ──
+  { id: 'shallice1982', authors: 'Shallice, T.', year: 1982, title: 'Specific impairments of planning', venue: 'Philosophical Transactions of the Royal Society B 298(1089), 199–209', url: doi('10.1098/rstb.1982.0082') },
+  { id: 'daw2011', authors: 'Daw, N. D., Gershman, S. J., Seymour, B., Dayan, P. & Dolan, R. J.', year: 2011, title: 'Model-based influences on humans’ choices and striatal prediction errors', venue: 'Neuron 69(6), 1204–1215', url: doi('10.1016/j.neuron.2011.02.027') },
+  { id: 'johnson2007', authors: 'Johnson, A. & Redish, A. D.', year: 2007, title: 'Neural ensembles in CA3 transiently encode paths forward of the animal at a decision point', venue: 'Journal of Neuroscience 27(45), 12176–12189', url: doi('10.1523/JNEUROSCI.3761-07.2007') },
+  { id: 'pfeiffer2013', authors: 'Pfeiffer, B. E. & Foster, D. J.', year: 2013, title: 'Hippocampal place-cell sequences depict future paths to remembered goals', venue: 'Nature 497(7447), 74–79', url: doi('10.1038/nature12112') },
+  { id: 'huys2012', authors: 'Huys, Q. J. M. et al.', year: 2012, title: 'Bonsai trees in your head: how the Pavlovian system sculpts goal-directed choices by pruning decision trees', venue: 'PLoS Computational Biology 8(3), e1002410', url: doi('10.1371/journal.pcbi.1002410') },
+  { id: 'vanopheusden2023', authors: 'van Opheusden, B. et al.', year: 2023, title: 'Expertise increases planning depth in human gameplay', venue: 'Nature 618(7967), 1000–1005', url: doi('10.1038/s41586-023-06124-2') },
+  { id: 'mattar2026', authors: 'Mattar, M. G. & Daw, N. D.', year: 2026, title: 'Planning in the brain: it’s not what you think it is', venue: 'Annual Review of Neuroscience 49, 435–450', url: doi('10.1146/annurev-neuro-102124-015847') },
+  { id: 'silver2016', authors: 'Silver, D. et al.', year: 2016, title: 'Mastering the game of Go with deep neural networks and tree search', venue: 'Nature 529(7587), 484–489', url: doi('10.1038/nature16961') },
+  { id: 'silver2018', authors: 'Silver, D. et al.', year: 2018, title: 'A general reinforcement learning algorithm that masters chess, shogi, and Go through self-play', venue: 'Science 362(6419), 1140–1144', url: doi('10.1126/science.aar6404') },
+  { id: 'valmeekam2023', authors: 'Valmeekam, K., Marquez, M., Sreedharan, S. & Kambhampati, S.', year: 2023, title: 'On the planning abilities of large language models: a critical investigation', venue: 'arXiv (NeurIPS 2023)', url: arxiv('2305.15771') },
+  { id: 'valmeekam2024', authors: 'Valmeekam, K., Stechly, K. & Kambhampati, S.', year: 2024, title: 'LLMs still can’t plan; can LRMs? A preliminary evaluation of OpenAI’s o1 on PlanBench', venue: 'arXiv', url: arxiv('2409.13373') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

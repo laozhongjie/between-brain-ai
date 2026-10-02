@@ -116,7 +116,7 @@ export const CONSOLIDATION_REPLAY: TopicContent = {
       b('睡眠中的回放最早在 1994 年的大鼠实验中被发现：白天一起放电的位置细胞，在随后的睡眠中仍倾向于一起放电。', 'Sleep replay was first found in a 1994 rat study. Place cells that fired together during the day tended to fire together again in the following sleep.'),
       b('2009 年的实验用电刺激选择性地抑制睡眠中的涟漪，大鼠的空间记忆随之受损，说明涟漪对巩固有因果作用。', 'A 2009 experiment selectively suppressed ripples in sleep with electrical stimulation, and the rats’ spatial memory was impaired, showing ripples play a causal role in consolidation.'),
       b('2017 年的小鼠实验在慢振荡的特定相位用光遗传学诱发纺锤波，增强了涟漪、纺锤波与慢振荡的三重对齐，记忆随之改善。', 'In a 2017 mouse study, optogenetically triggering spindles at a specific slow-oscillation phase strengthened the triple alignment of ripples, spindles and slow oscillations and improved memory.'),
-      b('回放也发生在清醒的休息中，并且可以「预演」从未走过的路径，这被认为与规划有关。', 'Replay also occurs during awake rest and can preview paths never taken, which is thought to relate to planning.'),
+      b('回放也发生在清醒的休息中，并且可以「预演」从未走过的路径，这被认为与规划有关（见[规划与前瞻模拟](topic:planning)）。', 'Replay also occurs during awake rest and can preview paths never taken, which is thought to relate to planning (see [planning and prospective simulation](topic:planning)).'),
       b('突触稳态假说认为，清醒时的学习使突触整体增强，睡眠按比例把它们调回。它与「睡眠中特定记忆被增强」的证据并存，两者的关系仍有争议。', 'The synaptic homeostasis hypothesis holds that waking learning strengthens synapses overall and sleep scales them back. It coexists with evidence that sleep strengthens particular memories, and how the two relate is debated.'),
       b('在 2004 年的实验中，睡过一夜的被试发现数字任务中隐藏捷径的比例是清醒组的两倍多。', 'In a 2004 experiment, participants who slept were more than twice as likely as those who stayed awake to discover a hidden shortcut in a number task.'),
     ],

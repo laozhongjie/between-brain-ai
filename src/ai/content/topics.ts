@@ -50,7 +50,7 @@ export const TOPICS: Topic[] = [
     systems: sys(b('人类组合推理', 'Human compositional reasoning'), b('MLC 与大语言模型', 'MLC and large language models')),
     mechanisms: ['M08'] },
   { id: 'planning', code: 'F20', name: b('规划与前瞻模拟', 'Planning and prospective simulation'),
-    systems: sys(b('海马预演与前额叶规划', 'Hippocampal preplay and prefrontal planning'), b('搜索与学习型规划', 'Search and learned planning')),
+    systems: sys(b('海马预演与前额叶规划', 'Hippocampal and prefrontal planning'), b('搜索与学习型规划', 'Search and learned planning')),
     mechanisms: [] },
 
   // D5 Attention & cognitive control
