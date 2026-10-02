@@ -64,3 +64,7 @@ export const INTEROCEPTION_FIGS: TopicFigs = {
     comp: { 0: legacyFig('sys-homeostasis', 'ai') },
   },
 }
+
+export const LANGUAGE_FIGS: TopicFigs = {
+  math: { bio: { 0: legacyFig('sys-language', 'brain') }, comp: { 0: legacyFig('sys-language', 'ai') } },
+}

@@ -380,6 +380,19 @@ export const REFS: Ref[] = [
   { id: 'garfinkel2015', authors: 'Garfinkel, S. N., Seth, A. K., Barrett, A. B., Suzuki, K. & Critchley, H. D.', year: 2015, title: 'Knowing your own heart: distinguishing interoceptive accuracy from interoceptive awareness', venue: 'Biological Psychology 104, 65–74', url: doi('10.1016/j.biopsycho.2014.11.004') },
   { id: 'man2019', authors: 'Man, K. & Damasio, A.', year: 2019, title: 'Homeostasis and soft robotics in the design of feeling machines', venue: 'Nature Machine Intelligence 1(10), 446–452', url: doi('10.1038/s42256-019-0103-7') },
   { id: 'yoshida2024', authors: 'Yoshida, N., Daikoku, T., Nagai, Y. & Kuniyoshi, Y.', year: 2024, title: 'Emergence of integrated behaviors through direct optimization for homeostasis', venue: 'Neural Networks 177, 106379', url: doi('10.1016/j.neunet.2024.106379') },
+  // ── F35 Language ──
+  { id: 'kutas1980', authors: 'Kutas, M. & Hillyard, S. A.', year: 1980, title: 'Reading senseless sentences: brain potentials reflect semantic incongruity', venue: 'Science 207(4427), 203–205', url: doi('10.1126/science.7350657') },
+  { id: 'fedorenko2011', authors: 'Fedorenko, E., Behr, M. K. & Kanwisher, N.', year: 2011, title: 'Functional specificity for high-level linguistic processing in the human brain', venue: 'PNAS 108(39), 16428–16433', url: doi('10.1073/pnas.1112937108') },
+  { id: 'fedorenko2016', authors: 'Fedorenko, E. & Varley, R.', year: 2016, title: 'Language and thought are not the same thing: evidence from neuroimaging and neurological patients', venue: 'Annals of the New York Academy of Sciences 1369(1), 132–153', url: doi('10.1111/nyas.13046') },
+  { id: 'fedorenko2024', authors: 'Fedorenko, E., Ivanova, A. A. & Regev, T. I.', year: 2024, title: 'The language network as a natural kind within the broader landscape of the human brain', venue: 'Nature Reviews Neuroscience 25(5), 289–312', url: doi('10.1038/s41583-024-00802-4') },
+  { id: 'goldstein2022', authors: 'Goldstein, A. et al.', year: 2022, title: 'Shared computational principles for language processing in humans and deep language models', venue: 'Nature Neuroscience 25(3), 369–380', url: doi('10.1038/s41593-022-01026-4') },
+  { id: 'vong2024', authors: 'Vong, W. K., Wang, W., Orhan, A. E. & Lake, B. M.', year: 2024, title: 'Grounded language acquisition through the eyes and ears of a single child', venue: 'Science 383(6682), 504–511', url: doi('10.1126/science.adi1374') },
+  { id: 'smith2013', authors: 'Smith, N. J. & Levy, R.', year: 2013, title: 'The effect of word predictability on reading time is logarithmic', venue: 'Cognition 128(3), 302–319', url: doi('10.1016/j.cognition.2013.02.013') },
+  { id: 'oh2023', authors: 'Oh, B.-D. & Schuler, W.', year: 2022, title: 'Why does surprisal from larger transformer-based language models provide a poorer fit to human reading times?', venue: 'arXiv (TACL 2023)', url: arxiv('2212.12131') },
+  { id: 'caucheteux2022', authors: 'Caucheteux, C. & King, J.-R.', year: 2022, title: 'Brains and algorithms partially converge in natural language processing', venue: 'Communications Biology 5, 134', url: doi('10.1038/s42003-022-03036-1') },
+  { id: 'kaplan2020', authors: 'Kaplan, J. et al.', year: 2020, title: 'Scaling laws for neural language models', venue: 'arXiv', url: arxiv('2001.08361') },
+  { id: 'warstadt2022', authors: 'Warstadt, A. & Bowman, S. R.', year: 2022, title: 'What artificial neural networks can tell us about human language acquisition', venue: 'arXiv', url: arxiv('2208.07998') },
+  { id: 'mahowald2024', authors: 'Mahowald, K. et al.', year: 2024, title: 'Dissociating language and thought in large language models', venue: 'Trends in Cognitive Sciences 28(6), 517–540', url: doi('10.1016/j.tics.2024.01.011') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))
