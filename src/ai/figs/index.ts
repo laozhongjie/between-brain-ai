@@ -3,7 +3,12 @@ import { LAYER2_FIGS } from './layer2'
 import { LAYER3_FIGS } from './layer3'
 import { LAYER4_FIGS } from './layer4'
 import { EPISODIC_FIGS } from './topics/episodic-memory'
-import { EMOTION_REG_FIGS, INTEROCEPTION_FIGS, LANGUAGE_FIGS, MOTOR_FIGS, REWARD_FIGS, SKILL_FIGS } from './topics/legacy-only'
+import { INTEROCEPTION_FIGS, LANGUAGE_FIGS } from './topics/legacy-only'
+import { MOTOR_FIGS } from './topics/motor-control'
+import { SKILL_FIGS } from './topics/skill-learning'
+import { REWARD_FIGS } from './topics/reward-learning'
+import { EMOTION_UNDERSTANDING_FIGS } from './topics/emotion-understanding'
+import { EMOTION_REG_FIGS } from './topics/emotion-regulation'
 import { WORLD_MODEL_FIGS } from './topics/world-models'
 import { COGNITIVE_MAP_FIGS } from './topics/cognitive-maps'
 import { CONSOLIDATION_FIGS } from './topics/consolidation-replay'
@@ -44,6 +49,7 @@ export const TOPIC_FIGS: Record<string, TopicFigs> = {
   'motor-control': MOTOR_FIGS,
   'skill-learning': SKILL_FIGS,
   'reward-learning': REWARD_FIGS,
+  'emotion-understanding': EMOTION_UNDERSTANDING_FIGS,
   'emotion-regulation': EMOTION_REG_FIGS,
   'interoception': INTEROCEPTION_FIGS,
   'language': LANGUAGE_FIGS,
