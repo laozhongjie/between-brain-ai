@@ -4,7 +4,7 @@ import type { TopicContent } from '../../types'
 const b = (zh: string, en: string): Bi => ({ zh, en })
 const t = String.raw
 
-/** F01 Visual recognition and scene understanding: the ventral and dorsal streams vs CNNs and vision transformers. */
+/** F01 Visual recognition and scene understanding: the ventral and dorsal streams vs CNNs and ViTs. */
 export const VISUAL_RECOGNITION: TopicContent = {
   thesis: {
     biological: b(
