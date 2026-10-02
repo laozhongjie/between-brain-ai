@@ -8,7 +8,7 @@ const sys = (biological: Bi, computational: Bi) => ({ biological, computational 
 export const TOPICS: Topic[] = [
   // D1 Perception & representation
   { id: 'visual-recognition', code: 'F01', name: b('视觉识别与场景理解', 'Visual recognition and scene understanding'),
-    systems: sys(b('腹侧与背侧视觉通路', 'Ventral and dorsal visual streams'), b('卷积网络与视觉 Transformer', 'Convolutional networks and vision transformers')),
+    systems: sys(b('腹侧与背侧视觉通路', 'Ventral and dorsal streams'), b('CNN 与视觉 Transformer', 'CNNs and vision transformers')),
     legacy: 'sys-vision', tour: 'vision', mechanisms: ['M06', 'M07'] },
   { id: 'auditory-scene', code: 'F02', name: b('听觉与声场分析', 'Audition and auditory scene analysis'),
     systems: sys(b('听觉通路与听觉皮层', 'Auditory pathway and auditory cortex'), b('语音识别与声源分离模型', 'Speech recognition and source separation models')),

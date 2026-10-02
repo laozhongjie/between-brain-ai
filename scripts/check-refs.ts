@@ -1,7 +1,7 @@
 /**
  * Verify every reference: DOIs via Crossref, arXiv ids via the arXiv API, other links via HTTP.
  * The returned title must match ours (word overlap), so a wrong-but-valid DOI is caught too.
- * Run: node scripts/check-refs.ts
+ * Run: node scripts/check-refs.ts [id …]   (no ids: check every reference)
  */
 import { REFS } from '../src/ai/content/refs.ts'
 
@@ -33,8 +33,9 @@ async function titleOf(url: string): Promise<string | null> {
   return r.ok ? '(ok)' : null
 }
 
+const only = process.argv.slice(2)
 let bad = 0
-for (const ref of REFS) {
+for (const ref of REFS.filter((r) => !only.length || only.includes(r.id))) {
   let title: string | null = null
   try {
     title = await titleOf(ref.url)
