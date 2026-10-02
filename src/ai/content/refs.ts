@@ -290,6 +290,19 @@ export const REFS: Ref[] = [
   { id: 'simons1999', authors: 'Simons, D. J. & Chabris, C. F.', year: 1999, title: 'Gorillas in our midst: sustained inattentional blindness for dynamic events', venue: 'Perception 28(9), 1059–1074', url: doi('10.1068/p281059') },
   { id: 'reynolds2009', authors: 'Reynolds, J. H. & Heeger, D. J.', year: 2009, title: 'The normalization model of attention', venue: 'Neuron 61(2), 168–185', url: doi('10.1016/j.neuron.2009.01.002') },
   { id: 'shazeer2017', authors: 'Shazeer, N. et al.', year: 2017, title: 'Outrageously large neural networks: the sparsely-gated mixture-of-experts layer', venue: 'arXiv (ICLR 2017)', url: arxiv('1701.06538') },
+  // ── F24 Metacognitive monitoring ──
+  { id: 'gehring1993', authors: 'Gehring, W. J., Goss, B., Coles, M. G. H., Meyer, D. E. & Donchin, E.', year: 1993, title: 'A neural system for error detection and compensation', venue: 'Psychological Science 4(6), 385–390', url: doi('10.1111/j.1467-9280.1993.tb00586.x') },
+  { id: 'kepecs2008', authors: 'Kepecs, A., Uchida, N., Zariwala, H. A. & Mainen, Z. F.', year: 2008, title: 'Neural correlates, computation and behavioural impact of decision confidence', venue: 'Nature 455(7210), 227–231', url: doi('10.1038/nature07200') },
+  { id: 'kiani2009', authors: 'Kiani, R. & Shadlen, M. N.', year: 2009, title: 'Representation of confidence associated with a decision by neurons in the parietal cortex', venue: 'Science 324(5928), 759–764', url: doi('10.1126/science.1169405') },
+  { id: 'fleming2010', authors: 'Fleming, S. M., Weil, R. S., Nagy, Z., Dolan, R. J. & Rees, G.', year: 2010, title: 'Relating introspective accuracy to individual differences in brain structure', venue: 'Science 329(5998), 1541–1543', url: doi('10.1126/science.1191883') },
+  { id: 'fleming2014', authors: 'Fleming, S. M. & Lau, H. C.', year: 2014, title: 'How to measure metacognition', venue: 'Frontiers in Human Neuroscience 8, 443', url: doi('10.3389/fnhum.2014.00443') },
+  { id: 'maniscalco2012', authors: 'Maniscalco, B. & Lau, H.', year: 2012, title: 'A signal detection theoretic approach for estimating metacognitive sensitivity from confidence ratings', venue: 'Consciousness and Cognition 21(1), 422–430', url: doi('10.1016/j.concog.2011.09.021') },
+  { id: 'guo2017', authors: 'Guo, C., Pleiss, G., Sun, Y. & Weinberger, K. Q.', year: 2017, title: 'On calibration of modern neural networks', venue: 'arXiv (ICML 2017)', url: arxiv('1706.04599') },
+  { id: 'openai2023', authors: 'OpenAI', year: 2023, title: 'GPT-4 technical report', venue: 'arXiv', url: arxiv('2303.08774') },
+  { id: 'xiong2023', authors: 'Xiong, M. et al.', year: 2023, title: 'Can LLMs express their uncertainty? An empirical evaluation of confidence elicitation in LLMs', venue: 'arXiv (ICLR 2024)', url: arxiv('2306.13063') },
+  { id: 'huang2023', authors: 'Huang, J. et al.', year: 2023, title: 'Large language models cannot self-correct reasoning yet', venue: 'arXiv (ICLR 2024)', url: arxiv('2310.01798') },
+  { id: 'griot2025', authors: 'Griot, M., Hemptinne, C., Vanderdonckt, J. & Yuksel, D.', year: 2025, title: 'Large language models lack essential metacognition for reliable medical reasoning', venue: 'Nature Communications 16, 642', url: doi('10.1038/s41467-024-55628-6') },
+  { id: 'steyvers2025', authors: 'Steyvers, M. et al.', year: 2025, title: 'What large language models know and what people think they know', venue: 'Nature Machine Intelligence 7(2), 221–231', url: doi('10.1038/s42256-024-00976-7') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

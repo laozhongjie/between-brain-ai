@@ -58,7 +58,7 @@ export const TOPICS: Topic[] = [
     systems: sys(b('选择性注意与丘脑门控', 'Selective attention and thalamic gating'), b('Transformer 注意力与路由', 'Transformer attention and routing')),
     legacy: 'sys-attention', tour: 'attention', mechanisms: ['M06'] },
   { id: 'metacognitive-monitoring', code: 'F24', name: b('元认知监测', 'Metacognitive monitoring'),
-    systems: sys(b('前额叶的信心与错误监测', 'Prefrontal confidence and error monitoring'), b('模型置信度校准', 'Model confidence calibration')),
+    systems: sys(b('信心与错误监测', 'Confidence and error monitoring'), b('模型置信度校准', 'Model confidence calibration')),
     mechanisms: [] },
   { id: 'metacognitive-control', code: 'F25', name: b('元认知调控', 'Metacognitive control'),
     systems: sys(b('基于信心的复核与求助', 'Confidence-driven checking and help seeking'), b('自我纠错与推理预算分配', 'Self-correction and reasoning budget allocation')),

@@ -1,5 +1,6 @@
 import type { TopicContent } from '../../types'
 import { EPISODIC_MEMORY } from './episodic-memory'
+import { METACOGNITIVE_MONITORING } from './metacognitive-monitoring'
 import { ATTENTION_GATING } from './attention-gating'
 import { PLANNING } from './planning'
 import { COMPOSITIONAL_REASONING } from './compositional-reasoning'
@@ -30,4 +31,5 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   'compositional-reasoning': COMPOSITIONAL_REASONING,
   'planning': PLANNING,
   'attention-gating': ATTENTION_GATING,
+  'metacognitive-monitoring': METACOGNITIVE_MONITORING,
 }
