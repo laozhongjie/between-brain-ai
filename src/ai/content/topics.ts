@@ -39,7 +39,7 @@ export const TOPICS: Topic[] = [
     systems: sys(b('睡眠回放与系统巩固', 'Sleep replay and consolidation'), b('经验回放与模型更新', 'Experience replay and updating')),
     mechanisms: ['M03'] },
   { id: 'cognitive-maps', code: 'F16', name: b('认知地图与关系记忆', 'Cognitive maps and relational memory'),
-    systems: sys(b('海马与内嗅皮层的认知地图', 'Hippocampal and entorhinal cognitive maps'), b('TEM 与 Transformer 的关系表示', 'Relational representations in TEM and transformers')),
+    systems: sys(b('海马认知地图', 'Hippocampal cognitive maps'), b('TEM 与 Transformer', 'TEM and transformers')),
     legacy: 'sys-memory', mechanisms: ['M07'] },
 
   // D4 Prediction, reasoning & planning

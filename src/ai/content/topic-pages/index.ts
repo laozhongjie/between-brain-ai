@@ -1,5 +1,6 @@
 import type { TopicContent } from '../../types'
 import { EPISODIC_MEMORY } from './episodic-memory'
+import { COGNITIVE_MAPS } from './cognitive-maps'
 import { CONSOLIDATION_REPLAY } from './consolidation-replay'
 import { WORKING_MEMORY } from './working-memory'
 import { CONTINUAL_LEARNING } from './continual-learning'
@@ -20,4 +21,5 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   'working-memory': WORKING_MEMORY,
   'episodic-memory': EPISODIC_MEMORY,
   'consolidation-replay': CONSOLIDATION_REPLAY,
+  'cognitive-maps': COGNITIVE_MAPS,
 }

@@ -236,6 +236,19 @@ export const REFS: Ref[] = [
   { id: 'lin1992', authors: 'Lin, L.-J.', year: 1992, title: 'Self-improving reactive agents based on reinforcement learning, planning and teaching', venue: 'Machine Learning 8(3–4), 293–321', url: doi('10.1007/BF00992699') },
   { id: 'schaul2015', authors: 'Schaul, T., Quan, J., Antonoglou, I. & Silver, D.', year: 2015, title: 'Prioritized experience replay', venue: 'arXiv (ICLR 2016)', url: arxiv('1511.05952') },
   { id: 'bourtoule2019', authors: 'Bourtoule, L. et al.', year: 2019, title: 'Machine unlearning', venue: 'arXiv (IEEE S&P 2021)', url: arxiv('1912.03817') },
+  // ── F16 Cognitive maps ──
+  { id: 'tolman1948', authors: 'Tolman, E. C.', year: 1948, title: 'Cognitive maps in rats and men', venue: 'Psychological Review 55(4), 189–208', url: doi('10.1037/h0061626') },
+  { id: 'okeefe1971', authors: 'O’Keefe, J. & Dostrovsky, J.', year: 1971, title: 'The hippocampus as a spatial map: preliminary evidence from unit activity in the freely-moving rat', venue: 'Brain Research 34(1), 171–175', url: doi('10.1016/0006-8993(71)90358-1') },
+  { id: 'stensola2012', authors: 'Stensola, H. et al.', year: 2012, title: 'The entorhinal grid map is discretized', venue: 'Nature 492(7427), 72–78', url: doi('10.1038/nature11649') },
+  { id: 'ziv2013', authors: 'Ziv, Y. et al.', year: 2013, title: 'Long-term dynamics of CA1 hippocampal place codes', venue: 'Nature Neuroscience 16(3), 264–266', url: doi('10.1038/nn.3329') },
+  { id: 'constantinescu2016', authors: 'Constantinescu, A. O., O’Reilly, J. X. & Behrens, T. E. J.', year: 2016, title: 'Organizing conceptual knowledge in humans with a gridlike code', venue: 'Science 352(6292), 1464–1468', url: doi('10.1126/science.aaf0941') },
+  { id: 'garvert2017', authors: 'Garvert, M. M., Dolan, R. J. & Behrens, T. E. J.', year: 2017, title: 'A map of abstract relational knowledge in the human hippocampal–entorhinal cortex', venue: 'eLife 6, e17086', url: doi('10.7554/eLife.17086') },
+  { id: 'behrens2018', authors: 'Behrens, T. E. J. et al.', year: 2018, title: 'What is a cognitive map? Organizing knowledge for flexible behavior', venue: 'Neuron 100(2), 490–509', url: doi('10.1016/j.neuron.2018.10.002') },
+  { id: 'stachenfeld2017', authors: 'Stachenfeld, K. L., Botvinick, M. M. & Gershman, S. J.', year: 2017, title: 'The hippocampus as a predictive map', venue: 'Nature Neuroscience 20(11), 1643–1653', url: doi('10.1038/nn.4650') },
+  { id: 'banino2018', authors: 'Banino, A. et al.', year: 2018, title: 'Vector-based navigation using grid-like representations in artificial agents', venue: 'Nature 557(7705), 429–433', url: doi('10.1038/s41586-018-0102-6') },
+  { id: 'cueva2018', authors: 'Cueva, C. J. & Wei, X.-X.', year: 2018, title: 'Emergence of grid-like representations by training recurrent neural networks to perform spatial localization', venue: 'arXiv (ICLR 2018)', url: arxiv('1803.07770') },
+  { id: 'gurnee2023', authors: 'Gurnee, W. & Tegmark, M.', year: 2023, title: 'Language models represent space and time', venue: 'arXiv (ICLR 2024)', url: arxiv('2310.02207') },
+  { id: 'momennejad2023', authors: 'Momennejad, I. et al.', year: 2023, title: 'Evaluating cognitive maps and planning in large language models with CogEval', venue: 'arXiv (NeurIPS 2023)', url: arxiv('2309.15129') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

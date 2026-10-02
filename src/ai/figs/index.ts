@@ -3,6 +3,7 @@ import { LAYER2_FIGS } from './layer2'
 import { LAYER3_FIGS } from './layer3'
 import { LAYER4_FIGS } from './layer4'
 import { EPISODIC_FIGS } from './topics/episodic-memory'
+import { COGNITIVE_MAP_FIGS } from './topics/cognitive-maps'
 import { CONSOLIDATION_FIGS } from './topics/consolidation-replay'
 import { WORKING_MEMORY_FIGS } from './topics/working-memory'
 import { CONTINUAL_FIGS } from './topics/continual-learning'
@@ -26,4 +27,5 @@ export const TOPIC_FIGS: Record<string, TopicFigs> = {
   'working-memory': WORKING_MEMORY_FIGS,
   'episodic-memory': EPISODIC_FIGS,
   'consolidation-replay': CONSOLIDATION_FIGS,
+  'cognitive-maps': COGNITIVE_MAP_FIGS,
 }
