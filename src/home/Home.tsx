@@ -185,7 +185,11 @@ export function Home() {
       const cover = Math.hypot(st.clientWidth / 2, st.clientHeight / 2) + PANEL_GAP
       const cta = clamp((p - CTA) / CTA_RAMP)
       const gap = g.r * MARK_GAP_RATIO * (1 - open) + PANEL_GAP / 2 * open
-      const r = g.r + open * open * (cover - g.r)
+      // the white liquid's front (fraction of a panel out from the slit) follows the scroll from its first
+      // step, past 1 so the last of it clears the panels; the window opens at least as fast as it runs
+      const wave = 1.75 * morph
+      const reach = clamp((wave * (st.clientWidth / 2 - gap) * 0.85) / (cover - g.r))
+      const r = g.r + Math.max(open * open, reach) * (cover - g.r)
       // the solid white hands over to the liquid (HomeMorph, the same shape) as soon as it starts to flow
       for (const el of [sc, st]) el.style.setProperty('--hero', h.toFixed(3))
       st.style.setProperty('--fill', (1 - clamp(morph / 0.01)).toFixed(3))
@@ -201,6 +205,7 @@ export function Home() {
       homeState.chapter = c
       homeState.open = open
       homeState.morph = morph
+      homeState.wave = wave
       homeState.r0 = g.r
       homeState.r = r
       homeState.gap = gap
