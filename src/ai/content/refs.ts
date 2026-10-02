@@ -165,6 +165,21 @@ export const REFS: Ref[] = [
   { id: 'luo2019', authors: 'Luo, Y. & Mesgarani, N.', year: 2019, title: 'Conv-TasNet: surpassing ideal time-frequency magnitude masking for speech separation', venue: 'IEEE/ACM Transactions on Audio, Speech, and Language Processing 27(8), 1256–1266', url: doi('10.1109/TASLP.2019.2915167') },
   { id: 'yu2017', authors: 'Yu, D., Kolbæk, M., Tan, Z.-H. & Jensen, J.', year: 2017, title: 'Permutation invariant training of deep models for speaker-independent multi-talker speech separation', venue: 'ICASSP 2017, 241–245', url: doi('10.1109/ICASSP.2017.7952154') },
   { id: 'koenecke2024', authors: 'Koenecke, A., Choi, A. S. G., Mei, K. X., Schellmann, H. & Sloane, M.', year: 2024, title: 'Careless Whisper: speech-to-text hallucination harms', venue: 'arXiv (FAccT 2024)', url: arxiv('2402.08021') },
+  // ── F03 Multisensory integration ──
+  { id: 'ernst2002', authors: 'Ernst, M. O. & Banks, M. S.', year: 2002, title: 'Humans integrate visual and haptic information in a statistically optimal fashion', venue: 'Nature 415(6870), 429–433', url: doi('10.1038/415429a') },
+  { id: 'alais2004', authors: 'Alais, D. & Burr, D.', year: 2004, title: 'The ventriloquist effect results from near-optimal bimodal integration', venue: 'Current Biology 14(3), 257–262', url: doi('10.1016/j.cub.2004.01.029') },
+  { id: 'meredith1983', authors: 'Meredith, M. A. & Stein, B. E.', year: 1983, title: 'Interactions among converging sensory inputs in the superior colliculus', venue: 'Science 221(4608), 389–391', url: doi('10.1126/science.6867718') },
+  { id: 'stein2008', authors: 'Stein, B. E. & Stanford, T. R.', year: 2008, title: 'Multisensory integration: current issues from the perspective of the single neuron', venue: 'Nature Reviews Neuroscience 9(4), 255–266', url: doi('10.1038/nrn2331') },
+  { id: 'rohe2015', authors: 'Rohe, T. & Noppeney, U.', year: 2015, title: 'Cortical hierarchies perform Bayesian causal inference in multisensory perception', venue: 'PLOS Biology 13(2), e1002073', url: doi('10.1371/journal.pbio.1002073') },
+  { id: 'mcgurk1976', authors: 'McGurk, H. & MacDonald, J.', year: 1976, title: 'Hearing lips and seeing voices', venue: 'Nature 264(5588), 746–748', url: doi('10.1038/264746a0') },
+  { id: 'fujisaki2004', authors: 'Fujisaki, W., Shimojo, S., Kashino, M. & Nishida, S.', year: 2004, title: 'Recalibration of audiovisual simultaneity', venue: 'Nature Neuroscience 7(7), 773–778', url: doi('10.1038/nn1268') },
+  { id: 'gori2008', authors: 'Gori, M., Del Viva, M., Sandini, G. & Burr, D. C.', year: 2008, title: 'Young children do not integrate visual and haptic form information', venue: 'Current Biology 18(9), 694–698', url: doi('10.1016/j.cub.2008.04.036') },
+  { id: 'bachyrita1969', authors: 'Bach-y-Rita, P., Collins, C. C., Saunders, F. A., White, B. & Scadden, L.', year: 1969, title: 'Vision substitution by tactile image projection', venue: 'Nature 221(5184), 963–964', url: doi('10.1038/221963a0') },
+  { id: 'kording2007', authors: 'Körding, K. P., Beierholm, U., Ma, W. J., Quartz, S., Tenenbaum, J. B. & Shams, L.', year: 2007, title: 'Causal inference in multisensory perception', venue: 'PLoS ONE 2(9), e943', url: doi('10.1371/journal.pone.0000943') },
+  { id: 'ma2006', authors: 'Ma, W. J., Beck, J. M., Latham, P. E. & Pouget, A.', year: 2006, title: 'Bayesian inference with probabilistic population codes', venue: 'Nature Neuroscience 9(11), 1432–1438', url: doi('10.1038/nn1790') },
+  { id: 'girdhar2023', authors: 'Girdhar, R. et al.', year: 2023, title: 'ImageBind: one embedding space to bind them all', venue: 'arXiv (CVPR 2023)', url: arxiv('2305.05665') },
+  { id: 'alayrac2022', authors: 'Alayrac, J.-B. et al.', year: 2022, title: 'Flamingo: a visual language model for few-shot learning', venue: 'arXiv (NeurIPS 2022)', url: arxiv('2204.14198') },
+  { id: 'sungbin2024', authors: 'Sung-Bin, K., Hyun-Bin, O., Lee, J., Senocak, A., Chung, J. S. & Oh, T.-H.', year: 2024, title: 'AVHBench: a cross-modal hallucination benchmark for audio-visual large language models', venue: 'arXiv (ICLR 2025)', url: arxiv('2410.18325') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

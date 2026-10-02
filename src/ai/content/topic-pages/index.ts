@@ -1,5 +1,6 @@
 import type { TopicContent } from '../../types'
 import { EPISODIC_MEMORY } from './episodic-memory'
+import { MULTISENSORY } from './multisensory'
 import { AUDITORY_SCENE } from './auditory-scene'
 import { VISUAL_RECOGNITION } from './visual-recognition'
 
@@ -7,5 +8,6 @@ import { VISUAL_RECOGNITION } from './visual-recognition'
 export const TOPIC_CONTENT: Record<string, TopicContent> = {
   'visual-recognition': VISUAL_RECOGNITION,
   'auditory-scene': AUDITORY_SCENE,
+  'multisensory': MULTISENSORY,
   'episodic-memory': EPISODIC_MEMORY,
 }
