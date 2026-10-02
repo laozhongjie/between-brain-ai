@@ -66,7 +66,7 @@ export const TOPICS: Topic[] = [
 
   // D6 Action & embodied interaction
   { id: 'motor-control', code: 'F26', name: b('运动控制与在线校正', 'Motor control and online correction'),
-    systems: sys(b('小脑内部模型与脊髓反馈', 'Cerebellar internal models and spinal feedback'), b('机器人反馈控制与模型预测控制', 'Robot feedback control and model predictive control')),
+    systems: sys(b('小脑内部模型与脊髓反馈', 'Cerebellar models and spinal feedback'), b('机器人反馈控制与 MPC', 'Robot feedback control and MPC')),
     legacy: 'sys-motor', tour: 'motor', mechanisms: [] },
   { id: 'skill-learning', code: 'F27', name: b('技能获得与灵巧操作', 'Skill acquisition and dexterous manipulation'),
     systems: sys(b('基底节与运动皮层的技能学习', 'Skill learning in the basal ganglia and motor cortex'), b('视觉语言动作模型', 'Vision-language-action models')),

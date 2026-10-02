@@ -316,6 +316,15 @@ export const REFS: Ref[] = [
   { id: 'chen2024', authors: 'Chen, X. et al.', year: 2024, title: 'Do NOT think that much for 2+3=? On the overthinking of o1-like LLMs', venue: 'arXiv', url: arxiv('2412.21187') },
   { id: 'deepseek2025', authors: 'Guo, D. et al. (DeepSeek-AI)', year: 2025, title: 'DeepSeek-R1 incentivizes reasoning in LLMs through reinforcement learning', venue: 'Nature 645(8081), 633–638', url: doi('10.1038/s41586-025-09422-z') },
   { id: 'kamath2020', authors: 'Kamath, A., Jia, R. & Liang, P.', year: 2020, title: 'Selective question answering under domain shift', venue: 'arXiv (ACL 2020)', url: arxiv('2006.09462') },
+  // ── F26 Motor control ──
+  { id: 'johansson1984', authors: 'Johansson, R. S. & Westling, G.', year: 1984, title: 'Roles of glabrous skin receptors and sensorimotor memory in automatic control of precision grip when lifting rougher or more slippery objects', venue: 'Experimental Brain Research 56(3), 550–564', url: doi('10.1007/BF00237997') },
+  { id: 'shadmehr1994', authors: 'Shadmehr, R. & Mussa-Ivaldi, F. A.', year: 1994, title: 'Adaptive representation of dynamics during learning of a motor task', venue: 'Journal of Neuroscience 14(5), 3208–3224', url: doi('10.1523/JNEUROSCI.14-05-03208.1994') },
+  { id: 'burdet2001', authors: 'Burdet, E., Osu, R., Franklin, D. W., Milner, T. E. & Kawato, M.', year: 2001, title: 'The central nervous system stabilizes unstable dynamics by learning optimal impedance', venue: 'Nature 414(6862), 446–449', url: doi('10.1038/35106566') },
+  { id: 'pruszynski2012', authors: 'Pruszynski, J. A. & Scott, S. H.', year: 2012, title: 'Optimal feedback control and the long-latency stretch response', venue: 'Experimental Brain Research 218(3), 341–359', url: doi('10.1007/s00221-012-3041-8') },
+  { id: 'scott2004', authors: 'Scott, S. H.', year: 2004, title: 'Optimal feedback control and the neural basis of volitional motor control', venue: 'Nature Reviews Neuroscience 5(7), 532–545', url: doi('10.1038/nrn1427') },
+  { id: 'dicarlo2018', authors: 'Di Carlo, J., Wensing, P. M., Katz, B., Bledt, G. & Kim, S.', year: 2018, title: 'Dynamic locomotion in the MIT Cheetah 3 through convex model-predictive control', venue: 'IROS 2018', url: doi('10.1109/IROS.2018.8594448') },
+  { id: 'lee2020', authors: 'Lee, J., Hwangbo, J., Wellhausen, L., Koltun, V. & Hutter, M.', year: 2020, title: 'Learning quadrupedal locomotion over challenging terrain', venue: 'Science Robotics 5(47), eabc5986', url: doi('10.1126/scirobotics.abc5986') },
+  { id: 'kumar2021', authors: 'Kumar, A., Fu, Z., Pathak, D. & Malik, J.', year: 2021, title: 'RMA: rapid motor adaptation for legged robots', venue: 'arXiv (RSS 2021)', url: arxiv('2107.04034') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))
