@@ -180,6 +180,12 @@ export const REFS: Ref[] = [
   { id: 'girdhar2023', authors: 'Girdhar, R. et al.', year: 2023, title: 'ImageBind: one embedding space to bind them all', venue: 'arXiv (CVPR 2023)', url: arxiv('2305.05665') },
   { id: 'alayrac2022', authors: 'Alayrac, J.-B. et al.', year: 2022, title: 'Flamingo: a visual language model for few-shot learning', venue: 'arXiv (NeurIPS 2022)', url: arxiv('2204.14198') },
   { id: 'sungbin2024', authors: 'Sung-Bin, K., Hyun-Bin, O., Lee, J., Senocak, A., Chung, J. S. & Oh, T.-H.', year: 2024, title: 'AVHBench: a cross-modal hallucination benchmark for audio-visual large language models', venue: 'arXiv (ICLR 2025)', url: arxiv('2410.18325') },
+  // ── F07 Credit assignment ──
+  { id: 'yagishita2014', authors: 'Yagishita, S., Hayashi-Takagi, A., Ellis-Davies, G. C. R., Urakubo, H., Ishii, S. & Kasai, H.', year: 2014, title: 'A critical time window for dopamine actions on the structural plasticity of dendritic spines', venue: 'Science 345(6204), 1616–1620', url: doi('10.1126/science.1255514') },
+  { id: 'he2015', authors: 'He, K. et al.', year: 2015, title: 'Distinct eligibility traces for LTP and LTD in cortical synapses', venue: 'Neuron 88(3), 528–538', url: doi('10.1016/j.neuron.2015.09.037') },
+  { id: 'sutton1988', authors: 'Sutton, R. S.', year: 1988, title: 'Learning to predict by the methods of temporal differences', venue: 'Machine Learning 3(1), 9–44', url: doi('10.1007/BF00115009') },
+  { id: 'williams1992', authors: 'Williams, R. J.', year: 1992, title: 'Simple statistical gradient-following algorithms for connectionist reinforcement learning', venue: 'Machine Learning 8(3–4), 229–256', url: doi('10.1007/BF00992696') },
+  { id: 'sacramento2018', authors: 'Sacramento, J., Ponte Costa, R., Bengio, Y. & Senn, W.', year: 2018, title: 'Dendritic cortical microcircuits approximate the backpropagation algorithm', venue: 'arXiv (NeurIPS 2018)', url: arxiv('1810.11393') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

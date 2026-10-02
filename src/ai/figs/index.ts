@@ -3,6 +3,7 @@ import { LAYER2_FIGS } from './layer2'
 import { LAYER3_FIGS } from './layer3'
 import { LAYER4_FIGS } from './layer4'
 import { EPISODIC_FIGS } from './topics/episodic-memory'
+import { CREDIT_FIGS } from './topics/credit-assignment'
 import { MULTISENSORY_FIGS } from './topics/multisensory'
 import { AUDITORY_FIGS } from './topics/auditory-scene'
 import { VISUAL_FIGS } from './topics/visual-recognition'
@@ -15,5 +16,6 @@ export const TOPIC_FIGS: Record<string, TopicFigs> = {
   'visual-recognition': VISUAL_FIGS,
   'auditory-scene': AUDITORY_FIGS,
   'multisensory': MULTISENSORY_FIGS,
+  'credit-assignment': CREDIT_FIGS,
   'episodic-memory': EPISODIC_FIGS,
 }

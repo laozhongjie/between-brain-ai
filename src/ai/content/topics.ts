@@ -19,7 +19,7 @@ export const TOPICS: Topic[] = [
 
   // D2 Learning & adaptation
   { id: 'credit-assignment', code: 'F07', name: b('信用分配', 'Credit assignment'),
-    systems: sys(b('资格迹与多巴胺调制的可塑性', 'Eligibility traces and dopamine-modulated plasticity'), b('反向传播与时序差分学习', 'Backpropagation and temporal-difference learning')),
+    systems: sys(b('资格迹与多巴胺可塑性', 'Eligibility traces and dopamine'), b('反向传播与时序差分', 'Backpropagation and TD learning')),
     mechanisms: ['M03'] },
   { id: 'meta-learning', code: 'F08', name: b('元学习与快速适应', 'Meta-learning and rapid adaptation'),
     systems: sys(b('前额叶的元强化学习', 'Prefrontal meta-reinforcement learning'), b('上下文学习与元学习算法', 'In-context learning and meta-learning algorithms')),
