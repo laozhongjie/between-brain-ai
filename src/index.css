@@ -661,13 +661,14 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .fig-steps > li { border-radius: 8px; }
 .fig-steps > li.flash { animation: step-flash 2.6s ease-out; }
 @keyframes step-flash { 0%, 45% { background: color-mix(in srgb, var(--side) 16%, transparent); box-shadow: 0 0 0 6px color-mix(in srgb, var(--side) 16%, transparent); } 100% { background: transparent; box-shadow: 0 0 0 6px transparent; } }
-/* Misreadings: the tempting claim beside what the evidence supports */
+/* Popular claims: the claim (and where it comes from) beside what the evidence supports */
 .misreadings { margin-top: 26px; }
 .misreadings h3 { margin: 0 0 10px; font-size: 14px; letter-spacing: 0; color: var(--lemon); }
 .misreading { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); margin-bottom: 10px; border: 1px solid rgba(232,194,103,0.16); border-radius: 10px; overflow: hidden; }
 .ai-page .misreading p { margin: 0; padding: 11px 16px 12px; font-size: 15px; line-height: 1.8; }
 .ai-page .misreading .claim { background: rgba(232,194,103,0.05); color: var(--text); border-right: 1px solid rgba(232,194,103,0.16); }
 .ai-page .misreading .fact { color: var(--text-h); }
+.ai-page .misreading .mr-source { display: block; margin-top: 6px; font-size: 12.5px; line-height: 1.6; color: var(--text-dim); }
 .mr-tag { display: flex; align-items: center; gap: 5px; margin-bottom: 3px; font: 500 12px/1.4 var(--label); letter-spacing: 0.04em; color: var(--lemon); }
 .fact .mr-tag { color: var(--ok); }
 @media (max-width: 760px) {

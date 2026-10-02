@@ -275,12 +275,9 @@ export const WORLD_MODELS: TopicContent = {
         fact: b('预测在运动控制和知觉中作用明确；但「整个皮层都按预测编码工作」是一种有争议的理论框架。', 'Prediction clearly matters in motor control and perception. But that all of cortex runs predictive coding is a debated theoretical framework.'),
       },
       {
-        claim: b('Dreamer 一个智能体掌握了 150 多个任务', 'One Dreamer agent masters more than 150 tasks'),
-        fact: b('同一套算法配置在 150 多个任务上分别训练都取得了好结果；这说明算法通用，不是单个模型同时掌握所有任务。', 'One algorithm configuration trained separately did well on more than 150 tasks. That shows a general algorithm, not one model mastering all tasks at once.'),
-      },
-      {
         claim: b('能生成逼真视频，就理解了物理', 'Generating realistic video means understanding physics'),
         fact: b('视频在训练分布内看起来逼真，但分布外的物理规律常常外推失败；逼真不等于掌握了规律。', 'Videos look realistic within the training distribution, but physical laws often fail to extrapolate outside it. Realism is not mastery of the laws.'),
+        source: b('2024 年 OpenAI 介绍 Sora 的技术报告题为「视频生成模型作为世界模拟器」。', 'OpenAI’s 2024 technical report on Sora was titled “Video generation models as world simulators”.'),
       },
     ],
   },

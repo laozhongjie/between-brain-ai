@@ -265,10 +265,7 @@ export const INNATE_CONSTRAINTS: TopicContent = {
       {
         claim: b('大脑出生时是一块白板', 'The brain starts as a blank slate'),
         fact: b('大脑出生时已有大量结构和偏好，许多动物生来就会走、会躲避天敌，人类婴儿也对物体、数量和面孔有先天的预期。', 'The brain is born with much structure and many preferences. Many animals walk and avoid predators from birth, and human infants have innate expectations about objects, number and faces.'),
-      },
-      {
-        claim: b('先天的就不需要学习', 'What is innate needs no learning'),
-        fact: b('先天结构常常本身就通过出生前的自发活动「学」出来，出生后又在经验中继续调整；先天与学习相互交织。', 'Innate structure is often itself learned from spontaneous activity before birth and keeps adjusting with experience afterward. The innate and the learned intertwine.'),
+        source: b('「白板」说常追溯到 17 世纪的洛克。', 'The blank slate view is usually traced to John Locke in the 17th century.'),
       },
     ],
   },

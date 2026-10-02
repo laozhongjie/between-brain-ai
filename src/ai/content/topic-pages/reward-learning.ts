@@ -272,14 +272,6 @@ export const REWARD_LEARNING: TopicContent = {
         claim: b('多巴胺就是快乐物质', 'Dopamine is the pleasure chemical'),
         fact: b('多巴胺主要编码「比预期好或差」的误差，用于学习和激发行动；愉悦感本身更多与其他系统有关，预期中的奖赏甚至不引起多巴胺反应。', 'Dopamine mainly encodes errors relative to expectation, for learning and motivating action. Pleasure itself relates more to other systems, and expected rewards do not even evoke a dopamine response.'),
       },
-      {
-        claim: b('基底节就是一个行动者与评论家网络', 'The basal ganglia are an actor-critic network'),
-        fact: b('两者的分工和误差信号非常相似，是功能与算法上的强对应；基底节还承担动作选择、习惯形成等更多功能，回路也更复杂。', 'The division of labor and error signal are very similar, a strong functional and algorithmic correspondence. The basal ganglia also handle action selection and habit formation, with more complex circuits.'),
-      },
-      {
-        claim: b('AI 的奖励和动物的奖赏是一回事', 'AI reward and animal reward are the same thing'),
-        fact: b('学习规则相同，但动物的价值随身体需要变化，并与情绪、动机交织；AI 的奖励通常是外部设定的一个数。', 'The learning rule is the same, but animal value changes with bodily needs and intertwines with emotion and motivation, while AI reward is usually one externally set number.'),
-      },
     ],
   },
   refs: {

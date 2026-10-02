@@ -288,14 +288,6 @@ export const WORKING_MEMORY: TopicContent = {
         claim: b('上下文窗口就是 AI 的工作记忆', 'The context window is AI working memory'),
         fact: b('两者都在任务期间保存信息；但上下文没有选择性写入和主动保护，也不随时间衰减，更像一份可以随时翻阅的逐字记录。', 'Both hold information during a task. But context has no selective write or active protection and does not decay, so it is closer to a verbatim transcript that can be consulted at any time.'),
       },
-      {
-        claim: b('工作记忆只靠持续放电', 'Working memory relies only on persistent firing'),
-        fact: b('持续放电有大量证据，但信息也可能静默地保存在突触的短时变化中；两种机制的相对作用仍有争议。', 'Persistent firing has strong evidence, but information may also be held silently in short-term synaptic changes. The relative roles of the two are debated.'),
-      },
-      {
-        claim: b('人记不住，模型记得住，所以模型的工作记忆更强', 'People forget and models do not, so models have stronger working memory'),
-        fact: b('模型在容量和精度上远超人，但在抗干扰和多步操作上并不占优；工作记忆的作用在于为当前任务选择和操作信息。', 'Models far exceed people in capacity and precision but do not lead in resisting distraction or multi-step manipulation. Working memory is about selecting and manipulating information for the task at hand.'),
-      },
     ],
   },
   refs: {

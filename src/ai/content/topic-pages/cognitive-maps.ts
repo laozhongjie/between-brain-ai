@@ -285,14 +285,12 @@ export const COGNITIVE_MAPS: TopicContent = {
       {
         claim: b('海马就是一个 Transformer', 'The hippocampus is a transformer'),
         fact: b('按动作递推位置编码的 Transformer 与 TEM 等海马模型在数学上相近；这是模型之间的联系，不说明海马用注意力计算。', 'A transformer with action-updated position codes is mathematically close to hippocampal models such as TEM. That is a link between models, not evidence that the hippocampus computes with attention.'),
-      },
-      {
-        claim: b('认知地图只用于空间导航', 'Cognitive maps are only for navigation'),
-        fact: b('同样的网格样编码也出现在人组织抽象概念时，认知地图被认为是一种通用的关系结构表示。', 'The same grid-like code appears when people organize abstract concepts, and the cognitive map is thought to be a general representation of relational structure.'),
+        source: b('源自 2022 年一篇论文：它指出 Transformer 与海马模型在数学上相近。', 'From a 2022 paper showing that transformers are mathematically close to models of the hippocampus.'),
       },
       {
         claim: b('能读出坐标，模型就有了地图', 'Decodable coordinates mean the model has a map'),
         fact: b('从激活中能线性读出地点的坐标，说明存有这类信息；但同类模型在需要用地图做多步规划时仍不可靠。', 'Coordinates can be read out linearly from activations, so the information is stored. But such models remain unreliable when they must plan several steps on a map.'),
+        source: b('2023 年的研究从大语言模型的激活中读出了地点的经纬度，论文题为「语言模型表示空间和时间」。', 'A 2023 study read latitude and longitude from LLM activations. Its title was “Language models represent space and time”.'),
       },
     ],
   },

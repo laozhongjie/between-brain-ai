@@ -271,14 +271,11 @@ export const METACOGNITIVE_CONTROL: TopicContent = {
       {
         claim: b('推理模型会反思，就说明它有元认知调控', 'Reasoning models reflect, so they have metacognitive control'),
         fact: b('强化学习训练出了回头检查的行为模式；这种检查是否基于对自身可靠性的准确估计、能否在没有反馈时可靠地纠错，仍需检验。', 'Reinforcement learning produced the habit of going back to check. Whether these checks rest on an accurate estimate of one’s own reliability, and correct reliably without feedback, still needs testing.'),
+        source: b('2025 年 DeepSeek-R1 的报告把训练中出现的回头检查称为「顿悟时刻」。', 'The 2025 DeepSeek-R1 report called the self-checking that emerged in training an “aha moment”.'),
       },
       {
         claim: b('推理越长，答案越可靠', 'Longer reasoning means more reliable answers'),
         fact: b('在难题上更多计算通常有帮助，但简单题上过长的推理浪费计算，有时还会把对的答案改错。', 'More computation usually helps on hard problems, but overlong reasoning on easy ones wastes computation and sometimes turns right answers wrong.'),
-      },
-      {
-        claim: b('人总是在需要时自动复查', 'People always check when they need to'),
-        fact: b('人的复查受努力代价和信心偏差影响，过度自信或疲劳时常常跳过必要的检查。', 'Human checking is shaped by the cost of effort and confidence bias, and necessary checks are often skipped when overconfident or tired.'),
       },
     ],
   },

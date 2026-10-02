@@ -278,20 +278,7 @@ export const CONTINUAL_LEARNING: TopicContent = {
         steps: [6],
       },
     ],
-    misreadings: [
-      {
-        claim: b('人脑不会遗忘', 'The brain does not forget'),
-        fact: b('人一直在遗忘，相似内容的干扰和不使用都会削弱记忆；大脑的优势在于遗忘是渐进、有选择的。', 'People forget all the time, through interference from similar content and through disuse. The brain’s advantage is that forgetting is gradual and selective.'),
-      },
-      {
-        claim: b('EWC 就是突触巩固', 'EWC is synaptic consolidation'),
-        fact: b('两者都让重要的参数难以改变，这是功能上的类比；EWC 用费舍尔信息估计重要性，生物巩固依靠蛋白质合成和结构变化，机制不同。', 'Both make important parameters hard to change, a functional analogy. EWC estimates importance with Fisher information, while biological consolidation relies on protein synthesis and structural change.'),
-      },
-      {
-        claim: b('经验回放就是睡眠回放', 'Experience replay is sleep replay'),
-        fact: b('两者都交错训练新旧内容；睡眠回放是压缩时间的神经活动序列，并与皮层节律配合，回放缓冲区只是保存的样本。', 'Both interleave old and new content. Sleep replay is a time-compressed sequence of neural activity coordinated with cortical rhythms, while a buffer is just stored samples.'),
-      },
-    ],
+    misreadings: [],
   },
   refs: {
     neuro: ['wixted2004', 'yang2009', 'tse2007', 'wilson1994', 'girardeau2009'],

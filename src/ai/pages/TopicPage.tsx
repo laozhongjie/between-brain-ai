@@ -210,12 +210,16 @@ function LimitList({ items, side, name }: { items: TopicLimit[]; side: 'bio' | '
 function Misreadings({ items }: { items: Misreading[] }) {
   const t = useT()
   const q = (s: string) => t({ zh: `「${s}」`, en: `“${s}”` })
+  if (!items.length) return null
   return (
     <div className="misreadings">
       <h3>{t(UI.limitsUnsupported)}</h3>
       {items.map((m, i) => (
         <div key={i} className="misreading">
-          <p className="claim"><span className="mr-tag"><Icon name="x" />{t(UI.misreadingClaim)}</span>{q(t(m.claim))}</p>
+          <p className="claim">
+            <span className="mr-tag"><Icon name="message-square-text" />{t(UI.misreadingClaim)}</span>{q(t(m.claim))}
+            {m.source && <span className="mr-source">{t(UI.misreadingSource)}{t({ zh: '：', en: ': ' })}<Rich text={t(m.source)} /></span>}
+          </p>
           <p className="fact"><span className="mr-tag"><Icon name="check" />{t(UI.misreadingFact)}</span><Rich text={t(m.fact)} /></p>
         </div>
       ))}

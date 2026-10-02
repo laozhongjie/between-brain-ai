@@ -269,14 +269,6 @@ export const DEVELOPMENTAL_STAGES: TopicContent = {
         claim: b('关键期过后就不能再学习', 'Nothing can be learned after a critical period'),
         fact: b('关键期后可塑性下降但没有消失，成年人仍能学习，只是在语音、双眼视觉等特定能力上更难达到早期的水平。', 'Plasticity falls after a critical period but does not vanish. Adults still learn, though specific abilities such as speech sounds and binocular vision rarely reach early levels.'),
       },
-      {
-        claim: b('课程学习就是让 AI 像孩子一样发育', 'Curriculum learning makes AI develop like a child'),
-        fact: b('两者都利用「先易后难」，这是功能上的类比；儿童的发育顺序由身体、环境和基因共同决定，课程由人设计。', 'Both use easy before hard, a functional analogy. Body, environment and genes decide a child’s developmental order, while people design curricula.'),
-      },
-      {
-        claim: b('训练阶段就是发育阶段', 'Training stages are developmental stages'),
-        fact: b('大模型的预训练、指令微调和人类反馈强化学习是工程上的分工，与生物发育只在「顺序影响结果」上相似。', 'Pretraining, instruction tuning and reinforcement learning from human feedback are an engineering division of labor, similar to development only in that order shapes the outcome.'),
-      },
     ],
   },
   refs: {

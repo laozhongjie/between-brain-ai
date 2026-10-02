@@ -266,10 +266,12 @@ export const EMOTION_UNDERSTANDING: TopicContent = {
       {
         claim: b('看表情就能读出一个人的情绪', 'Faces reveal what someone feels'),
         fact: b('面部动作与情绪之间的对应很弱，并随情境和文化变化；判断情绪需要结合情境。', 'The link between facial movements and emotions is weak and varies with context and culture. Judging emotion needs context.'),
+        source: b('基本情绪理论认为每种情绪有特定的表情，许多表情识别产品沿用这一前提。', 'Basic emotion theory holds that each emotion has a specific facial expression, and many expression recognition products adopt this premise.'),
       },
       {
         claim: b('回答被评为有共情，说明模型在共情', 'Replies rated empathetic mean the model empathizes'),
         fact: b('评价衡量的是读者的感受；模型没有内部情绪状态，共情体现在措辞中，而不是共享的情绪中。', 'The rating measures how readers feel. Models have no internal emotional state, and empathy appears in wording, not in shared emotion.'),
+        source: b('2023 年的研究中，评价者认为聊天机器人对患者提问的回答比医生的更有共情。', 'In a 2023 study, raters judged chatbot replies to patient questions as more empathetic than doctors’ replies.'),
       },
     ],
   },

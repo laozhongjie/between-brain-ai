@@ -373,16 +373,8 @@ export const EPISODIC_MEMORY: TopicContent = {
     ],
     misreadings: [
       {
-        claim: b('海马就是向量数据库', 'The hippocampus is a vector database'),
-        fact: b('按索引理论，海马存的是指向皮层表征的索引，不是内容本身，而且这一理论仍有争议。', 'Under indexing theory the hippocampus stores an index to cortical representations, not the content itself, and the theory is debated.'),
-      },
-      {
         claim: b('RAG 实现了情景记忆', 'RAG implements episodic memory'),
         fact: b('两者只在「凭线索取回过去的内容」这一功能上相近，事件绑定、模式分离和巩固在 RAG 中都没有对应。', 'The two share only the function of retrieving past content from a cue. Event binding, pattern separation and consolidation have no counterpart in RAG.'),
-      },
-      {
-        claim: b('海马的计算方式与 Transformer 相同', 'The hippocampus computes like a transformer'),
-        fact: b('现代 Hopfield 网络与注意力的数学形式相同，这是两个计算模型之间的关系，不能由此推出海马本身这样计算。', 'Modern Hopfield networks share the mathematical form of attention. That relates two computational models and says nothing direct about how the hippocampus computes.'),
       },
     ],
   },

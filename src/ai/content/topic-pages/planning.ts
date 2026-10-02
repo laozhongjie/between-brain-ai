@@ -275,10 +275,6 @@ export const PLANNING: TopicContent = {
     ],
     misreadings: [
       {
-        claim: b('大脑规划就是在脑中展开一棵搜索树', 'Planning in the brain is expanding a search tree'),
-        fact: b('决策时的预演是规划的一部分；离线回放把结果缓存进策略、预测性表征减少逐步搜索，也承担规划的工作。', 'Previewing at decision time is part of planning. Offline replay caching results in the policy and predictive representations reducing step-by-step search also do planning work.'),
-      },
-      {
         claim: b('AlphaZero 会规划，所以 AI 的规划已经超过人', 'AlphaZero plans, so AI planning surpasses people'),
         fact: b('在规则明确、能精确模拟的棋类中确实远超人；在开放的日常任务中，AI 的规划仍不可靠。', 'In games with clear rules and exact simulation it far surpasses people. In open everyday tasks, AI planning remains unreliable.'),
       },

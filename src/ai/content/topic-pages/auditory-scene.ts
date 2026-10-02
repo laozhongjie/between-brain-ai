@@ -158,6 +158,7 @@ export const AUDITORY_SCENE: TopicContent = {
       b('哺乳动物上橄榄核究竟怎样计算时间差仍有争议：经典的 Jeffress 模型假设一排延迟线加巧合检测，而哺乳动物中的数据更支持由抑制精确调节的两路比较。', 'How the mammalian superior olive computes time differences is debated. The classic Jeffress model assumes delay lines and coincidence detection, while mammalian data favor comparisons tuned by precisely timed inhibition.'),
       b('从耳蜗到皮层，每一级都有下行连接，最远一直到外毛细胞，可以在注意时改变耳朵本身的增益。', 'Every stage from cochlea to cortex has descending connections, reaching the outer hair cells, so attention can change the gain of the ear itself.'),
       b('「鸡尾酒会问题」是 1953 年提出的说法，指在多人同时说话时听清一个人；它同时依赖声学分离和注意选择。', 'The cocktail party problem, named in 1953, is hearing one person while many talk at once. It relies on both acoustic separation and attentional selection.'),
+      b('「听觉皮层只分析频率」是一种简化：A1 有频率地图，但神经元也对时间调制、声源位置和声音的行为意义放电，注意还能改变它们的反应。', 'Saying that auditory cortex only analyzes frequency is a simplification. A1 has a frequency map, but its neurons also respond to temporal modulation, location and behavioral meaning, and attention changes their responses.'),
     ],
     computational: [
       b('梅尔频带在低频窄、高频宽，仿照人对音高的感知，与耳蜗滤波器的宽度变化趋势相近。', 'Mel bands are narrow at low frequencies and wide at high ones, following perceived pitch, much like the widths of cochlear filters.'),
@@ -321,16 +322,8 @@ export const AUDITORY_SCENE: TopicContent = {
     ],
     misreadings: [
       {
-        claim: b('梅尔频谱就是耳蜗', 'A mel spectrogram is a cochlea'),
-        fact: b('两者都是低频分辨细、高频分辨粗的频率分解；但耳蜗有随响度变化的主动放大和下行调节，还保留了相位锁定的时间信息，梅尔频谱没有。', 'Both split frequency finely at low and coarsely at high frequencies. But the cochlea has level-dependent active amplification and descending control and keeps phase-locked timing, which a mel spectrogram lacks.'),
-      },
-      {
         claim: b('分离模型解决了鸡尾酒会问题', 'Separation models solved the cocktail party problem'),
         fact: b('在标准的两人混合数据上分离效果很好；但选择听谁、人数未知和强混响下的稳定分离仍未解决。', 'Separation works very well on standard two-speaker mixtures. Choosing whom to hear and separating reliably with unknown talkers or strong reverberation remain unsolved.'),
-      },
-      {
-        claim: b('听觉皮层像频谱图一样只分析频率', 'Auditory cortex only analyzes frequency like a spectrogram'),
-        fact: b('A1 有频率地图，但神经元也对时间调制、声源位置和声音的行为意义放电，注意还能改变它们的反应。', 'A1 has a frequency map, but its neurons also respond to temporal modulation, location and behavioral meaning, and attention changes their responses.'),
       },
     ],
   },

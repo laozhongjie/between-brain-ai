@@ -218,10 +218,12 @@ export interface TopicLimit {
   steps?: number[]
 }
 
-/** A conclusion the evidence does not support, and what the evidence does support. */
+/** A claim that actually circulates (in the press, popular science or a paper’s own framing), and what the evidence supports. */
 export interface Misreading {
   claim: Bi
   fact: Bi
+  /** where the claim comes from, when that can be pinned down */
+  source?: Bi
 }
 
 /** The full page of a functional topic (docs/atlas-v1-plan.md §5). */
@@ -247,7 +249,7 @@ export interface TopicContent {
   limits: {
     biological: TopicLimit[]
     computational: TopicLimit[]
-    /** tempting conclusions the evidence does not support, each with what it does support */
+    /** popular claims, each with what the evidence supports; only claims people actually make, so often none */
     misreadings: Misreading[]
   }
   refs: {

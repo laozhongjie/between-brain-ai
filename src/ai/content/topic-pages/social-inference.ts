@@ -106,6 +106,7 @@ export const SOCIAL_INFERENCE: TopicContent = {
       b('同年发表的另一项研究报告，GPT-4 解出了约四分之三的错误信念任务，与 6 岁儿童相当；不同研究对任务设计和评分的差异，使结论并不一致。', 'Another study that year reported GPT-4 solved about three quarters of false-belief tasks, comparable to 6-year-olds. Differences in task design and scoring make findings across studies inconsistent.'),
       b('2023 年的压力测试发现，模型的部分成功依赖数据集中的捷径和常见模式，换用对抗性的变式后表现下降。', 'A 2023 stress test found some model successes rely on shortcuts and common patterns in datasets, and performance dropped on adversarial variants.'),
       b('ToMnet 于 2018 年提出，在网格世界中学会推断其他智能体的类型和错误信念；它的环境和智能体都很简单。', 'ToMnet, proposed in 2018, learned to infer other agents’ types and false beliefs in grid worlds. Its environments and agents are simple.'),
+      b('失言测试中，GPT-4 的低分部分来自不愿对说话者知道什么下结论的保守倾向，而不完全是推理失败（2024 年的研究）。', 'On the faux pas test, GPT-4’s low scores came partly from a cautious reluctance to commit to what the speaker knew, not only from failed reasoning (a 2024 study).'),
     ],
   },
   bioMath: [
@@ -258,14 +259,11 @@ export const SOCIAL_INFERENCE: TopicContent = {
       {
         claim: b('模型通过了心智理论测试，所以它有心智理论', 'Models pass theory-of-mind tests, so they have theory of mind'),
         fact: b('通过标准题目说明能给出正确答案；改动题目后成绩下降，说明其底层过程可能与人不同，需要更严格的检验。', 'Passing standard items shows correct answers. Drops on altered items suggest the underlying process may differ from people’s, needing stricter tests.'),
+        source: b('2023 年一篇预印本以「心智理论可能已在大语言模型中自发涌现」为题。', 'A 2023 preprint was titled “Theory of mind may have spontaneously emerged in large language models”.'),
       },
       {
         claim: b('镜像神经元就是理解他人的机制', 'Mirror neurons are how we understand others'),
         fact: b('镜像神经元在动作观察中放电，可能帮助理解动作目的；推断他人信念主要依赖颞顶联合区等心智理论网络。', 'Mirror neurons fire during action observation and may help understand an action’s goal. Inferring others’ beliefs relies mainly on the theory-of-mind network, such as the temporoparietal junction.'),
-      },
-      {
-        claim: b('模型在失言测试上差，说明它不懂社会规则', 'Poor faux pas scores mean models do not grasp social rules'),
-        fact: b('2024 年的研究发现，GPT-4 的低分部分来自不愿对说话者的知识状态下结论的保守倾向，而不完全是推理失败。', 'The 2024 study found GPT-4’s low scores came partly from reluctance to commit to conclusions about the speaker’s knowledge, not entirely from failed reasoning.'),
       },
     ],
   },

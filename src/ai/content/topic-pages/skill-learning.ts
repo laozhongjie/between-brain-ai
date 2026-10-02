@@ -276,12 +276,8 @@ export const SKILL_LEARNING: TopicContent = {
         fact: b('VLA 在理解指令、认出物体上进步很快；灵巧的手内操作和接触中的精细调节仍明显落后于人。', 'VLAs have advanced fast in understanding instructions and recognizing objects. Dexterous in-hand manipulation and fine adjustment in contact still lag clearly behind people.'),
       },
       {
-        claim: b('熟练技能存储在小脑里', 'Skills are stored in the cerebellum'),
-        fact: b('技能学习涉及纹状体、运动皮层、小脑等多个系统，各自承担不同作用，没有单一的存储位置。', 'Skill learning involves the striatum, motor cortex, cerebellum and other systems, each with different roles, and there is no single store.'),
-      },
-      {
-        claim: b('模仿学习就是人学技能的方式', 'Imitation learning is how people learn skills'),
-        fact: b('人确实从示范中学习，但随后靠自己练习、试错和睡眠巩固不断改进；行为克隆只包含模仿这一步。', 'People do learn from demonstration, but then improve through their own practice, trial and error and sleep consolidation. Behavior cloning covers only the imitation step.'),
+        claim: b('技能存在肌肉里，所以叫『肌肉记忆』', 'Skills live in the muscles, hence ‘muscle memory’'),
+        fact: b('「肌肉记忆」只是一种说法：熟练技能由纹状体、运动皮层、小脑等多个脑区共同支持，各自承担不同作用，没有单一的存储位置。', '“Muscle memory” is a figure of speech. Skilled movement relies on the striatum, motor cortex, cerebellum and other brain systems, each with its own role, and has no single storage site.'),
       },
     ],
   },

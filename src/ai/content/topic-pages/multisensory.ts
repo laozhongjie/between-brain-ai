@@ -146,6 +146,7 @@ export const MULTISENSORY: TopicContent = {
       b('时间绑定窗口：声音和画面相差一两百毫秒以内，通常仍被感知为同时发生，并被合并。', 'Temporal binding window: sound and sight within one or two hundred milliseconds of each other are usually still perceived as simultaneous and merged.'),
       b('多感官整合需要发育：在视觉与触觉的大小判断中，儿童约 8 到 10 岁之后才接近按可靠性加权的最优整合，此前常由单一感官主导。', 'Multisensory integration develops. In judging size by sight and touch, children approach reliability-weighted integration only after about 8 to 10 years and are often dominated by one sense before that.'),
       b('感官替代研究始于 1960 年代：把摄像头图像转成背部皮肤上的振动点阵，盲人经训练后能辨认物体并判断位置。', 'Sensory substitution research began in the 1960s. A camera image was turned into a grid of vibrations on the back, and blind people learned to identify and locate objects.'),
+      b('「大脑总是最优地整合各感官」是一种简化：成年人在部分任务中接近统计最优；儿童、一些任务和条件下会偏离。「最优」是对特定任务行为的描述。', 'Saying that the brain always integrates the senses optimally is a simplification. Adults come close to the statistical optimum on some tasks. Children, and some tasks and conditions, deviate. Optimal describes behavior on specific tasks.'),
     ],
     computational: [
       b('对比学习只要求配对的向量彼此最接近，不要求向量表示每个模态的噪声大小。', 'Contrastive learning only requires paired vectors to be closest to each other. It does not require vectors to represent the noise of each modality.'),
@@ -304,20 +305,7 @@ export const MULTISENSORY: TopicContent = {
         steps: [1, 3],
       },
     ],
-    misreadings: [
-      {
-        claim: b('共享向量空间就是大脑的多感官整合', 'A shared vector space is multisensory integration'),
-        fact: b('共享空间让不同模态可以相互检索；大脑整合的核心还包括按可靠性加权和同源判断，对比学习的目标中没有这两项。', 'A shared space lets modalities retrieve each other. Integration in the brain also centers on reliability weighting and judging a common source, both absent from the contrastive objective.'),
-      },
-      {
-        claim: b('大脑总是最优地整合各感官', 'The brain always integrates optimally'),
-        fact: b('成年人在部分任务中接近统计最优；儿童、一些任务和条件下会偏离。「最优」是对特定任务行为的描述。', 'Adults come close to the statistical optimum on some tasks. Children, and some tasks and conditions, deviate. Optimal describes behavior on specific tasks.'),
-      },
-      {
-        claim: b('多模态模型会自动依赖更可靠的感官', 'Multimodal models automatically rely on the more reliable sense'),
-        fact: b('融合权重来自训练数据的统计，模型不会在每次输入中估计可靠性；评测中可以看到一个模态把另一个模态带偏。', 'Fusion weights come from training statistics, and models do not estimate reliability for each input. Benchmarks show one modality misleading another.'),
-      },
-    ],
+    misreadings: [],
   },
   refs: {
     neuro: ['ernst2002', 'alais2004', 'meredith1983', 'stein2008', 'rohe2015', 'mcgurk1976', 'fujisaki2004', 'gori2008', 'bachyrita1969'],

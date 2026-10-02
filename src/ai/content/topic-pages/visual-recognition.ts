@@ -160,6 +160,7 @@ export const VISUAL_RECOGNITION: TopicContent = {
       b('IT 中有专门对面孔、身体、地点放电的区域。猕猴实验表明，用几百个 IT 记录位点在约 100 毫秒内的放电，线性分类器就能较准确地读出物体类别和身份。', 'IT has regions that fire for faces, bodies and places. In macaques, the firing of a few hundred IT recording sites within about 100 ms lets a linear classifier read out object category and identity well.'),
       b('反馈连接的数量与前馈连接相当，但它在识别中的具体作用仍在研究中。', 'Feedback connections are about as numerous as feedforward ones, but their exact role in recognition is still being studied.'),
       b('对遮挡、杂乱等难识别的图像，IT 中的类别信息比普通图像出现得更晚，被认为依赖区域内的循环连接和高级区域的反馈；只有前馈的深层网络对这类图像表现最差。', 'For hard images, such as occluded or cluttered ones, category information appears in IT later than for ordinary images and is thought to depend on recurrent connections and feedback from higher areas. Purely feedforward deep networks do worst on these images.'),
+      b('「V1 简单细胞就是 Gabor 滤波器」是一种简化：Gabor 函数能很好地拟合简单细胞的感受野，但真实细胞还有对比度归一化和感受野外的调节等非线性。', 'Calling a V1 simple cell a Gabor filter is a simplification. A Gabor function fits simple cell receptive fields well. Real cells add nonlinear effects such as contrast normalization and modulation from outside the receptive field.'),
     ],
     computational: [
       b('训练：用反向传播在大量标注图像上调整全部权重，例如 ImageNet 的约 128 万张训练图像、1000 个类别。CLIP 这类模型改用数亿对「图像与文字说明」训练。', 'Training adjusts every weight by backpropagation on many labeled images, for example the roughly 1.28 million training images in 1,000 ImageNet classes. Models such as CLIP train instead on hundreds of millions of image and caption pairs.'),
@@ -168,6 +169,7 @@ export const VISUAL_RECOGNITION: TopicContent = {
       b('ViT 内置的「局部」假设比 CNN 少，只用 ImageNet 训练时不如 CNN；在数亿张图像上预训练后才超过 CNN。实际系统常把两者结合。', 'A ViT builds in fewer locality assumptions than a CNN and does worse when trained on ImageNet alone. It beats CNNs only after pretraining on hundreds of millions of images. Real systems often combine the two.'),
       b('高分辨率图像通常先缩小或切成多块再输入，这是在计算量上的折中，与眼动的「选择看哪里」不同。', 'High-resolution images are usually shrunk or tiled before input. This trades off computation and differs from choosing where to look.'),
       b('网络对每张图按顺序把所有层算一遍，难图和易图的计算量相同。加入循环连接的模型（如 CORnet）和按需增加计算的模型仍主要是研究原型。', 'The network runs every layer once in order for each image, with the same computation for hard and easy images. Models with recurrent connections, such as CORnet, and models that add computation on demand are still mostly research prototypes.'),
+      b('深层 CNN 只能解释腹侧通路反应的一部分；逐张图像比较时，它们出错的图像与猴子和人并不一致。', 'Deep CNNs explain only part of ventral stream responses, and compared image by image, the images they get wrong differ from the ones monkeys and people get wrong.'),
     ],
   },
   bioMath: [
@@ -327,16 +329,9 @@ export const VISUAL_RECOGNITION: TopicContent = {
     ],
     misreadings: [
       {
-        claim: b('深层 CNN 就是视觉皮层的模型', 'A deep CNN is a model of visual cortex'),
-        fact: b('深层 CNN 是目前预测腹侧通路反应最好的模型之一，但只能解释一部分反应，而且在哪些图像上出错与灵长类并不一致。', 'Deep CNNs are among the best current predictors of ventral stream responses. But they explain only part of the responses and fail on different images than primates do.'),
-      },
-      {
         claim: b('模型在基准上超过人类，视觉已被解决', 'Models beat people on benchmarks, so vision is solved'),
         fact: b('基准分数只覆盖特定类别、特定拍摄条件下的单张图像分类；稳健性、空间关系和主动观察仍有明显差距。', 'Benchmark scores cover single-image classification of specific categories under specific conditions. Robustness, spatial relations and active looking still show clear gaps.'),
-      },
-      {
-        claim: b('V1 简单细胞就是 Gabor 滤波器', 'A V1 simple cell is a Gabor filter'),
-        fact: b('Gabor 函数能很好地拟合简单细胞的感受野，但真实细胞还有对比度归一化和感受野外的调节等非线性。', 'A Gabor function fits simple cell receptive fields well. Real cells add nonlinear effects such as contrast normalization and modulation from outside the receptive field.'),
+        source: b('例如 2015 年一篇论文的标题宣称在 ImageNet 分类上「超过人类水平」。', 'For example, the title of a 2015 paper announced “surpassing human-level performance on ImageNet classification”.'),
       },
     ],
   },

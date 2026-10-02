@@ -26,7 +26,7 @@ describe('topic pages', () => {
         const html = renderToStaticMarkup(createElement(TopicPage, { topic }))
         const texts: Bi[] = [topic.name, topic.systems.biological, topic.systems.computational,
           page.thesis.biological, page.thesis.computational, page.thesis.gap, page.asOf,
-          ...[...page.limits.biological, ...page.limits.computational].flatMap((l) => [l.title, l.text]), ...page.limits.misreadings.flatMap((m) => [m.claim, m.fact]),
+          ...[...page.limits.biological, ...page.limits.computational].flatMap((l) => [l.title, l.text]), ...page.limits.misreadings.flatMap((m) => [m.claim, m.fact, ...(m.source ? [m.source] : [])]),
           ...page.capabilities.flatMap((r) => [r.dimension, r.brain, r.ai, r.gap]),
           ...[...page.archSteps.biological, ...page.archSteps.computational].flatMap((s) => [s.title, ...s.points]),
         ...page.archNotes.biological, ...page.archNotes.computational,
@@ -41,6 +41,9 @@ describe('topic pages', () => {
         if (!figs?.arch) expect(html.match(/class="fig fig-pending/g) ?? []).toHaveLength(frames)
         expect(html.includes('id="topic-dynamics"'), id).toBe(!!page.dynamicsSteps)
         expect(html.match(/<ol class="fig-steps/g) ?? []).toHaveLength(page.dynamicsSteps ? 4 : 2)
+        // popular claims: one row each, and no block at all when a topic has none
+        expect(html.match(/class="misreading"/g) ?? []).toHaveLength(page.limits.misreadings.length)
+        expect(html.includes('class="misreadings"')).toBe(page.limits.misreadings.length > 0)
         // every capability row gets a verdict pointer
         expect(html.match(/class="duel-row lead-/g) ?? []).toHaveLength(page.capabilities.length)
         // cross-references render as links

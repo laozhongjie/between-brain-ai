@@ -273,6 +273,7 @@ export const COMPOSITIONAL_REASONING: TopicContent = {
       {
         claim: b('神经网络不能组合，只会统计匹配', 'Neural networks cannot compose, only match statistics'),
         fact: b('经过合适的元训练，神经网络在人类组合泛化实验中达到了人的水平；它的局限在于依赖训练分布，而不是原理上做不到。', 'With suitable meta-training, a neural network reached human level in a human compositional generalization experiment. Its limit is reliance on the training distribution, not impossibility in principle.'),
+        source: b('1988 年 Fodor 和 Pylyshyn 提出的论证，此后争论了三十多年。', 'An argument made by Fodor and Pylyshyn in 1988 and debated for more than thirty years since.'),
       },
       {
         claim: b('AI 已经解决了组合泛化', 'AI has solved compositional generalization'),
@@ -281,6 +282,7 @@ export const COMPOSITIONAL_REASONING: TopicContent = {
       {
         claim: b('类比测试成绩高，说明推理方式与人相同', 'High analogy scores mean the same reasoning as people'),
         fact: b('成绩相近只说明结果相近；换成陌生的形式后模型成绩下降而人不受影响，说明两者的过程不同。', 'Similar scores show similar results only. Model scores drop on unfamiliar forms while people are unaffected, showing the processes differ.'),
+        source: b('2023 年一篇论文报告大语言模型出现了「涌现的类比推理」。', 'A 2023 paper reported “emergent analogical reasoning in large language models”.'),
       },
     ],
   },

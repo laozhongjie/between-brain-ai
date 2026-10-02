@@ -263,20 +263,7 @@ export const INTEROCEPTION: TopicContent = {
         steps: [6],
       },
     ],
-    misreadings: [
-      {
-        claim: b('机器人管理电量，就相当于有了饥饿感', 'A robot managing its battery has hunger'),
-        fact: b('两者在「维持内部资源」上功能相似；但电量通常只影响充电决策，不像饥饿那样改变价值、学习和感受。', 'Both maintain internal resources, a functional similarity. But battery level usually affects only charging, unlike hunger, which changes value, learning and feeling.'),
-      },
-      {
-        claim: b('稳态就是把变量固定在一个值', 'Homeostasis means fixing a variable at one value'),
-        fact: b('设定点会随情境和预期改变，大脑常常提前调节（应变稳态），而不只是等偏离发生后再纠正。', 'Set points shift with situation and expectation, and the brain often regulates ahead, allostasis, rather than only correcting after drift.'),
-      },
-      {
-        claim: b('给模型加上「内部状态」就能产生感受', 'Adding internal state to a model creates feeling'),
-        fact: b('有观点认为维持脆弱身体的需要可能是感受的功能基础，但这是一种设想，没有证据表明简单的内部变量会产生感受。', 'Some argue the need to maintain a vulnerable body may ground feeling, but that is a proposal, with no evidence that simple internal variables produce feeling.'),
-      },
-    ],
+    misreadings: [],
   },
   refs: {
     neuro: ['craig2002', 'sterling2012', 'betley2015', 'chen2015', 'barrett2015', 'garfinkel2015'],

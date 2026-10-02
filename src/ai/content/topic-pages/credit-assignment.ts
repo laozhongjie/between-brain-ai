@@ -298,10 +298,6 @@ export const CREDIT_ASSIGNMENT: TopicContent = {
         fact: b('没有直接证据表明皮层执行标准反向传播；有多种模型说明生物机制可能近似梯度，这仍是开放问题。', 'There is no direct evidence that cortex runs standard backpropagation. Several models show biological mechanisms may approximate gradients, and the question remains open.'),
       },
       {
-        claim: b('三因子规则是反向传播的生物版本', 'Three-factor rules are biological backpropagation'),
-        fact: b('三因子规则解决「改哪些突触、何时改」，一个全局信号不能告诉每个突触方向，它在空间信用分配上远弱于反向传播。', 'Three-factor rules settle which synapses change and when. One global signal cannot give each synapse a direction, so they are far weaker at spatial credit than backpropagation.'),
-      },
-      {
         claim: b('多巴胺就是时序差分误差', 'Dopamine is the TD error'),
         fact: b('多巴胺神经元的许多反应与时序差分误差的预测吻合，但多巴胺也参与运动、新奇和显著性等信号，不等于单一的学习信号。', 'Many dopamine responses match TD error predictions, but dopamine also signals movement, novelty and salience and is not one single learning signal.'),
       },

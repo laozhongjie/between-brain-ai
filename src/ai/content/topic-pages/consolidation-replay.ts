@@ -276,16 +276,13 @@ export const CONSOLIDATION_REPLAY: TopicContent = {
     ],
     misreadings: [
       {
-        claim: b('睡眠就是大脑在做经验回放训练', 'Sleep is the brain doing experience replay'),
-        fact: b('两者都离线重放经历；睡眠回放被压缩、有选择、与皮层节律协调，还伴随突触下调，远不只是从缓冲区抽样训练。', 'Both replay experience offline. Sleep replay is compressed, selective and coordinated with cortical rhythms, with downscaling too, far more than drawing samples from a buffer.'),
-      },
-      {
         claim: b('遗忘只是记忆的失败', 'Forgetting is just memory failing'),
         fact: b('遗忘有专门的分子机制，清除无用痕迹有助于泛化和减少干扰；但人并不能随意选择忘掉什么。', 'Forgetting has dedicated molecular mechanisms, and clearing useless traces helps generalization and reduces interference. But people cannot choose freely what to forget.'),
       },
       {
         claim: b('Dreamer 的想象就是做梦', 'Dreamer’s imagination is dreaming'),
         fact: b('Dreamer 在学到的世界模型中生成经历来训练策略，这与「睡眠中模拟经历」在功能上有相似之处；做梦的功能仍未确定，两者不能等同。', 'Dreamer generates experience in a learned world model to train its policy, which resembles simulating experience in sleep in function. The function of dreaming is still unknown, so the two cannot be equated.'),
+        source: b('2018 年的 World Models 论文把在学到的模型中训练称为「在自己的梦里学习」，后来的算法也取名 Dreamer。', 'The 2018 World Models paper described training inside a learned model as learning inside the agent’s own dreams, and later algorithms were named Dreamer.'),
       },
     ],
   },

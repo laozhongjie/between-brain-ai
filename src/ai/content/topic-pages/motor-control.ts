@@ -273,20 +273,7 @@ export const MOTOR_CONTROL: TopicContent = {
         steps: [5],
       },
     ],
-    misreadings: [
-      {
-        claim: b('大脑先规划好轨迹，再一步步执行', 'The brain plans a trajectory, then executes it'),
-        fact: b('最优反馈控制理论认为，大脑持续根据当前状态调整指令，并且只纠正影响任务的偏差；预先规划的固定轨迹解释不了动作变异的分布。', 'Optimal feedback control holds that the brain keeps adjusting commands to the current state and corrects only task-relevant deviations. A fixed preplanned trajectory cannot explain how variability is distributed.'),
-      },
-      {
-        claim: b('机器人更快更准，所以控制能力超过人', 'Robots are faster and more precise, so they control better'),
-        fact: b('在结构化、重复的任务中确实如此；在接触丰富、环境多变的精细操作中，人仍明显领先。', 'True in structured, repetitive tasks. In contact-rich fine manipulation in changing environments, people still lead clearly.'),
-      },
-      {
-        claim: b('小脑就是机器人的 MPC', 'The cerebellum is a robot’s MPC'),
-        fact: b('两者都用模型预测并持续校正，这是功能上的相似；小脑通过学习形成内部模型，具体计算方式与在线优化求解不同。', 'Both predict with a model and keep correcting, a functional similarity. The cerebellum learns its internal model, and its computation differs from solving an online optimization.'),
-      },
-    ],
+    misreadings: [],
   },
   refs: {
     neuro: ['johansson1984', 'shadmehr1994', 'burdet2001', 'pruszynski2012', 'wolpert1998', 'shadmehr2010'],

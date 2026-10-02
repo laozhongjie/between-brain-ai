@@ -276,10 +276,7 @@ export const ATTENTION_GATING: TopicContent = {
       {
         claim: b('注意就像一盏照亮某处的探照灯', 'Attention is a spotlight on one place'),
         fact: b('注意也可以按特征（如颜色）或物体选择，并且通过改变神经元增益和竞争权重起作用，不只是照亮一个位置。', 'Attention can also select by feature, such as color, or by object, and works by changing neuron gain and competition weights, not only by lighting up a place.'),
-      },
-      {
-        claim: b('混合专家路由就是注意选择', 'Mixture-of-experts routing is attentional selection'),
-        fact: b('路由选择每个词元用哪部分网络计算，不决定处理哪些信息；它更像在计算资源之间分配，而不是在信息之间选择。', 'Routing chooses which part of the network computes each token, not which information is processed. It allocates computation rather than selecting information.'),
+        source: b('「探照灯」是 Posner 在 1980 年提出后，在认知心理学中流行开来的比喻。', 'The spotlight is a metaphor that spread through cognitive psychology after Posner proposed it in 1980.'),
       },
     ],
   },

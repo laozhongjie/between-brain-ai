@@ -268,10 +268,6 @@ export const METACOGNITIVE_MONITORING: TopicContent = {
         fact: b('口头表达不确定是生成出来的文字，需要检验它是否真的区分了对错、是否会改变后续行为。', 'Stating uncertainty is generated text. Whether it truly separates right from wrong and changes later behavior must be tested.'),
       },
       {
-        claim: b('元认知集中在前额叶的某一个区域', 'Metacognition sits in one prefrontal area'),
-        fact: b('前额叶前部与元认知能力相关，但不同任务的元认知可能依赖部分不同的回路，不能定位为单一脑区。', 'Anterior prefrontal cortex relates to metacognitive ability, but different tasks may rely on partly different circuits, so it cannot be pinned to one area.'),
-      },
-      {
         claim: b('解释得越详细，模型的答案越可靠', 'The more detailed the explanation, the more reliable the answer'),
         fact: b('2025 年的研究发现，较长的解释提高了用户的信心，却没有提高正确率。', 'A 2025 study found longer explanations raised user confidence without raising accuracy.'),
       },

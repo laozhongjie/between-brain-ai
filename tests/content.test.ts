@@ -117,14 +117,14 @@ describe('AI correspondence content', () => {
       for (const f of [...page.bioMath, ...page.compMath])
         expect(f.symbols.length && f.steps.length && f.consequences.length && f.limitations.length, `${id}: ${f.tex}`).toBeTruthy()
       const fields = [page.short.biological, page.short.computational, page.thesis.biological, page.thesis.computational, page.thesis.gap, page.asOf,
-        ...[...page.limits.biological, ...page.limits.computational].flatMap((l) => [l.title, l.text]), ...page.limits.misreadings.flatMap((m) => [m.claim, m.fact]),
+        ...[...page.limits.biological, ...page.limits.computational].flatMap((l) => [l.title, l.text]), ...page.limits.misreadings.flatMap((m) => [m.claim, m.fact, ...(m.source ? [m.source] : [])]),
         ...page.capabilities.flatMap((r) => [r.dimension, r.brain, r.ai, r.gap]),
         ...[...page.archSteps.biological, ...page.archSteps.computational].flatMap((s) => [s.title, ...s.points]),
         ...page.archNotes.biological, ...page.archNotes.computational,
         ...[...(page.dynamicsSteps?.biological ?? []), ...(page.dynamicsSteps?.computational ?? [])].flatMap((s) => [s.title, ...s.points]),
         ...[...page.bioMath, ...page.compMath].flatMap((f) => [f.title, ...f.symbols.map((x) => x.meaning), ...f.steps, ...(f.example ? [f.example] : []), ...f.consequences, ...f.limitations])]
       for (const f of fields) expect(f.zh.trim() && f.en.trim(), id).toBeTruthy()
-      expect(page.limits.biological.length && page.limits.computational.length && page.limits.misreadings.length, id).toBeTruthy()
+      expect(page.limits.biological.length && page.limits.computational.length, id).toBeTruthy()
       // a kept figure sits next to an equation that exists
       for (const [side, list] of [['bio', page.bioMath], ['comp', page.compMath]] as const)
         for (const i of Object.keys(figs?.math?.[side] ?? {})) expect(Number(i) < list.length, `${id}: ${side} figure ${i}`).toBe(true)

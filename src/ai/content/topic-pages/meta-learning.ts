@@ -289,12 +289,9 @@ export const META_LEARNING: TopicContent = {
         fact: b('参数没有改变，适应只存在于这次会话的激活中；结束后模型回到原样。', 'Parameters do not change. Adaptation exists only in this session’s activations, and the model returns to its original state afterward.'),
       },
       {
-        claim: b('前额叶已被证明是元强化学习系统', 'Prefrontal cortex is proven to be a meta-RL system'),
-        fact: b('这是一种有影响的解释框架，能再现多种行为和神经活动特征；因果证据仍在积累中。', 'It is an influential framework that reproduces many behavioral and neural features. Causal evidence is still accumulating.'),
-      },
-      {
         claim: b('大模型内部真的在做梯度下降', 'Large models literally run gradient descent inside'),
         fact: b('严格等价只在线性注意力和简单回归中成立；大模型的上下文学习可能包含多种机制。', 'Exact equivalence holds only for linear attention on simple regression. In-context learning in large models may involve several mechanisms.'),
+        source: b('2023 年一篇论文以「Transformer 通过梯度下降进行上下文学习」为题。', 'A 2023 paper was titled “Transformers learn in-context by gradient descent”.'),
       },
     ],
   },
