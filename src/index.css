@@ -633,7 +633,33 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .xref { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-line); }
 .xref:hover { border-bottom-color: var(--accent); }
 .ai-page .formula-card .example { margin: 0; font-size: 15px; line-height: 1.8; padding: 8px 12px; border-radius: 8px; background: var(--well); }
-.topic-page .review-limits li { font-size: 15px; }
+/* Limits: two mirrored columns of headlined limits, each pointing back to its architecture steps */
+.limit-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.limit-col h3 { margin: 0 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--side); font-size: 14px; letter-spacing: 0; color: var(--side); }
+.limit-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.limit { padding: 11px 14px 12px; border-radius: 10px; border: 1px solid rgba(170,195,230,0.08); border-left: 2px solid var(--side); background: rgba(170,195,230,0.03); }
+.ai-page .limit h4 { margin: 0 0 3px; font-size: 15.5px; font-weight: 600; color: var(--text-h); }
+.ai-page .limit p { margin: 0; font-size: 15px; line-height: 1.8; color: var(--text); }
+.limit-steps { display: flex; align-items: center; gap: 6px; margin-top: 8px; font: 500 12px/1 var(--label); letter-spacing: 0.04em; color: var(--text-dim); }
+.limit-steps span { margin-right: 2px; }
+.limit-steps .step-num { width: 20px; height: 20px; margin: 0; padding: 0; background: none; cursor: pointer; font-size: 11px; transition: background .15s; }
+.limit-steps .step-num:hover, .limit-steps .step-num:focus-visible { background: color-mix(in srgb, var(--side) 18%, transparent); }
+.fig-steps > li { border-radius: 8px; }
+.fig-steps > li.flash { animation: step-flash 2.6s ease-out; }
+@keyframes step-flash { 0%, 45% { background: color-mix(in srgb, var(--side) 16%, transparent); box-shadow: 0 0 0 6px color-mix(in srgb, var(--side) 16%, transparent); } 100% { background: transparent; box-shadow: 0 0 0 6px transparent; } }
+/* Misreadings: the tempting claim beside what the evidence supports */
+.misreadings { margin-top: 26px; }
+.misreadings h3 { margin: 0 0 10px; font-size: 14px; letter-spacing: 0; color: var(--lemon); }
+.misreading { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); margin-bottom: 10px; border: 1px solid rgba(232,194,103,0.16); border-radius: 10px; overflow: hidden; }
+.ai-page .misreading p { margin: 0; padding: 11px 16px 12px; font-size: 15px; line-height: 1.8; }
+.ai-page .misreading .claim { background: rgba(232,194,103,0.05); color: var(--text); border-right: 1px solid rgba(232,194,103,0.16); }
+.ai-page .misreading .fact { color: var(--text-h); }
+.mr-tag { display: flex; align-items: center; gap: 5px; margin-bottom: 3px; font: 500 12px/1.4 var(--label); letter-spacing: 0.04em; color: var(--lemon); }
+.fact .mr-tag { color: var(--ok); }
+@media (max-width: 760px) {
+  .limit-cols, .misreading { grid-template-columns: 1fr; }
+  .ai-page .misreading .claim { border-right: 0; border-bottom: 1px solid rgba(232,194,103,0.16); }
+}
 @media (max-width: 760px) { .thesis-sides, .two-col-steps { grid-template-columns: 1fr; } }
 .ref-groups { display: grid; gap: 6px; }
 .ref-groups h3 { margin: 6px 0 4px; font-size: 13.5px; color: var(--text-h); }

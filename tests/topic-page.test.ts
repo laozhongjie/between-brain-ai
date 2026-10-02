@@ -25,7 +25,7 @@ describe('topic pages', () => {
         const html = renderToStaticMarkup(createElement(TopicPage, { topic }))
         const texts: Bi[] = [topic.name, topic.systems.biological, topic.systems.computational,
           page.thesis.biological, page.thesis.computational, page.thesis.gap, page.asOf,
-          ...page.limits.biological, ...page.limits.computational, ...page.limits.unsupported,
+          ...[...page.limits.biological, ...page.limits.computational].flatMap((l) => [l.title, l.text]), ...page.limits.misreadings.flatMap((m) => [m.claim, m.fact]),
           ...page.capabilities.flatMap((r) => [r.dimension, r.brain, r.ai, r.gap]),
           ...[...page.archSteps.biological, ...page.archSteps.computational].flatMap((s) => [s.title, ...s.points]),
         ...page.archNotes.biological, ...page.archNotes.computational,

@@ -334,20 +334,56 @@ export const EPISODIC_MEMORY: TopicContent = {
   ],
   limits: {
     biological: [
-      b('回忆是重建出来的：细节会随时间丢失，会被事后信息、先验和情绪改写，也会形成从未发生过的虚假记忆。', 'Recall is rebuilt. Details fade and are reshaped by later information, prior beliefs and emotion, and false memories of events that never happened can form.'),
-      b('相似的经历会相互干扰；模式分离只能减少、不能消除这种干扰。', 'Similar episodes interfere with each other. Pattern separation reduces this interference but cannot remove it.'),
-      b('能长期保留的只是少数经历，大多数日常细节很快就无法回忆。', 'Only a few experiences are kept long term, and most everyday details soon become unrecallable.'),
+      {
+        title: b('回忆会被改写', 'Recall gets rewritten'),
+        text: b('回忆是重建出来的：细节会随时间丢失，会被事后信息、先验和情绪改写，也会形成从未发生过的虚假记忆。', 'Recall is rebuilt. Details fade and are reshaped by later information, prior beliefs and emotion, and false memories of events that never happened can form.'),
+        steps: [4, 5],
+      },
+      {
+        title: b('相似经历相互干扰', 'Similar episodes interfere'),
+        text: b('相似的经历会相互干扰；模式分离只能减少、不能消除这种干扰。', 'Similar episodes interfere with each other. Pattern separation reduces this interference but cannot remove it.'),
+        steps: [2],
+      },
+      {
+        title: b('只留下少数经历', 'Few episodes last'),
+        text: b('能长期保留的只是少数经历，大多数日常细节很快就无法回忆。', 'Only a few experiences are kept long term, and most everyday details soon become unrecallable.'),
+        steps: [6],
+      },
     ],
     computational: [
-      b('写入、分段、关联和遗忘都要靠外部设计，系统不会自己判断什么值得记。', 'Writing, splitting, linking and forgetting all depend on external design. The system does not judge what is worth keeping.'),
-      b('检索依赖文本相似度，换一种说法或需要多步联想时容易失败。HippoRAG 用知识图谱改善多步检索，仍是研究原型。', 'Retrieval depends on text similarity and fails with rephrased or multi-step cues. HippoRAG improves multi-step retrieval with a knowledge graph but remains a research prototype.'),
-      b('检索到的内容不会进入模型参数，同样的问题每次都要重新检索。', 'Retrieved content never enters the parameters, so the same question needs retrieval every time.'),
-      b('2025 年测试的多个大语言模型，在涉及多个相关事件和复杂时空关系的情景记忆任务上表现不佳。', 'Several large language models tested in 2025 struggled with episodic memory tasks involving several related events and complex relations of time and place.'),
+      {
+        title: b('记什么由人设计', 'People decide what is stored'),
+        text: b('写入、分段、关联和遗忘都要靠外部设计，系统不会自己判断什么值得记。', 'Writing, splitting, linking and forgetting all depend on external design. The system does not judge what is worth keeping.'),
+        steps: [1, 6],
+      },
+      {
+        title: b('检索只看相似度', 'Retrieval only sees similarity'),
+        text: b('检索依赖文本相似度，换一种说法或需要多步联想时容易失败。HippoRAG 用知识图谱改善多步检索，仍是研究原型。', 'Retrieval depends on text similarity and fails with rephrased or multi-step cues. HippoRAG improves multi-step retrieval with a knowledge graph but remains a research prototype.'),
+        steps: [4],
+      },
+      {
+        title: b('检索不会变成学习', 'Retrieval never becomes learning'),
+        text: b('检索到的内容不会进入模型参数，同样的问题每次都要重新检索。', 'Retrieved content never enters the parameters, so the same question needs retrieval every time.'),
+        steps: [5, 6],
+      },
+      {
+        title: b('多事件任务表现不佳', 'Struggles with linked events'),
+        text: b('2025 年测试的多个大语言模型，在涉及多个相关事件和复杂时空关系的情景记忆任务上表现不佳。', 'Several large language models tested in 2025 struggled with episodic memory tasks involving several related events and complex relations of time and place.'),
+      },
     ],
-    unsupported: [
-      b('不能说海马就是向量数据库。按索引理论，海马存的是指向皮层表征的索引，不是内容本身，而且这一理论仍有争议。', 'The hippocampus is not a vector database. Under indexing theory it stores an index to cortical representations, not the content itself, and the theory is debated.'),
-      b('不能说 RAG 实现了情景记忆。两者只在「凭线索取回过去的内容」这一功能上相近，事件绑定、模式分离和巩固在 RAG 中都没有对应。', 'RAG does not implement episodic memory. The two share only the function of retrieving past content from a cue. Event binding, pattern separation and consolidation have no counterpart in RAG.'),
-      b('不能因为现代 Hopfield 网络与注意力形式相同，就认为海马的计算方式与 Transformer 相同。', 'That modern Hopfield networks share the form of attention does not mean the hippocampus computes like a transformer.'),
+    misreadings: [
+      {
+        claim: b('海马就是向量数据库', 'The hippocampus is a vector database'),
+        fact: b('按索引理论，海马存的是指向皮层表征的索引，不是内容本身，而且这一理论仍有争议。', 'Under indexing theory the hippocampus stores an index to cortical representations, not the content itself, and the theory is debated.'),
+      },
+      {
+        claim: b('RAG 实现了情景记忆', 'RAG implements episodic memory'),
+        fact: b('两者只在「凭线索取回过去的内容」这一功能上相近，事件绑定、模式分离和巩固在 RAG 中都没有对应。', 'The two share only the function of retrieving past content from a cue. Event binding, pattern separation and consolidation have no counterpart in RAG.'),
+      },
+      {
+        claim: b('海马的计算方式与 Transformer 相同', 'The hippocampus computes like a transformer'),
+        fact: b('现代 Hopfield 网络与注意力的数学形式相同，这是两个计算模型之间的关系，不能由此推出海马本身这样计算。', 'Modern Hopfield networks share the mathematical form of attention. That relates two computational models and says nothing direct about how the hippocampus computes.'),
+      },
     ],
   },
   refs: {

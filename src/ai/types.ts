@@ -211,6 +211,19 @@ export interface TopicCapability extends CapabilityComparison {
   lead: Lead
 }
 
+/** One limit of a system: a short headline, the explanation and the architecture steps where it arises. */
+export interface TopicLimit {
+  title: Bi
+  text: Bi
+  steps?: number[]
+}
+
+/** A conclusion the evidence does not support, and what the evidence does support. */
+export interface Misreading {
+  claim: Bi
+  fact: Bi
+}
+
 /** The full page of a functional topic (docs/atlas-v1-plan.md §5). */
 export interface TopicContent {
   /** short names of the two systems for verdict labels, e.g. 海马 / RAG */
@@ -231,10 +244,10 @@ export interface TopicContent {
   bioMath: TopicFormula[]
   compMath: TopicFormula[]
   limits: {
-    biological: Bi[]
-    computational: Bi[]
-    /** conclusions the evidence does not support */
-    unsupported: Bi[]
+    biological: TopicLimit[]
+    computational: TopicLimit[]
+    /** tempting conclusions the evidence does not support, each with what it does support */
+    misreadings: Misreading[]
   }
   refs: {
     neuro: string[]

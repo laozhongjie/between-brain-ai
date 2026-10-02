@@ -10,7 +10,7 @@ import { TOPIC_FIGS } from '../figs'
 import { GRAMMAR_LEGEND, LegendMark } from '../figs/grammar'
 import type { FigProps } from '../figs/types'
 import { Rich, Tex } from '../Tex'
-import type { FigStep, Lead, Topic, TopicCapability, TopicFormula } from '../types'
+import type { FigStep, Lead, Misreading, Topic, TopicCapability, TopicFormula, TopicLimit } from '../types'
 import { EvidenceBadge, KindTags, PagerLink, RefList } from './common'
 import { Icon } from '../../ui/Icon'
 import { ComparisonText } from '../../ui/ComparisonText'
@@ -21,12 +21,12 @@ function Figure({ Fig }: { Fig: ComponentType<FigProps> }) {
 }
 
 /** The numbered explanation under a figure; each number matches a marker in the figure. */
-function Steps({ steps, side }: { steps: FigStep[]; side: 'bio' | 'comp' }) {
+function Steps({ steps, side, anchor }: { steps: FigStep[]; side: 'bio' | 'comp'; anchor?: string }) {
   const t = useT()
   return (
     <ol className={`fig-steps ${side}`}>
       {steps.map((s, i) => (
-        <li key={i}>
+        <li key={i} id={anchor && `${anchor}-${i + 1}`}>
           <span className="step-num" aria-hidden>{i + 1}</span>
           <div>
             <h4>{t(s.title)}</h4>
@@ -120,9 +120,58 @@ function FormulaCard({ f, side }: { f: TopicFormula; side: 'bio' | 'comp' }) {
   )
 }
 
-const Bullets = ({ items }: { items: Bi[] }) => {
+/** Scroll to one step under an architecture figure and flash it. */
+function showStep(id: string) {
+  const el = document.getElementById(id)
+  if (!el) return
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  el.classList.remove('flash')
+  void el.offsetWidth
+  el.classList.add('flash')
+}
+
+/** The limits of one system: a headline per limit, its explanation and the figure steps where it arises. */
+function LimitList({ items, side, name }: { items: TopicLimit[]; side: 'bio' | 'comp'; name: string }) {
   const t = useT()
-  return <ul className="bullets">{items.map((x, i) => <li key={i}><Rich text={t(x)} /></li>)}</ul>
+  return (
+    <section className={`limit-col ${side}`}>
+      <h3>{name}</h3>
+      <ul>
+        {items.map((l, i) => (
+          <li key={i} className="limit">
+            <h4>{t(l.title)}</h4>
+            <p><Rich text={t(l.text)} /></p>
+            {l.steps && (
+              <div className="limit-steps">
+                <span>{t(UI.limitAt)}</span>
+                {l.steps.map((n) => (
+                  <button key={n} className="step-num" onClick={() => showStep(`arch-${side}-${n}`)}
+                    aria-label={t({ zh: `${t(UI.limitAt)}第 ${n} 步`, en: `${t(UI.limitAt)}: step ${n}` })}>{n}</button>
+                ))}
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+/** Tempting conclusions the evidence does not support, each next to what it does support. */
+function Misreadings({ items }: { items: Misreading[] }) {
+  const t = useT()
+  const q = (s: string) => t({ zh: `「${s}」`, en: `“${s}”` })
+  return (
+    <div className="misreadings">
+      <h3>{t(UI.limitsUnsupported)}</h3>
+      {items.map((m, i) => (
+        <div key={i} className="misreading">
+          <p className="claim"><span className="mr-tag"><Icon name="x" />{t(UI.misreadingClaim)}</span>{q(t(m.claim))}</p>
+          <p className="fact"><span className="mr-tag"><Icon name="check" />{t(UI.misreadingFact)}</span><Rich text={t(m.fact)} /></p>
+        </div>
+      ))}
+    </div>
+  )
 }
 
 /** A functional topic: one capability compared between two named systems (docs/atlas-v1-plan.md §5). */
@@ -186,7 +235,7 @@ export function TopicPage({ topic }: { topic: Topic }) {
             <section key={side} className={`arch-col ${side}`}>
               <h3>{name}</h3>
               <Figure Fig={Fig} />
-              <Steps steps={steps} side={side} />
+              <Steps steps={steps} side={side} anchor={`arch-${side}`} />
               <aside className="arch-notes">
                 <h5>{t(UI.archNotes)}</h5>
                 <ul>{notes.map((n, i) => <li key={i}><Rich text={t(n)} /></li>)}</ul>
@@ -215,11 +264,11 @@ export function TopicPage({ topic }: { topic: Topic }) {
 
       <section aria-labelledby="topic-limits">
         <h2 id="topic-limits">{t(UI.secLimits)}</h2>
-        <div className="review-limits">
-          <div><h3>{bio}</h3><Bullets items={c.limits.biological} /></div>
-          <div><h3>{comp}</h3><Bullets items={c.limits.computational} /></div>
-          <div><h3>{t(UI.limitsUnsupported)}</h3><Bullets items={c.limits.unsupported} /></div>
+        <div className="limit-cols">
+          <LimitList items={c.limits.biological} side="bio" name={bio} />
+          <LimitList items={c.limits.computational} side="comp" name={comp} />
         </div>
+        <Misreadings items={c.limits.misreadings} />
       </section>
 
       <section aria-labelledby="topic-evidence">
