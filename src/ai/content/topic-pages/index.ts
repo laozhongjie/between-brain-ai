@@ -1,5 +1,6 @@
 import type { TopicContent } from '../../types'
 import { EPISODIC_MEMORY } from './episodic-memory'
+import { ATTENTION_GATING } from './attention-gating'
 import { PLANNING } from './planning'
 import { COMPOSITIONAL_REASONING } from './compositional-reasoning'
 import { WORLD_MODELS } from './world-models'
@@ -28,4 +29,5 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   'world-models': WORLD_MODELS,
   'compositional-reasoning': COMPOSITIONAL_REASONING,
   'planning': PLANNING,
+  'attention-gating': ATTENTION_GATING,
 }

@@ -55,7 +55,7 @@ export const TOPICS: Topic[] = [
 
   // D5 Attention & cognitive control
   { id: 'attention-gating', code: 'F22', name: b('注意选择与信息门控', 'Attentional selection and information gating'),
-    systems: sys(b('选择性注意与丘脑皮层门控', 'Selective attention and thalamocortical gating'), b('Transformer 注意力与路由', 'Transformer attention and routing')),
+    systems: sys(b('选择性注意与丘脑门控', 'Selective attention and thalamic gating'), b('Transformer 注意力与路由', 'Transformer attention and routing')),
     legacy: 'sys-attention', tour: 'attention', mechanisms: ['M06'] },
   { id: 'metacognitive-monitoring', code: 'F24', name: b('元认知监测', 'Metacognitive monitoring'),
     systems: sys(b('前额叶的信心与错误监测', 'Prefrontal confidence and error monitoring'), b('模型置信度校准', 'Model confidence calibration')),

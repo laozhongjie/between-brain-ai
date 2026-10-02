@@ -280,6 +280,16 @@ export const REFS: Ref[] = [
   { id: 'silver2018', authors: 'Silver, D. et al.', year: 2018, title: 'A general reinforcement learning algorithm that masters chess, shogi, and Go through self-play', venue: 'Science 362(6419), 1140–1144', url: doi('10.1126/science.aar6404') },
   { id: 'valmeekam2023', authors: 'Valmeekam, K., Marquez, M., Sreedharan, S. & Kambhampati, S.', year: 2023, title: 'On the planning abilities of large language models: a critical investigation', venue: 'arXiv (NeurIPS 2023)', url: arxiv('2305.15771') },
   { id: 'valmeekam2024', authors: 'Valmeekam, K., Stechly, K. & Kambhampati, S.', year: 2024, title: 'LLMs still can’t plan; can LRMs? A preliminary evaluation of OpenAI’s o1 on PlanBench', venue: 'arXiv', url: arxiv('2409.13373') },
+  // ── F22 Attention and gating ──
+  { id: 'desimone1995', authors: 'Desimone, R. & Duncan, J.', year: 1995, title: 'Neural mechanisms of selective visual attention', venue: 'Annual Review of Neuroscience 18, 193–222', url: doi('10.1146/annurev.ne.18.030195.001205') },
+  { id: 'reynolds1999', authors: 'Reynolds, J. H., Chelazzi, L. & Desimone, R.', year: 1999, title: 'Competitive mechanisms subserve attention in macaque areas V2 and V4', venue: 'Journal of Neuroscience 19(5), 1736–1753', url: doi('10.1523/JNEUROSCI.19-05-01736.1999') },
+  { id: 'moore2003', authors: 'Moore, T. & Armstrong, K. M.', year: 2003, title: 'Selective gating of visual signals by microstimulation of frontal cortex', venue: 'Nature 421(6921), 370–373', url: doi('10.1038/nature01341') },
+  { id: 'corbetta2002', authors: 'Corbetta, M. & Shulman, G. L.', year: 2002, title: 'Control of goal-directed and stimulus-driven attention in the brain', venue: 'Nature Reviews Neuroscience 3(3), 201–215', url: doi('10.1038/nrn755') },
+  { id: 'crick1984', authors: 'Crick, F.', year: 1984, title: 'Function of the thalamic reticular complex: the searchlight hypothesis', venue: 'PNAS 81(14), 4586–4590', url: doi('10.1073/pnas.81.14.4586') },
+  { id: 'wimmer2015', authors: 'Wimmer, R. D. et al.', year: 2015, title: 'Thalamic control of sensory selection in divided attention', venue: 'Nature 526(7575), 705–709', url: doi('10.1038/nature15398') },
+  { id: 'simons1999', authors: 'Simons, D. J. & Chabris, C. F.', year: 1999, title: 'Gorillas in our midst: sustained inattentional blindness for dynamic events', venue: 'Perception 28(9), 1059–1074', url: doi('10.1068/p281059') },
+  { id: 'reynolds2009', authors: 'Reynolds, J. H. & Heeger, D. J.', year: 2009, title: 'The normalization model of attention', venue: 'Neuron 61(2), 168–185', url: doi('10.1016/j.neuron.2009.01.002') },
+  { id: 'shazeer2017', authors: 'Shazeer, N. et al.', year: 2017, title: 'Outrageously large neural networks: the sparsely-gated mixture-of-experts layer', venue: 'arXiv (ICLR 2017)', url: arxiv('1701.06538') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))
