@@ -22,7 +22,7 @@ export const TOPICS: Topic[] = [
     systems: sys(b('资格迹与多巴胺可塑性', 'Eligibility traces and dopamine'), b('反向传播与时序差分', 'Backpropagation and TD learning')),
     mechanisms: ['M03'] },
   { id: 'meta-learning', code: 'F08', name: b('元学习与快速适应', 'Meta-learning and rapid adaptation'),
-    systems: sys(b('前额叶的元强化学习', 'Prefrontal meta-reinforcement learning'), b('上下文学习与元学习算法', 'In-context learning and meta-learning algorithms')),
+    systems: sys(b('前额叶的元强化学习', 'Prefrontal meta-reinforcement learning'), b('上下文学习与元学习', 'In-context and meta-learning')),
     mechanisms: ['M02'] },
   { id: 'continual-learning', code: 'F09', name: b('持续学习、干扰与可塑性', 'Continual learning, interference and plasticity'),
     systems: sys(b('突触巩固与互补学习系统', 'Synaptic consolidation and complementary learning systems'), b('回放、正则化与参数隔离方法', 'Replay, regularization and parameter isolation methods')),

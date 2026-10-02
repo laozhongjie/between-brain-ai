@@ -1,5 +1,6 @@
 import type { TopicContent } from '../../types'
 import { EPISODIC_MEMORY } from './episodic-memory'
+import { META_LEARNING } from './meta-learning'
 import { CREDIT_ASSIGNMENT } from './credit-assignment'
 import { MULTISENSORY } from './multisensory'
 import { AUDITORY_SCENE } from './auditory-scene'
@@ -11,5 +12,6 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   'auditory-scene': AUDITORY_SCENE,
   'multisensory': MULTISENSORY,
   'credit-assignment': CREDIT_ASSIGNMENT,
+  'meta-learning': META_LEARNING,
   'episodic-memory': EPISODIC_MEMORY,
 }

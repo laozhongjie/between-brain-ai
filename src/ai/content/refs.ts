@@ -186,6 +186,18 @@ export const REFS: Ref[] = [
   { id: 'sutton1988', authors: 'Sutton, R. S.', year: 1988, title: 'Learning to predict by the methods of temporal differences', venue: 'Machine Learning 3(1), 9–44', url: doi('10.1007/BF00115009') },
   { id: 'williams1992', authors: 'Williams, R. J.', year: 1992, title: 'Simple statistical gradient-following algorithms for connectionist reinforcement learning', venue: 'Machine Learning 8(3–4), 229–256', url: doi('10.1007/BF00992696') },
   { id: 'sacramento2018', authors: 'Sacramento, J., Ponte Costa, R., Bengio, Y. & Senn, W.', year: 2018, title: 'Dendritic cortical microcircuits approximate the backpropagation algorithm', venue: 'arXiv (NeurIPS 2018)', url: arxiv('1810.11393') },
+  // ── F08 Meta-learning ──
+  { id: 'harlow1949', authors: 'Harlow, H. F.', year: 1949, title: 'The formation of learning sets', venue: 'Psychological Review 56(1), 51–65', url: doi('10.1037/h0062474') },
+  { id: 'behrens2007', authors: 'Behrens, T. E. J., Woolrich, M. W., Walton, M. E. & Rushworth, M. F. S.', year: 2007, title: 'Learning the value of information in an uncertain world', venue: 'Nature Neuroscience 10(9), 1214–1221', url: doi('10.1038/nn1954') },
+  { id: 'pearcehall1980', authors: 'Pearce, J. M. & Hall, G.', year: 1980, title: 'A model for Pavlovian learning: variations in the effectiveness of conditioned but not of unconditioned stimuli', venue: 'Psychological Review 87(6), 532–552', url: doi('10.1037/0033-295X.87.6.532') },
+  { id: 'wang2018', authors: 'Wang, J. X. et al.', year: 2018, title: 'Prefrontal cortex as a meta-reinforcement learning system', venue: 'Nature Neuroscience 21(6), 860–868', url: doi('10.1038/s41593-018-0147-8') },
+  { id: 'botvinick2019', authors: 'Botvinick, M. et al.', year: 2019, title: 'Reinforcement learning, fast and slow', venue: 'Trends in Cognitive Sciences 23(5), 408–422', url: doi('10.1016/j.tics.2019.02.006') },
+  { id: 'duan2016', authors: 'Duan, Y. et al.', year: 2016, title: 'RL²: fast reinforcement learning via slow reinforcement learning', venue: 'arXiv', url: arxiv('1611.02779') },
+  { id: 'finn2017', authors: 'Finn, C., Abbeel, P. & Levine, S.', year: 2017, title: 'Model-agnostic meta-learning for fast adaptation of deep networks', venue: 'arXiv (ICML 2017)', url: arxiv('1703.03400') },
+  { id: 'brown2020', authors: 'Brown, T. B. et al.', year: 2020, title: 'Language models are few-shot learners', venue: 'arXiv (NeurIPS 2020)', url: arxiv('2005.14165') },
+  { id: 'olsson2022', authors: 'Olsson, C. et al.', year: 2022, title: 'In-context learning and induction heads', venue: 'arXiv', url: arxiv('2209.11895') },
+  { id: 'chan2022', authors: 'Chan, S. C. Y. et al.', year: 2022, title: 'Data distributional properties drive emergent in-context learning in transformers', venue: 'arXiv (NeurIPS 2022)', url: arxiv('2205.05055') },
+  { id: 'vonoswald2022', authors: 'von Oswald, J. et al.', year: 2022, title: 'Transformers learn in-context by gradient descent', venue: 'arXiv (ICML 2023)', url: arxiv('2212.07677') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))
