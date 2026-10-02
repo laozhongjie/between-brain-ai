@@ -204,6 +204,14 @@ export interface FigStep {
   points: Bi[]
 }
 
+/** One numbered step of an architecture figure, told as information flow: what arrives, what it does, where it goes. */
+export interface FlowStep {
+  title: Bi
+  signal?: Bi
+  effect: Bi
+  next?: Bi
+}
+
 /** The full page of a functional topic (docs/atlas-v1-plan.md §5). */
 export interface TopicContent {
   /** one short paragraph per side, then the key gap */
@@ -213,8 +221,10 @@ export interface TopicContent {
   /** which systems the computational column describes, and as of when */
   asOf: Bi
   capabilities: CapabilityComparison[]
-  /** step-by-step explanations of the architecture figures */
-  archSteps: { biological: FigStep[]; computational: FigStep[] }
+  /** the information flow through each architecture figure, step by step */
+  archSteps: { biological: FlowStep[]; computational: FlowStep[] }
+  /** background under each architecture column: definitions, mechanisms, scale, debated points */
+  archNotes: { biological: Bi[]; computational: Bi[] }
   /** step-by-step explanations of the dynamics figure, per lane */
   dynamicsSteps: { biological: FigStep[]; computational: FigStep[] }
   bioMath: TopicFormula[]

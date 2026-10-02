@@ -107,14 +107,18 @@ describe('AI correspondence content', () => {
       expect(page.capabilities.length, id).toBeGreaterThanOrEqual(3)
       expect(page.bioMath.length && page.compMath.length, id).toBeTruthy()
       expect(page.refs.neuro.length && page.refs.models.length && page.refs.ai.length, id).toBeTruthy()
-      for (const steps of [page.archSteps.biological, page.archSteps.computational, page.dynamicsSteps.biological, page.dynamicsSteps.computational])
+      for (const steps of [page.dynamicsSteps.biological, page.dynamicsSteps.computational])
         expect(steps.length && steps.every((s) => s.points.length), id).toBeTruthy()
+      expect(page.archSteps.biological.length && page.archSteps.computational.length, id).toBeTruthy()
+      expect(page.archNotes.biological.length && page.archNotes.computational.length, id).toBeTruthy()
       for (const f of [...page.bioMath, ...page.compMath])
         expect(f.symbols.length && f.steps.length && f.consequences.length && f.limitations.length, `${id}: ${f.tex}`).toBeTruthy()
       const fields = [page.thesis.biological, page.thesis.computational, page.thesis.gap, page.asOf,
         ...page.limits.biological, ...page.limits.computational, ...page.limits.unsupported,
         ...page.capabilities.flatMap((r) => [r.dimension, r.brain, r.ai, r.gap]),
-        ...[page.archSteps, page.dynamicsSteps].flatMap((g) => [...g.biological, ...g.computational]).flatMap((s) => [s.title, ...s.points]),
+        ...[...page.archSteps.biological, ...page.archSteps.computational].flatMap((s) => [s.title, s.effect, ...(s.signal ? [s.signal] : []), ...(s.next ? [s.next] : [])]),
+        ...page.archNotes.biological, ...page.archNotes.computational,
+        ...[...page.dynamicsSteps.biological, ...page.dynamicsSteps.computational].flatMap((s) => [s.title, ...s.points]),
         ...[...page.bioMath, ...page.compMath].flatMap((f) => [f.title, ...f.symbols.map((x) => x.meaning), ...f.steps, ...(f.example ? [f.example] : []), ...f.consequences, ...f.limitations])]
       for (const f of fields) expect(f.zh.trim() && f.en.trim(), id).toBeTruthy()
     }

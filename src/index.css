@@ -567,6 +567,22 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .thesis-gap strong { display: block; margin-bottom: 2px; font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; color: var(--lemon); }
 .grammar-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; margin: 0 0 12px; padding: 0; font-size: 13px; color: var(--text-dim); }
 .grammar-legend li { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+/* Architecture: two columns whose rows (name, figure, flow, notes) line up across the columns */
+.arch-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, auto); gap: 0 16px; }
+.arch-col { min-width: 0; display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 12px; padding: 12px 16px 16px; border: 1px solid var(--panel-border); border-top: 2px solid var(--side); border-radius: 10px; background: rgba(170,195,230,0.025); }
+.arch-col > h3 { margin: 4px 0 0; color: var(--side); font-size: 14px; letter-spacing: 0; }
+.arch-col .fig { margin: 0; }
+.arch-col .fig-steps { margin: 0; align-self: start; }
+.flow { margin: 0; display: grid; gap: 4px; }
+.flow > div { display: grid; grid-template-columns: 3em 1fr; gap: 10px; align-items: baseline; }
+:lang(en) .flow > div { grid-template-columns: 4.6em 1fr; }
+.flow dt { font: 500 12.5px/1.6 var(--label); letter-spacing: 0.04em; color: var(--side); }
+.flow dd { margin: 0; font-size: 15px; line-height: 1.75; color: var(--text); }
+.arch-notes { align-self: start; padding: 10px 12px 4px; border-radius: 8px; background: var(--well); }
+.arch-notes h5 { margin: 0 0 6px; font: 500 12px/1.4 var(--label); letter-spacing: 0.04em; color: var(--text-dim); }
+.arch-notes ul { margin: 0; padding-left: 16px; }
+.ai-page .arch-notes li { font-size: 13px; line-height: 1.7; color: var(--text-dim); margin-bottom: 6px; text-align: justify; }
+@media (max-width: 760px) { .arch-grid { grid-template-columns: 1fr; grid-template-rows: none; gap: 16px; } .arch-col { grid-row: auto; grid-template-rows: none; } }
 .fig-steps { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 14px; }
 .fig-steps > li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; }
 .step-num { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; margin-top: 1px; font: 600 12px/1 var(--mono); color: var(--side); border: 1.4px solid var(--side); }
@@ -586,7 +602,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .symbols { width: 100%; margin: 8px 0 4px; border-collapse: collapse; font-size: 13.5px; }
 .symbols th { text-align: left; font: 500 12px/1.4 var(--label); letter-spacing: 0.04em; color: var(--text-dim); padding: 4px 10px; border-bottom: 1px solid var(--panel-border); }
 .symbols td { padding: 5px 10px; line-height: 1.6; color: var(--text); border-bottom: 1px solid rgba(170,195,230,0.06); vertical-align: baseline; }
-.symbols td:first-child { width: 1%; white-space: nowrap; color: var(--text-h); }
+.symbols td:first-child, .symbols th:first-child { width: 1%; white-space: nowrap; }
+.symbols td:first-child { color: var(--text-h); }
 .formula-outcomes { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
 @media (max-width: 760px) { .formula-outcomes { grid-template-columns: 1fr; } }
 .xref { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-line); }
