@@ -348,6 +348,19 @@ export const REFS: Ref[] = [
   { id: 'dabney2018', authors: 'Dabney, W., Rowland, M., Bellemare, M. G. & Munos, R.', year: 2017, title: 'Distributional reinforcement learning with quantile regression', venue: 'arXiv (AAAI 2018)', url: arxiv('1710.10044') },
   { id: 'amodei2016', authors: 'Amodei, D. et al.', year: 2016, title: 'Concrete problems in AI safety', venue: 'arXiv', url: arxiv('1606.06565') },
   { id: 'ouyang2022', authors: 'Ouyang, L. et al.', year: 2022, title: 'Training language models to follow instructions with human feedback', venue: 'arXiv (NeurIPS 2022)', url: arxiv('2203.02155') },
+  // ── F32 Emotion understanding ──
+  { id: 'ekman1992', authors: 'Ekman, P.', year: 1992, title: 'An argument for basic emotions', venue: 'Cognition and Emotion 6(3–4), 169–200', url: doi('10.1080/02699939208411068') },
+  { id: 'adolphs1994', authors: 'Adolphs, R., Tranel, D., Damasio, H. & Damasio, A.', year: 1994, title: 'Impaired recognition of emotion in facial expressions following bilateral damage to the human amygdala', venue: 'Nature 372(6507), 669–672', url: doi('10.1038/372669a0') },
+  { id: 'singer2004', authors: 'Singer, T. et al.', year: 2004, title: 'Empathy for pain involves the affective but not sensory components of pain', venue: 'Science 303(5661), 1157–1162', url: doi('10.1126/science.1093535') },
+  { id: 'aviezer2008', authors: 'Aviezer, H. et al.', year: 2008, title: 'Angry, disgusted, or afraid? Studies on the malleability of emotion perception', venue: 'Psychological Science 19(7), 724–732', url: doi('10.1111/j.1467-9280.2008.02148.x') },
+  { id: 'barrett2019', authors: 'Barrett, L. F., Adolphs, R., Marsella, S., Martinez, A. M. & Pollak, S. D.', year: 2019, title: 'Emotional expressions reconsidered: challenges to inferring emotion from human facial movements', venue: 'Psychological Science in the Public Interest 20(1), 1–68', url: doi('10.1177/1529100619832930') },
+  { id: 'russell1980', authors: 'Russell, J. A.', year: 1980, title: 'A circumplex model of affect', venue: 'Journal of Personality and Social Psychology 39(6), 1161–1178', url: doi('10.1037/h0077714') },
+  { id: 'ong2015', authors: 'Ong, D. C., Zaki, J. & Goodman, N. D.', year: 2015, title: 'Affective cognition: exploring lay theories of emotion', venue: 'Cognition 143, 141–162', url: doi('10.1016/j.cognition.2015.06.010') },
+  { id: 'wang2023ei', authors: 'Wang, X., Li, X., Yin, Z., Wu, Y. & Liu, J.', year: 2023, title: 'Emotional intelligence of large language models', venue: 'Journal of Pacific Rim Psychology 17', url: doi('10.1177/18344909231213958') },
+  { id: 'elyoseph2023', authors: 'Elyoseph, Z., Hadar-Shoval, D., Asraf, K. & Lvovsky, M.', year: 2023, title: 'ChatGPT outperforms humans in emotional awareness evaluations', venue: 'Frontiers in Psychology 14, 1199058', url: doi('10.3389/fpsyg.2023.1199058') },
+  { id: 'ayers2023', authors: 'Ayers, J. W. et al.', year: 2023, title: 'Comparing physician and artificial intelligence chatbot responses to patient questions posted to a public social media forum', venue: 'JAMA Internal Medicine 183(6), 589–596', url: doi('10.1001/jamainternmed.2023.1838') },
+  { id: 'sorin2024', authors: 'Sorin, V. et al.', year: 2024, title: 'Large language models and empathy: systematic review', venue: 'Journal of Medical Internet Research 26, e52597', url: doi('10.2196/52597') },
+  { id: 'schlegel2025', authors: 'Schlegel, K., Sommer, N. R. & Mortillaro, M.', year: 2025, title: 'Large language models are proficient in solving and creating emotional intelligence tests', venue: 'Communications Psychology 3, 80', url: doi('10.1038/s44271-025-00258-x') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

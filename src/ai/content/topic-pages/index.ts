@@ -1,5 +1,6 @@
 import type { TopicContent } from '../../types'
 import { EPISODIC_MEMORY } from './episodic-memory'
+import { EMOTION_UNDERSTANDING } from './emotion-understanding'
 import { REWARD_LEARNING } from './reward-learning'
 import { SKILL_LEARNING } from './skill-learning'
 import { MOTOR_CONTROL } from './motor-control'
@@ -40,4 +41,5 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   'motor-control': MOTOR_CONTROL,
   'skill-learning': SKILL_LEARNING,
   'reward-learning': REWARD_LEARNING,
+  'emotion-understanding': EMOTION_UNDERSTANDING,
 }
