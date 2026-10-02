@@ -34,7 +34,7 @@ export const TOPICS: Topic[] = [
     legacy: 'sys-memory', mechanisms: ['M02', 'M07'] },
   { id: 'episodic-memory', code: 'F12', name: b('情景记忆与联想检索', 'Episodic memory and associative retrieval'),
     systems: sys(b('海马情景记忆系统', 'Hippocampal episodic memory system'), b('检索增强生成与外部记忆', 'Retrieval-augmented generation and external memory')),
-    legacy: 'sys-memory', tour: 'memory', mechanisms: ['M07'] },
+    legacy: 'sys-memory', tour: 'memory', mechanisms: ['M07', 'M08'] },
   { id: 'consolidation-replay', code: 'F15', name: b('巩固、回放与遗忘', 'Consolidation, replay and forgetting'),
     systems: sys(b('睡眠回放与系统巩固', 'Sleep replay and systems consolidation'), b('经验回放与模型更新', 'Experience replay and model updating')),
     mechanisms: ['M03'] },

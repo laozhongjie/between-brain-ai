@@ -554,6 +554,18 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .review-limits > div:nth-child(3) { border-color: var(--lemon); }
 .review-limits h3 { margin: 0 0 6px; color: var(--text-h); font-size: 14px; letter-spacing: 0; }
 .review-limits p { margin: 0; }
+/* Topic pages */
+.topic-page .card-intro h2 { font-size: 18px; line-height: 1.7; font-weight: 500; }
+.topic-page > .card-kicker { display: block; margin-top: 4px; font-family: var(--label); letter-spacing: 0.04em; color: var(--accent); }
+.fig-wide .fig-svg { max-width: 980px; margin: 0 auto; }
+.grammar-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; margin: 4px 0 0; padding: 0; font-size: 12px; color: var(--text-dim); }
+.grammar-legend li { display: inline-flex; align-items: center; gap: 6px; }
+.topic-formula dl { margin: 6px 0 0; display: grid; gap: 4px; }
+.topic-formula dl > div { display: grid; grid-template-columns: 4.5em 1fr; gap: 8px; font-size: 12.5px; line-height: 1.55; }
+.topic-formula dt { color: var(--text-dim); }
+.topic-formula dd { margin: 0; color: var(--text); }
+.ref-groups { display: grid; gap: 6px; }
+.ref-groups h3 { margin: 6px 0 4px; font-size: 13.5px; color: var(--text-h); }
 .card-lessons { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .card-lessons > div { padding-left: 16px; border-left: 2px solid var(--accent-line); min-width: 0; }
 .card-lessons > div + div { border-color: var(--lemon); }

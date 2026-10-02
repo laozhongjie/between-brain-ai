@@ -2,12 +2,13 @@ import { Rich, splitComparison } from '../../rich'
 import { useEffect, useRef, type ReactNode } from 'react'
 import { UI, useT } from '../../i18n'
 import { go } from '../../route'
-import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, MECH_GROUPS, SCALES, crossHref, topicHref, topicsOfDomain } from '../content'
+import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, MECH_GROUPS, SCALES, TOPIC_BY_ID, TOPIC_CONTENT, crossHref, topicHref, topicsOfDomain } from '../content'
 import { LABS } from '../labs/registry'
 import { Blueprint } from './Blueprint'
 import { CardPage } from './CardPage'
 import { AiHome } from './AiHome'
 import { LabPage } from './LabPage'
+import { TopicPage } from './TopicPage'
 
 /** The Brain & AI section: sidebar directory + routed page. */
 export function AiSection({ route }: { route: string[] }) {
@@ -21,7 +22,8 @@ export function AiSection({ route }: { route: string[] }) {
   }, [key])
 
   let content
-  if (page === 'card' && id && CARD_BY_ID[id]) content = <CardPage card={CARD_BY_ID[id]} />
+  if (page === 'topic' && id && TOPIC_CONTENT[id]) content = <TopicPage topic={TOPIC_BY_ID[id]} />
+  else if (page === 'card' && id && CARD_BY_ID[id]) content = <CardPage card={CARD_BY_ID[id]} />
   else if (page === 'blueprint') content = <Blueprint moduleId={id} />
   else if (page === 'lab' && id && LABS[id]) content = <LabPage id={id} />
   else content = <AiHome />

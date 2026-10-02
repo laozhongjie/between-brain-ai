@@ -6,8 +6,10 @@ import { LAYER3 } from './layer3'
 import { LAYER4 } from './layer4'
 import { CARD_GUIDES } from './guides'
 import { CROSS_TOPICS, MECH_GROUPS, TOPICS, TOPIC_BY_ID } from './topics'
+import { TOPIC_CONTENT } from './topic-pages'
 
 export * from './topics'
+export { TOPIC_CONTENT }
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
 
@@ -34,10 +36,12 @@ export const domainOfTopic = (topicId: string) => DOMAINS.find((d) => d.topics.i
 export const MECH_ORDER: Card[] = MECH_GROUPS.flatMap((g) => g.cards.map((id) => CARD_BY_ID[id]))
 
 /** Where a topic opens today: its own page once written, else its old card, else nowhere yet. */
-export const topicHref = (topic: Topic) => (topic.legacy ? `/ai/card/${topic.legacy}` : null)
+export const topicHref = (topic: Topic) => (TOPIC_CONTENT[topic.id] ? `/ai/topic/${topic.id}` : topic.legacy ? `/ai/card/${topic.legacy}` : null)
+/** Topics with a page of their own, in directory order (for prev / next paging). */
+export const WRITTEN_TOPICS = (): Topic[] => DOMAINS.flatMap((d) => d.topics).filter((id) => TOPIC_CONTENT[id]).map((id) => TOPIC_BY_ID[id])
 export const crossHref = (x: CrossTopic) => x.route ?? (x.legacy ? `/ai/card/${x.legacy}` : null)
-/** Topic whose legacy page is this old card (an old system card can stand in for several topics). */
-export const topicsOfLegacy = (cardId: string) => TOPICS.filter((t) => t.legacy === cardId)
+/** Topics this old card still stands in for (an old system card can stand in for several). */
+export const topicsOfLegacy = (cardId: string) => TOPICS.filter((t) => t.legacy === cardId && !TOPIC_CONTENT[t.id])
 
 /** The AI comparison an atlas tour links to: the topic for that brain system, or the old card. */
 export function aiLinkForTour(tour: string): { href: string; title: Bi } | undefined {

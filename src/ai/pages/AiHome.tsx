@@ -1,7 +1,7 @@
 import { Rich } from '../../rich'
 import { UI, useT } from '../../i18n'
 import { go } from '../../route'
-import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_GROUPS, SCALES, crossHref, topicHref, topicsOfDomain } from '../content'
+import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_GROUPS, SCALES, TOPIC_CONTENT, crossHref, topicHref, topicsOfDomain } from '../content'
 import { LABS } from '../labs/registry'
 import type { Topic } from '../types'
 import { KindTags, Legend, RefList } from './common'
@@ -15,7 +15,7 @@ function TopicChip({ topic }: { topic: Topic }) {
   return (
     <button className={`chip topic-chip ${href ? '' : 'pending'}`} disabled={!href} onClick={() => href && go(href)}>
       <span>{t(topic.name)}</span>
-      <span className="chip-status">{t(href ? UI.statusLegacy : UI.statusDrafting)}</span>
+      {!TOPIC_CONTENT[topic.id] && <span className="chip-status">{t(href ? UI.statusLegacy : UI.statusDrafting)}</span>}
     </button>
   )
 }

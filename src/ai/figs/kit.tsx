@@ -30,6 +30,12 @@ export function Svg({ id, w = 360, h = 230, label, children }: { id: string; w?:
             <path d="M5,0 L5,10" stroke={col} strokeWidth="2.4" />
           </marker>
         ))}
+        {/* hollow head: a read out of a store (see grammar.tsx) */}
+        {Object.entries(HEADS).map(([k, col]) => (
+          <marker key={`h${k}`} id={`${id}-h-${k}`} viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M1,1.5 L10.5,6 L1,10.5 z" fill={C.white} stroke={col} strokeWidth="1.4" strokeLinejoin="round" />
+          </marker>
+        ))}
       </defs>
       {children}
     </svg>

@@ -232,7 +232,7 @@ export function CardPage({ card }: { card: Card }) {
         <KindTags kinds={card.kinds} />
         <EvidenceBadge ev={card.evidence} />
         {card.tour && (
-          <button className="btn-sm" onClick={openInAtlas}><Icon name="brain" />{t(UI.viewInAtlas)}：{t(TOUR_BY_ID[card.tour].name)}</button>
+          <button className="btn-sm" onClick={openInAtlas}><Icon name="brain" />{t(UI.viewInAtlas)}{t({ zh: '：', en: ': ' })}{t(TOUR_BY_ID[card.tour].name)}</button>
         )}
       </div>
       {guide.review ? <ReviewCardContent card={card} figs={figs} /> : <MechanismContent card={card} figs={figs} />}

@@ -109,6 +109,19 @@ export const REFS: Ref[] = [
   { id: 'dabney2020', authors: 'Dabney, W. et al.', year: 2020, title: 'A distributional code for value in dopamine-based reinforcement learning', venue: 'Nature 577, 671–675', url: doi('10.1038/s41586-019-1924-6') },
   { id: 'shin2017', authors: 'Shin, H., Lee, J. K., Kim, J. & Kim, J.', year: 2017, title: 'Continual learning with deep generative replay', venue: 'NeurIPS 2017', url: arxiv('1705.08690') },
   { id: 'kadavath2022', authors: 'Kadavath, S. et al.', year: 2022, title: 'Language models (mostly) know what they know', venue: 'arXiv', url: arxiv('2207.05221') },
+  // ── Episodic memory (topic F12) ──
+  { id: 'tulving2002', authors: 'Tulving, E.', year: 2002, title: 'Episodic memory: from mind to brain', venue: 'Annual Review of Psychology 53, 1–25', url: doi('10.1146/annurev.psych.53.100901.135114') },
+  { id: 'yassa2011', authors: 'Yassa, M. A. & Stark, C. E. L.', year: 2011, title: 'Pattern separation in the hippocampus', venue: 'Trends in Neurosciences 34(10), 515–525', url: doi('10.1016/j.tins.2011.06.006') },
+  { id: 'teyler2007', authors: 'Teyler, T. J. & Rudy, J. W.', year: 2007, title: 'The hippocampal indexing theory and episodic memory: updating the index', venue: 'Hippocampus 17(12), 1158–1169', url: doi('10.1002/hipo.20350') },
+  { id: 'zacks2007', authors: 'Zacks, J. M., Speer, N. K., Swallow, K. M., Braver, T. S. & Reynolds, J. R.', year: 2007, title: 'Event perception: a mind-brain perspective', venue: 'Psychological Bulletin 133(2), 273–293', url: doi('10.1037/0033-2909.133.2.273') },
+  { id: 'brady2008', authors: 'Brady, T. F., Konkle, T., Alvarez, G. A. & Oliva, A.', year: 2008, title: 'Visual long-term memory has a massive storage capacity for object details', venue: 'PNAS 105(38), 14325–14329', url: doi('10.1073/pnas.0803390105') },
+  { id: 'schacter1999', authors: 'Schacter, D. L.', year: 1999, title: 'The seven sins of memory: insights from psychology and cognitive neuroscience', venue: 'American Psychologist 54(3), 182–203', url: doi('10.1037/0003-066X.54.3.182') },
+  { id: 'nader2000', authors: 'Nader, K., Schafe, G. E. & LeDoux, J. E.', year: 2000, title: 'Fear memories require protein synthesis in the amygdala for reconsolidation after retrieval', venue: 'Nature 406, 722–726', url: doi('10.1038/35021052') },
+  { id: 'amit1985', authors: 'Amit, D. J., Gutfreund, H. & Sompolinsky, H.', year: 1985, title: 'Storing infinite numbers of patterns in a spin-glass model of neural networks', venue: 'Physical Review Letters 55(14), 1530–1533', url: doi('10.1103/PhysRevLett.55.1530') },
+  { id: 'liu2024', authors: 'Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F. & Liang, P.', year: 2024, title: 'Lost in the middle: how language models use long contexts', venue: 'Transactions of the ACL 12, 157–173', url: doi('10.1162/tacl_a_00638') },
+  { id: 'fountas2025', authors: 'Fountas, Z. et al.', year: 2025, title: 'Human-inspired episodic memory for infinite context LLMs', venue: 'ICLR 2025', url: arxiv('2407.09450') },
+  { id: 'gutierrez2024', authors: 'Gutiérrez, B. J., Shu, Y., Gu, Y., Yasunaga, M. & Su, Y.', year: 2024, title: 'HippoRAG: neurobiologically inspired long-term memory for large language models', venue: 'NeurIPS 2024', url: arxiv('2405.14831') },
+  { id: 'huet2025', authors: 'Huet, A., Ben Houidi, Z. & Rossi, D.', year: 2025, title: 'Episodic memories generation and evaluation benchmark for large language models', venue: 'ICLR 2025', url: arxiv('2501.13121') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

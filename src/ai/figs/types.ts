@@ -12,3 +12,9 @@ export interface FigPair {
   brainCap: Bi
   aiCap: Bi
 }
+
+/** Figures of a topic page: the two architectures side by side, and one dynamics figure over a shared time axis. */
+export interface TopicFigs {
+  arch: FigPair
+  dynamics: { Fig: ComponentType<FigProps>; cap: Bi }
+}

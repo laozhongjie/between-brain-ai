@@ -181,3 +181,33 @@ export interface Module {
   /** grid placement in the blueprint (column, row) */
   pos: [number, number]
 }
+
+/** An equation on a topic page, with what it stands for, explains and leaves out. */
+export interface TopicFormula extends Formula {
+  maps: Bi
+  explains: Bi
+  limits: Bi
+}
+
+/** The full page of a functional topic (docs/atlas-v1-plan.md §5). */
+export interface TopicContent {
+  thesis: Bi
+  kinds: Kind[]
+  evidence: Evidence
+  /** which systems the computational column describes, and as of when */
+  asOf: Bi
+  capabilities: CapabilityComparison[]
+  bioMath: TopicFormula[]
+  compMath: TopicFormula[]
+  limits: {
+    biological: Bi
+    computational: Bi
+    /** conclusions the evidence does not support */
+    unsupported: Bi
+  }
+  refs: {
+    neuro: string[]
+    models: string[]
+    ai: string[]
+  }
+}

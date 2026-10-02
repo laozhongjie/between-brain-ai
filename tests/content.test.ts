@@ -1,11 +1,11 @@
 import katex from 'katex'
 import { describe, expect, it } from 'vitest'
 import { MODULES } from '../src/ai/content/blueprint'
-import { CARDS, CARD_BY_ID, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_BY_ID, MECH_GROUPS, TOPICS, TOPIC_BY_ID, aiLinkForTour } from '../src/ai/content/index'
+import { CARDS, CARD_BY_ID, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_BY_ID, MECH_GROUPS, TOPICS, TOPIC_BY_ID, TOPIC_CONTENT, aiLinkForTour } from '../src/ai/content/index'
 import { REF_BY_ID, REFS } from '../src/ai/content/refs'
 import { LABS } from '../src/ai/labs/registry'
 import { TOUR_BY_ID } from '../src/data/tours'
-import { FIGS } from '../src/ai/figs'
+import { FIGS, TOPIC_FIGS } from '../src/ai/figs'
 import { CARD_GUIDES } from '../src/ai/content/guides'
 
 describe('AI correspondence content', () => {
@@ -66,12 +66,16 @@ describe('AI correspondence content', () => {
     for (const c of CARDS)
       for (const f of [...(c.brainMath ?? []), ...(c.aiMath ?? [])])
         expect(() => katex.renderToString(f.tex, { throwOnError: true }), `${c.id}: ${f.tex}`).not.toThrow()
+    for (const [id, page] of Object.entries(TOPIC_CONTENT))
+      for (const f of [...page.bioMath, ...page.compMath])
+        expect(() => katex.renderToString(f.tex, { throwOnError: true }), `${id}: ${f.tex}`).not.toThrow()
   })
 
   it('every cited reference exists and every reference is cited', () => {
     const cited = new Set<string>(INTRO_REFS)
     for (const c of CARDS) c.refs.forEach((r) => cited.add(r))
     for (const m of MODULES) m.refs.forEach((r) => cited.add(r))
+    for (const page of Object.values(TOPIC_CONTENT)) [...page.refs.neuro, ...page.refs.models, ...page.refs.ai].forEach((r) => cited.add(r))
     for (const r of cited) expect(REF_BY_ID[r], r).toBeDefined()
     for (const r of REFS) expect(cited.has(r.id), `unused ref ${r.id}`).toBe(true)
   })
@@ -92,6 +96,23 @@ describe('AI correspondence content', () => {
       expect(f, c.id).toBeDefined()
       expect(f.brain && f.ai && f.brainCap.zh && f.aiCap.en, c.id).toBeTruthy()
     }
+  })
+
+  it('every topic page is complete: capabilities, figures, equations, limits and grouped evidence', () => {
+    for (const [id, page] of Object.entries(TOPIC_CONTENT)) {
+      expect(TOPIC_BY_ID[id], id).toBeDefined()
+      const figs = TOPIC_FIGS[id]
+      expect(figs?.arch.brain && figs.arch.ai && figs.dynamics.Fig, id).toBeTruthy()
+      expect(page.capabilities.length, id).toBeGreaterThanOrEqual(3)
+      expect(page.bioMath.length && page.compMath.length, id).toBeTruthy()
+      expect(page.refs.neuro.length && page.refs.models.length && page.refs.ai.length, id).toBeTruthy()
+      const fields = [page.thesis, page.asOf, page.limits.biological, page.limits.computational, page.limits.unsupported,
+        figs.arch.brainCap, figs.arch.aiCap, figs.dynamics.cap,
+        ...page.capabilities.flatMap((r) => [r.dimension, r.brain, r.ai, r.gap]),
+        ...[...page.bioMath, ...page.compMath].flatMap((f) => [f.caption, f.maps, f.explains, f.limits])]
+      for (const f of fields) expect(f.zh.trim() && f.en.trim(), id).toBeTruthy()
+    }
+    for (const id of Object.keys(TOPIC_FIGS)) expect(TOPIC_CONTENT[id], id).toBeDefined()
   })
 
   it('blueprint cells do not overlap', () => {
