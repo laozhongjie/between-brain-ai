@@ -361,6 +361,17 @@ export const REFS: Ref[] = [
   { id: 'ayers2023', authors: 'Ayers, J. W. et al.', year: 2023, title: 'Comparing physician and artificial intelligence chatbot responses to patient questions posted to a public social media forum', venue: 'JAMA Internal Medicine 183(6), 589–596', url: doi('10.1001/jamainternmed.2023.1838') },
   { id: 'sorin2024', authors: 'Sorin, V. et al.', year: 2024, title: 'Large language models and empathy: systematic review', venue: 'Journal of Medical Internet Research 26, e52597', url: doi('10.2196/52597') },
   { id: 'schlegel2025', authors: 'Schlegel, K., Sommer, N. R. & Mortillaro, M.', year: 2025, title: 'Large language models are proficient in solving and creating emotional intelligence tests', venue: 'Communications Psychology 3, 80', url: doi('10.1038/s44271-025-00258-x') },
+  // ── F33 Emotion regulation ──
+  { id: 'milad2002', authors: 'Milad, M. R. & Quirk, G. J.', year: 2002, title: 'Neurons in medial prefrontal cortex signal memory for fear extinction', venue: 'Nature 420(6911), 70–74', url: doi('10.1038/nature01138') },
+  { id: 'ochsner2002', authors: 'Ochsner, K. N., Bunge, S. A., Gross, J. J. & Gabrieli, J. D. E.', year: 2002, title: 'Rethinking feelings: an fMRI study of the cognitive regulation of emotion', venue: 'Journal of Cognitive Neuroscience 14(8), 1215–1229', url: doi('10.1162/089892902760807212') },
+  { id: 'bouton2004', authors: 'Bouton, M. E.', year: 2004, title: 'Context and behavioral processes in extinction', venue: 'Learning & Memory 11(5), 485–494', url: doi('10.1101/lm.78804') },
+  { id: 'arnsten2009', authors: 'Arnsten, A. F. T.', year: 2009, title: 'Stress signalling pathways that impair prefrontal cortex structure and function', venue: 'Nature Reviews Neuroscience 10(6), 410–422', url: doi('10.1038/nrn2648') },
+  { id: 'buhle2014', authors: 'Buhle, J. T. et al.', year: 2014, title: 'Cognitive reappraisal of emotion: a meta-analysis of human neuroimaging studies', venue: 'Cerebral Cortex 24(11), 2981–2990', url: doi('10.1093/cercor/bht154') },
+  { id: 'anderson2014', authors: 'Anderson, D. J. & Adolphs, R.', year: 2014, title: 'A framework for studying emotions across species', venue: 'Cell 157(1), 187–200', url: doi('10.1016/j.cell.2014.03.003') },
+  { id: 'gross2015', authors: 'Gross, J. J.', year: 2015, title: 'Emotion regulation: current status and future prospects', venue: 'Psychological Inquiry 26(1), 1–26', url: doi('10.1080/1047840X.2014.940781') },
+  { id: 'moerland2018', authors: 'Moerland, T. M., Broekens, J. & Jonker, C. M.', year: 2018, title: 'Emotion in reinforcement learning agents and robots: a survey', venue: 'Machine Learning 107(2), 443–480', url: doi('10.1007/s10994-017-5666-0') },
+  { id: 'codaforno2023', authors: 'Coda-Forno, J. et al.', year: 2023, title: 'Inducing anxiety in large language models can induce bias', venue: 'arXiv', url: arxiv('2304.11111') },
+  { id: 'tamar2015', authors: 'Tamar, A., Glassner, Y. & Mannor, S.', year: 2014, title: 'Optimizing the CVaR via sampling', venue: 'arXiv (AAAI 2015)', url: arxiv('1404.3862') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

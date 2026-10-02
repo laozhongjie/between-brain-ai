@@ -80,7 +80,7 @@ export const TOPICS: Topic[] = [
     systems: sys(b('情绪识别与共情', 'Emotion recognition and empathy'), b('情感计算与语言模型', 'Affective computing and LLMs')),
     mechanisms: [] },
   { id: 'emotion-regulation', code: 'F33', name: b('情绪状态与调节', 'Affective states and emotion regulation'),
-    systems: sys(b('杏仁核与前额叶的情绪调节回路', 'Amygdala and prefrontal emotion regulation circuits'), b('智能体中的功能性情绪模型', 'Functional emotion models in agents')),
+    systems: sys(b('杏仁核与前额叶调节', 'Amygdala and prefrontal regulation'), b('功能性情绪模型', 'Functional emotion models')),
     legacy: 'sys-fear', tour: 'fear', mechanisms: [] },
   { id: 'interoception', code: 'F34', name: b('内感受与生理调节', 'Interoception and physiological regulation'),
     systems: sys(b('下丘脑与岛叶的内感受调节', 'Hypothalamic and insular interoceptive regulation'), b('稳态强化学习与机器人资源管理', 'Homeostatic reinforcement learning and robot resource management')),

@@ -40,3 +40,20 @@ export const REWARD_FIGS: TopicFigs = {
     },
   },
 }
+
+export const EMOTION_REG_FIGS: TopicFigs = {
+  math: {
+    bio: {
+      0: {
+        ...legacyFig('sys-fear', 'brain'),
+        cap: b('恐惧：丘脑经快速的「低通路」约十几毫秒直达杏仁核，皮层的「高通路」随后看清是什么。杏仁核迅速切换全身状态（应激、心跳、僵住），腹内侧前额叶负责抑制。', 'Fear: the thalamus reaches the amygdala by the fast low road in about a dozen milliseconds, and the cortical high road identifies the object later. The amygdala quickly switches the whole-body state, stress, heart rate and freezing, and ventromedial prefrontal cortex applies the brake.'),
+      },
+    },
+    comp: {
+      0: {
+        ...legacyFig('sys-fear', 'ai'),
+        cap: b('强化学习智能体：状态进入策略，经安全过滤后执行动作，环境返回一个标量奖励。没有一个能同时改变注意、学习率、风险偏好和记忆写入的「情绪状态」。', 'A reinforcement learning agent: the state goes into the policy, actions pass a safety filter and the environment returns one scalar reward. There is no emotional state that jointly changes attention, learning rate, risk taking and memory storage.'),
+      },
+    },
+  },
+}
