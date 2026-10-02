@@ -108,6 +108,7 @@ export const UI = {
   thesisGap: b('关键差距', 'Key gap'),
   leadEven: b('相当', 'Even'),
   leadMixed: b('各有所长', 'Each has strengths'),
+  leadKey: b('底色标出在该维度上占优的一侧；两侧都按各自颜色标出表示各有所长，两侧都是浅灰表示相当。', 'A tint marks the side that does better on each dimension. Both sides in their own colors means each has strengths, and both in gray means even.'),
   archNotes: b('补充说明', 'Notes'),
   limitsUnsupported: b('证据不能支持的结论', 'Not supported by the evidence'),
   secEvidence: b('证据与参考文献', 'Evidence and references'),

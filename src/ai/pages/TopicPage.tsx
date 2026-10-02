@@ -43,7 +43,8 @@ const aheadLabel = (name: string, lang: 'zh' | 'en') => (lang === 'zh' ? (/[A-Za
 
 /**
  * Capabilities as a face-off: the dimension on a central spine, the biological system on the left, the
- * computational one on the right, a pointer toward the side that does better, and the gap underneath.
+ * computational one on the right. The side that does better is tinted in its own color (both sides when each
+ * has strengths, both neutral when even), and the gap sits underneath.
  */
 function CapabilityDuel({ rows, bio, comp, short }: { rows: TopicCapability[]; bio: string; comp: string; short: { biological: Bi; computational: Bi } }) {
   const t = useT()
@@ -59,15 +60,10 @@ function CapabilityDuel({ rows, bio, comp, short }: { rows: TopicCapability[]; b
       </div>
       {rows.map((r, i) => (
         <div key={i} className={`duel-row lead-${r.lead}`} role="row">
-          <div className="duel-side bio" role="cell"><Rich text={t(r.brain)} /></div>
+          <div className="duel-side bio" role="cell" title={verdict(r.lead)}><Rich text={t(r.brain)} /></div>
           <div className="duel-dim" role="rowheader">{t(r.dimension)}</div>
-          <div className="duel-side comp" role="cell"><Rich text={t(r.ai)} /></div>
-          <div className="duel-verdict" aria-label={verdict(r.lead)}>
-            <span className="v-label left">{r.lead === 'bio' ? verdict('bio') : ''}</span>
-            <span className="v-track"><i /></span>
-            <span className="v-label right">{r.lead === 'comp' ? verdict('comp') : ''}</span>
-            {(r.lead === 'even' || r.lead === 'mixed') && <span className="v-label center">{verdict(r.lead)}</span>}
-          </div>
+          <div className="duel-side comp" role="cell" title={verdict(r.lead)}><Rich text={t(r.ai)} /></div>
+          <span className="sr-only">{verdict(r.lead)}</span>
           <p className="duel-gap"><Rich text={t(r.gap)} /></p>
         </div>
       ))}
@@ -176,6 +172,7 @@ export function TopicPage({ topic }: { topic: Topic }) {
       <section aria-labelledby="topic-capabilities">
         <h2 id="topic-capabilities">{t(UI.secCapabilities)}</h2>
         <p className="card-scope">{t(c.asOf)}</p>
+        <p className="duel-key">{t(UI.leadKey)}</p>
         <CapabilityDuel rows={c.capabilities} bio={bio} comp={comp} short={c.short} />
       </section>
 
