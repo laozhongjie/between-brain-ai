@@ -51,7 +51,8 @@ export function BrainScene() {
       camera={{ fov: 40, near: 0.05, far: 60, position: [-3, 1.3, -2] }}
       gl={{ antialias: true, toneMapping: THREE.NeutralToneMapping }}
       onCreated={({ gl }) => (gl.localClippingEnabled = true)}
-      onPointerMissed={() => useStore.getState().hover(null)}
+      // a double-click on empty space flies the camera back home
+      onPointerMissed={(e) => (e.type === 'dblclick' ? useStore.getState().homeCamera() : useStore.getState().hover(null))}
       dpr={[1, 1.5]}
       frameloop="never"
     >

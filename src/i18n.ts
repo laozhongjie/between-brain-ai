@@ -43,7 +43,7 @@ export const UI = {
   layerPulses: b('信号脉冲', 'Signal pulses'),
   resetView: b('复位视角', 'Reset view'),
   legend: b('图例', 'Legend'),
-  hint: b('左键拖动平移 · 右键拖动旋转 · 滚轮缩放 · 点击脑区查看详情', 'Left-drag to pan · right-drag to rotate · scroll to zoom · click a region for details'),
+  hint: b('左键拖动平移 · 右键拖动旋转 · 滚轮缩放 · 双击空白复位 · 点击脑区查看详情', 'Left-drag to pan · right-drag to rotate · scroll to zoom · double-click empty space to reset · click a region for details'),
   hintSchematic: b('拖动平移 · 滚轮缩放 · 双击复位 · 点击节点查看详情', 'Drag to pan · scroll to zoom · double-click to reset · click a node for details'),
   disclaimer: b('教学用示意性模拟，并非经过验证的科研模型。', 'Illustrative teaching simulation, not a validated research model.'),
   close: b('关闭', 'Close'),

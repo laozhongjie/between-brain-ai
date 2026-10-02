@@ -38,6 +38,8 @@ interface Store {
   hover: (id: string | null) => void
   setView: (v: Partial<ViewState>) => void
   resetView: () => void
+  /** camera back home, view settings untouched */
+  homeCamera: () => void
 }
 
 /** View settings at start, restored by Reset view. */
@@ -71,4 +73,5 @@ export const useStore = create<Store>((set) => ({
   setView: (v) => set((s) => ({ view: { ...s.view, ...v } })),
   // camera back home and every view setting back to its default
   resetView: () => set((s) => ({ selected: null, view: DEFAULT_VIEW, resetTick: s.resetTick + 1 })),
+  homeCamera: () => set((s) => ({ resetTick: s.resetTick + 1 })),
 }))
