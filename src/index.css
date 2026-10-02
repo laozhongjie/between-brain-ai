@@ -576,17 +576,21 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .two-col-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .two-col-steps h3 { margin: 6px 0 0; font-size: 14px; letter-spacing: 0; color: var(--side); }
 .topic-page .math-side { margin: 18px 0 8px; font-size: 14px; letter-spacing: 0; color: var(--side); }
-.formula-card { margin: 0 0 16px; padding: 14px 18px 8px; border: 1px solid var(--panel-border); border-left: 2px solid var(--side, var(--panel-border)); border-radius: 10px; background: rgba(170,195,230,0.025); }
+.formula-card { margin: 0 0 14px; padding: 12px 18px 6px; border: 1px solid var(--panel-border); border-left: 2px solid var(--side, var(--panel-border)); border-radius: 10px; background: rgba(170,195,230,0.025); }
 .formula-card h4 { margin: 0 0 6px; font-size: 16px; color: var(--text-h); font-weight: 600; }
-.formula-card h5 { margin: 14px 0 6px; font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; color: var(--text-dim); text-transform: none; }
+.formula-card h5 { margin: 12px 0 4px; font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; color: var(--text-dim); text-transform: none; }
 .formula-card .formula { padding: 6px 12px 10px; }
 .formula-card .formula .katex-display { font-size: 1.3em; }
 .symbols .katex { font-size: 1.08em; }
 .formula-card ol, .formula-card ul { margin: 0; padding-left: 20px; }
-.symbols { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; align-items: baseline; font-size: 15px; line-height: 1.7; }
-.symbols > div { display: contents; }
-.symbols dt { color: var(--text-h); }
-.symbols dd { margin: 0; color: var(--text); }
+.symbols { width: 100%; margin: 8px 0 4px; border-collapse: collapse; font-size: 13.5px; }
+.symbols th { text-align: left; font: 500 12px/1.4 var(--label); letter-spacing: 0.04em; color: var(--text-dim); padding: 4px 10px; border-bottom: 1px solid var(--panel-border); }
+.symbols td { padding: 5px 10px; line-height: 1.6; color: var(--text); border-bottom: 1px solid rgba(170,195,230,0.06); vertical-align: baseline; }
+.symbols td:first-child { width: 1%; white-space: nowrap; color: var(--text-h); }
+.formula-outcomes { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+@media (max-width: 760px) { .formula-outcomes { grid-template-columns: 1fr; } }
+.xref { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-line); }
+.xref:hover { border-bottom-color: var(--accent); }
 .ai-page .formula-card .example { margin: 0; font-size: 15px; line-height: 1.8; padding: 8px 12px; border-radius: 8px; background: var(--well); }
 .topic-page .review-limits li { font-size: 15px; }
 @media (max-width: 760px) { .thesis-sides, .two-col-steps { grid-template-columns: 1fr; } }

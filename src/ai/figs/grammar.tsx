@@ -137,3 +137,14 @@ export function Num({ x, y, n, side }: { x: number; y: number; n: number; side: 
     </g>
   )
 }
+
+/** A named region that holds several modules (e.g. the hippocampus around DG, CA3, CA1): thin solid outline. */
+export function Region({ x, y, w, h, label, side }: { x: number; y: number; w: number; h: number; label: string; side: Side }) {
+  const s = SIDE[side]
+  return (
+    <g>
+      <rect x={x} y={y} width={w} height={h} rx={10} fill={s.fill} fillOpacity={0.25} stroke={s.stroke} strokeOpacity={0.55} strokeWidth={1} />
+      <T x={x + 10} y={y + 9} anchor="start" s={label} size={9.5} color={s.stroke} weight={600} />
+    </g>
+  )
+}

@@ -14,7 +14,7 @@ vi.mock('../src/i18n', async (importOriginal) => ({
 
 const escaped = (text: string) => renderToStaticMarkup(createElement('span', null, text)).slice(6, -7)
 /** Rich text turns $…$ into KaTeX, so only check the plain parts of a string. */
-const plain = (text: string) => text.split(/\$[^$]+\$/).map((s) => s.trim()).filter((s) => s.length > 3)
+const plain = (text: string) => text.replace(/\[([^\]]+)\]\((?:card|topic):[a-z0-9-]+\)/g, '\n').split(/\$[^$]+\$|\n/).map((s) => s.trim()).filter((s) => s.length > 3)
 
 describe('topic pages', () => {
   for (const lang of ['zh', 'en'] as const) {
@@ -33,6 +33,8 @@ describe('topic pages', () => {
         // the three figures render as SVG, each followed by its numbered explanation
         expect(html.match(/<svg[^>]*class="fig-svg"/g) ?? []).toHaveLength(3)
         expect(html.match(/<ol class="fig-steps/g) ?? []).toHaveLength(4)
+        // cross-references render as links
+        for (const m of JSON.stringify(page).matchAll(/\]\((card|topic):([a-z0-9-]+)\)/g)) expect(html).toContain(`href="#/ai/${m[1]}/${m[2]}"`)
         // equations are always shown, never folded
         expect(html).not.toContain('<details')
       })

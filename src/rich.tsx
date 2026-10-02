@@ -87,8 +87,10 @@ export function toSegments(text: string): { tex: boolean; s: string }[] {
   return out
 }
 
-/** Text with math: $…$ segments and stray symbols (→, α, x₁, Wᵀ, …) are rendered by KaTeX. */
-export function Rich({ text }: { text: string }) {
+/** In-site cross-reference: `[label](card:id)` or `[label](topic:id)` links to a card or topic page. */
+export const XREF = /\[([^\]]+)\]\((card|topic):([a-z0-9-]+)\)/g
+
+function Segments({ text }: { text: string }) {
   const segs = useMemo(() => toSegments(text), [text])
   return (
     <>
@@ -101,4 +103,18 @@ export function Rich({ text }: { text: string }) {
       )}
     </>
   )
+}
+
+/** Text with math: $…$ segments and stray symbols (→, α, x₁, Wᵀ, …) are rendered by KaTeX; cross-references become links. */
+export function Rich({ text }: { text: string }) {
+  if (!text.includes('](')) return <Segments text={text} />
+  const out = []
+  let last = 0
+  for (const m of text.matchAll(XREF)) {
+    if (m.index! > last) out.push(<Segments key={`t${last}`} text={text.slice(last, m.index)} />)
+    out.push(<a key={`a${m.index}`} className="xref" href={`#/ai/${m[2]}/${m[3]}`}><Segments text={m[1]} /></a>)
+    last = m.index! + m[0].length
+  }
+  if (last < text.length) out.push(<Segments key={`t${last}`} text={text.slice(last)} />)
+  return <>{out}</>
 }

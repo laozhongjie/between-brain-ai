@@ -1,6 +1,6 @@
 import type { Bi } from '../../../data/types'
 import { C, Svg, T } from '../kit'
-import { Flow, Gap, Mod, Num, Store, Var } from '../grammar'
+import { Flow, Gap, Mod, Num, Region, Store, Var } from '../grammar'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -9,9 +9,10 @@ const b = (zh: string, en: string): Bi => ({ zh, en })
 function HippocampusArch({ t }: FigProps) {
   const id = 'f12b'
   return (
-    <Svg id={id} w={380} h={290} label={t(b('海马情景记忆系统的结构与信息流', 'Structure and information flow of the hippocampal episodic memory system'))}>
-      <Mod x={14} y={14} w={352} h={42} side="bio" label={t(b('新皮层', 'Neocortex'))} sub={t(b('物体、人物、地点等内容分布在各皮层区', 'objects, people and places, spread across cortical areas'))} />
+    <Svg id={id} w={380} h={290} label={t(b('海马情景记忆系统的结构与信息流：新皮层、内嗅皮层，以及海马中的齿状回、CA3、CA1', 'Hippocampal episodic memory: neocortex, entorhinal cortex, and the dentate gyrus, CA3 and CA1 inside the hippocampus'))}>
+      <Mod x={14} y={14} w={352} h={42} side="bio" label={t(b('新皮层', 'Neocortex'))} sub={t(b('感觉皮层与联合皮层', 'sensory and association cortex'))} />
       <Mod x={110} y={92} w={160} h={34} side="bio" label={t(b('内嗅皮层', 'Entorhinal cortex'))} />
+      <Region x={6} y={150} w={368} h={84} side="bio" label={t(b('海马', 'Hippocampus'))} />
       <Mod x={14} y={168} w={104} h={42} side="bio" label={t(b('齿状回', 'Dentate gyrus'))} sub={t(b('模式分离', 'pattern separation'))} />
       <Store x={142} y={158} w={96} h={64} side="bio" label="CA3" sub={t(b('联想存储', 'associative store'))} />
       <Mod x={262} y={168} w={104} h={42} side="bio" label="CA1" sub={t(b('比较与输出', 'compare and output'))} />
@@ -27,7 +28,7 @@ function HippocampusArch({ t }: FigProps) {
       <Flow id={id} side="bio" pts={[[314, 168], [314, 109], [270, 109]]} />
       <Flow id={id} side="bio" kind="fb" pts={[[190, 253], [190, 222]]} label={t(b('增强写入', 'boost writing'))} lx={-34} ly={0} />
       <Num x={122} y={74} n={1} side="bio" />
-      <Num x={14} y={168} n={2} side="bio" />
+      <Num x={118} y={168} n={2} side="bio" />
       <Num x={142} y={162} n={3} side="bio" />
       <Num x={250} y={206} n={4} side="bio" />
       <Num x={330} y={138} n={5} side="bio" />

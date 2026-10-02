@@ -121,6 +121,14 @@ describe('AI correspondence content', () => {
     for (const id of Object.keys(TOPIC_FIGS)) expect(TOPIC_CONTENT[id], id).toBeDefined()
   })
 
+  it('every cross-reference in the content points to an existing page', () => {
+    const text = JSON.stringify([CARDS, TOPIC_CONTENT, MODULES])
+    for (const m of text.matchAll(/\]\((card|topic):([a-z0-9-]+)\)/g)) {
+      if (m[1] === 'card') expect(CARD_BY_ID[m[2]], m[0]).toBeDefined()
+      else expect(TOPIC_CONTENT[m[2]], m[0]).toBeDefined()
+    }
+  })
+
   it('blueprint cells do not overlap', () => {
     const cells = MODULES.map((m) => m.pos.join(','))
     expect(new Set(cells).size).toBe(cells.length)

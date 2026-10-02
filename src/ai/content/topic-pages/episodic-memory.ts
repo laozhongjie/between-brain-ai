@@ -55,18 +55,21 @@ export const EPISODIC_MEMORY: TopicContent = {
   archSteps: {
     biological: [
       {
-        title: b('新皮层到内嗅皮层：内容变成放电模式', 'Neocortex to entorhinal cortex: content becomes a firing pattern'),
+        title: b('新皮层把感知到的信息传给内嗅皮层', 'The neocortex passes what is perceived to the entorhinal cortex'),
         points: [
-          b('看到、听到的内容先在感觉皮层和联合皮层处理，再汇聚到内嗅皮层。', 'What is seen and heard is processed in sensory and association cortex, then converges on the entorhinal cortex.'),
-          b('内嗅皮层分两路：内侧部分的网格细胞编码「在哪里」，外侧部分编码「是什么」，即物体和事件内容。', 'The entorhinal cortex has two streams. Grid cells in the medial part code where. The lateral part codes what, meaning objects and event content.'),
-          b('传进海马的不是图像或文字，而是大量神经元在同一时刻「谁在放电、谁不放电」的组合，可以看成一个很长的 0/1 向量。', 'What enters the hippocampus is not an image or text. It is the pattern of which neurons fire at one moment, a long vector of ones and zeros.'),
+          b('新皮层是大脑表面的一层皮层，包括分别处理视觉、听觉等单一感觉的感觉皮层，以及把多种信息整合起来的联合皮层。', 'The neocortex is the outer layer of the brain. It includes sensory cortex, which handles single senses such as vision and hearing, and association cortex, which combines them.'),
+          b('信息在大脑中的物理形式是神经元发出的电脉冲（动作电位）。眼睛和耳朵的感受器把光和声音转成电信号，送到感觉皮层。', 'In the brain, information takes the physical form of electrical pulses fired by neurons (action potentials). Receptors in the eye and ear turn light and sound into electrical signals and send them to sensory cortex.'),
+          b('每个神经元只对特定特征放电：低级区域的神经元对某个方向的线条、某个音高放电，高级区域的神经元对面孔、物体或地点放电。', 'Each neuron fires for particular features. In early areas a neuron responds to a line at one angle or to one pitch. In higher areas neurons respond to faces, objects or places.'),
+          b('因此「看到一只杯子」在新皮层里就是：一大群神经元中，哪些在放电、每个放电多快。这样一组放电称为放电模式，可以看成一个很长的数字向量，每个数字是一个神经元的放电频率。RAG 中的嵌入向量，扮演的正是类似的角色。', 'So seeing a cup is, in the neocortex, which neurons in a large population fire and how fast each fires. Such a set of firing is called a firing pattern. It can be read as a long vector of numbers, one firing rate per neuron, which is the role the embedding vector plays in RAG.'),
+          b('这些放电沿轴突汇聚到内嗅皮层。内嗅皮层分两路：内侧部分的网格细胞编码「在哪里」，外侧部分编码「是什么」，即物体和事件。', 'This firing converges along axons on the entorhinal cortex, which has two streams. Grid cells in the medial part code where. The lateral part codes what, meaning objects and events.'),
+          b('内嗅皮层再经穿通通路把放电模式送入海马，即图中框内的齿状回、CA3 和 CA1。', 'The entorhinal cortex then sends the pattern through the perforant path into the hippocampus, the dentate gyrus, CA3 and CA1 inside the frame in the figure.'),
         ],
       },
       {
         title: b('齿状回：把相似的输入分开', 'Dentate gyrus: pulling similar inputs apart'),
         points: [
           b('齿状回颗粒细胞的数量远多于输入它的内嗅皮层细胞，而且任一时刻只有很小比例的颗粒细胞放电（稀疏编码）。', 'Dentate granule cells far outnumber their entorhinal inputs, and only a small fraction of them fire at any moment (sparse coding).'),
-          b('输入被映射到更多、更稀疏的单元后，两段相似经历的表征几乎不再重叠，这就是模式分离（见机制 M08 扩展编码）。', 'Mapping the input onto more, sparser units leaves two similar episodes with barely overlapping representations. This is pattern separation (see mechanism M08, expansion coding).'),
+          b('输入被映射到更多、更稀疏的单元后，两段相似经历的表征几乎不再重叠，这就是模式分离，原理见机制条目[扩展编码](card:expansion)。', 'Mapping the input onto more, sparser units leaves two similar episodes with barely overlapping representations. This is pattern separation. The principle is in the mechanism entry [expansion coding](card:expansion).'),
           b('颗粒细胞经苔藓纤维投射到 CA3。单个苔藓纤维突触很强，少数几个就能让 CA3 细胞放电，相当于把这个稀疏模式「强制写入」CA3。', 'Granule cells project to CA3 through mossy fibers. A single mossy fiber synapse is strong, and a few of them can make a CA3 cell fire. In effect they force the sparse pattern onto CA3.'),
         ],
       },
@@ -84,7 +87,7 @@ export const EPISODIC_MEMORY: TopicContent = {
         title: b('读出：部分线索补全整段经历', 'Reading out: a partial cue completes the episode'),
         points: [
           b('回忆时，线索（例如一个地点）只激活这群细胞中的一部分。', 'At recall, a cue such as a place activates only part of that group of cells.'),
-          b('被加强的循环连接把兴奋传给同一群里的其他细胞，几轮之后整群细胞都被激活，原来的模式被补全，这就是模式补全（见机制 M07 吸引子）。', 'The strengthened recurrent connections pass excitation to the rest of the group. After a few rounds the whole group is active and the original pattern is complete. This is pattern completion (see mechanism M07, attractors).'),
+          b('被加强的循环连接把兴奋传给同一群里的其他细胞，几轮之后整群细胞都被激活，原来的模式被补全，这就是模式补全，原理见机制条目[吸引子网络](card:attractors)。', 'The strengthened recurrent connections pass excitation to the rest of the group. After a few rounds the whole group is active and the original pattern is complete. This is pattern completion. The principle is in the mechanism entry [attractor networks](card:attractors).'),
         ],
       },
       {

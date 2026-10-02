@@ -45,10 +45,12 @@ function FormulaCard({ f, side }: { f: TopicFormula; side: 'bio' | 'comp' }) {
     <article className={`formula-card ${side}`}>
       <h4><Rich text={t(f.title)} /></h4>
       <div className="formula"><Tex tex={f.tex} /></div>
-      <h5>{t(UI.mathSymbols)}</h5>
-      <dl className="symbols">
-        {f.symbols.map((s, i) => <div key={i}><dt><Rich text={`$${s.tex}$`} /></dt><dd><Rich text={t(s.meaning)} /></dd></div>)}
-      </dl>
+      <table className="symbols">
+        <thead><tr><th scope="col">{t(UI.mathSymbols)}</th><th scope="col">{t(UI.mathMeaning)}</th></tr></thead>
+        <tbody>
+          {f.symbols.map((s, i) => <tr key={i}><td><Rich text={`$${s.tex}$`} /></td><td><Rich text={t(s.meaning)} /></td></tr>)}
+        </tbody>
+      </table>
       <h5>{t(UI.mathSteps)}</h5>
       <ol>{f.steps.map((s, i) => <li key={i}><Rich text={t(s)} /></li>)}</ol>
       {f.example && (
@@ -57,10 +59,16 @@ function FormulaCard({ f, side }: { f: TopicFormula; side: 'bio' | 'comp' }) {
           <p className="example"><Rich text={t(f.example)} /></p>
         </>
       )}
-      <h5>{t(UI.mathConsequences)}</h5>
-      <ul>{f.consequences.map((s, i) => <li key={i}><Rich text={t(s)} /></li>)}</ul>
-      <h5>{t(UI.mathLimitations)}</h5>
-      <ul>{f.limitations.map((s, i) => <li key={i}><Rich text={t(s)} /></li>)}</ul>
+      <div className="formula-outcomes">
+        <div>
+          <h5>{t(UI.mathConsequences)}</h5>
+          <ul>{f.consequences.map((s, i) => <li key={i}><Rich text={t(s)} /></li>)}</ul>
+        </div>
+        <div>
+          <h5>{t(UI.mathLimitations)}</h5>
+          <ul>{f.limitations.map((s, i) => <li key={i}><Rich text={t(s)} /></li>)}</ul>
+        </div>
+      </div>
     </article>
   )
 }
