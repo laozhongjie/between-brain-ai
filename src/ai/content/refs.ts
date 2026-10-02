@@ -198,6 +198,19 @@ export const REFS: Ref[] = [
   { id: 'olsson2022', authors: 'Olsson, C. et al.', year: 2022, title: 'In-context learning and induction heads', venue: 'arXiv', url: arxiv('2209.11895') },
   { id: 'chan2022', authors: 'Chan, S. C. Y. et al.', year: 2022, title: 'Data distributional properties drive emergent in-context learning in transformers', venue: 'arXiv (NeurIPS 2022)', url: arxiv('2205.05055') },
   { id: 'vonoswald2022', authors: 'von Oswald, J. et al.', year: 2022, title: 'Transformers learn in-context by gradient descent', venue: 'arXiv (ICML 2023)', url: arxiv('2212.07677') },
+  // ── F09 Continual learning ──
+  { id: 'wixted2004', authors: 'Wixted, J. T.', year: 2004, title: 'The psychology and neuroscience of forgetting', venue: 'Annual Review of Psychology 55, 235–269', url: doi('10.1146/annurev.psych.55.090902.141555') },
+  { id: 'yang2009', authors: 'Yang, G., Pan, F. & Gan, W.-B.', year: 2009, title: 'Stably maintained dendritic spines are associated with lifelong memories', venue: 'Nature 462(7275), 920–924', url: doi('10.1038/nature08577') },
+  { id: 'tse2007', authors: 'Tse, D. et al.', year: 2007, title: 'Schemas and memory consolidation', venue: 'Science 316(5821), 76–82', url: doi('10.1126/science.1135935') },
+  { id: 'mccloskey1989', authors: 'McCloskey, M. & Cohen, N. J.', year: 1989, title: 'Catastrophic interference in connectionist networks: the sequential learning problem', venue: 'Psychology of Learning and Motivation 24, 109–165', url: doi('10.1016/S0079-7421(08)60536-8') },
+  { id: 'french1999', authors: 'French, R. M.', year: 1999, title: 'Catastrophic forgetting in connectionist networks', venue: 'Trends in Cognitive Sciences 3(4), 128–135', url: doi('10.1016/S1364-6613(99)01294-2') },
+  { id: 'rolnick2018', authors: 'Rolnick, D., Ahuja, A., Schwarz, J., Lillicrap, T. P. & Wayne, G.', year: 2018, title: 'Experience replay for continual learning', venue: 'arXiv (NeurIPS 2019)', url: arxiv('1811.11682') },
+  { id: 'vitter1985', authors: 'Vitter, J. S.', year: 1985, title: 'Random sampling with a reservoir', venue: 'ACM Transactions on Mathematical Software 11(1), 37–57', url: doi('10.1145/3147.3165') },
+  { id: 'rusu2016', authors: 'Rusu, A. A. et al.', year: 2016, title: 'Progressive neural networks', venue: 'arXiv', url: arxiv('1606.04671') },
+  { id: 'hu2021', authors: 'Hu, E. J. et al.', year: 2021, title: 'LoRA: low-rank adaptation of large language models', venue: 'arXiv (ICLR 2022)', url: arxiv('2106.09685') },
+  { id: 'dohare2024', authors: 'Dohare, S. et al.', year: 2024, title: 'Loss of plasticity in deep continual learning', venue: 'Nature 632(8026), 768–774', url: doi('10.1038/s41586-024-07711-7') },
+  { id: 'parisi2018', authors: 'Parisi, G. I., Kemker, R., Part, J. L., Kanan, C. & Wermter, S.', year: 2018, title: 'Continual lifelong learning with neural networks: a review', venue: 'arXiv (Neural Networks 113, 2019)', url: arxiv('1802.07569') },
+  { id: 'wang2024cl', authors: 'Wang, L., Zhang, X., Su, H. & Zhu, J.', year: 2024, title: 'A comprehensive survey of continual learning: theory, method and application', venue: 'IEEE Transactions on Pattern Analysis and Machine Intelligence 46(8), 5362–5383', url: doi('10.1109/TPAMI.2024.3367329') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

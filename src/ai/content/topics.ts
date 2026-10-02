@@ -25,7 +25,7 @@ export const TOPICS: Topic[] = [
     systems: sys(b('前额叶的元强化学习', 'Prefrontal meta-reinforcement learning'), b('上下文学习与元学习', 'In-context and meta-learning')),
     mechanisms: ['M02'] },
   { id: 'continual-learning', code: 'F09', name: b('持续学习、干扰与可塑性', 'Continual learning, interference and plasticity'),
-    systems: sys(b('突触巩固与互补学习系统', 'Synaptic consolidation and complementary learning systems'), b('回放、正则化与参数隔离方法', 'Replay, regularization and parameter isolation methods')),
+    systems: sys(b('突触巩固与互补学习', 'Consolidation and complementary learning'), b('回放、正则与参数隔离', 'Replay, regularization and isolation')),
     mechanisms: ['M03', 'M09'] },
 
   // D3 Memory & knowledge
