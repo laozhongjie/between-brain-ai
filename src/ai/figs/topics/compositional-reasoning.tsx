@@ -38,7 +38,7 @@ function MlcArch({ t }: FigProps) {
   const id = 'f19c'
   return (
     <Svg id={id} w={380} h={282} label={t(b('MLC 与大语言模型的结构与信息流：示例与查询、词元嵌入、注意力、元训练、输出', 'MLC and LLMs: examples and query, token embeddings, attention, meta-training, output'))}>
-      <Mod x={14} y={14} w={236} h={40} side="comp" label={t(b('示例与查询', 'Examples and query'))} sub={t(b('几条指令与输出的例子，加一条新指令', 'a few instruction and output examples, then a new one'))} size={10.5} />
+      <Mod x={14} y={14} w={236} h={40} side="comp" label={t(b('示例与查询', 'Examples and query'))} sub={t(b('几条指令与输出的例子，加一条新指令', 'example instructions and outputs, then a new one'))} size={10.5} />
       <Mod x={14} y={74} w={236} h={40} side="comp" label={t(b('词元嵌入', 'Token embeddings'))} sub={t(b('人造词的向量不带固定含义', 'made-up words carry no fixed meaning'))} size={10.5} />
       <Region x={6} y={134} w={252} h={74} side="comp" label="Transformer" />
       <Mod x={18} y={156} w={228} h={40} side="comp" label={t(b('注意力找出含义', 'Attention finds the meaning'))} sub={t(b('新指令中的词对上例子中的同一个词', 'links a word to the same word in the examples'))} size={10.5} />

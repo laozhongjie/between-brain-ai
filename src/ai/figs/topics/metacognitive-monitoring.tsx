@@ -38,7 +38,7 @@ function CalibrationArch({ t }: FigProps) {
       <Mod x={30} y={14} w={336} h={34} side="comp" label={t(b('语言模型', 'Language model'))} sub={t(b('生成回答', 'generates an answer'))} size={10.5} />
       <Mod x={30} y={70} w={154} h={40} side="comp" label={t(b('输出概率', 'Output probabilities'))} sub={t(b('最高概率当作置信度', 'top probability as confidence'))} size={10.5} />
       <Mod x={196} y={70} w={150} h={40} side="comp" label={t(b('口头表达信心', 'Stated confidence'))} sub={t(b('生成的文字，不等于概率', 'generated text, not the probability'))} size={10} />
-      <Mod x={30} y={142} w={154} h={40} side="comp" label={t(b('事后校准', 'Post-hoc calibration'))} sub={t(b('在验证集上调温度', 'temperature tuned on held-out data'))} size={10.5} />
+      <Mod x={30} y={142} w={154} h={40} side="comp" label={t(b('事后校准', 'Post-hoc calibration'))} sub={t(b('在验证集上调温度', 'temperature set on held-out data'))} size={10.5} />
       <Mod x={196} y={142} w={170} h={40} side="comp" label={t(b('自我评估', 'Self-evaluation'))} sub={t(b('判断自己的答案对不对', 'judges its own answer'))} size={10.5} />
       <Mod x={30} y={208} w={154} h={40} side="comp" label={t(b('后训练', 'Post-training'))} sub={t(b('回答更确定，校准变差', 'more certain, worse calibrated'))} size={10.5} />
       <Gap x={196} y={208} w={170} h={40} label={t(b('对推理过程本身的\n独立监测', 'Independent monitoring\nof the reasoning itself'))} />

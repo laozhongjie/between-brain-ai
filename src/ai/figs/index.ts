@@ -3,7 +3,11 @@ import { LAYER2_FIGS } from './layer2'
 import { LAYER3_FIGS } from './layer3'
 import { LAYER4_FIGS } from './layer4'
 import { EPISODIC_FIGS } from './topics/episodic-memory'
-import { INTEROCEPTION_FIGS, LANGUAGE_FIGS } from './topics/legacy-only'
+import { INTEROCEPTION_FIGS } from './topics/interoception'
+import { LANGUAGE_FIGS } from './topics/language'
+import { SOCIAL_FIGS } from './topics/social-inference'
+import { INNATE_FIGS } from './topics/innate-constraints'
+import { DEVELOPMENT_FIGS } from './topics/developmental-stages'
 import { MOTOR_FIGS } from './topics/motor-control'
 import { SKILL_FIGS } from './topics/skill-learning'
 import { REWARD_FIGS } from './topics/reward-learning'
@@ -53,4 +57,7 @@ export const TOPIC_FIGS: Record<string, TopicFigs> = {
   'emotion-regulation': EMOTION_REG_FIGS,
   'interoception': INTEROCEPTION_FIGS,
   'language': LANGUAGE_FIGS,
+  'social-inference': SOCIAL_FIGS,
+  'innate-constraints': INNATE_FIGS,
+  'developmental-stages': DEVELOPMENT_FIGS,
 }

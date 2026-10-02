@@ -14,7 +14,7 @@ function SkillBrainArch({ t }: FigProps) {
       <Mod x={14} y={14} w={160} h={40} side="bio" label={t(b('前额叶与背内侧纹状体', 'Prefrontal, DM striatum'))} sub={t(b('早期：目标导向，慢而多变', 'early: goal-directed, slow'))} size={10} />
       <Mod x={206} y={14} w={160} h={40} side="bio" label={t(b('背外侧纹状体', 'Dorsolateral striatum'))} sub={t(b('后期：自动化与组块', 'late: automatic, chunked'))} size={10.5} />
       <Mod x={14} y={92} w={352} h={40} side="bio" label={t(b('运动皮层', 'Motor cortex'))} sub={t(b('数周练习后，相关区域扩大，形成新连接', 'weeks of practice enlarge the area and add connections'))} size={10.5} />
-      <Mod x={14} y={166} w={170} h={40} side="bio" label={t(b('多巴胺', 'Dopamine'))} sub={t(b('结果更好时强化刚才的动作', 'reinforces better-than-expected moves'))} size={10.5} />
+      <Mod x={14} y={166} w={170} h={40} side="bio" label={t(b('多巴胺', 'Dopamine'))} sub={t(b('结果更好时强化刚才的动作', 'reinforces moves that did better'))} size={10.5} />
       <Mod x={196} y={166} w={170} h={40} side="bio" label={t(b('小脑', 'Cerebellum'))} sub={t(b('按误差调整时序与协调', 'tunes timing from errors'))} size={10.5} />
       <Mod x={14} y={234} w={352} h={40} side="bio" label={t(b('睡眠', 'Sleep'))} sub={t(b('练习后的一夜提高速度和准确性', 'a night after practice adds speed and accuracy'))} size={10.5} />
 

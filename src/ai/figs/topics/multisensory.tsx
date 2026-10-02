@@ -50,7 +50,7 @@ function MultimodalModelArch({ t }: FigProps) {
       <Mod x={136} y={14} w={108} h={30} side="comp" label={t(b('声音', 'Audio'))} size={10.5} />
       <Mod x={258} y={14} w={108} h={30} side="comp" label={t(b('文字', 'Text'))} size={10.5} />
       <Mod x={14} y={70} w={108} h={36} side="comp" label={t(b('图像编码器', 'Image encoder'))} sub="ViT" size={10.5} />
-      <Mod x={136} y={70} w={108} h={36} side="comp" label={t(b('音频编码器', 'Audio encoder'))} sub={t(b('频谱 Transformer', 'spectrogram transformer'))} size={10.5} />
+      <Mod x={136} y={70} w={108} h={36} side="comp" label={t(b('音频编码器', 'Audio encoder'))} sub={t(b('频谱 Transformer', 'spectrogram model'))} size={10.5} />
       <Mod x={258} y={70} w={108} h={36} side="comp" label={t(b('文本编码器', 'Text encoder'))} sub="Transformer" size={10.5} />
       <Mod x={14} y={132} w={352} h={34} side="comp" label={t(b('投影到共享空间', 'Projection into a shared space'))} sub={t(b('长度为 1 的向量，可用点积比较', 'unit vectors, compared by dot product'))} />
       <Mod x={14} y={190} w={170} h={38} side="comp" label={t(b('对比对齐', 'Contrastive alignment'))} sub={t(b('训练时配对拉近', 'pairs pulled together in training'))} size={10.5} />
