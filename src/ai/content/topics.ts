@@ -36,7 +36,7 @@ export const TOPICS: Topic[] = [
     systems: sys(b('海马情景记忆系统', 'Hippocampal episodic memory'), b('RAG 与外部记忆', 'RAG and external memory')),
     legacy: 'sys-memory', tour: 'memory', mechanisms: ['M07', 'M08'] },
   { id: 'consolidation-replay', code: 'F15', name: b('巩固、回放与遗忘', 'Consolidation, replay and forgetting'),
-    systems: sys(b('睡眠回放与系统巩固', 'Sleep replay and systems consolidation'), b('经验回放与模型更新', 'Experience replay and model updating')),
+    systems: sys(b('睡眠回放与系统巩固', 'Sleep replay and consolidation'), b('经验回放与模型更新', 'Experience replay and updating')),
     mechanisms: ['M03'] },
   { id: 'cognitive-maps', code: 'F16', name: b('认知地图与关系记忆', 'Cognitive maps and relational memory'),
     systems: sys(b('海马与内嗅皮层的认知地图', 'Hippocampal and entorhinal cognitive maps'), b('TEM 与 Transformer 的关系表示', 'Relational representations in TEM and transformers')),

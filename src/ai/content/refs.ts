@@ -225,6 +225,17 @@ export const REFS: Ref[] = [
   { id: 'hochreiter1997', authors: 'Hochreiter, S. & Schmidhuber, J.', year: 1997, title: 'Long short-term memory', venue: 'Neural Computation 9(8), 1735–1780', url: doi('10.1162/neco.1997.9.8.1735') },
   { id: 'shi2023', authors: 'Shi, F. et al.', year: 2023, title: 'Large language models can be easily distracted by irrelevant context', venue: 'arXiv (ICML 2023)', url: arxiv('2302.00093') },
   { id: 'kim2023', authors: 'Kim, N. & Schuster, S.', year: 2023, title: 'Entity tracking in language models', venue: 'arXiv (ACL 2023)', url: arxiv('2305.02363') },
+  // ── F15 Consolidation, replay and forgetting ──
+  { id: 'buzsaki2015', authors: 'Buzsáki, G.', year: 2015, title: 'Hippocampal sharp wave-ripple: a cognitive biomarker for episodic memory and planning', venue: 'Hippocampus 25(10), 1073–1188', url: doi('10.1002/hipo.22488') },
+  { id: 'latchoumane2017', authors: 'Latchoumane, C.-F. V., Ngo, H.-V. V., Born, J. & Shin, H.-S.', year: 2017, title: 'Thalamic spindles promote memory formation during sleep through triple phase-locking of cortical, thalamic, and hippocampal rhythms', venue: 'Neuron 95(2), 424–435', url: doi('10.1016/j.neuron.2017.06.025') },
+  { id: 'ambrose2016', authors: 'Ambrose, R. E., Pfeiffer, B. E. & Foster, D. J.', year: 2016, title: 'Reverse replay of hippocampal place cells is uniquely modulated by changing reward', venue: 'Neuron 91(5), 1124–1136', url: doi('10.1016/j.neuron.2016.07.047') },
+  { id: 'diekelmann2010', authors: 'Diekelmann, S. & Born, J.', year: 2010, title: 'The memory function of sleep', venue: 'Nature Reviews Neuroscience 11(2), 114–126', url: doi('10.1038/nrn2762') },
+  { id: 'wagner2004', authors: 'Wagner, U., Gais, S., Haider, H., Verleger, R. & Born, J.', year: 2004, title: 'Sleep inspires insight', venue: 'Nature 427(6972), 352–355', url: doi('10.1038/nature02223') },
+  { id: 'davis2017', authors: 'Davis, R. L. & Zhong, Y.', year: 2017, title: 'The biology of forgetting: a perspective', venue: 'Neuron 95(3), 490–503', url: doi('10.1016/j.neuron.2017.05.039') },
+  { id: 'mattar2018', authors: 'Mattar, M. G. & Daw, N. D.', year: 2018, title: 'Prioritized memory access explains planning and hippocampal replay', venue: 'Nature Neuroscience 21(11), 1609–1617', url: doi('10.1038/s41593-018-0232-z') },
+  { id: 'lin1992', authors: 'Lin, L.-J.', year: 1992, title: 'Self-improving reactive agents based on reinforcement learning, planning and teaching', venue: 'Machine Learning 8(3–4), 293–321', url: doi('10.1007/BF00992699') },
+  { id: 'schaul2015', authors: 'Schaul, T., Quan, J., Antonoglou, I. & Silver, D.', year: 2015, title: 'Prioritized experience replay', venue: 'arXiv (ICLR 2016)', url: arxiv('1511.05952') },
+  { id: 'bourtoule2019', authors: 'Bourtoule, L. et al.', year: 2019, title: 'Machine unlearning', venue: 'arXiv (IEEE S&P 2021)', url: arxiv('1912.03817') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))
