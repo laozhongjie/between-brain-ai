@@ -57,3 +57,10 @@ export const EMOTION_REG_FIGS: TopicFigs = {
     },
   },
 }
+
+export const INTEROCEPTION_FIGS: TopicFigs = {
+  math: {
+    bio: { 0: legacyFig('sys-homeostasis', 'brain') },
+    comp: { 0: legacyFig('sys-homeostasis', 'ai') },
+  },
+}

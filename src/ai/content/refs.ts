@@ -372,6 +372,14 @@ export const REFS: Ref[] = [
   { id: 'moerland2018', authors: 'Moerland, T. M., Broekens, J. & Jonker, C. M.', year: 2018, title: 'Emotion in reinforcement learning agents and robots: a survey', venue: 'Machine Learning 107(2), 443–480', url: doi('10.1007/s10994-017-5666-0') },
   { id: 'codaforno2023', authors: 'Coda-Forno, J. et al.', year: 2023, title: 'Inducing anxiety in large language models can induce bias', venue: 'arXiv', url: arxiv('2304.11111') },
   { id: 'tamar2015', authors: 'Tamar, A., Glassner, Y. & Mannor, S.', year: 2014, title: 'Optimizing the CVaR via sampling', venue: 'arXiv (AAAI 2015)', url: arxiv('1404.3862') },
+  // ── F34 Interoception ──
+  { id: 'sterling2012', authors: 'Sterling, P.', year: 2012, title: 'Allostasis: a model of predictive regulation', venue: 'Physiology & Behavior 106(1), 5–15', url: doi('10.1016/j.physbeh.2011.06.004') },
+  { id: 'betley2015', authors: 'Betley, J. N. et al.', year: 2015, title: 'Neurons for hunger and thirst transmit a negative-valence teaching signal', venue: 'Nature 521(7551), 180–185', url: doi('10.1038/nature14416') },
+  { id: 'chen2015', authors: 'Chen, Y., Lin, Y.-C., Kuo, T.-W. & Knight, Z. A.', year: 2015, title: 'Sensory detection of food rapidly modulates arcuate feeding circuits', venue: 'Cell 160(5), 829–841', url: doi('10.1016/j.cell.2015.01.033') },
+  { id: 'barrett2015', authors: 'Barrett, L. F. & Simmons, W. K.', year: 2015, title: 'Interoceptive predictions in the brain', venue: 'Nature Reviews Neuroscience 16(7), 419–429', url: doi('10.1038/nrn3950') },
+  { id: 'garfinkel2015', authors: 'Garfinkel, S. N., Seth, A. K., Barrett, A. B., Suzuki, K. & Critchley, H. D.', year: 2015, title: 'Knowing your own heart: distinguishing interoceptive accuracy from interoceptive awareness', venue: 'Biological Psychology 104, 65–74', url: doi('10.1016/j.biopsycho.2014.11.004') },
+  { id: 'man2019', authors: 'Man, K. & Damasio, A.', year: 2019, title: 'Homeostasis and soft robotics in the design of feeling machines', venue: 'Nature Machine Intelligence 1(10), 446–452', url: doi('10.1038/s42256-019-0103-7') },
+  { id: 'yoshida2024', authors: 'Yoshida, N., Daikoku, T., Nagai, Y. & Kuniyoshi, Y.', year: 2024, title: 'Emergence of integrated behaviors through direct optimization for homeostasis', venue: 'Neural Networks 177, 106379', url: doi('10.1016/j.neunet.2024.106379') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

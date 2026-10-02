@@ -40,7 +40,7 @@ export const REWARD_LEARNING: TopicContent = {
       lead: 'bio',
       dimension: b('价值随身体状态改变', 'Value changing with bodily state'),
       brain: b('吃饱后，同一种食物的价值立刻下降，动物会减少为它付出的努力。', 'After eating, the value of the same food drops at once, and animals work less for it.'),
-      ai: b('奖励函数通常固定；要让价值随内部状态变化，需要专门设计。', 'Reward functions are usually fixed, and making value depend on internal states needs special design.'),
+      ai: b('奖励函数通常固定；要让价值随内部状态变化，需要专门设计（见[内感受与生理调节](topic:interoception)）。', 'Reward functions are usually fixed, and making value depend on internal states needs special design (see [interoception and physiological regulation](topic:interoception)).'),
       gap: b('生物的价值是相对于身体需要的，AI 的奖励通常是绝对的外部设定。', 'Biological value is relative to bodily needs, while AI reward is usually an absolute external setting.'),
     },
     {

@@ -83,7 +83,7 @@ export const TOPICS: Topic[] = [
     systems: sys(b('杏仁核与前额叶调节', 'Amygdala and prefrontal regulation'), b('功能性情绪模型', 'Functional emotion models')),
     legacy: 'sys-fear', tour: 'fear', mechanisms: [] },
   { id: 'interoception', code: 'F34', name: b('内感受与生理调节', 'Interoception and physiological regulation'),
-    systems: sys(b('下丘脑与岛叶的内感受调节', 'Hypothalamic and insular interoceptive regulation'), b('稳态强化学习与机器人资源管理', 'Homeostatic reinforcement learning and robot resource management')),
+    systems: sys(b('下丘脑与岛叶的调节', 'Hypothalamic and insular regulation'), b('稳态强化学习与资源管理', 'Homeostatic RL and resource management')),
     legacy: 'sys-homeostasis', tour: 'homeostasis', mechanisms: [] },
 
   // D8 Language & social cognition
