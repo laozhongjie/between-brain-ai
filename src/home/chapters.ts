@@ -46,8 +46,8 @@ export const CHAPTERS: Chapter[] = [
   {
     tag: 'BRAIN SYSTEM ↔ ARCHITECTURE',
     title: b('在脑功能系统与 AI 架构之间', 'between brain systems and AI architectures'),
-    brain: b('视觉、记忆、奖赏等系统通过相互连接的回路协同工作。', 'Visual, memory, and reward systems work together through interconnected circuits.'),
-    ai: b('编码器、记忆模块与策略模块协同支持感知和决策。', 'Encoders, memory modules, and policies work together to support perception and decisions.'),
+    brain: b('视觉、记忆、奖赏等系统通过相互连接的回路共同工作。', 'Visual, memory and reward systems work together through interconnected circuits.'),
+    ai: b('编码器、记忆模块与策略模块共同支持感知和决策。', 'Encoders, memory modules and policies work together to support perception and decisions.'),
     dist: 6.0,
     systems: true,
   },

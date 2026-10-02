@@ -31,8 +31,8 @@ export const REGIONS: RegionInfo[] = [
      l('caudalmiddlefrontal', '运动准备（前运动皮层）', 'Movement preparation (premotor)'),
      l('postcentral', '躯体感觉反馈', 'Somatosensory feedback'),
      l('thalamus', '经小脑、基底节调节后的运动信号', 'Motor signals tuned by cerebellum & basal ganglia')],
-    [l('spinalcord', '皮质脊髓束 → 四肢躯干肌肉', 'Corticospinal tract → limb & trunk muscles'),
-     l('brainstem', '皮质延髓束 → 面、舌、喉肌；经脑桥送往小脑', 'Corticobulbar tract → face, tongue, larynx; via pons to cerebellum'),
+    [l('spinalcord', '皮质脊髓束到四肢和躯干肌肉', 'Corticospinal tract to limb and trunk muscles'),
+     l('brainstem', '皮质延髓束到面、舌、喉肌；经脑桥送往小脑', 'Corticobulbar tract to face, tongue and larynx, and via pons to cerebellum'),
      l('putamen', '运动指令副本，用于动作选择', 'Efference copy for action selection')]),
 
   r('superiorfrontal', b('额上回 · 辅助运动区', 'Superior frontal gyrus · Supplementary motor area'), 'SMA', 'motor', 'frontal',
@@ -52,7 +52,7 @@ export const REGIONS: RegionInfo[] = [
      l('lateraloccipital', '视觉物体信息', 'Visual object information'),
      l('rostralmiddlefrontal', '任务规则', 'Task rules')],
     [l('precentral', '运动准备', 'Movement preparation'),
-     l('brainstem', '上丘 → 眼球运动', 'Superior colliculus → eye movements'),
+     l('brainstem', '上丘控制眼球运动', 'Superior colliculus drives eye movements'),
      l('lateraloccipital', '自上而下的注意增益', 'Top-down attentional gain')]),
 
   r('rostralmiddlefrontal', b('额中回前部 · 背外侧前额叶', 'Rostral middle frontal · Dorsolateral prefrontal cortex'), 'DLPFC', 'executive', 'frontal',
@@ -158,7 +158,7 @@ export const REGIONS: RegionInfo[] = [
       'Phonological working memory (inner rehearsal), tool use, tactile recognition and empathy.'),
     [l('superiortemporal', '语音', 'Speech sounds'),
      l('postcentral', '触觉', 'Touch')],
-    [l('parsopercularis', '语音 → 发音（弓状束）', 'Sound → articulation (arcuate fasciculus)'),
+    [l('parsopercularis', '语音转为发音（弓状束）', 'Sound to articulation (arcuate fasciculus)'),
      l('caudalmiddlefrontal', '工具动作', 'Tool actions')]),
 
   r('precuneus', b('楔前叶', 'Precuneus'), undefined, 'default', 'parietal',
@@ -183,8 +183,8 @@ export const REGIONS: RegionInfo[] = [
       'Higher auditory processing: speech sounds, music and sound sources; the left posterior part is key to understanding language.'),
     [l('transversetemporal', '声音特征', 'Sound features'),
      l('inferiorparietal', '文字转来的语音', 'Sound from written words')],
-    [l('parsopercularis', '弓状束 → Broca 区', 'Arcuate fasciculus → Broca'),
-     l('middletemporal', '语音 → 词义', 'Sound → word meaning'),
+    [l('parsopercularis', '经弓状束到 Broca 区', 'Via arcuate fasciculus to Broca'),
+     l('middletemporal', '语音转为词义', 'Sound to word meaning'),
      l('amygdala', '声音的情绪意义', 'Emotional meaning of sounds')],
     b('右侧对应区主要处理语调、音乐和他人的情绪语气。', 'The right homolog specializes in prosody, music and emotional tone.')),
 
@@ -220,7 +220,7 @@ export const REGIONS: RegionInfo[] = [
      l('lingual', '颜色与细节', 'Color & detail')],
     [l('inferiortemporal', '身份信息', 'Identity'),
      l('amygdala', '面孔情绪', 'Facial emotion'),
-     l('inferiorparietal', '字形 → 阅读', 'Word forms → reading')]),
+     l('inferiorparietal', '字形转为阅读', 'Word forms into reading')]),
 
   r('temporalpole', b('颞极', 'Temporal pole'), undefined, 'memory', 'temporal',
     b('语义中枢：把「是谁/是什么」与名字、个人经历和社会知识联系起来。',
@@ -239,7 +239,7 @@ export const REGIONS: RegionInfo[] = [
      l('inferiortemporal', '物体', 'Objects'),
      l('nose', '嗅觉', 'Smell'),
      l('hippocampus', '回放的记忆', 'Replayed memories')],
-    [l('hippocampus', '穿通通路 → 记忆编码', 'Perforant path → memory encoding'),
+    [l('hippocampus', '经穿通通路输入，用于记忆编码', 'Perforant path input for memory encoding'),
      l('medialorbitofrontal', '巩固到新皮层', 'Consolidation to neocortex')]),
 
   r('parahippocampal', b('海马旁回', 'Parahippocampal gyrus'), 'PHC', 'memory', 'temporal',
@@ -281,7 +281,7 @@ export const REGIONS: RegionInfo[] = [
      l('caudalmiddlefrontal', '注意增益', 'Attentional gain')],
     [l('fusiform', '腹侧「是什么」通路', 'Ventral “what” stream'),
      l('inferiortemporal', '物体识别', 'Object recognition'),
-     l('superiorparietal', '运动信息 → 背侧通路', 'Motion → dorsal stream')]),
+     l('superiorparietal', '运动信息送往背侧通路', 'Motion to dorsal stream')]),
 
   // ───────────────────────── Cingulate / limbic cortex ─────────────────────────
   r('caudalanteriorcingulate', b('前扣带回背侧', 'Caudal (dorsal) anterior cingulate'), 'dACC', 'executive', 'limbic',
@@ -327,7 +327,7 @@ export const REGIONS: RegionInfo[] = [
      l('viscera', '内脏状态（迷走神经）', 'Visceral state (vagus)'),
      l('amygdala', '情绪', 'Emotion')],
     [l('caudalanteriorcingulate', '显著性网络：这件事重要！', 'Salience network: this matters!'),
-     l('lateralorbitofrontal', '味觉 → 价值', 'Taste → value'),
+     l('lateralorbitofrontal', '味觉转为价值判断', 'Taste to value'),
      l('amygdala', '身体感受', 'Bodily feelings'),
      l('hypothalamus', '稳态调节', 'Homeostatic control')]),
 
@@ -382,7 +382,7 @@ export const REGIONS: RegionInfo[] = [
      l('amygdala', '情绪', 'Emotion'),
      l('hippocampus', '情境', 'Context'),
      l('medialorbitofrontal', '价值', 'Value')],
-    [l('pallidum', '动机 → 动作', 'Motivation → action'),
+    [l('pallidum', '把动机转为动作', 'Motivation into action'),
      l('hypothalamus', '进食等本能行为', 'Feeding & instinctive behaviors')]),
 
   r('hippocampus', b('海马', 'Hippocampus'), undefined, 'memory', 'subcortical',
@@ -391,8 +391,8 @@ export const REGIONS: RegionInfo[] = [
     [l('entorhinal', '皮层信息（穿通通路）', 'Cortical input (perforant path)'),
      l('amygdala', '情绪强化', 'Emotional enhancement'),
      l('adrenal', '皮质醇（应激影响记忆）', 'Cortisol (stress affects memory)')],
-    [l('entorhinal', '记忆回放 → 新皮层', 'Replay → neocortex'),
-     l('hypothalamus', '穹窿 → 乳头体（Papez 环路）；抑制应激轴', 'Fornix → mammillary bodies (Papez); brakes stress axis'),
+    [l('entorhinal', '记忆回放送往新皮层', 'Replay to neocortex'),
+     l('hypothalamus', '经穹窿到乳头体（Papez 环路）；抑制应激轴', 'Via fornix to mammillary bodies (Papez), and brakes the stress axis'),
      l('accumbens', '情境信息', 'Context')]),
 
   r('amygdala', b('杏仁核', 'Amygdala'), undefined, 'emotion', 'subcortical',
@@ -404,7 +404,7 @@ export const REGIONS: RegionInfo[] = [
      l('medialorbitofrontal', '安全信号（抑制）', 'Safety signal (inhibitory)')],
     [l('hypothalamus', '应激反应（HPA 轴、交感神经）', 'Stress response (HPA axis, sympathetic)'),
      l('brainstem', '惊跳、僵住、心率加快', 'Startle, freezing, tachycardia'),
-     l('lc', '去甲肾上腺素 → 全脑警觉', 'Noradrenaline → global alertness'),
+     l('lc', '去甲肾上腺素提高全脑警觉', 'Noradrenaline raises global alertness'),
      l('hippocampus', '增强情绪记忆', 'Enhances emotional memory')]),
 
   r('ventraldc', b('腹侧间脑', 'Ventral diencephalon'), 'VDC', 'autonomic', 'subcortical',
@@ -421,8 +421,8 @@ export const REGIONS: RegionInfo[] = [
      l('insula', '身体状态', 'Bodily state'),
      l('viscera', '饱腹/饥饿信号', 'Satiety/hunger signals'),
      l('hippocampus', '应激负反馈', 'Stress negative feedback')],
-    [l('pituitary', '释放激素（CRH 等）→ 内分泌', 'Releasing hormones (CRH…) → endocrine'),
-     l('brainstem', '交感/副交感 → 心率、血压、消化', 'Sympathetic/parasympathetic → heart, BP, digestion'),
+    [l('pituitary', '释放激素（CRH 等）调控内分泌', 'Releasing hormones (CRH and others) for endocrine control'),
+     l('brainstem', '交感与副交感神经调节心率、血压和消化', 'Sympathetic and parasympathetic control of heart rate, blood pressure and digestion'),
      l('aras', '睡眠-觉醒开关', 'Sleep–wake switch')],
     b('位置为近似：fsaverage 的 aseg 中没有独立的下丘脑标签。', 'Position is approximate: fsaverage aseg has no separate hypothalamus label.')),
 
@@ -431,8 +431,8 @@ export const REGIONS: RegionInfo[] = [
       'Coordination and balance: compares intended vs actual movement and corrects errors in real time; also timing and cognition.'),
     [l('brainstem', '皮层运动计划（经脑桥）与误差信号（下橄榄）', 'Cortical motor plans (via pons) & error signals (inferior olive)'),
      l('spinalcord', '本体感觉：肢体实际位置', 'Proprioception: actual limb position')],
-    [l('thalamus', '校正后的运动信号 → 运动皮层', 'Corrected motor signals → motor cortex'),
-     l('brainstem', '前庭核/红核 → 姿势与平衡', 'Vestibular/red nuclei → posture & balance')]),
+    [l('thalamus', '校正后的运动信号送回运动皮层', 'Corrected motor signals to motor cortex'),
+     l('brainstem', '经前庭核与红核调节姿势与平衡', 'Vestibular and red nuclei for posture and balance')]),
 
   r('brainstem', b('脑干', 'Brainstem'), undefined, 'autonomic', 'brainstem',
     b('生命中枢：控制呼吸、心跳、血压；12 对脑神经大多从这里进出，是大脑与身体之间的必经通道。',
@@ -445,9 +445,9 @@ export const REGIONS: RegionInfo[] = [
      l('hypothalamus', '自主神经指令', 'Autonomic commands')],
     [l('spinalcord', '运动与自主神经下行', 'Descending motor & autonomic'),
      l('cerebellum', '运动计划副本', 'Motor plan copy'),
-     l('vpl', '感觉上行 → 丘脑', 'Ascending sensation → thalamus'),
+     l('vpl', '感觉信号上行到丘脑', 'Ascending sensation to thalamus'),
      l('heart', '迷走神经：减慢心率', 'Vagus: slows the heart'),
-     l('larynx', '脑神经 → 发声', 'Cranial nerves → speech')]),
+     l('larynx', '经脑神经控制发声', 'Cranial nerves for speech')]),
 
   // ───────────────────────── Small nuclei (markers) ─────────────────────────
   r('lgn', b('外侧膝状体', 'Lateral geniculate nucleus'), 'LGN', 'visual', 'subcortical',
@@ -476,7 +476,7 @@ export const REGIONS: RegionInfo[] = [
     [l('accumbens', '中脑边缘通路：想要', 'Mesolimbic: wanting'),
      l('medialorbitofrontal', '中脑皮层通路', 'Mesocortical'),
      l('rostralmiddlefrontal', '工作记忆调节', 'Working-memory modulation'),
-     l('hippocampus', '新奇事件更容易被记住', 'Novelty → better memory')]),
+     l('hippocampus', '新奇事件更容易被记住', 'Novelty improves memory')]),
 
   r('lc', b('蓝斑', 'Locus coeruleus'), 'LC', 'arousal', 'brainstem',
     b('全脑去甲肾上腺素的来源，像「音量旋钮」一样调节警觉、专注和应激。', 'Source of brain noradrenaline, a volume knob for alertness, focus and stress.'),
@@ -496,39 +496,39 @@ export const REGIONS: RegionInfo[] = [
   r('scn', b('视交叉上核', 'Suprachiasmatic nucleus'), 'SCN', 'autonomic', 'subcortical',
     b('人体的主生物钟，以约 24 小时为周期运转，靠清晨的光线校准。', 'The master body clock (~24 h), reset by morning light.'),
     [l('eye', '光照（视网膜-下丘脑束）', 'Light (retinohypothalamic tract)')],
-    [l('hypothalamus', '昼夜节律', 'Circadian timing'), l('pineal', '夜晚 → 褪黑素', 'Night → melatonin')]),
+    [l('hypothalamus', '昼夜节律', 'Circadian timing'), l('pineal', '夜晚分泌褪黑素', 'Melatonin at night')]),
 
   r('pineal', b('松果体', 'Pineal gland'), undefined, 'autonomic', 'subcortical',
     b('在黑暗中分泌褪黑素，告诉全身「该睡觉了」。', 'Secretes melatonin in darkness, telling the body it is time to sleep.'),
     [l('scn', '生物钟信号', 'Clock signal')],
-    [l('hypothalamus', '褪黑素 → 促进睡眠', 'Melatonin → promotes sleep')]),
+    [l('hypothalamus', '褪黑素促进睡眠', 'Melatonin promotes sleep')]),
 
   r('pituitary', b('垂体', 'Pituitary gland'), undefined, 'autonomic', 'subcortical',
     b('内分泌的「总开关」：根据下丘脑指令释放 ACTH、生长激素、催产素等。', 'Endocrine master switch: releases ACTH, growth hormone, oxytocin… on hypothalamic command.'),
     [l('hypothalamus', 'CRH 等释放激素', 'CRH & other releasing hormones')],
-    [l('adrenal', 'ACTH → 皮质醇（HPA 轴）', 'ACTH → cortisol (HPA axis)')]),
+    [l('adrenal', 'ACTH 促进皮质醇分泌（HPA 轴）', 'ACTH triggers cortisol (HPA axis)')]),
 
   // ───────────────────────── Body: senses & effectors ─────────────────────────
   r('eye', b('眼睛 · 视网膜', 'Eye · Retina'), undefined, 'visual', 'body',
     b('把光转换为神经信号。', 'Converts light into neural signals.'),
-    [], [l('lgn', '视神经 → 外侧膝状体', 'Optic nerve → LGN'), l('scn', '光照 → 生物钟', 'Light → body clock')]),
+    [], [l('lgn', '视神经到外侧膝状体', 'Optic nerve to LGN'), l('scn', '光照信号传至生物钟', 'Light to body clock')]),
 
   r('ear', b('耳朵 · 耳蜗', 'Ear · Cochlea'), undefined, 'auditory', 'body',
     b('把声波转换为神经信号，并按频率分解。', 'Converts sound into neural signals, split by frequency.'),
-    [], [l('brainstem', '听神经 → 耳蜗核', 'Auditory nerve → cochlear nuclei')]),
+    [], [l('brainstem', '听神经到耳蜗核', 'Auditory nerve to cochlear nuclei')]),
 
   r('nose', b('鼻子 · 嗅上皮', 'Nose · Olfactory epithelium'), undefined, 'emotion', 'body',
     b('嗅觉是唯一不经丘脑、直达边缘系统的感觉，所以气味特别能唤起回忆和情绪。',
       'Smell is the only sense that bypasses the thalamus and goes straight to the limbic system, why scents evoke memories.'),
-    [], [l('entorhinal', '嗅觉 → 记忆', 'Smell → memory'), l('amygdala', '嗅觉 → 情绪', 'Smell → emotion'), l('lateralorbitofrontal', '气味识别', 'Odor identity')]),
+    [], [l('entorhinal', '嗅觉连接记忆', 'Smell to memory'), l('amygdala', '嗅觉连接情绪', 'Smell to emotion'), l('lateralorbitofrontal', '气味识别', 'Odor identity')]),
 
   r('tongue', b('舌头 · 味蕾', 'Tongue · Taste buds'), undefined, 'autonomic', 'body',
     b('检测甜、咸、酸、苦、鲜五种基本味道。', 'Detects sweet, salty, sour, bitter and umami.'),
-    [], [l('brainstem', '味觉 → 孤束核', 'Taste → solitary nucleus')]),
+    [], [l('brainstem', '味觉信号到孤束核', 'Taste to solitary nucleus')]),
 
   r('skin', b('皮肤', 'Skin'), undefined, 'somatosensory', 'body',
     b('触觉、温度与痛觉感受器。', 'Receptors for touch, temperature and pain.'),
-    [], [l('spinalcord', '感觉神经 → 脊髓', 'Sensory nerves → spinal cord')]),
+    [], [l('spinalcord', '感觉神经到脊髓', 'Sensory nerves to spinal cord')]),
 
   r('viscera', b('内脏 · 胃肠', 'Viscera · Gut'), undefined, 'autonomic', 'body',
     b('报告饥饿、饱腹、血压等身体内部状态。', 'Reports hunger, fullness, blood pressure and other internal states.'),
@@ -538,8 +538,8 @@ export const REGIONS: RegionInfo[] = [
   r('spinalcord', b('脊髓', 'Spinal cord'), undefined, 'relay', 'body',
     b('身体与大脑之间的高速公路，也能独立完成反射（如被烫时缩手）。', 'Highway between body and brain; can run reflexes on its own (e.g. withdrawing from heat).'),
     [l('precentral', '运动指令', 'Motor commands'), l('skin', '躯体感觉', 'Body sensation'), l('muscles', '本体感觉', 'Proprioception'), l('brainstem', '自主神经下行', 'Descending autonomic')],
-    [l('muscles', '运动神经元 → 肌肉收缩', 'Motor neurons → muscle contraction'),
-     l('vpl', '感觉上行 → 丘脑', 'Ascending sensation → thalamus'),
+    [l('muscles', '运动神经元驱动肌肉收缩', 'Motor neurons drive muscle contraction'),
+     l('vpl', '感觉信号上行到丘脑', 'Ascending sensation to thalamus'),
      l('cerebellum', '本体感觉', 'Proprioception'),
      l('heart', '交感：加快心率', 'Sympathetic: speeds heart'),
      l('adrenal', '交感：释放肾上腺素', 'Sympathetic: adrenaline release')]),

@@ -109,8 +109,8 @@ function Hero({ g }: { g: ReturnType<typeof heroGeom> }) {
         <span className="hl-k">MACHINE</span>
         <span className="hl-name">AI</span>
         <span className="hl-fact" title={t({
-          zh: 'Kimi K3：2.8 万亿总参数，每个 token 激活 1040 亿参数。推理配置：一台 DGX B300（8 张 B300 GPU）。15,000 W 为整机额定功耗上限，并非模型实测推理功耗；实际功耗随负载变化。数据核对日期：2026-09-30。',
-          en: 'Kimi K3: 2.8 trillion total parameters, 104 billion active per token. Inference configuration: one DGX B300 (8 B300 GPUs). 15,000 W is the rated whole-system maximum, not measured model inference power; actual draw varies with workload. Checked 2026-09-30.',
+          zh: 'Kimi K3：2.8 万亿总参数，每个 token 激活 1040 亿参数。推理配置：一台 DGX B300（8 张 B300 GPU）。15,000 W 为整机额定功耗上限，并非模型实测推理功耗；实际功耗随负载变化。数据核对日期：2026 年 9 月 30 日。',
+          en: 'Kimi K3: 2.8 trillion total parameters, 104 billion active per token. Inference configuration: one DGX B300 (8 B300 GPUs). 15,000 W is the rated whole-system maximum, not measured model inference power; actual draw varies with workload. Checked September 30, 2026.',
         })}>2.8 trillion parameters · 15,000 W max</span>
       </div>
 

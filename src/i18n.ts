@@ -98,7 +98,7 @@ export const UI = {
   correspondence: b('对应程度', 'Correspondence'),
   evidence: b('神经科学证据', 'Neuroscience evidence'),
   layer: b('第 {n} 层', 'Layer {n}'),
-  openBlueprint: b('打开机器人大脑蓝图 →', 'Open the robot-brain blueprint →'),
+  openBlueprint: b('打开机器人大脑蓝图', 'Open the robot-brain blueprint'),
   labs: b('交互实验', 'Interactive labs'),
   furtherReading: b('延伸阅读（综述）', 'Further reading (reviews)'),
   secBrain: b('大脑怎么做', 'How the brain does it'),
@@ -136,7 +136,7 @@ export const UI = {
   secLab: b('动手试一试', 'Try it'),
   viewInAtlas: b('在 3D 图谱中单独查看这个系统', 'View this system on its own in the 3D atlas'),
   aiLink: b('AI 对照', 'AI comparison'),
-  backToLadder: b('← 返回阶梯', '← Back to the ladder'),
+  backToLadder: b('返回阶梯', 'Back to the ladder'),
   blueprintTitle: b('第 5 层 · 类人机器人大脑蓝图', 'Layer 5 · A humanlike robot-brain blueprint'),
   blueprintIntro: b('一个完整的智能体需要这些模块。颜色表示当今 AI 的覆盖程度，世界模型只是其中之一。点击模块查看大脑对应、AI 现状、缺口与方向。', 'A complete agent needs all of these modules. Color shows how well today’s AI covers each; the world model is just one. Click a module for its brain basis, AI status, gaps and directions.'),
   coverage: b('覆盖程度', 'Coverage'),
@@ -157,7 +157,7 @@ export const UI = {
   colValue: b('价值与驱力', 'Value & drives'),
   colOutput: b('输出', 'Output'),
   rowLifetime: b('跨时间尺度：学习、维护与成长', 'Across timescales: learning, maintenance, growth'),
-  pickModule: b('← 选择一个模块', '← Pick a module'),
+  pickModule: b('选择一个模块', 'Pick a module'),
 }
 
 /** Brand taglines, rotated in the top bar; the first one is the primary line. */
