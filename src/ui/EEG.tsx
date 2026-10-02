@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { EEG_LEN, engine } from '../sim/engine'
+import { onFrame } from '../sim/loop'
 
 /** Scrolling 4-second trace of the cortical mean field. */
 export function EEG() {
@@ -7,12 +8,14 @@ export function EEG() {
   useEffect(() => {
     const cv = ref.current!
     const ctx = cv.getContext('2d')!
-    let raf = 0
     const draw = () => {
-      const w = (cv.width = cv.clientWidth * devicePixelRatio)
-      const h = (cv.height = cv.clientHeight * devicePixelRatio)
+      const w = Math.round(cv.clientWidth * devicePixelRatio)
+      const h = Math.round(cv.clientHeight * devicePixelRatio)
+      if (cv.width !== w) cv.width = w
+      if (cv.height !== h) cv.height = h
       ctx.clearRect(0, 0, w, h)
       ctx.strokeStyle = 'rgba(170,195,230,0.08)'
+      ctx.lineWidth = 1
       ctx.beginPath()
       ctx.moveTo(0, h / 2)
       ctx.lineTo(w, h / 2)
@@ -36,10 +39,9 @@ export function EEG() {
       ctx.shadowBlur = 6 * devicePixelRatio
       ctx.stroke()
       ctx.shadowBlur = 0
-      raf = requestAnimationFrame(draw)
     }
     draw()
-    return () => cancelAnimationFrame(raf)
+    return onFrame(draw)
   }, [])
   return <canvas ref={ref} className="eeg" />
 }

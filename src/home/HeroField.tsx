@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { onFrame } from '../sim/loop'
 import { homeState } from './chapters'
 
 const INK = '230,235,242'
@@ -20,12 +21,10 @@ export function HeroField() {
     const cells = Array.from({ length: N }, () => ({ x: Math.random(), y: Math.random(), fire: 0, seed: Math.random() * 100 }))
     type Run = { x: number; y: number; dx: number; dy: number; left: number }
     let runs: Run[] = []
-    let raf = 0
     let last = performance.now()
     let t = 0
 
     const draw = (now: number) => {
-      raf = requestAnimationFrame(draw)
       if (homeState.hero >= 1) return // hero gone: idle
       const dt = Math.min(0.05, (now - last) / 1000)
       last = now
@@ -114,8 +113,7 @@ export function HeroField() {
         ctx.fillRect(r.x - 1.25, r.y - 1.25, 2.5, 2.5)
       }
     }
-    raf = requestAnimationFrame(draw)
-    return () => cancelAnimationFrame(raf)
+    return onFrame(draw)
   }, [])
 
   return <canvas ref={ref} className="hero-field" aria-hidden />

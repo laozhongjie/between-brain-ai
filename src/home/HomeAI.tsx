@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { onFrame } from '../sim/loop'
 import { FONT_LABEL } from '../theme'
 import { homeState } from './chapters'
 
@@ -23,7 +24,6 @@ export function HomeAI() {
     const W = LAYERS.slice(0, -1).map((n, l) => Array.from({ length: n }, () => Array.from({ length: LAYERS[l + 1] }, () => ({ w: Math.random() * 2 - 1, ph: Math.random() * 6.28 }))))
     const act = LAYERS.map((n) => new Float32Array(n))
     let pulses: Pulse[] = []
-    let raf = 0
     let last = performance.now()
     let spawn = 0
     let t = 0
@@ -31,6 +31,7 @@ export function HomeAI() {
     const draw = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000)
       last = now
+      if (homeState.reveal <= 0) return // still behind the white disc: idle
       t += reduced ? 0 : dt
       const dpr = Math.min(devicePixelRatio, 2)
       const w = cv.clientWidth
@@ -154,10 +155,8 @@ export function HomeAI() {
         ctx.fillStyle = `rgba(${ICE},0.85)`
         ctx.fillText('ENVIRONMENT · REWARD', (px(0) + px(5)) / 2, yb + 18)
       }
-      raf = requestAnimationFrame(draw)
     }
-    raf = requestAnimationFrame(draw)
-    return () => cancelAnimationFrame(raf)
+    return onFrame(draw)
   }, [])
 
   return <canvas ref={ref} className="home-ai-canvas" aria-hidden />

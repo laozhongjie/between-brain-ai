@@ -192,6 +192,7 @@ export function Home() {
       st.style.setProperty('--cta', cta.toFixed(3))
       st.classList.toggle('cta-on', cta > 0.5)
       homeState.hero = h
+      homeState.reveal = 1 - fill
       const c = p < CH[0] ? -1 : Math.min(CHAPTERS.length - 1, Math.floor(((p - CH[0]) / (CH[1] - CH[0])) * CHAPTERS.length))
       homeState.chapter = c
       homeState.open = open
@@ -210,6 +211,7 @@ export function Home() {
       homeState.chapter = -1
       homeState.open = 0
       homeState.hero = 0
+      homeState.reveal = 0
     }
   }, [])
 

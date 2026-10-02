@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { DAY, fmtClock } from '../data/scenario'
 import { UI, useT } from '../i18n'
 import { DAY_START, EVENTS, director, useScenario } from '../sim/director'
+import { onFrame } from '../sim/loop'
 import { DecodeText } from './DecodeText'
 import { Icon } from './Icon'
 
@@ -104,7 +105,6 @@ export function Timeline() {
 
   // Playhead, fill and marker hits follow the director every frame (the React state is throttled)
   useEffect(() => {
-    let raf = 0
     const frame = () => {
       const now = director.tl
       const pxPerMin = (span.current?.clientWidth ?? 1000) / 1440
@@ -115,10 +115,9 @@ export function Timeline() {
       const x = (span.current?.offsetLeft ?? 0) + now * pxPerMin
       if (fill.current) fill.current.style.transform = `scaleX(${x / (bar.current?.clientWidth || 1)})`
       EVENTS.forEach((e, i) => marks.current[i]?.classList.toggle('hit', isHit((now - e.tl) * pxPerMin)))
-      raf = requestAnimationFrame(frame)
     }
     frame()
-    return () => cancelAnimationFrame(raf)
+    return onFrame(frame)
   }, [])
 
   const seekFromPointer = (e: React.PointerEvent) => {

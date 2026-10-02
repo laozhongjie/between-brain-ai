@@ -3,6 +3,7 @@ import { Bloom, EffectComposer } from '@react-three/postprocessing'
 import { Suspense, useRef } from 'react'
 import * as THREE from 'three'
 import { BrainModel } from '../scene/BrainModel'
+import { FrameDriver } from '../scene/FrameDriver'
 import { BRAIN_CENTER } from '../scene/layout'
 import { Pathways } from '../scene/Pathways'
 import { Pulses } from '../scene/Pulses'
@@ -31,6 +32,9 @@ function OrbitCamera() {
   return null
 }
 
+/** The panel is invisible until the white disc starts to fade: skip drawing it until then */
+const revealed = () => homeState.reveal > 0
+
 /** The living brain for the landing page: same model, pathways and pulses as the atlas, no interaction. */
 export function HomeBrain() {
   return (
@@ -38,8 +42,10 @@ export function HomeBrain() {
       camera={{ fov: 34, near: 0.05, far: 60 }}
       gl={{ antialias: true, toneMapping: THREE.NeutralToneMapping }}
       onCreated={({ gl }) => (gl.localClippingEnabled = true)}
-      dpr={[1, 2]}
+      dpr={[1, 1.5]}
+      frameloop="never"
     >
+      <FrameDriver active={revealed} />
       <color attach="background" args={['#05070b']} />
       <hemisphereLight args={['#9fb8d8', '#05070b', 0.9]} />
       <directionalLight position={[-3, 4, -2]} intensity={1.1} color="#dbe8ff" />
@@ -51,7 +57,7 @@ export function HomeBrain() {
       <Pathways />
       <Pulses />
       <OrbitCamera />
-      <EffectComposer multisampling={4}>
+      <EffectComposer multisampling={2}>
         <Bloom mipmapBlur luminanceThreshold={0.45} luminanceSmoothing={0.3} intensity={0.9} />
       </EffectComposer>
     </Canvas>

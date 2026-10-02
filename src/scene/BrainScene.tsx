@@ -5,6 +5,7 @@ import * as THREE from 'three'
 import { useStore } from '../store'
 import { BrainModel } from './BrainModel'
 import { CameraRig } from './CameraRig'
+import { FrameDriver } from './FrameDriver'
 import { Labels } from './Labels'
 import { Markers } from './Markers'
 import { Medium } from './Medium'
@@ -51,8 +52,10 @@ export function BrainScene() {
       gl={{ antialias: true, toneMapping: THREE.NeutralToneMapping }}
       onCreated={({ gl }) => (gl.localClippingEnabled = true)}
       onPointerMissed={() => useStore.getState().hover(null)}
-      dpr={[1, 2]}
+      dpr={[1, 1.5]}
+      frameloop="never"
     >
+      <FrameDriver />
       {/* Dark observatory: cool key light, a blue back light for the rim, bloom on anything over-bright */}
       <color attach="background" args={['#070a10']} />
       <hemisphereLight args={['#9fb8d8', '#05070b', 0.9]} />
@@ -70,7 +73,7 @@ export function BrainScene() {
       <Pulses />
       <Labels />
       <CameraRig />
-      <EffectComposer multisampling={4}>
+      <EffectComposer multisampling={2}>
         <Bloom mipmapBlur luminanceThreshold={0.45} luminanceSmoothing={0.3} intensity={0.9} />
         <Vignette offset={0.25} darkness={0.6} />
       </EffectComposer>

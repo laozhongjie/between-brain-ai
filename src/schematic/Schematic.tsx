@@ -3,6 +3,7 @@ import { NODES, resolveKey } from '../data/nodes'
 import { UI, useT } from '../i18n'
 import { currentFocus } from '../scene/focusState'
 import { engine } from '../sim/engine'
+import { onFrame } from '../sim/loop'
 import { signals } from '../sim/signals'
 import { useStore } from '../store'
 import { BASE_H, HOP_EDGE, NODE_H, NODE_W, W, makeLayout, type BusKey } from './layout'
@@ -262,7 +263,6 @@ export function Schematic() {
     }
     let inFlight = new Set<Pulse>()
 
-    let raf = 0
     let wall = performance.now()
     const frame = () => {
       const t = performance.now()
@@ -336,11 +336,11 @@ export function Schematic() {
           for (const el of [...d.tail, d.halo, d.core]) el.style.display = 'none'
         }
       }
-      raf = requestAnimationFrame(frame)
     }
     frame()
+    const off = onFrame(frame)
     return () => {
-      cancelAnimationFrame(raf)
+      off()
       dots.forEach((d) => { d.halo.remove(); d.core.remove(); d.tail.forEach((el) => el.remove()) })
     }
   }, [layout])
