@@ -405,6 +405,28 @@ export const REFS: Ref[] = [
   { id: 'shapira2023', authors: 'Shapira, N. et al.', year: 2023, title: 'Clever Hans or neural theory of mind? Stress testing social reasoning in large language models', venue: 'arXiv (EACL 2024)', url: arxiv('2305.14763') },
   { id: 'strachan2024', authors: 'Strachan, J. W. A. et al.', year: 2024, title: 'Testing theory of mind in large language models and humans', venue: 'Nature Human Behaviour 8(7), 1285–1295', url: doi('10.1038/s41562-024-01882-z') },
   { id: 'kosinski2024', authors: 'Kosinski, M.', year: 2024, title: 'Evaluating large language models in theory of mind tasks', venue: 'PNAS 121(45), e2405460121', url: doi('10.1073/pnas.2405460121') },
+  // ── F39 Innate constraints ──
+  { id: 'johnson1991', authors: 'Johnson, M. H., Dziurawiec, S., Ellis, H. & Morton, J.', year: 1991, title: 'Newborns’ preferential tracking of face-like stimuli and its subsequent decline', venue: 'Cognition 40(1–2), 1–19', url: doi('10.1016/0010-0277(91)90045-6') },
+  { id: 'spelke2007', authors: 'Spelke, E. S. & Kinzler, K. D.', year: 2007, title: 'Core knowledge', venue: 'Developmental Science 10(1), 89–96', url: doi('10.1111/j.1467-7687.2007.00569.x') },
+  { id: 'ackman2012', authors: 'Ackman, J. B., Burbridge, T. J. & Crair, M. C.', year: 2012, title: 'Retinal waves coordinate patterned activity throughout the developing visual system', venue: 'Nature 490(7419), 219–225', url: doi('10.1038/nature11529') },
+  { id: 'wood2013', authors: 'Wood, J. N.', year: 2013, title: 'Newborn chickens generate invariant object representations at the onset of visual object experience', venue: 'PNAS 110(34), 14000–14005', url: doi('10.1073/pnas.1308246110') },
+  { id: 'herculano2009', authors: 'Herculano-Houzel, S.', year: 2009, title: 'The human brain in numbers: a linearly scaled-up primate brain', venue: 'Frontiers in Human Neuroscience 3, 31', url: doi('10.3389/neuro.09.031.2009') },
+  { id: 'shuvaev2024', authors: 'Shuvaev, S., Lachi, D., Koulakov, A. & Zador, A.', year: 2024, title: 'Encoding innate ability through a genomic bottleneck', venue: 'PNAS 121(38), e2409160121', url: doi('10.1073/pnas.2409160121') },
+  { id: 'ulyanov2017', authors: 'Ulyanov, D., Vedaldi, A. & Lempitsky, V.', year: 2017, title: 'Deep image prior', venue: 'arXiv (CVPR 2018)', url: arxiv('1711.10925') },
+  { id: 'gaier2019', authors: 'Gaier, A. & Ha, D.', year: 2019, title: 'Weight agnostic neural networks', venue: 'arXiv (NeurIPS 2019)', url: arxiv('1906.04358') },
+  { id: 'elsken2018', authors: 'Elsken, T., Metzen, J. H. & Hutter, F.', year: 2018, title: 'Neural architecture search: a survey', venue: 'arXiv (JMLR 2019)', url: arxiv('1808.05377') },
+
+  // ── F40 Developmental stages ──
+  { id: 'wiesel1963', authors: 'Wiesel, T. N. & Hubel, D. H.', year: 1963, title: 'Single-cell responses in striate cortex of kittens deprived of vision in one eye', venue: 'Journal of Neurophysiology 26(6), 1003–1017', url: doi('10.1152/jn.1963.26.6.1003') },
+  { id: 'werker1984', authors: 'Werker, J. F. & Tees, R. C.', year: 1984, title: 'Cross-language speech perception: evidence for perceptual reorganization during the first year of life', venue: 'Infant Behavior and Development 7(1), 49–63', url: doi('10.1016/S0163-6383(84)80022-3') },
+  { id: 'kuhl2004', authors: 'Kuhl, P. K.', year: 2004, title: 'Early language acquisition: cracking the speech code', venue: 'Nature Reviews Neuroscience 5(11), 831–843', url: doi('10.1038/nrn1533') },
+  { id: 'adolph2019', authors: 'Adolph, K. E. & Hoch, J. E.', year: 2019, title: 'Motor development: embodied, embedded, enculturated, and enabling', venue: 'Annual Review of Psychology 70, 141–164', url: doi('10.1146/annurev-psych-010418-102836') },
+  { id: 'vogelsang2018', authors: 'Vogelsang, L. et al.', year: 2018, title: 'Potential downside of high initial visual acuity', venue: 'PNAS 115(44), 11333–11338', url: doi('10.1073/pnas.1800901115') },
+  { id: 'elman1993', authors: 'Elman, J. L.', year: 1993, title: 'Learning and development in neural networks: the importance of starting small', venue: 'Cognition 48(1), 71–99', url: doi('10.1016/0010-0277(93)90058-4') },
+  { id: 'bengio2009', authors: 'Bengio, Y., Louradour, J., Collobert, R. & Weston, J.', year: 2009, title: 'Curriculum learning', venue: 'ICML 2009, 41–48', url: doi('10.1145/1553374.1553380') },
+  { id: 'achille2017', authors: 'Achille, A., Rovere, M. & Soatto, S.', year: 2017, title: 'Critical learning periods in deep neural networks', venue: 'arXiv (ICLR 2019)', url: arxiv('1711.08856') },
+  { id: 'wu2020', authors: 'Wu, X., Dyer, E. & Neyshabur, B.', year: 2020, title: 'When do curricula work?', venue: 'arXiv (ICLR 2021)', url: arxiv('2012.03107') },
+  { id: 'warstadt2023', authors: 'Warstadt, A. et al.', year: 2023, title: 'Call for papers: the BabyLM challenge: sample-efficient pretraining on a developmentally plausible corpus', venue: 'arXiv', url: arxiv('2301.11796') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

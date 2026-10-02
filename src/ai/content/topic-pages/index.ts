@@ -1,5 +1,7 @@
 import type { TopicContent } from '../../types'
 import { EPISODIC_MEMORY } from './episodic-memory'
+import { INNATE_CONSTRAINTS } from './innate-constraints'
+import { DEVELOPMENTAL_STAGES } from './developmental-stages'
 import { SOCIAL_INFERENCE } from './social-inference'
 import { LANGUAGE } from './language'
 import { INTEROCEPTION } from './interoception'
@@ -50,4 +52,6 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   'interoception': INTEROCEPTION,
   'language': LANGUAGE,
   'social-inference': SOCIAL_INFERENCE,
+  'innate-constraints': INNATE_CONSTRAINTS,
+  'developmental-stages': DEVELOPMENTAL_STAGES,
 }

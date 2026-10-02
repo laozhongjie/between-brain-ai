@@ -96,10 +96,10 @@ export const TOPICS: Topic[] = [
 
   // D9 Development & long-term organization
   { id: 'innate-constraints', code: 'F39', name: b('先天约束与学习起点', 'Innate constraints and learning starting points'),
-    systems: sys(b('遗传与发育约束的初始结构', 'Genetically and developmentally constrained initial structure'), b('架构归纳偏置与预训练', 'Architectural inductive biases and pretraining')),
+    systems: sys(b('先天的初始结构', 'Innate initial structure'), b('归纳偏置与预训练', 'Inductive biases and pretraining')),
     mechanisms: ['M09'] },
   { id: 'developmental-stages', code: 'F40', name: b('发育阶段与学习顺序', 'Developmental stages and learning order'),
-    systems: sys(b('关键期与婴儿发育', 'Critical periods and infant development'), b('课程学习与分阶段训练', 'Curriculum learning and staged training')),
+    systems: sys(b('关键期与婴儿发育', 'Critical periods and infant development'), b('课程学习与分阶段训练', 'Curricula and staged training')),
     mechanisms: ['M09'] },
 ]
 
