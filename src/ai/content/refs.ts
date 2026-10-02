@@ -303,6 +303,19 @@ export const REFS: Ref[] = [
   { id: 'huang2023', authors: 'Huang, J. et al.', year: 2023, title: 'Large language models cannot self-correct reasoning yet', venue: 'arXiv (ICLR 2024)', url: arxiv('2310.01798') },
   { id: 'griot2025', authors: 'Griot, M., Hemptinne, C., Vanderdonckt, J. & Yuksel, D.', year: 2025, title: 'Large language models lack essential metacognition for reliable medical reasoning', venue: 'Nature Communications 16, 642', url: doi('10.1038/s41467-024-55628-6') },
   { id: 'steyvers2025', authors: 'Steyvers, M. et al.', year: 2025, title: 'What large language models know and what people think they know', venue: 'Nature Machine Intelligence 7(2), 221–231', url: doi('10.1038/s42256-024-00976-7') },
+  // ── F25 Metacognitive control ──
+  { id: 'rabbitt1966', authors: 'Rabbitt, P. M.', year: 1966, title: 'Errors and error correction in choice-response tasks', venue: 'Journal of Experimental Psychology 71(2), 264–272', url: doi('10.1037/h0022853') },
+  { id: 'metcalfe2005', authors: 'Metcalfe, J. & Kornell, N.', year: 2005, title: 'A region of proximal learning model of study time allocation', venue: 'Journal of Memory and Language 52(4), 463–477', url: doi('10.1016/j.jml.2004.12.001') },
+  { id: 'desender2018', authors: 'Desender, K., Boldt, A. & Yeung, N.', year: 2018, title: 'Subjective confidence predicts information seeking in decision making', venue: 'Psychological Science 29(5), 761–778', url: doi('10.1177/0956797617744771') },
+  { id: 'risko2016', authors: 'Risko, E. F. & Gilbert, S. J.', year: 2016, title: 'Cognitive offloading', venue: 'Trends in Cognitive Sciences 20(9), 676–688', url: doi('10.1016/j.tics.2016.07.002') },
+  { id: 'shenhav2013', authors: 'Shenhav, A., Botvinick, M. M. & Cohen, J. D.', year: 2013, title: 'The expected value of control: an integrative theory of anterior cingulate cortex function', venue: 'Neuron 79(2), 217–240', url: doi('10.1016/j.neuron.2013.07.007') },
+  { id: 'wei2022', authors: 'Wei, J. et al.', year: 2022, title: 'Chain-of-thought prompting elicits reasoning in large language models', venue: 'arXiv (NeurIPS 2022)', url: arxiv('2201.11903') },
+  { id: 'wang2022sc', authors: 'Wang, X. et al.', year: 2022, title: 'Self-consistency improves chain of thought reasoning in language models', venue: 'arXiv (ICLR 2023)', url: arxiv('2203.11171') },
+  { id: 'kumar2024', authors: 'Kumar, A. et al.', year: 2024, title: 'Training language models to self-correct via reinforcement learning', venue: 'arXiv (ICLR 2025)', url: arxiv('2409.12917') },
+  { id: 'snell2024', authors: 'Snell, C., Lee, J., Xu, K. & Kumar, A.', year: 2024, title: 'Scaling LLM test-time compute optimally can be more effective than scaling model parameters', venue: 'arXiv (ICLR 2025)', url: arxiv('2408.03314') },
+  { id: 'chen2024', authors: 'Chen, X. et al.', year: 2024, title: 'Do NOT think that much for 2+3=? On the overthinking of o1-like LLMs', venue: 'arXiv', url: arxiv('2412.21187') },
+  { id: 'deepseek2025', authors: 'Guo, D. et al. (DeepSeek-AI)', year: 2025, title: 'DeepSeek-R1 incentivizes reasoning in LLMs through reinforcement learning', venue: 'Nature 645(8081), 633–638', url: doi('10.1038/s41586-025-09422-z') },
+  { id: 'kamath2020', authors: 'Kamath, A., Jia, R. & Liang, P.', year: 2020, title: 'Selective question answering under domain shift', venue: 'arXiv (ACL 2020)', url: arxiv('2006.09462') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

@@ -61,7 +61,7 @@ export const TOPICS: Topic[] = [
     systems: sys(b('信心与错误监测', 'Confidence and error monitoring'), b('模型置信度校准', 'Model confidence calibration')),
     mechanisms: [] },
   { id: 'metacognitive-control', code: 'F25', name: b('元认知调控', 'Metacognitive control'),
-    systems: sys(b('基于信心的复核与求助', 'Confidence-driven checking and help seeking'), b('自我纠错与推理预算分配', 'Self-correction and reasoning budget allocation')),
+    systems: sys(b('基于信心的复核与求助', 'Confidence-guided checking'), b('自我纠错与推理预算', 'Self-correction and reasoning budgets')),
     mechanisms: [] },
 
   // D6 Action & embodied interaction

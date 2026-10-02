@@ -106,7 +106,7 @@ export const METACOGNITIVE_MONITORING: TopicContent = {
   },
   archNotes: {
     biological: [
-      b('元认知包括两部分：监测（我做对了吗、我知道吗）和调控（据此决定复查、求助或放弃）。本卡讨论监测，调控见下一张卡。', 'Metacognition has two parts: monitoring, am I right and do I know, and control, deciding to recheck, ask or give up. This card covers monitoring, and the next card covers control.'),
+      b('元认知包括两部分：监测（我做对了吗、我知道吗）和调控（据此决定复查、求助或放弃）。本卡讨论监测，调控见[元认知调控](topic:metacognitive-control)。', 'Metacognition has two parts: monitoring, am I right and do I know, and control, deciding to recheck, ask or give up. This card covers monitoring, and control is covered in [metacognitive control](topic:metacognitive-control).'),
       b('测量元认知时要把一阶表现分开：任务做得好的人信心自然更准。$\\text{meta-}d\'$ 等指标衡量的是「信心对正确与错误的区分能力」超出表现本身的部分。', 'Measuring metacognition requires separating first-order performance, since people who do well naturally have more accurate confidence. Measures such as $\\text{meta-}d\'$ capture how well confidence separates right from wrong beyond performance itself.'),
       b('大鼠的眶额皮层神经元也编码决策信心，说明信心不依赖语言，动物也能形成并用它调整行为（例如愿意等待奖赏的时间）。', 'Rat orbitofrontal neurons also encode decision confidence, so confidence does not need language. Animals form it and use it to adjust behavior, such as how long they will wait for a reward.'),
       b('元认知并不集中在单一脑区：不同任务（感知判断、记忆判断）的元认知可能依赖部分不同的回路。', 'Metacognition is not located in one area. Metacognition for different tasks, such as perceptual and memory judgments, may rely on partly different circuits.'),
