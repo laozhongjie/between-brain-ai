@@ -3,7 +3,7 @@ import { LAYER2_FIGS } from './layer2'
 import { LAYER3_FIGS } from './layer3'
 import { LAYER4_FIGS } from './layer4'
 import { EPISODIC_FIGS } from './topics/episodic-memory'
-import { ATTENTION_FIGS, MOTOR_FIGS, SKILL_FIGS } from './topics/legacy-only'
+import { ATTENTION_FIGS, MOTOR_FIGS, REWARD_FIGS, SKILL_FIGS } from './topics/legacy-only'
 import { WORLD_MODEL_FIGS } from './topics/world-models'
 import { COGNITIVE_MAP_FIGS } from './topics/cognitive-maps'
 import { CONSOLIDATION_FIGS } from './topics/consolidation-replay'
@@ -34,4 +34,5 @@ export const TOPIC_FIGS: Record<string, TopicFigs> = {
   'attention-gating': ATTENTION_FIGS,
   'motor-control': MOTOR_FIGS,
   'skill-learning': SKILL_FIGS,
+  'reward-learning': REWARD_FIGS,
 }

@@ -23,3 +23,20 @@ export const MOTOR_FIGS: TopicFigs = {
 export const SKILL_FIGS: TopicFigs = {
   math: { comp: { 1: legacyFig('sys-motor', 'ai') } },
 }
+
+export const REWARD_FIGS: TopicFigs = {
+  math: {
+    bio: {
+      0: {
+        ...legacyFig('sys-reward', 'brain'),
+        cap: b('奖赏：皮层提供状态，腹侧纹状体估计价值，背侧纹状体选择动作；中脑腹侧被盖区的多巴胺编码预测误差，广播回纹状体和皮层来更新两者。', 'Reward: cortex supplies the state, the ventral striatum estimates value and the dorsal striatum picks actions. Dopamine from the ventral tegmental area encodes the prediction error and is broadcast back to update both.'),
+      },
+    },
+    comp: {
+      0: {
+        ...legacyFig('sys-reward', 'ai'),
+        cap: b('行动者与评论家：评论家估计状态价值，行动者给出动作概率，环境返回奖励和新状态，时序差分误差同时更新两者。结构与基底节加多巴胺的分工相近。', 'Actor-critic: the critic estimates state value, the actor gives action probabilities, the environment returns reward and the next state, and the TD error updates both. The structure is close to the division of labor in the basal ganglia with dopamine.'),
+      },
+    },
+  },
+}

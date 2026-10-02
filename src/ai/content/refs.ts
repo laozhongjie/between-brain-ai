@@ -338,6 +338,16 @@ export const REFS: Ref[] = [
   { id: 'oxe2023', authors: 'Open X-Embodiment Collaboration', year: 2023, title: 'Open X-Embodiment: robotic learning datasets and RT-X models', venue: 'arXiv (ICRA 2024)', url: arxiv('2310.08864') },
   { id: 'kim2024', authors: 'Kim, M. J. et al.', year: 2024, title: 'OpenVLA: an open-source vision-language-action model', venue: 'arXiv (CoRL 2024)', url: arxiv('2406.09246') },
   { id: 'pi2025', authors: 'Physical Intelligence et al.', year: 2025, title: 'π0.5: a vision-language-action model with open-world generalization', venue: 'arXiv', url: arxiv('2504.16054') },
+  // ── F30 Reward learning ──
+  { id: 'padoaschioppa2006', authors: 'Padoa-Schioppa, C. & Assad, J. A.', year: 2006, title: 'Neurons in the orbitofrontal cortex encode economic value', venue: 'Nature 441(7090), 223–226', url: doi('10.1038/nature04676') },
+  { id: 'brombergmartin2010', authors: 'Bromberg-Martin, E. S., Matsumoto, M. & Hikosaka, O.', year: 2010, title: 'Dopamine in motivational control: rewarding, aversive, and alerting', venue: 'Neuron 68(5), 815–834', url: doi('10.1016/j.neuron.2010.11.022') },
+  { id: 'steinberg2013', authors: 'Steinberg, E. E. et al.', year: 2013, title: 'A causal link between prediction errors, dopamine neurons and learning', venue: 'Nature Neuroscience 16(7), 966–973', url: doi('10.1038/nn.3413') },
+  { id: 'eshel2015', authors: 'Eshel, N. et al.', year: 2015, title: 'Arithmetic and local circuitry underlying dopamine prediction errors', venue: 'Nature 525(7568), 243–246', url: doi('10.1038/nature14855') },
+  { id: 'kahneman1979', authors: 'Kahneman, D. & Tversky, A.', year: 1979, title: 'Prospect theory: an analysis of decision under risk', venue: 'Econometrica 47(2), 263–291', url: doi('10.2307/1914185') },
+  { id: 'bellemare2017', authors: 'Bellemare, M. G., Dabney, W. & Munos, R.', year: 2017, title: 'A distributional perspective on reinforcement learning', venue: 'arXiv (ICML 2017)', url: arxiv('1707.06887') },
+  { id: 'dabney2018', authors: 'Dabney, W., Rowland, M., Bellemare, M. G. & Munos, R.', year: 2017, title: 'Distributional reinforcement learning with quantile regression', venue: 'arXiv (AAAI 2018)', url: arxiv('1710.10044') },
+  { id: 'amodei2016', authors: 'Amodei, D. et al.', year: 2016, title: 'Concrete problems in AI safety', venue: 'arXiv', url: arxiv('1606.06565') },
+  { id: 'ouyang2022', authors: 'Ouyang, L. et al.', year: 2022, title: 'Training language models to follow instructions with human feedback', venue: 'arXiv (NeurIPS 2022)', url: arxiv('2203.02155') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

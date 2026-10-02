@@ -74,7 +74,7 @@ export const TOPICS: Topic[] = [
 
   // D7 Value, motivation & regulation
   { id: 'reward-learning', code: 'F30', name: b('价值评估与奖赏学习', 'Valuation and reward learning'),
-    systems: sys(b('多巴胺奖赏预测误差系统', 'Dopamine reward prediction error system'), b('时序差分与分布式强化学习', 'Temporal-difference and distributional reinforcement learning')),
+    systems: sys(b('多巴胺奖赏预测误差', 'Dopamine prediction errors'), b('时序差分与分布式强化学习', 'TD and distributional RL')),
     legacy: 'sys-reward', tour: 'reward', mechanisms: ['M03'] },
   { id: 'emotion-understanding', code: 'F32', name: b('情绪理解与表达', 'Emotion understanding and expression'),
     systems: sys(b('人类情绪识别与共情', 'Human emotion recognition and empathy'), b('情感计算与语言模型的情绪推断', 'Affective computing and emotion inference in language models')),
