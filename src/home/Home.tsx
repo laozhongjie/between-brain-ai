@@ -23,8 +23,8 @@ const CLOSING_VH = 66
 const SCROLL_VH = OPENING_VH + CHAPTERS.length * CHAPTER_VH + CLOSING_VH // the track is this plus one screen
 const at = (vh: number) => vh / SCROLL_VH
 const HERO_END = at(59) // the hero's labels, lines and wordmark fade away
-const MORPH = [at(70), at(OPENING_VH - 1)] // the white halves flow out as a liquid that washes brain | AI clean
 const OPEN = [at(20), at(OPENING_VH)] // the disc grows until it fills the screen
+const MORPH = [OPEN[0], at(OPENING_VH - 1)] // as it grows, the white flows out as a liquid that washes brain | AI clean
 const CH = [at(OPENING_VH), at(OPENING_VH + CHAPTERS.length * CHAPTER_VH)] // five chapters
 const CTA = CH[1] // closing call to action
 const CTA_RAMP = at(46)
@@ -189,6 +189,8 @@ export function Home() {
       // the solid white hands over to the liquid (HomeMorph, the same shape) as soon as it starts to flow
       for (const el of [sc, st]) el.style.setProperty('--hero', h.toFixed(3))
       st.style.setProperty('--fill', (1 - clamp(morph / 0.01)).toFixed(3))
+      // brain | AI stay hidden behind the mark (and its entrance) until the liquid has taken over
+      st.style.setProperty('--reveal', morph > 0 ? '1' : '0')
       st.style.setProperty('--open', open.toFixed(3))
       st.style.setProperty('--half-gap', `${gap}px`)
       st.style.setProperty('--r', `${r.toFixed(1)}px`)

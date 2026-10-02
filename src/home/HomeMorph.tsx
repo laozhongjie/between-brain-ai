@@ -14,8 +14,9 @@ void main() { gl_Position = vec4(aPos, 0.0, 1.0); }`
  * only along the structures, reaching their parts sooner and in surges; behind its crest it thins, breaks
  * into beads and is gone, leaving the real brain | AI showing. Ahead of it the window is still dark. At the
  * slit sits the white mass of the mark (uMass), its edge starting to wobble as it drains. Each half has its
- * own noise. Shaded from the thickness field: a meniscus at the rim, a highlight where the surface tilts,
- * translucent where thin; level liquid is exactly the mark's white, so the hand-over is seamless.
+ * own noise, and all of it moves with the scroll (uFlow), not with time. Shaded from the thickness field:
+ * a meniscus at the rim, a highlight where the surface tilts, translucent where thin; level liquid is
+ * exactly the mark's white, so the hand-over is seamless.
  */
 const FRAG = `#version 300 es
 precision highp float;
@@ -23,7 +24,8 @@ uniform sampler2D uField;
 uniform vec2 uCanvas;   // canvas size, device px
 uniform vec2 uStage;    // stage size, CSS px
 uniform vec2 uC;        // disc centre, CSS px
-uniform float uGap, uPW, uWave, uMass, uWobble, uTime;
+uniform float uGap, uPW, uWave, uMass, uWobble;
+uniform float uFlow;    // drift phase: follows the scroll, so scrolling back runs the flow backward
 out vec4 outColor;
 
 float hash(vec2 p) { p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
@@ -52,25 +54,26 @@ void main() {
   float q = (abs(v.x) - uGap) / uPW;                         // out from the slit, fraction of a panel
 
   float st = smoothstep(0.12, 0.5, field(p));               // on a structure
-  float n = fbm(p / 120.0 + seed + vec2(side * uTime * 0.06, uTime * 0.04));
+  float n = fbm(p / 120.0 + seed + vec2(side * uFlow * 0.06, uFlow * 0.04));
   // surges: the liquid runs ahead and falls back, differently along each row
-  float surge = 0.035 * sin(uTime * 1.9 + p.y * 0.021 + side * 2.0) + 0.02 * sin(uTime * 3.3 + p.y * 0.05);
-  float T = q * (1.0 - 0.3 * st) + 0.07 * (n - 0.5) - surge * st;
+  float surge = 0.035 * sin(uFlow * 1.9 + p.y * 0.021 + side * 2.0) + 0.02 * sin(uFlow * 3.3 + p.y * 0.05);
+  // the unevenness grows in from nothing (uWobble), so the first frame is the plain white disc
+  float T = q * (1.0 - 0.3 * st) + uWobble * (0.07 * (n - 0.5) - surge * st);
   float local = uWave - T;                                    // how far behind the front this point is
 
   float B = 0.2 + 0.06 * (n - 0.5);
   float crest = smoothstep(0.0, 0.015, local) * (1.0 - smoothstep(B * 0.45, B, local));
   float tail = smoothstep(B * 0.45, B, local) * (1.0 - smoothstep(B, B * 1.6, local));
-  float beads = smoothstep(0.6, 0.72, fbm(p / 10.0 + vec2(-side * uTime * 0.5, uTime * 0.15) + seed));
+  float beads = smoothstep(0.6, 0.72, fbm(p / 10.0 + vec2(-side * uFlow * 0.5, uFlow * 0.15) + seed));
   float h = max(crest * st, tail * beads * st * 0.9);
 
   // the mark's white mass at the slit
   float d = length(v);
-  float edge = uMass * (1.0 + 0.25 * uWobble * (fbm(vec2(atan(v.y, abs(v.x)) * 3.0, uTime * 0.2) + seed) - 0.5));
+  float edge = uMass * (1.0 + 0.25 * uWobble * (fbm(vec2(atan(v.y, abs(v.x)) * 3.0, uFlow * 0.2) + seed) - 0.5));
   h = max(h, 1.0 - smoothstep(edge - 1.5, edge + 1.5, d));
 
   // surface: ripples running outward on the moving liquid, then light from the slope
-  float hh = h + 0.12 * crest * fbm(p / 26.0 + vec2(-side * uTime * 0.6, uTime * 0.2) + seed);
+  float hh = h + 0.12 * uWobble * crest * fbm(p / 26.0 + vec2(-side * uFlow * 0.6, uFlow * 0.2) + seed);
   vec2 grad = vec2(dFdx(hh), dFdy(hh)) * 7.0;
   vec3 nrm = normalize(vec3(-grad.x, grad.y, 1.0));
   vec3 L = normalize(vec3(-0.45, 0.55, 0.7));
@@ -78,8 +81,9 @@ void main() {
   float diff = max(dot(nrm, L), 0.0) / L.z;                  // 1 where level
   float spec = max(pow(max(dot(nrm, H), 0.0), 60.0) - pow(H.z, 60.0), 0.0);
   float thick = smoothstep(0.3, 0.75, h);                    // thin at the rim: a darker meniscus
-  vec3 col = vec3(0.961) * clamp(diff, 0.6, 1.15) * mix(0.7, 1.0, thick) + 0.5 * spec;
-  float a = smoothstep(0.3, 0.42, h) * mix(0.7, 1.0, thick);
+  float rim = 0.3 * uWobble;                                 // no rim yet on the plain white disc
+  vec3 col = vec3(0.961) * clamp(diff, 0.6, 1.15) * mix(1.0 - rim, 1.0, thick) + 0.5 * spec;
+  float a = smoothstep(0.3, 0.42, h) * mix(1.0 - rim, 1.0, thick);
 
   // ahead of the front the window is still dark
   float dark = 1.0 - smoothstep(-0.006, 0.006, local);
@@ -130,7 +134,7 @@ export function HomeMorph() {
     const u = (name: string) => gl.getUniformLocation(prog, name)
     const U = {
       canvas: u('uCanvas'), stage: u('uStage'), c: u('uC'), gap: u('uGap'), pw: u('uPW'),
-      wave: u('uWave'), mass: u('uMass'), wobble: u('uWobble'), time: u('uTime'),
+      wave: u('uWave'), mass: u('uMass'), wobble: u('uWobble'), flow: u('uFlow'),
     }
     // the structure field: white where the brain | network are, on black
     const fcv = document.createElement('canvas')
@@ -181,7 +185,7 @@ export function HomeMorph() {
       }
     }
 
-    const draw = (now: number) => {
+    const draw = () => {
       raf = requestAnimationFrame(draw)
       const m = homeState.morph
       const on = m > 0 && m < 1
@@ -210,9 +214,10 @@ export function HomeMorph() {
       gl.uniform1f(U.gap, gap)
       gl.uniform1f(U.pw, pw)
       gl.uniform1f(U.wave, wave)
-      gl.uniform1f(U.mass, r0 * (1 - Math.min(1, wave / 0.3)))
+      // the mass starts as the window's own disc (exactly the white it takes over from), then drains
+      gl.uniform1f(U.mass, r * (1 - Math.min(1, wave / 0.3)))
       gl.uniform1f(U.wobble, Math.min(1, wave / 0.06))
-      gl.uniform1f(U.time, (now / 1000) % 1000)
+      gl.uniform1f(U.flow, wave * 8)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
     }
     raf = requestAnimationFrame(draw)
