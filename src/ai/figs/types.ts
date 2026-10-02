@@ -18,4 +18,12 @@ export interface FigPair {
 export interface TopicFigs {
   arch: { brain: ComponentType<FigProps>; ai: ComponentType<FigProps> }
   dynamics: ComponentType<FigProps>
+  /** figures kept from the old system card, shown with the equation they illustrate (keyed by equation index) */
+  math?: { bio?: Record<number, MathFig>; comp?: Record<number, MathFig> }
+}
+
+/** A figure shown inside an equation card, with its caption. */
+export interface MathFig {
+  Fig: ComponentType<FigProps>
+  cap: Bi
 }

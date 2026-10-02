@@ -1,6 +1,7 @@
 import type { Bi } from '../../../data/types'
 import { C, Svg, T } from '../kit'
 import { Flow, Gap, Mod, Num, Region, Store, Var } from '../grammar'
+import { legacyFig } from '../layer4'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -127,4 +128,5 @@ function MemoryTimeline({ t }: FigProps) {
 export const EPISODIC_FIGS: TopicFigs = {
   arch: { brain: HippocampusArch, ai: RagArch },
   dynamics: MemoryTimeline,
+  math: { bio: { 0: legacyFig('sys-memory', 'brain') }, comp: { 0: legacyFig('sys-memory', 'ai') } },
 }

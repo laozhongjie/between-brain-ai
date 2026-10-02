@@ -8,7 +8,7 @@ import { useStore } from '../../store'
 import { CARD_BY_ID, MECH_BY_ID, TOPIC_CONTENT, WRITTEN_TOPICS, domainOfTopic } from '../content'
 import { TOPIC_FIGS } from '../figs'
 import { GRAMMAR_LEGEND, LegendMark } from '../figs/grammar'
-import type { FigProps } from '../figs/types'
+import type { FigProps, MathFig } from '../figs/types'
 import { Rich, Tex } from '../Tex'
 import type { FigStep, Lead, Misreading, Topic, TopicCapability, TopicFormula, TopicLimit } from '../types'
 import { EvidenceBadge, KindTags, PagerLink, RefList } from './common'
@@ -72,12 +72,18 @@ function CapabilityDuel({ rows, bio, comp, short }: { rows: TopicCapability[]; b
 }
 
 /** One equation, taught: what it describes, its symbols, how it computes, an example, what follows and its limits. */
-function FormulaCard({ f, side }: { f: TopicFormula; side: 'bio' | 'comp' }) {
+function FormulaCard({ f, side, fig }: { f: TopicFormula; side: 'bio' | 'comp'; fig?: MathFig }) {
   const t = useT()
   return (
     <article className={`formula-card ${side}`}>
       <h4><Rich text={t(f.title)} /></h4>
       <div className="formula"><Tex tex={f.tex} /></div>
+      {fig && (
+        <figure className="fig formula-fig">
+          <fig.Fig t={t} />
+          <figcaption><Rich text={t(fig.cap)} /></figcaption>
+        </figure>
+      )}
       <table className="symbols">
         <thead>
           <tr>
@@ -257,9 +263,9 @@ export function TopicPage({ topic }: { topic: Topic }) {
       <section aria-labelledby="topic-math">
         <h2 id="topic-math">{t(UI.secMath)}</h2>
         <h3 className="math-side bio">{bio}</h3>
-        {c.bioMath.map((f, i) => <FormulaCard key={i} f={f} side="bio" />)}
+        {c.bioMath.map((f, i) => <FormulaCard key={i} f={f} side="bio" fig={figs.math?.bio?.[i]} />)}
         <h3 className="math-side comp">{comp}</h3>
-        {c.compMath.map((f, i) => <FormulaCard key={i} f={f} side="comp" />)}
+        {c.compMath.map((f, i) => <FormulaCard key={i} f={f} side="comp" fig={figs.math?.comp?.[i]} />)}
       </section>
 
       <section aria-labelledby="topic-limits">

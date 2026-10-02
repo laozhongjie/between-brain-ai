@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest'
 import type { Bi } from '../src/data/types'
 import { TOPIC_BY_ID, TOPIC_CONTENT } from '../src/ai/content'
 import { TopicPage } from '../src/ai/pages/TopicPage'
+import { TOPIC_FIGS } from '../src/ai/figs'
 
 const language = vi.hoisted(() => ({ current: 'zh' as 'zh' | 'en' }))
 
@@ -32,8 +33,10 @@ describe('topic pages', () => {
         ...[...page.dynamicsSteps.biological, ...page.dynamicsSteps.computational].flatMap((s) => [s.title, ...s.points]),
           ...[...page.bioMath, ...page.compMath].flatMap((f) => [f.title, ...f.symbols.map((x) => x.meaning), ...f.steps, ...(f.example ? [f.example] : []), ...f.consequences, ...f.limitations])]
         for (const text of texts) for (const part of plain(text[lang])) expect(html, part).toContain(escaped(part))
-        // the three figures render as SVG, each followed by its numbered explanation
-        expect(html.match(/<svg[^>]*class="fig-svg"/g) ?? []).toHaveLength(3)
+        // the three figures render as SVG, each followed by its numbered explanation, plus any old figures kept by an equation
+        const math = TOPIC_FIGS[id].math
+        const kept = Object.keys(math?.bio ?? {}).length + Object.keys(math?.comp ?? {}).length
+        expect(html.match(/<svg[^>]*class="fig-svg"/g) ?? []).toHaveLength(3 + kept)
         expect(html.match(/<ol class="fig-steps/g) ?? []).toHaveLength(4)
         // every capability row gets a verdict pointer
         expect(html.match(/class="duel-row lead-/g) ?? []).toHaveLength(page.capabilities.length)

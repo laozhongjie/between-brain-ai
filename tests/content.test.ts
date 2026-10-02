@@ -123,6 +123,9 @@ describe('AI correspondence content', () => {
         ...[...page.bioMath, ...page.compMath].flatMap((f) => [f.title, ...f.symbols.map((x) => x.meaning), ...f.steps, ...(f.example ? [f.example] : []), ...f.consequences, ...f.limitations])]
       for (const f of fields) expect(f.zh.trim() && f.en.trim(), id).toBeTruthy()
       expect(page.limits.biological.length && page.limits.computational.length && page.limits.misreadings.length, id).toBeTruthy()
+      // a kept figure sits next to an equation that exists
+      for (const [side, list] of [['bio', page.bioMath], ['comp', page.compMath]] as const)
+        for (const i of Object.keys(figs.math?.[side] ?? {})) expect(Number(i) < list.length, `${id}: ${side} figure ${i}`).toBe(true)
       // a limit points at architecture steps that exist on its own side
       for (const [limits, steps] of [[page.limits.biological, page.archSteps.biological], [page.limits.computational, page.archSteps.computational]] as const)
         for (const l of limits) for (const n of l.steps ?? []) expect(n >= 1 && n <= steps.length, `${id}: ${l.title.en} step ${n}`).toBe(true)

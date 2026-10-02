@@ -1,6 +1,7 @@
 import type { Bi } from '../../../data/types'
 import { C, Svg, T } from '../kit'
 import { Flow, Gap, Mod, Num, Region, Var } from '../grammar'
+import { legacyFig } from '../layer4'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -128,4 +129,5 @@ function RecognitionTimeline({ t }: FigProps) {
 export const VISUAL_FIGS: TopicFigs = {
   arch: { brain: VisualStreamsArch, ai: VisionModelArch },
   dynamics: RecognitionTimeline,
+  math: { bio: { 1: legacyFig('sys-vision', 'brain') }, comp: { 0: legacyFig('sys-vision', 'ai') } },
 }

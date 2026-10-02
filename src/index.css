@@ -616,6 +616,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .formula-card h4 { margin: 0 0 6px; font-size: 16px; color: var(--text-h); font-weight: 600; }
 .formula-card h5 { margin: 12px 0 4px; font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; color: var(--text-dim); text-transform: none; }
 .formula-card .formula { padding: 6px 12px 10px; }
+.formula-card .formula-fig { max-width: 560px; margin: 2px auto 10px; }
+.formula-fig figcaption { margin: 4px 4px 0; font-size: 12.5px; line-height: 1.6; color: var(--text-dim); text-align: justify; }
 .formula-card .formula .katex-display { font-size: 1.3em; }
 .symbols .katex { font-size: 1.08em; }
 .formula-card ol, .formula-card ul { margin: 0; padding-left: 20px; }
