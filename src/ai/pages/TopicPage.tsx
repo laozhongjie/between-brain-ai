@@ -46,9 +46,23 @@ function FormulaCard({ f, side }: { f: TopicFormula; side: 'bio' | 'comp' }) {
       <h4><Rich text={t(f.title)} /></h4>
       <div className="formula"><Tex tex={f.tex} /></div>
       <table className="symbols">
-        <thead><tr><th scope="col">{t(UI.mathSymbols)}</th><th scope="col">{t(UI.mathMeaning)}</th></tr></thead>
+        <thead>
+          <tr>
+            <th scope="col">{t(UI.mathSymbols)}</th><th scope="col">{t(UI.mathMeaning)}</th>
+            <th scope="col" className="pair">{t(UI.mathSymbols)}</th><th scope="col" className="pair">{t(UI.mathMeaning)}</th>
+          </tr>
+        </thead>
         <tbody>
-          {f.symbols.map((s, i) => <tr key={i}><td><Rich text={`$${s.tex}$`} /></td><td><Rich text={t(s.meaning)} /></td></tr>)}
+          {/* two symbols per row */}
+          {f.symbols.filter((_, i) => i % 2 === 0).map((s, r) => {
+            const s2 = f.symbols[2 * r + 1]
+            return (
+              <tr key={r}>
+                <td className="sym"><Rich text={`$${s.tex}$`} /></td><td><Rich text={t(s.meaning)} /></td>
+                {s2 ? (<><td className="sym pair"><Rich text={`$${s2.tex}$`} /></td><td className="pair"><Rich text={t(s2.meaning)} /></td></>) : (<><td className="pair" /><td className="pair" /></>)}
+              </tr>
+            )
+          })}
         </tbody>
       </table>
       <h5>{t(UI.mathSteps)}</h5>

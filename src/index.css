@@ -594,11 +594,13 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .formula-card .formula .katex-display { font-size: 1.3em; }
 .symbols .katex { font-size: 1.08em; }
 .formula-card ol, .formula-card ul { margin: 0; padding-left: 20px; }
-.symbols { width: 100%; margin: 8px 0 4px; border-collapse: collapse; font-size: 13.5px; }
+.symbols { width: 100%; margin: 8px 0 4px; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
 .symbols th { text-align: left; font: 500 12px/1.4 var(--label); letter-spacing: 0.04em; color: var(--text-dim); padding: 4px 10px; border-bottom: 1px solid var(--panel-border); }
 .symbols td { padding: 5px 10px; line-height: 1.6; color: var(--text); border-bottom: 1px solid rgba(170,195,230,0.06); vertical-align: baseline; }
-.symbols td:first-child, .symbols th:first-child { width: 1%; white-space: nowrap; }
-.symbols td:first-child { color: var(--text-h); }
+.symbols th:nth-child(odd) { width: 13%; }
+.symbols td.sym { white-space: nowrap; color: var(--text-h); }
+.symbols td.pair.sym, .symbols th.pair { padding-left: 18px; }
+.symbols td.sym.pair { border-left: 1px solid rgba(170,195,230,0.08); }
 .formula-outcomes { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
 @media (max-width: 760px) { .formula-outcomes { grid-template-columns: 1fr; } }
 .xref { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-line); }
