@@ -159,6 +159,7 @@ export const VISUAL_RECOGNITION: TopicContent = {
       b('「腹侧管识别、背侧管动作」是一种简化：两条通路之间有大量连接，背侧也携带形状信息。', 'Ventral for recognition and dorsal for action is a simplification. The two streams are richly connected, and the dorsal stream carries shape information too.'),
       b('IT 中有专门对面孔、身体、地点放电的区域。猕猴实验表明，用几百个 IT 记录位点在约 100 毫秒内的放电，线性分类器就能较准确地读出物体类别和身份。', 'IT has regions that fire for faces, bodies and places. In macaques, the firing of a few hundred IT recording sites within about 100 ms lets a linear classifier read out object category and identity well.'),
       b('反馈连接的数量与前馈连接相当，但它在识别中的具体作用仍在研究中。', 'Feedback connections are about as numerous as feedforward ones, but their exact role in recognition is still being studied.'),
+      b('对遮挡、杂乱等难识别的图像，IT 中的类别信息比普通图像出现得更晚，被认为依赖区域内的循环连接和高级区域的反馈；只有前馈的深层网络对这类图像表现最差。', 'For hard images, such as occluded or cluttered ones, category information appears in IT later than for ordinary images and is thought to depend on recurrent connections and feedback from higher areas. Purely feedforward deep networks do worst on these images.'),
     ],
     computational: [
       b('训练：用反向传播在大量标注图像上调整全部权重，例如 ImageNet 的约 128 万张训练图像、1000 个类别。CLIP 这类模型改用数亿对「图像与文字说明」训练。', 'Training adjusts every weight by backpropagation on many labeled images, for example the roughly 1.28 million training images in 1,000 ImageNet classes. Models such as CLIP train instead on hundreds of millions of image and caption pairs.'),
@@ -166,48 +167,7 @@ export const VISUAL_RECOGNITION: TopicContent = {
       b('权重共享在生物中没有直接对应：每个神经元有自己的突触，相邻神经元相似的选择性要通过学习和发育形成。', 'Weight sharing has no direct biological counterpart. Each neuron has its own synapses, and similar tuning in neighbors must come from learning and development.'),
       b('ViT 内置的「局部」假设比 CNN 少，只用 ImageNet 训练时不如 CNN；在数亿张图像上预训练后才超过 CNN。实际系统常把两者结合。', 'A ViT builds in fewer locality assumptions than a CNN and does worse when trained on ImageNet alone. It beats CNNs only after pretraining on hundreds of millions of images. Real systems often combine the two.'),
       b('高分辨率图像通常先缩小或切成多块再输入，这是在计算量上的折中，与眼动的「选择看哪里」不同。', 'High-resolution images are usually shrunk or tiled before input. This trades off computation and differs from choosing where to look.'),
-    ],
-  },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('前馈扫过（约 100 毫秒内）', 'Feedforward sweep (within about 100 ms)'),
-        points: [
-          b('图像出现后，信号从视网膜经 LGN 到 V1，几十毫秒内 V1 开始响应。', 'After the image appears, signals pass from the retina through the LGN to V1, which responds within tens of milliseconds.'),
-          b('约 100 毫秒时，猕猴 IT 的放电已能读出物体类别；人在约 150 毫秒时，脑电已能区分有无动物的图像。', 'By about 100 ms, macaque IT firing carries the object category. In people, brain potentials distinguish images with and without animals by about 150 ms.'),
-        ],
-      },
-      {
-        title: b('循环细化（100 到 200 毫秒）', 'Recurrent refinement (100 to 200 ms)'),
-        points: [
-          b('对遮挡、杂乱等难识别的图像，IT 中的类别信息出现得更晚。', 'For hard images, such as occluded or cluttered ones, category information appears later in IT.'),
-          b('这些晚出现的信息被认为依赖区域内的循环连接和高级区域的反馈；只有前馈的深层网络对这类图像表现最差。', 'This late information is thought to depend on recurrent connections and feedback from higher areas. Purely feedforward deep networks do worst on these images.'),
-        ],
-      },
-      {
-        title: b('眼动与重新采样（每 300 毫秒左右）', 'Eye movements and resampling (every 300 ms or so)'),
-        points: [
-          b('一次扫视后视网膜输入整个更新，新的前馈扫过开始。', 'After a saccade the retinal input changes completely and a new feedforward sweep begins.'),
-          b('多次注视的结果在脑内整合成稳定的场景，尽管每一次只看清中央一小块。', 'The results of many fixations combine into a stable scene, though each one sees only a small central patch sharply.'),
-        ],
-      },
-    ],
-    computational: [
-      {
-        title: b('一次前向计算（毫秒级）', 'One forward pass (milliseconds)'),
-        points: [b('所有层按顺序算一遍就得到输出，难图和易图的计算量相同。', 'All layers run once in order to give the output, with the same computation for hard and easy images.')],
-      },
-      {
-        title: b('输出固定', 'Fixed output'),
-        points: [b('结果算出后不再更新；同一张图再算一次，结果完全相同。', 'The result never updates after the pass. Running the same image again gives exactly the same result.')],
-      },
-      {
-        title: b('没有循环细化与眼动', 'No recurrent refinement or eye movements'),
-        points: [
-          b('标准识别模型没有循环细化的阶段，也不会根据第一眼的结果决定下一步看哪里。', 'Standard recognition models have no stage of recurrent refinement and never use a first look to decide where to look next.'),
-          b('加入循环连接的模型（如 CORnet）和按需增加计算的模型仍主要是研究原型。', 'Models with recurrent connections, such as CORnet, and models that add computation on demand are still mostly research prototypes.'),
-        ],
-      },
+      b('网络对每张图按顺序把所有层算一遍，难图和易图的计算量相同。加入循环连接的模型（如 CORnet）和按需增加计算的模型仍主要是研究原型。', 'The network runs every layer once in order for each image, with the same computation for hard and easy images. Models with recurrent connections, such as CORnet, and models that add computation on demand are still mostly research prototypes.'),
     ],
   },
   bioMath: [

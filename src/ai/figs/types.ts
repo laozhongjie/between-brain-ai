@@ -13,8 +13,8 @@ export interface FigPair {
   aiCap: Bi
 }
 
-/** Figures of a topic page: the two architectures side by side, and one dynamics figure over a shared time axis.
- * Their explanations live in the topic content (archSteps, dynamicsSteps), numbered to match the markers. */
+/** Figures of a topic page: the two architectures side by side, and, on topics that have dynamicsSteps, one dynamics
+ * figure over a shared time axis. Their explanations live in the topic content (archSteps, dynamicsSteps), numbered to match the markers. */
 export interface TopicFigs {
   /** left out while a figure is still to be drawn; the page shows an empty frame instead */
   arch?: { brain: ComponentType<FigProps>; ai: ComponentType<FigProps> }

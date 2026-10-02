@@ -129,40 +129,6 @@ export const PLANNING: TopicContent = {
       b('把大语言模型与外部规划器或验证器结合（模型提出方案，程序检查合法性），是目前提高规划可靠性的常见做法。', 'Pairing a large language model with an external planner or verifier, with the model proposing and a program checking validity, is a common way to make planning more reliable.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('百毫秒：一次预演', 'Hundreds of milliseconds: one preview'),
-        points: [b('岔路口的一次前向扫描约在一个 125 毫秒的节律周期内完成。', 'One forward sweep at a fork fits within a rhythm cycle of about 125 ms.')],
-      },
-      {
-        title: b('秒：深思', 'Seconds: deliberation'),
-        points: [b('复杂的选择需要几秒到几十秒，交替预演多条路线后做决定。', 'Complex choices take seconds to tens of seconds of alternating previews before deciding.')],
-      },
-      {
-        title: b('休息与睡眠：离线规划', 'Rest and sleep: offline planning'),
-        points: [b('离线回放预先计算有用的路线，结果写入策略。', 'Offline replay precomputes useful routes and writes the results into the policy.')],
-      },
-      {
-        title: b('数年：专长', 'Years: expertise'),
-        points: [b('长期练习让规划更深、剪枝更准。', 'Long practice makes planning deeper and pruning more accurate.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('毫秒：一次模拟', 'Milliseconds: one simulation'),
-        points: [b('一次从根到叶的模拟加网络评估，耗时毫秒。', 'One simulation from root to leaf with network evaluation takes milliseconds.')],
-      },
-      {
-        title: b('秒：一步棋', 'Seconds: one move'),
-        points: [b('每一步棋重复数百到数万次模拟。', 'Each move repeats hundreds to tens of thousands of simulations.')],
-      },
-      {
-        title: b('天：自我对弈训练', 'Days: self-play training'),
-        points: [b('数百万局自我对弈训练网络，之后网络固定，搜索在每一步重新进行。', 'Millions of self-play games train the network, which is then fixed while search runs anew at every move.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('基于模型的规划：用状态转移和奖赏推算每个选择的价值', 'Model-based planning: computing each choice’s value from transitions and rewards'),

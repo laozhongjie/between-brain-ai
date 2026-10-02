@@ -112,36 +112,6 @@ export const INNATE_CONSTRAINTS: TopicContent = {
       b('2024 年的研究让一个小的「基因组网络」生成大网络的权重，在强化学习和图像任务上压缩了几个数量级，仍保留了大部分能力，并在迁移到新任务时有优势。', 'A 2024 study had a small genomic network generate a large network’s weights. On reinforcement learning and image tasks it compressed by orders of magnitude while keeping most of the ability, with advantages in transfer to new tasks.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('百万年：进化', 'Millions of years: evolution'),
-        points: [b('先天结构经过漫长的进化选择，编码在基因组中。', 'Innate structure is selected over long evolution and encoded in the genome.')],
-      },
-      {
-        title: b('数月：胚胎发育', 'Months: embryonic development'),
-        points: [b('按基因组的规则形成大脑的粗略结构，出生前的自发活动进一步细化连接。', 'The brain’s coarse structure forms by the genome’s rules, and spontaneous activity before birth refines connections.')],
-      },
-      {
-        title: b('出生后：经验在框架上学习', 'After birth: experience on the framework'),
-        points: [b('经验在先天框架上调整，许多能力有最易受塑造的时期。', 'Experience adjusts the innate framework, and many abilities have periods when they are most malleable.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('天：设计或搜索架构', 'Days: designing or searching architectures'),
-        points: [b('研究者设计或自动搜索结构。', 'Researchers design or automatically search architectures.')],
-      },
-      {
-        title: b('周到月：预训练', 'Weeks to months: pretraining'),
-        points: [b('在海量数据上训练出起点参数。', 'Starting parameters are trained on vast data.')],
-      },
-      {
-        title: b('小时：微调', 'Hours: fine-tuning'),
-        points: [b('从起点出发学习具体任务。', 'Specific tasks are learned from that starting point.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('基因组瓶颈：基因组的信息量远小于写下全部连接所需', 'The genomic bottleneck: the genome holds far less than all connections need'),

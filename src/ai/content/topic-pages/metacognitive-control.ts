@@ -122,36 +122,6 @@ export const METACOGNITIVE_CONTROL: TopicContent = {
       b('推理时的计算越多不一定越好：简单题上过长的推理浪费计算，有时还会把对的答案改错。', 'More inference-time computation is not always better. Overlong reasoning on easy problems wastes computation and sometimes turns right answers wrong.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('百毫秒：错误后调整', 'Hundreds of milliseconds: adjusting after errors'),
-        points: [b('错误信号出现后，下一次反应在几百毫秒的尺度上变慢。', 'After an error signal, the next response slows on the scale of hundreds of milliseconds.')],
-      },
-      {
-        title: b('秒：再看一次或求助', 'Seconds: looking again or asking'),
-        points: [b('信心低时，决定再收集信息或求助，通常在几秒内完成。', 'With low confidence, deciding to gather more information or ask for help usually takes seconds.')],
-      },
-      {
-        title: b('分钟到小时：学习的分配', 'Minutes to hours: allocating study'),
-        points: [b('学习过程中，人根据掌握程度不断调整把时间花在哪里。', 'While studying, people keep adjusting where to spend time according to how well they know things.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('秒到分钟：推理过程', 'Seconds to minutes: reasoning'),
-        points: [b('一次回答前的推理可以从几百到数万个词元，耗时几秒到几分钟。', 'Reasoning before one answer runs from hundreds to tens of thousands of tokens, taking seconds to minutes.')],
-      },
-      {
-        title: b('多次采样：成倍的计算', 'Multiple samples: multiplied computation'),
-        points: [b('采样 $n$ 次再投票，计算量约为单次的 $n$ 倍。', 'Sampling $n$ times and voting costs about $n$ times a single answer.')],
-      },
-      {
-        title: b('训练阶段：形成调控模式', 'Training: forming control habits'),
-        points: [b('何时检查、推理多长，主要在强化学习训练中形成，之后固定。', 'When to check and how long to reason form mainly during reinforcement learning training and are then fixed.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('控制的期望价值：值不值得多花力气', 'Expected value of control: is extra effort worth it'),

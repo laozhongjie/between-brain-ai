@@ -1,5 +1,5 @@
 import type { Bi } from '../../../data/types'
-import { C, Svg, T } from '../kit'
+import { Svg } from '../kit'
 import { Flow, Gap, Mod, Num, Store } from '../grammar'
 import type { FigProps, TopicFigs } from '../types'
 
@@ -58,45 +58,6 @@ function ContinualMethodsArch({ t }: FigProps) {
   )
 }
 
-/** Learning and forgetting from minutes to a lifetime. */
-function ContinualTimeline({ t }: FigProps) {
-  const id = 'f09d'
-  const ticks: [number, Bi][] = [[150, b('1 分钟', '1 min')], [240, b('1 小时', '1 h')], [320, b('1 天', '1 day')], [400, b('1 周', '1 week')], [470, b('1 月', '1 month')], [560, b('1 年', '1 year')], [650, b('10 年', '10 years')], [730, b('数十年', 'decades')]]
-  return (
-    <Svg id={id} w={760} h={250} label={t(b('学习与遗忘的时间尺度', 'Time scales of learning and forgetting'))}>
-      <T x={16} y={44} anchor="start" s={t(b('突触巩固与\n互补学习', 'Consolidation,\nCLS'))} size={10.5} color={C.pinkD} weight={600} />
-      <T x={16} y={176} anchor="start" s={t(b('持续学习\n方法', 'Continual\nlearning'))} size={10.5} color={C.skyD} weight={600} />
-
-      <Mod x={150} y={26} w={90} h={36} side="bio" label={t(b('编码', 'Encoding'))} sub={t(b('分钟', 'minutes'))} />
-      <Mod x={240} y={26} w={80} h={36} side="bio" label={t(b('突触巩固', 'Synaptic'))} sub={t(b('小时', 'hours'))} size={10.5} />
-      <Mod x={320} y={26} w={150} h={36} side="bio" label={t(b('系统巩固', 'Systems consolidation'))} sub={t(b('夜间到数周', 'nights to weeks'))} size={10.5} />
-      <Mod x={470} y={26} w={260} h={36} side="bio" label={t(b('维持与修剪', 'Maintenance and pruning'))} sub={t(b('数月到终身', 'months to a lifetime'))} />
-
-      <line x1={140} y1={100} x2={752} y2={100} stroke={C.line} strokeWidth={1} />
-      {ticks.map(([x, l]) => (
-        <g key={x}>
-          <line x1={x} y1={96} x2={x} y2={104} stroke={C.dim} strokeWidth={1} />
-          <T x={x} y={115} s={t(l)} size={9.5} color={C.dim} />
-        </g>
-      ))}
-
-      <Mod x={150} y={150} w={80} h={36} side="comp" label={t(b('逐步更新', 'Step updates'))} sub={t(b('几分钟内数千步', '1000s of steps in minutes'))} size={10.5} />
-      <Mod x={240} y={150} w={80} h={36} side="comp" label={t(b('任务切换', 'Task switch'))} size={10.5} />
-      <Mod x={320} y={150} w={150} h={36} side="comp" label={t(b('长期连续训练', 'Long continual training'))} sub={t(b('可塑性可能下降', 'plasticity may fade'))} size={10.5} />
-      <Gap x={470} y={150} w={260} h={36} label={t(b('部署：冻结，定期重新训练新版本', 'Deployed: frozen, retrained as new versions'))} />
-      <Num x={150} y={26} n={1} side="bio" />
-      <Num x={240} y={26} n={2} side="bio" />
-      <Num x={320} y={26} n={3} side="bio" />
-      <Num x={470} y={26} n={4} side="bio" />
-      <Num x={150} y={150} n={1} side="comp" />
-      <Num x={240} y={150} n={2} side="comp" />
-      <Num x={320} y={150} n={3} side="comp" />
-      <Num x={470} y={150} n={4} side="comp" />
-    </Svg>
-  )
-}
-
 export const CONTINUAL_FIGS: TopicFigs = {
   arch: { brain: ComplementaryArch, ai: ContinualMethodsArch },
-  dynamics: ContinualTimeline,
 }

@@ -167,47 +167,6 @@ export const AUDITORY_SCENE: TopicContent = {
       b('「目标说话人提取」需要先给模型一段该说话人的注册语音，相当于由外部告诉模型要听谁。', 'Target speaker extraction first gives the model an enrollment clip of that speaker, which tells it from outside whom to follow.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('微秒：两耳时间差', 'Microseconds: interaural time'),
-        points: [b('脑干能分辨约 10 微秒的两耳时间差，比单个神经脉冲短得多，靠大量纤维的精确同步实现。', 'The brainstem resolves interaural differences of about 10 microseconds, far shorter than one spike, through precise timing across many fibers.')],
-      },
-      {
-        title: b('毫秒：相位锁定与频率', 'Milliseconds: phase locking and frequency'),
-        points: [b('听神经的脉冲在毫秒尺度上跟随声波的波形，携带低频声音的精细时间结构。', 'Auditory nerve spikes follow the waveform on the millisecond scale and carry the fine timing of low sounds.')],
-      },
-      {
-        title: b('百毫秒：音节', 'Hundreds of milliseconds: syllables'),
-        points: [b('皮层活动随每秒 4 到 8 个音节起伏，把语音切成片段；词和句子的理解在随后几百毫秒到几秒内完成。', 'Cortical activity follows 4 to 8 syllables per second and cuts speech into pieces. Words and sentences are understood over the next few hundred milliseconds to seconds.')],
-      },
-      {
-        title: b('秒到分钟：注意与适应', 'Seconds to minutes: attention and adaptation'),
-        points: [
-          b('注意能在一两秒内切换到另一个说话人。', 'Attention can switch to another talker within a second or two.'),
-          b('听陌生口音约一分钟后，理解就明显变快，这是一种在使用中发生的快速学习。', 'After about a minute with an unfamiliar accent, understanding speeds up clearly, a fast learning that happens during use.'),
-        ],
-      },
-    ],
-    computational: [
-      {
-        title: b('采样（约 60 微秒一个）', 'Samples (about 60 µs each)'),
-        points: [b('每秒 16000 个采样点，单声道输入，不含两耳差异。', 'Sixteen thousand samples per second from a single channel, with no difference between two ears.')],
-      },
-      {
-        title: b('频谱帧（10 毫秒）', 'Spectrogram frames (10 ms)'),
-        points: [b('每 10 毫秒一帧，只保留能量，相位被丢弃。', 'One frame every 10 ms keeps energy only, and phase is discarded.')],
-      },
-      {
-        title: b('30 秒窗口', '30-second windows'),
-        points: [b('Whisper 每次处理 30 秒；流式模型按几百毫秒的小块处理，以减少延迟。', 'Whisper processes 30 seconds at a time. Streaming models use chunks of a few hundred milliseconds to cut delay.')],
-      },
-      {
-        title: b('参数不变', 'Fixed parameters'),
-        points: [b('使用过程中参数不变，对新口音的适应要等到下一次训练。', 'Parameters stay fixed during use, so adapting to a new accent waits for the next training run.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('耳蜗滤波器：每个位置只放过一小段频率', 'Cochlear filters: each place passes a narrow band'),

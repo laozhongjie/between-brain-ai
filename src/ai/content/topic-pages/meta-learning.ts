@@ -136,44 +136,6 @@ export const META_LEARNING: TopicContent = {
       b('上下文窗口的长度限制了一次能放入的示例数；示例的顺序和格式也会明显影响结果。', 'Context length limits how many examples fit, and the order and format of examples noticeably affect results.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('秒：每次试验', 'Seconds: each trial'),
-        points: [b('每次结果都改变前额叶的活动模式，下一次的选择随之调整。', 'Each outcome changes the prefrontal pattern, and the next choice adjusts.')],
-      },
-      {
-        title: b('分钟：学会一个新问题', 'Minutes: a new problem learned'),
-        points: [b('几次到几十次试验内掌握当前规则，突触基本不变。', 'The current rule is mastered within a few to a few dozen trials, with synapses largely unchanged.')],
-      },
-      {
-        title: b('夜间：巩固', 'Overnight: consolidation'),
-        points: [b('快速学到的规则经过练习和睡眠，可以成为长期记忆。', 'Rules learned quickly can become long-term memory through practice and sleep.')],
-      },
-      {
-        title: b('天到月：学会怎么学', 'Days to months: learning to learn'),
-        points: [b('经历许多同类问题，多巴胺驱动的突触学习慢慢塑造前额叶网络。', 'Across many problems, dopamine-driven synaptic learning slowly shapes the prefrontal network.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('一次提示内：上下文学习', 'Within one prompt: in-context learning'),
-        points: [b('读入示例后立即适应，耗时毫秒到秒。', 'Adaptation follows immediately after reading the examples, in milliseconds to seconds.')],
-      },
-      {
-        title: b('小时：微调', 'Hours: fine-tuning'),
-        points: [b('要让模型长期掌握新任务，需要用新数据另做微调。', 'For lasting skill on a new task, the model needs separate fine-tuning on new data.')],
-      },
-      {
-        title: b('周到月：预训练与元训练', 'Weeks to months: pretraining and meta-training'),
-        points: [b('上下文学习和元学习的能力在这一阶段形成。', 'In-context and meta-learning abilities form in this stage.')],
-      },
-      {
-        title: b('会话结束：清空', 'End of session: cleared'),
-        points: [b('上下文中学到的东西随会话结束被丢弃。', 'What was learned in context is discarded when the session ends.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('自适应学习率：意外越多，学得越快', 'Adaptive learning rate: more surprise, faster learning'),

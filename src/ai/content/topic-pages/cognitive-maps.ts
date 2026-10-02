@@ -135,36 +135,6 @@ export const COGNITIVE_MAPS: TopicContent = {
       b('能读出地图坐标不等于能用地图规划：同一类模型在要求多步路径规划的评测中仍然不可靠。', 'Being able to read out map coordinates is not the same as planning with a map. The same kind of models remain unreliable on multi-step path planning benchmarks.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('约 125 毫秒：$\\theta$ 节律中的序列', 'About 125 ms: sequences in the theta rhythm'),
-        points: [b('每个约 8 赫兹的 $\\theta$ 周期中，位置细胞按「刚经过、现在、即将到达」的顺序放电，把一小段路径压缩进一个周期。', 'In each theta cycle of about 8 Hz, place cells fire in the order of just passed, current and coming next, compressing a short path into one cycle.')],
-      },
-      {
-        title: b('分钟：新环境的地图', 'Minutes: a map of a new place'),
-        points: [b('进入新环境几分钟内，位置细胞形成新的放电位置，网格结构直接沿用。', 'Within minutes in a new environment, place cells form new firing locations, and the grid structure carries over directly.')],
-      },
-      {
-        title: b('天到周：维持与漂移', 'Days to weeks: maintenance and drift'),
-        points: [b('地图在多天中保持可用，但具体由哪些细胞编码会逐渐变化。', 'The map stays usable over days, but which cells code each place gradually changes.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('训练（大量环境）', 'Training (many environments)'),
-        points: [b('TEM 在大量不同的环境中训练，学会共享的结构规则。', 'TEM trains across many environments and learns shared structural rules.')],
-      },
-      {
-        title: b('新环境中：逐步绑定', 'In a new environment: step-by-step binding'),
-        points: [b('每走一步写入一次绑定记忆，不需要再训练结构模块。', 'Each step writes once into the binding memory, with no further training of the structure module.')],
-      },
-      {
-        title: b('大语言模型：上下文内', 'Large language models: in context'),
-        points: [b('用文字描述的地图只在上下文中存在，会话结束即消失，规划依赖每次重新读取。', 'A map described in text exists only in context, vanishes when the session ends and must be read again for each plan.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('网格细胞：三组平面波叠加成六边形网格', 'Grid cells: three plane waves sum to a hexagonal grid'),

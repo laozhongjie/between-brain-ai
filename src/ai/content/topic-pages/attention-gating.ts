@@ -111,6 +111,7 @@ export const ATTENTION_GATING: TopicContent = {
       b('「偏向竞争」理论于 1995 年提出：注意不是一盏照亮某处的探照灯，而是在相互竞争的表征之间施加偏向，让目标获胜。', 'Biased competition theory, proposed in 1995, holds that attention is not a spotlight on one place but a bias applied among competing representations that lets the target win.'),
       b('2009 年的「注意的归一化模型」用一个公式统一解释了注意对神经反应的多种影响：注意乘上刺激驱动，再除以周围活动的总和。', 'The 2009 normalization model of attention explains many effects of attention on neural responses with one formula: attention multiplies the stimulus drive, then divides by the pooled surrounding activity.'),
       b('目标引导的注意主要依赖背侧的额顶网络，显著刺激的捕获主要依赖腹侧的颞顶网络，两者相互作用。', 'Goal-directed attention relies mainly on a dorsal frontoparietal network and capture by salient stimuli on a ventral temporoparietal network, and the two interact.'),
+      b('两种注意的速度不同：显著刺激在约一两百毫秒内自动吸引注意，按目标主动转移注意约需三百毫秒。', 'The two kinds of attention differ in speed. Salient stimuli capture attention automatically within one or two hundred milliseconds, while a voluntary shift toward a goal takes about three hundred.'),
       b('丘脑网状核作为「探照灯」的设想最早在 1984 年提出；2015 年的小鼠实验显示，前额叶通过它在视觉和听觉之间选择。', 'The idea of the thalamic reticular nucleus as a searchlight was proposed in 1984. A 2015 mouse study showed prefrontal cortex uses it to choose between vision and hearing.'),
     ],
     computational: [
@@ -118,32 +119,6 @@ export const ATTENTION_GATING: TopicContent = {
       b('注意力的计算量随上下文长度的平方增长；稀疏注意力、滑动窗口等方法只计算部分位置对，以降低成本。', 'Attention’s computation grows with the square of context length. Sparse attention, sliding windows and similar methods compute only some pairs of positions to cut the cost.'),
       b('混合专家模型的总参数可以很大，但每个词元只用到其中一小部分；需要额外的「负载均衡」约束，避免所有词元都挤到少数专家上。', 'Mixture-of-experts models can have huge total parameters while each token uses a small part. An extra load-balancing constraint keeps tokens from crowding onto a few experts.'),
       b('路由选择的是「用哪部分计算」，而不是「处理哪些信息」，与认知层面的注意选择不同。', 'Routing chooses which computation to use, not which information to process, unlike attentional selection in cognition.'),
-    ],
-  },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('约 100 毫秒：捕获', 'About 100 ms: capture'),
-        points: [b('显著刺激在约一两百毫秒内自动吸引注意。', 'Salient stimuli capture attention automatically within one or two hundred milliseconds.')],
-      },
-      {
-        title: b('约 300 毫秒：主动转移', 'About 300 ms: voluntary shift'),
-        points: [b('按目标主动转移注意需要约三百毫秒；转移后，相应位置的神经反应增强。', 'Voluntarily shifting attention to a goal takes about three hundred milliseconds, after which responses at the new location strengthen.')],
-      },
-      {
-        title: b('秒到分钟：维持', 'Seconds to minutes: sustained attention'),
-        points: [b('持续注意会随时间下降，几分钟后错误增多。', 'Sustained attention declines with time, and errors increase after a few minutes.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('每个词元：一次注意力计算', 'Each token: one attention computation'),
-        points: [b('每一层、每个词元都重新计算一次权重，耗时毫秒。', 'Weights are recomputed for every token at every layer in milliseconds.')],
-      },
-      {
-        title: b('不会疲劳', 'No fatigue'),
-        points: [b('无论上下文多长、任务多久，注意力的计算方式不变，不会疲劳；但长上下文中的权重会被稀释。', 'However long the context or task, attention computes the same way without fatigue, although weights dilute in long contexts.')],
-      },
     ],
   },
   bioMath: [

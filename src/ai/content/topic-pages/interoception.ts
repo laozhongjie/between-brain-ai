@@ -106,6 +106,7 @@ export const INTEROCEPTION: TopicContent = {
       b('内感受指对身体内部状态的感知。2002 年的综述提出，岛叶是整合内感受、形成「身体感受」的关键区域，前岛叶还与主观情绪相关。', 'Interoception is the sensing of the body’s internal state. A 2002 review proposed the insula as the key area integrating interoception into a felt sense of the body, with anterior insula linked to subjective emotion.'),
       b('「稳态」强调把变量维持在设定点附近，「应变稳态」强调根据预测提前调整，设定点本身也会随情境改变，例如运动前心率提前升高。', 'Homeostasis stresses keeping variables near set points, while allostasis stresses adjusting ahead from prediction, with set points themselves shifting by situation, such as heart rate rising before exercise.'),
       b('2015 年的小鼠实验发现，下丘脑的饥饿神经元在小鼠看到或闻到食物的几秒内就安静下来，早于真正进食，说明调节是预测性的。', 'A 2015 mouse study found hypothalamic hunger neurons quiet within seconds of seeing or smelling food, before actually eating, showing regulation is predictive.'),
+      b('体温、激素和代谢随约 24 小时的生物钟变化，在醒来和入睡之前就提前调整，这也是一种预测性调节。', 'Temperature, hormones and metabolism follow the roughly 24-hour body clock and shift ahead of waking and sleep, another form of predictive regulation.'),
       b('同年的另一项研究发现，饥饿和口渴神经元的活动本身令小鼠感到不适，它们会学会做能让这种活动减弱的事，这与「奖励等于驱力减少」的思路一致。', 'Another study that year found hunger and thirst neuron activity is itself unpleasant to mice, and they learn to do what reduces it, consistent with reward as drive reduction.'),
       b('有意识的内感受准确性因人而异，与焦虑等情绪特征有关；准确性、自我报告的感受和对准确性的信心是三个不同的维度。', 'Conscious interoceptive accuracy varies across people and relates to traits such as anxiety. Accuracy, self-reported sensibility and confidence in one’s accuracy are three distinct dimensions.'),
     ],
@@ -114,32 +115,6 @@ export const INTEROCEPTION: TopicContent = {
       b('2024 年的研究在模拟环境中直接以维持内部稳态为目标训练智能体，觅食、避险、体温调节等行为在没有单独设计的情况下自然出现。', 'A 2024 study trained agents in simulation with maintaining internal balance as the only goal, and foraging, danger avoidance and temperature regulation emerged without separate design.'),
       b('2019 年的观点文章提出，让机器具有需要维持的脆弱身体（如软体机器人），可能是让机器拥有类似感受的功能基础；这是一种设想，尚无实现。', 'A 2019 perspective proposed that giving machines a vulnerable body they must maintain, such as a soft robot, might ground feeling-like functions. It is a proposal, not yet realized.'),
       b('机器人的电量管理与生物的能量平衡在功能上相似，但电量通常只影响「何时充电」，不影响感知和学习的方式。', 'Robot battery management is functionally similar to biological energy balance, but battery level usually affects only when to charge, not how the robot perceives or learns.'),
-    ],
-  },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('秒：神经调节', 'Seconds: neural regulation'),
-        points: [b('心率、呼吸和血管在几秒内调整；看到食物后，饥饿神经元几秒内安静。', 'Heart rate, breathing and blood vessels adjust within seconds, and hunger neurons quiet within seconds of seeing food.')],
-      },
-      {
-        title: b('分钟到小时：激素调节', 'Minutes to hours: hormonal regulation'),
-        points: [b('胰岛素、抗利尿激素等在几分钟到几小时内起作用。', 'Insulin, antidiuretic hormone and others act over minutes to hours.')],
-      },
-      {
-        title: b('日节律', 'Daily rhythm'),
-        points: [b('体温、激素和代谢随 24 小时的生物钟变化，提前为白天和夜晚做准备。', 'Temperature, hormones and metabolism follow the 24-hour body clock, preparing in advance for day and night.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('毫秒：底层保护', 'Milliseconds: low-level protection'),
-        points: [b('过热、过流保护在硬件层面立即生效。', 'Overheat and overcurrent protection act immediately at the hardware level.')],
-      },
-      {
-        title: b('分钟到小时：充电规划', 'Minutes to hours: charge planning'),
-        points: [b('根据任务和剩余电量安排充电时机。', 'Charging is scheduled from the task and remaining battery.')],
-      },
     ],
   },
   bioMath: [

@@ -1,6 +1,6 @@
 import type { Bi } from '../../../data/types'
 import { C, Svg, T } from '../kit'
-import { Flow, Gap, Mod, Num, Store, Var } from '../grammar'
+import { Flow, Mod, Num, Store, Var } from '../grammar'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -67,45 +67,6 @@ function BackpropArch({ t }: FigProps) {
   )
 }
 
-/** Time scales of credit assignment, from milliseconds to months. */
-function CreditTimeline({ t }: FigProps) {
-  const id = 'f07d'
-  const ticks: [number, Bi][] = [[150, b('10 毫秒', '10 ms')], [230, b('100 毫秒', '100 ms')], [310, b('1 秒', '1 s')], [380, b('10 秒', '10 s')], [430, b('1 分钟', '1 min')], [520, b('1 小时', '1 h')], [590, b('1 天', '1 day')], [650, b('1 周', '1 week')], [720, b('1 月', '1 month')]]
-  return (
-    <Svg id={id} w={760} h={250} label={t(b('信用分配的时间尺度', 'Time scales of credit assignment'))}>
-      <T x={16} y={44} anchor="start" s={t(b('三因子学习', 'Three-factor\nlearning'))} size={10.5} color={C.pinkD} weight={600} />
-      <T x={16} y={176} anchor="start" s={t(b('反向传播与\n时序差分', 'Backprop\nand TD'))} size={10.5} color={C.skyD} weight={600} />
-
-      <Mod x={150} y={26} w={80} h={36} side="bio" label={t(b('共同活动', 'Co-activity'))} sub={t(b('几十毫秒', 'tens of ms'))} size={10.5} />
-      <Mod x={230} y={26} w={150} h={36} side="bio" label={t(b('资格迹与多巴胺', 'Trace meets dopamine'))} sub={t(b('一到几秒内重叠', 'overlap within seconds'))} size={10.5} />
-      <Mod x={470} y={26} w={90} h={36} side="bio" label={t(b('巩固', 'Consolidation'))} sub={t(b('几小时', 'hours'))} size={10.5} />
-      <Mod x={560} y={26} w={90} h={36} side="bio" label={t(b('离线回放', 'Offline replay'))} sub={t(b('休息与睡眠', 'rest and sleep'))} size={10.5} />
-
-      <line x1={140} y1={100} x2={752} y2={100} stroke={C.line} strokeWidth={1} />
-      {ticks.map(([x, l]) => (
-        <g key={x}>
-          <line x1={x} y1={96} x2={x} y2={104} stroke={C.dim} strokeWidth={1} />
-          <T x={x} y={115} s={t(l)} size={9.5} color={C.dim} />
-        </g>
-      ))}
-
-      <Mod x={150} y={150} w={40} h={36} side="comp" label={t(b('前向', 'Fwd'))} size={10} />
-      <Mod x={190} y={150} w={60} h={36} side="comp" label={t(b('反向', 'Back'))} sub={t(b('并更新', 'and update'))} size={10} />
-      <Mod x={590} y={150} w={150} h={36} side="comp" label={t(b('训练', 'Training'))} sub={t(b('数十万到数百万步', '10⁵ to 10⁶ steps'))} size={10.5} />
-      <Flow id={id} side="comp" kind="fb" pts={[[250, 168], [590, 168]]} label={t(b('重复', 'repeat'))} ly={-6} />
-      <Gap x={590} y={202} w={160} h={30} label={t(b('之后参数固定', 'then fixed'))} />
-      <Num x={150} y={26} n={1} side="bio" />
-      <Num x={230} y={26} n={2} side="bio" />
-      <Num x={470} y={26} n={3} side="bio" />
-      <Num x={560} y={26} n={4} side="bio" />
-      <Num x={150} y={150} n={1} side="comp" />
-      <Num x={190} y={150} n={2} side="comp" />
-      <Num x={590} y={150} n={3} side="comp" />
-    </Svg>
-  )
-}
-
 export const CREDIT_FIGS: TopicFigs = {
   arch: { brain: ThreeFactorArch, ai: BackpropArch },
-  dynamics: CreditTimeline,
 }

@@ -115,32 +115,6 @@ export const EMOTION_UNDERSTANDING: TopicContent = {
       b('面部表情识别在实际应用中存在争议：把表情等同于内心情绪，用于招聘或监控等场合，可能导致错误判断。', 'Facial expression recognition is contested in practice. Equating expressions with inner emotions in settings such as hiring or surveillance can lead to wrong judgments.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('百毫秒：快速识别', 'Hundreds of milliseconds: fast recognition'),
-        points: [b('看到面孔后一两百毫秒内，大脑已对表情有初步的区分，杏仁核对恐惧线索的反应更早。', 'Within one or two hundred milliseconds of seeing a face, the brain distinguishes expressions roughly, and the amygdala responds to fear cues even earlier.')],
-      },
-      {
-        title: b('秒：结合情境', 'Seconds: adding context'),
-        points: [b('几秒内结合情境和对方的经历，修正最初的判断。', 'Within seconds, context and the other’s history revise the first impression.')],
-      },
-      {
-        title: b('长期：关系中的理解', 'Long term: understanding within relationships'),
-        points: [b('长期相处让人更准确地理解特定的人的情绪方式。', 'Over time, people understand a particular person’s emotional style more accurately.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('毫秒到秒：一次推断', 'Milliseconds to seconds: one inference'),
-        points: [b('一次前向计算或一次生成给出情绪判断和回应。', 'One forward pass or one generation gives the emotional judgment and reply.')],
-      },
-      {
-        title: b('会话内：上下文', 'Within a session: context'),
-        points: [b('对话中的情绪线索保留在上下文中，会话结束后消失。', 'Emotional cues in the conversation stay in context and vanish when the session ends.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('情绪的二维空间：愉快程度与激动程度', 'A two-dimensional space of emotion: pleasantness and arousal'),

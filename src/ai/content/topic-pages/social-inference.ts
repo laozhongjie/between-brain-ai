@@ -108,32 +108,6 @@ export const SOCIAL_INFERENCE: TopicContent = {
       b('ToMnet 于 2018 年提出，在网格世界中学会推断其他智能体的类型和错误信念；它的环境和智能体都很简单。', 'ToMnet, proposed in 2018, learned to infer other agents’ types and false beliefs in grid worlds. Its environments and agents are simple.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('百毫秒：社会线索', 'Hundreds of milliseconds: social cues'),
-        points: [b('视线和表情在一两百毫秒内被识别。', 'Gaze and expression are recognized within one or two hundred milliseconds.')],
-      },
-      {
-        title: b('秒：推断信念与意图', 'Seconds: inferring beliefs and intentions'),
-        points: [b('在互动中，几秒内推断对方的想法，并随新的信息不断修正。', 'In interaction, others’ thoughts are inferred within seconds and revised with new information.')],
-      },
-      {
-        title: b('数年：发育', 'Years: development'),
-        points: [b('儿童约 4 岁通过错误信念测试，更复杂的社会推理（如理解讽刺、失言）在之后几年逐渐发展。', 'Children pass false-belief tests at about 4, and more complex social reasoning, such as irony and faux pas, develops over the following years.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('一次回答', 'One answer'),
-        points: [b('模型读完故事后一次生成回答，毫秒到秒。', 'The model reads the story and generates an answer in milliseconds to seconds.')],
-      },
-      {
-        title: b('会话内', 'Within a session'),
-        points: [b('对一个人的推断只保留在上下文中，会话结束后消失。', 'Inferences about a person stay only in context and vanish when the session ends.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('逆向规划：从行为推断目标', 'Inverse planning: inferring goals from behavior'),

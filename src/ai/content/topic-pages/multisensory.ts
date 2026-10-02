@@ -143,6 +143,7 @@ export const MULTISENSORY: TopicContent = {
       b('上丘的超加性主要出现在两个刺激都很弱时；刺激都很强时，组合反应往往小于两者之和。这条规律被称为「逆效应」。', 'Superadditivity in the superior colliculus appears mainly when both stimuli are faint. With strong stimuli, the combined response is often less than the sum. This is called inverse effectiveness.'),
       b('「概率群体编码」理论认为，泊松型的放电噪声恰好使「把两群神经元的活动相加」等价于贝叶斯最优的合并。这是一种理论模型，生物实现仍在检验中。', 'The theory of probabilistic population codes holds that Poisson-like spiking noise makes adding two populations equivalent to Bayes-optimal combination. It is a theoretical model whose biological implementation is still being tested.'),
       b('腹语术效应：屏幕上人物的嘴在动时，声音听起来来自屏幕，而不是旁边的扬声器。视觉定位比听觉精确，所以权重更大。', 'Ventriloquist effect: when a person on screen moves their lips, the voice seems to come from the screen rather than the speaker beside it. Vision locates more precisely than hearing, so it gets more weight.'),
+      b('时间绑定窗口：声音和画面相差一两百毫秒以内，通常仍被感知为同时发生，并被合并。', 'Temporal binding window: sound and sight within one or two hundred milliseconds of each other are usually still perceived as simultaneous and merged.'),
       b('多感官整合需要发育：在视觉与触觉的大小判断中，儿童约 8 到 10 岁之后才接近按可靠性加权的最优整合，此前常由单一感官主导。', 'Multisensory integration develops. In judging size by sight and touch, children approach reliability-weighted integration only after about 8 to 10 years and are often dominated by one sense before that.'),
       b('感官替代研究始于 1960 年代：把摄像头图像转成背部皮肤上的振动点阵，盲人经训练后能辨认物体并判断位置。', 'Sensory substitution research began in the 1960s. A camera image was turned into a grid of vibrations on the back, and blind people learned to identify and locate objects.'),
     ],
@@ -152,40 +153,6 @@ export const MULTISENSORY: TopicContent = {
       b('Flamingo 在冻结的语言模型各层之间插入带门控的交叉注意力层，门控初始为 $0$，训练中逐渐打开，让语言模型学会读取图像。', 'Flamingo inserts gated cross-attention layers between the layers of a frozen language model. The gates start at $0$ and open during training as the model learns to read images.'),
       b('音视频大模型在 2024 年的 AVHBench 评测中暴露出跨模态幻觉：画面里有狗，模型就容易报告听到了狗叫，即使音频中没有。', 'Audio-visual large models showed cross-modal hallucination on the 2024 AVHBench benchmark. If a dog is in the picture, models tend to report a bark even when the audio has none.'),
       b('时间对齐通常由预处理按时间戳完成，模型本身不会在使用中校准各模态之间的延迟。', 'Timing is usually aligned by preprocessing with timestamps. The model itself does not recalibrate delays between modalities during use.'),
-    ],
-  },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('几十毫秒：同时到达的信号', 'Tens of milliseconds: signals arriving together'),
-        points: [b('上丘和皮层神经元整合几十毫秒内先后到达的各感官信号。', 'Collicular and cortical neurons integrate signals from the senses arriving within tens of milliseconds of each other.')],
-      },
-      {
-        title: b('百毫秒：时间绑定窗口', 'Hundreds of milliseconds: the binding window'),
-        points: [b('声音和画面相差一两百毫秒以内，通常仍被感知为同时发生，并被合并。', 'Sound and sight within one or two hundred milliseconds are usually still perceived as simultaneous and merged.')],
-      },
-      {
-        title: b('几分钟：再校准', 'Minutes: recalibration'),
-        points: [b('反复经历声音比画面晚一点的刺激几分钟后，被感知为「同时」的时间点会向这个延迟移动。', 'After a few minutes of sound lagging slightly behind the picture, the point perceived as simultaneous shifts toward that lag.')],
-      },
-      {
-        title: b('数年：发育', 'Years: development'),
-        points: [b('按可靠性加权的整合在儿童期逐渐形成，视觉与触觉的整合约 8 到 10 岁后才接近最优。', 'Reliability-weighted integration forms gradually in childhood, and visual and touch integration approaches the optimum only after about 8 to 10 years.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('推理（毫秒级）', 'Inference (milliseconds)'),
-        points: [b('各编码器和融合层一次前向计算完成。', 'The encoders and fusion layers run in one forward pass.')],
-      },
-      {
-        title: b('训练（天到周）', 'Training (days to weeks)'),
-        points: [b('对齐和融合方式在训练中确定，用到数亿对配对数据。', 'Alignment and fusion are set in training on hundreds of millions of pairs.')],
-      },
-      {
-        title: b('使用中不再校准', 'No recalibration in use'),
-        points: [b('部署后，模态之间的延迟和权重不会因为新的经历而调整。', 'After deployment, delays and weights between modalities do not change with new experience.')],
-      },
     ],
   },
   bioMath: [

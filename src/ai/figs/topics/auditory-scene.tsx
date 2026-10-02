@@ -78,53 +78,8 @@ function SpeechModelArch({ t }: FigProps) {
   )
 }
 
-/** Time scales of hearing and of speech models, on a shared log axis from microseconds to minutes. */
-function HearingTimeline({ t }: FigProps) {
-  const id = 'f02d'
-  const x = (s: number) => 150 + (Math.log10(s) + 5) * 77
-  const ticks: [number, Bi][] = [[1e-5, b('10 微秒', '10 µs')], [1e-3, b('1 毫秒', '1 ms')], [1e-2, b('10 毫秒', '10 ms')], [0.1, b('100 毫秒', '100 ms')], [1, b('1 秒', '1 s')], [60, b('1 分钟', '1 min')]]
-  return (
-    <Svg id={id} w={760} h={262} label={t(b('听觉与语音模型的时间尺度', 'Time scales of hearing and speech models'))}>
-      <T x={16} y={44} anchor="start" s={t(b('听觉通路\n与听觉皮层', 'Auditory pathway\nand cortex'))} size={10.5} color={C.pinkD} weight={600} />
-      <T x={16} y={182} anchor="start" s={t(b('语音模型', 'Speech models'))} size={10.5} color={C.skyD} weight={600} />
-
-      {/* biological lane */}
-      <Mod x={x(1e-5)} y={26} w={x(1e-3) - x(1e-5)} h={36} side="bio" label={t(b('两耳时间差', 'Interaural time'))} sub={t(b('分辨约 10 微秒', 'resolves about 10 µs'))} size={10.5} />
-      <Mod x={x(1e-3)} y={26} w={x(1e-2) - x(1e-3)} h={36} side="bio" label={t(b('相位锁定', 'Phase locking'))} size={10} />
-      <Mod x={x(0.1)} y={26} w={x(1) - x(0.1)} h={36} side="bio" label={t(b('音节', 'Syllables'))} sub={t(b('每秒 4 到 8 个', '4 to 8 per second'))} size={10.5} />
-      <Mod x={x(1)} y={26} w={x(600) - x(1)} h={36} side="bio" label={t(b('注意切换与适应口音', 'Switching attention, adapting to accents'))} sub={t(b('秒到分钟', 'seconds to minutes'))} size={10.5} />
-
-      {/* shared time axis */}
-      <line x1={140} y1={100} x2={752} y2={100} stroke={C.line} strokeWidth={1} />
-      {ticks.map(([s, l]) => (
-        <g key={s}>
-          <line x1={x(s)} y1={96} x2={x(s)} y2={104} stroke={C.dim} strokeWidth={1} />
-          <T x={x(s)} y={115} s={t(l)} size={9.5} color={C.dim} />
-        </g>
-      ))}
-
-      {/* computational lane */}
-      <Var cx={x(6.25e-5)} cy={170} side="comp" label="" r={9} />
-      <T x={x(6.25e-5)} y={197} s={t(b('采样点\n62.5 微秒', 'sample\n62.5 µs'))} size={9} color={C.skyD} />
-      <Var cx={x(1e-2)} cy={170} side="comp" label="" r={9} />
-      <T x={x(1e-2)} y={197} s={t(b('频谱帧\n10 毫秒', 'frame\n10 ms'))} size={9} color={C.skyD} />
-      <Mod x={x(0.3)} y={152} w={x(30) - x(0.3)} h={36} side="comp" label={t(b('处理窗口', 'Processing window'))} sub={t(b('流式几百毫秒，Whisper 30 秒', 'a few 100 ms when streaming, 30 s in Whisper'))} size={10.5} />
-      <Gap x={x(1)} y={210} w={x(600) - x(1)} h={30} label={t(b('使用中参数不变，不会适应', 'Parameters fixed in use, no adaptation'))} />
-      <Num x={x(1e-5)} y={26} n={1} side="bio" />
-      <Num x={x(1e-3)} y={26} n={2} side="bio" />
-      <Num x={x(0.1)} y={26} n={3} side="bio" />
-      <Num x={x(1)} y={26} n={4} side="bio" />
-      <Num x={x(6.25e-5) - 16} y={160} n={1} side="comp" />
-      <Num x={x(1e-2) - 16} y={160} n={2} side="comp" />
-      <Num x={x(0.3)} y={152} n={3} side="comp" />
-      <Num x={x(1)} y={210} n={4} side="comp" />
-    </Svg>
-  )
-}
-
 export const AUDITORY_FIGS: TopicFigs = {
   arch: { brain: AuditoryPathwayArch, ai: SpeechModelArch },
-  dynamics: HearingTimeline,
   math: {
     bio: {
       0: {

@@ -72,44 +72,7 @@ function ContextStateArch({ t }: FigProps) {
   )
 }
 
-/** How long content is held: seconds in the brain, a whole session in a context window. */
-function WorkingMemoryTimeline({ t }: FigProps) {
-  const id = 'f11d'
-  const ticks: [number, Bi][] = [[150, b('10 毫秒', '10 ms')], [230, b('100 毫秒', '100 ms')], [320, b('1 秒', '1 s')], [410, b('10 秒', '10 s')], [480, b('1 分钟', '1 min')], [560, b('10 分钟', '10 min')], [640, b('1 小时', '1 h')], [740, b('1 天', '1 day')]]
-  return (
-    <Svg id={id} w={760} h={250} label={t(b('工作记忆与上下文的保持时间', 'How long working memory and context hold content'))}>
-      <T x={16} y={44} anchor="start" s={t(b('前额叶\n工作记忆', 'Prefrontal\nworking memory'))} size={10.5} color={C.pinkD} weight={600} />
-      <T x={16} y={176} anchor="start" s={t(b('上下文窗口\n与循环状态', 'Context and\nrecurrent state'))} size={10.5} color={C.skyD} weight={600} />
-
-      <Mod x={200} y={26} w={60} h={36} side="bio" label={t(b('编码', 'Encode'))} sub={t(b('百毫秒', '100s of ms'))} size={10.5} />
-      <Mod x={260} y={26} w={70} h={36} side="bio" label={t(b('易化', 'Facilitation'))} sub={t(b('约 1 秒', 'about 1 s'))} size={10} />
-      <Mod x={330} y={26} w={100} h={36} side="bio" label={t(b('维持', 'Maintenance'))} sub={t(b('几秒到十几秒', 'seconds'))} size={10.5} />
-      <Mod x={430} y={26} w={60} h={36} side="bio" label={t(b('消退', 'Fades'))} size={10.5} />
-
-      <line x1={140} y1={100} x2={752} y2={100} stroke={C.line} strokeWidth={1} />
-      {ticks.map(([x, l]) => (
-        <g key={x}>
-          <line x1={x} y1={96} x2={x} y2={104} stroke={C.dim} strokeWidth={1} />
-          <T x={x} y={115} s={t(l)} size={9.5} color={C.dim} />
-        </g>
-      ))}
-
-      <Mod x={150} y={150} w={50} h={36} side="comp" label={t(b('词元', 'Token'))} sub={t(b('毫秒', 'ms'))} size={10} />
-      <Mod x={200} y={150} w={440} h={36} side="comp" label={t(b('会话中逐字保持', 'Kept verbatim through the session'))} sub={t(b('直到超出窗口长度被截掉', 'until cut off at the window length'))} />
-      <Gap x={640} y={150} w={110} h={36} label={t(b('会话结束清空', 'Cleared at the end'))} />
-      <Num x={200} y={26} n={1} side="bio" />
-      <Num x={260} y={26} n={2} side="bio" />
-      <Num x={330} y={26} n={3} side="bio" />
-      <Num x={430} y={26} n={4} side="bio" />
-      <Num x={150} y={150} n={1} side="comp" />
-      <Num x={200} y={150} n={2} side="comp" />
-      <Num x={640} y={150} n={3} side="comp" />
-    </Svg>
-  )
-}
-
 export const WORKING_MEMORY_FIGS: TopicFigs = {
   arch: { brain: WorkingMemoryArch, ai: ContextStateArch },
-  dynamics: WorkingMemoryTimeline,
   math: { comp: { 0: legacyFig('sys-memory', 'ai') } },
 }

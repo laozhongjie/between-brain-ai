@@ -120,40 +120,6 @@ export const DEVELOPMENTAL_STAGES: TopicContent = {
       b('大模型的分阶段训练与发育阶段只在「顺序影响结果」上相似；各阶段的目的和机制由工程需要决定。', 'Staged training of large models resembles developmental stages only in that order shapes the outcome. Each stage’s purpose and mechanism come from engineering needs.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('出生后数周到数月：感觉关键期', 'Weeks to months after birth: sensory critical periods'),
-        points: [b('视觉和听觉等初级感觉的关键期最早，在出生后数周到数月。', 'Critical periods for primary senses such as vision and hearing come first, weeks to months after birth.')],
-      },
-      {
-        title: b('第一年：语音知觉重组', 'First year: reorganized speech perception'),
-        points: [b('6 到 12 个月间，对母语以外语音的区分能力下降。', 'Between 6 and 12 months, the ability to distinguish non-native speech sounds declines.')],
-      },
-      {
-        title: b('数年：语言与运动', 'Years: language and movement'),
-        points: [b('语言、运动技能在最初几年迅速发展，身体发育不断带来新的学习机会。', 'Language and motor skills develop fast in the first years, and bodily growth keeps opening new learning opportunities.')],
-      },
-      {
-        title: b('到成年早期：前额叶成熟', 'Into early adulthood: prefrontal maturation'),
-        points: [b('前额叶和高级认知能力持续发展到二十多岁。', 'Prefrontal cortex and higher cognition keep developing into the twenties.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('训练早期：大学习率', 'Early training: high learning rate'),
-        points: [b('训练早期参数变化大，这一阶段的数据对最终结果影响最大。', 'Parameters change most early in training, and data in this phase influences the outcome most.')],
-      },
-      {
-        title: b('训练后期：学习率减小', 'Late training: lower learning rate'),
-        points: [b('学习率逐渐减小，参数趋于稳定。', 'The learning rate shrinks and parameters settle.')],
-      },
-      {
-        title: b('后训练阶段', 'Post-training stages'),
-        points: [b('指令微调和人类反馈强化学习依次进行，每个阶段持续数小时到数天。', 'Instruction tuning and reinforcement learning from human feedback follow in turn, each lasting hours to days.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('眼优势竞争：两只眼的输入争夺有限的连接', 'Ocular dominance competition: two eyes compete for limited connections'),

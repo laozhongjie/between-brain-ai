@@ -125,44 +125,6 @@ export const MOTOR_CONTROL: TopicContent = {
       b('机器人可以通过控制算法模拟可变刚度（阻抗控制），但电机和减速器的物理特性与肌肉差别很大。', 'Robots can emulate variable stiffness with control algorithms, called impedance control, but motors and gearboxes differ physically from muscle.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('约 30 毫秒：脊髓反射', 'About 30 ms: spinal reflex'),
-        points: [b('肌肉被拉长后最快的自动反应。', 'The fastest automatic response to muscle stretch.')],
-      },
-      {
-        title: b('50 到 100 毫秒：经皮层反馈', '50 to 100 ms: transcortical feedback'),
-        points: [b('按任务目标调整的第二阶段校正；物体打滑时握力的增加也在这一时间范围内。', 'A second, goal-dependent correction. Grip force rises after slip in this time range too.')],
-      },
-      {
-        title: b('100 毫秒以上：视觉校正', 'Over 100 ms: visual correction'),
-        points: [b('看到目标移动或手偏离后修正轨迹。', 'Trajectories are corrected after seeing the target move or the hand drift.')],
-      },
-      {
-        title: b('几十到上百次尝试：适应', 'Tens to hundreds of tries: adaptation'),
-        points: [b('面对新的力场或工具，内部模型在几十到上百次尝试内更新。', 'Facing a new force field or tool, the internal model updates within tens to hundreds of tries.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('约 1 毫秒：关节控制', 'About 1 ms: joint control'),
-        points: [b('电机控制器以千赫兹频率运行。', 'Motor controllers run at kilohertz rates.')],
-      },
-      {
-        title: b('几到几十毫秒：MPC 或策略', 'Milliseconds: MPC or policy'),
-        points: [b('MPC 每个周期重新求解，学习型策略每个周期计算一次。', 'MPC re-solves each cycle, and a learned policy computes once per cycle.')],
-      },
-      {
-        title: b('零点几秒：在线适应', 'Fractions of a second: online adaptation'),
-        points: [b('部分学习型策略能从运动历史中估计环境变化并快速调整。', 'Some learned policies estimate environment changes from motion history and adjust quickly.')],
-      },
-      {
-        title: b('天：仿真训练', 'Days: training in simulation'),
-        points: [b('策略在仿真中经历相当于数年的运动经验，然后迁移到真实机器人。', 'A policy gains the equivalent of years of movement in simulation, then transfers to the real robot.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('最优反馈控制：只纠正影响任务的偏差', 'Optimal feedback control: correcting only what matters for the task'),

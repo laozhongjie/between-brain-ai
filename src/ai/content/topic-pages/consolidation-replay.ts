@@ -116,6 +116,7 @@ export const CONSOLIDATION_REPLAY: TopicContent = {
       b('睡眠中的回放最早在 1994 年的大鼠实验中被发现：白天一起放电的位置细胞，在随后的睡眠中仍倾向于一起放电。', 'Sleep replay was first found in a 1994 rat study. Place cells that fired together during the day tended to fire together again in the following sleep.'),
       b('2009 年的实验用电刺激选择性地抑制睡眠中的涟漪，大鼠的空间记忆随之受损，说明涟漪对巩固有因果作用。', 'A 2009 experiment selectively suppressed ripples in sleep with electrical stimulation, and the rats’ spatial memory was impaired, showing ripples play a causal role in consolidation.'),
       b('2017 年的小鼠实验在慢振荡的特定相位用光遗传学诱发纺锤波，增强了涟漪、纺锤波与慢振荡的三重对齐，记忆随之改善。', 'In a 2017 mouse study, optogenetically triggering spindles at a specific slow-oscillation phase strengthened the triple alignment of ripples, spindles and slow oscillations and improved memory.'),
+      b('一夜约有 4 到 6 个睡眠周期，每个约 90 分钟，深睡和快速眼动睡眠交替；慢振荡和纺锤波是深睡的特征，深睡多集中在前半夜。', 'A night has about 4 to 6 sleep cycles of roughly 90 minutes, alternating deep sleep and REM sleep. Slow oscillations and spindles mark deep sleep, which is concentrated early in the night.'),
       b('回放也发生在清醒的休息中，并且可以「预演」从未走过的路径，这被认为与规划有关（见[规划与前瞻模拟](topic:planning)）。', 'Replay also occurs during awake rest and can preview paths never taken, which is thought to relate to planning (see [planning and prospective simulation](topic:planning)).'),
       b('突触稳态假说认为，清醒时的学习使突触整体增强，睡眠按比例把它们调回。它与「睡眠中特定记忆被增强」的证据并存，两者的关系仍有争议。', 'The synaptic homeostasis hypothesis holds that waking learning strengthens synapses overall and sleep scales them back. It coexists with evidence that sleep strengthens particular memories, and how the two relate is debated.'),
       b('在 2004 年的实验中，睡过一夜的被试发现数字任务中隐藏捷径的比例是清醒组的两倍多。', 'In a 2004 experiment, participants who slept were more than twice as likely as those who stayed awake to discover a hidden shortcut in a number task.'),
@@ -125,44 +126,6 @@ export const CONSOLIDATION_REPLAY: TopicContent = {
       b('优先回放会改变样本的分布，因此用「重要性权重」修正：被过多抽到的样本在更新时乘一个较小的权重。', 'Prioritized replay changes the sample distribution, so importance weights correct it: samples drawn too often get a smaller weight in the update.'),
       b('「机器遗忘」研究怎样删除特定训练数据的影响。按数据分片训练多个子模型，删除时只需重新训练受影响的分片，是一种折中方案。', 'Machine unlearning studies how to remove the influence of specific training data. Training separate submodels on data shards, so deletion only retrains the affected shard, is one compromise.'),
       b('大模型的知识有一个「截止日期」：截止之后的事件要等下一个版本的训练才能纳入。', 'A large model’s knowledge has a cutoff date. Later events enter only with the training of the next version.'),
-    ],
-  },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('百毫秒：涟漪回放', 'Hundreds of milliseconds: ripple replay'),
-        points: [b('一次涟漪约 100 毫秒，重放几秒的经历。', 'One ripple of about 100 ms replays a few seconds of experience.')],
-      },
-      {
-        title: b('秒：纺锤波与慢振荡', 'Seconds: spindles and slow oscillations'),
-        points: [b('慢振荡约每秒一次，纺锤波持续约一秒，为涟漪提供传递窗口。', 'Slow oscillations come about once per second and spindles last about a second, giving ripples a window for transfer.')],
-      },
-      {
-        title: b('约 90 分钟：睡眠周期', 'About 90 minutes: sleep cycles'),
-        points: [b('深睡和快速眼动睡眠交替，一夜约 4 到 6 个周期，深睡多集中在前半夜。', 'Deep sleep and REM sleep alternate in 4 to 6 cycles a night, with deep sleep concentrated early.')],
-      },
-      {
-        title: b('数晚到数周：系统巩固', 'Nights to weeks: systems consolidation'),
-        points: [b('多个夜晚的回放把记忆逐步转入新皮层。', 'Replay over many nights gradually moves the memory into neocortex.')],
-      },
-      {
-        title: b('数月：遗忘', 'Months: forgetting'),
-        points: [b('不再被使用、也没有被巩固的痕迹逐渐消失。', 'Traces that are no longer used and were never consolidated gradually disappear.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('每一步：抽样与更新', 'Each step: sample and update'),
-        points: [b('从缓冲区抽一批经历，更新一次网络，耗时毫秒。', 'Draw a batch from the buffer and update the network once, in milliseconds.')],
-      },
-      {
-        title: b('训练期间：反复回放', 'During training: repeated replay'),
-        points: [b('数小时到数天的训练中，每条经历被反复使用。', 'Over hours to days of training, each experience is used again and again.')],
-      },
-      {
-        title: b('部署：没有离线整理', 'Deployment: no offline phase'),
-        points: [b('部署后不再回放；新知识等待数月一次的新版本训练。', 'After deployment there is no replay, and new knowledge waits for a new version trained every few months.')],
-      },
     ],
   },
   bioMath: [

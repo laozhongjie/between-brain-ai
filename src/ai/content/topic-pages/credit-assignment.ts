@@ -141,43 +141,6 @@ export const CREDIT_ASSIGNMENT: TopicContent = {
       b('e-prop 等算法把循环网络的梯度拆成「局部资格迹乘学习信号」，在形式上接近三因子规则，用于脉冲神经网络的在线训练。', 'Algorithms such as e-prop split the gradient of a recurrent network into local eligibility traces times a learning signal, close in form to three-factor rules, for online training of spiking networks.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('毫秒：共同活动', 'Milliseconds: co-activity'),
-        points: [b('前后神经元在几十毫秒内先后放电，标记出参与的突触。', 'Pre- and postsynaptic neurons fire within tens of milliseconds of each other, marking the synapse that took part.')],
-      },
-      {
-        title: b('秒：资格迹与多巴胺', 'Seconds: trace and dopamine'),
-        points: [
-          b('资格迹在一到几秒内衰减；多巴胺爆发持续约一两百毫秒。', 'The trace decays over one to several seconds, and a dopamine burst lasts about one or two hundred milliseconds.'),
-          b('两者在时间上重叠时，突触才改变。', 'The synapse changes only where the two overlap in time.'),
-        ],
-      },
-      {
-        title: b('小时：巩固', 'Hours: consolidation'),
-        points: [b('改变要持久，还需要蛋白质合成，在几小时内完成。', 'For the change to last, protein synthesis is needed over several hours.')],
-      },
-      {
-        title: b('离线：回放', 'Offline: replay'),
-        points: [b('休息和睡眠时海马回放经历的序列，可能把奖赏与更早的事件联系起来。', 'During rest and sleep the hippocampus replays experienced sequences, which may link reward to earlier events.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('前向（毫秒）', 'Forward (milliseconds)'),
-        points: [b('一批数据的前向传递，保存所有激活。', 'A forward pass over a batch, storing all activations.')],
-      },
-      {
-        title: b('反向与更新（毫秒）', 'Backward and update (milliseconds)'),
-        points: [b('反向传递计算梯度，所有权重同时更新一步。', 'The backward pass computes gradients and all weights take one step.')],
-      },
-      {
-        title: b('训练（天到月）', 'Training (days to months)'),
-        points: [b('重复数十万到数百万步，直到误差不再下降；之后参数固定，用于推理。', 'Hundreds of thousands to millions of steps repeat until the error stops falling. The parameters are then fixed for use.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('三因子规则：资格迹乘调质信号', 'Three-factor rule: eligibility trace times modulator'),

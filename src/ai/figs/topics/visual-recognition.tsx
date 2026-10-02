@@ -78,56 +78,7 @@ function VisionModelArch({ t }: FigProps) {
   )
 }
 
-/** One act of recognition over the first 300 ms in both systems, on a shared linear time axis. */
-function RecognitionTimeline({ t }: FigProps) {
-  const id = 'f01d'
-  const x = (ms: number) => 150 + ms * 2
-  const ticks = [0, 50, 100, 150, 200, 250, 300]
-  return (
-    <Svg id={id} w={760} h={250} label={t(b('一次识别在两个系统中的时间进程', 'One act of recognition over time in both systems'))}>
-      <T x={16} y={46} anchor="start" s={t(b('腹侧与背侧\n视觉通路', 'Ventral and\ndorsal streams'))} size={10.5} color={C.pinkD} weight={600} />
-      <T x={16} y={180} anchor="start" s={t(b('CNN 与 ViT', 'CNNs and ViTs'))} size={10.5} color={C.skyD} weight={600} />
-
-      {/* biological lane */}
-      <Mod x={x(0)} y={26} w={x(100) - x(0)} h={36} side="bio" label={t(b('前馈扫过', 'Feedforward sweep'))} sub={t(b('视网膜、V1 到 IT', 'retina, V1, IT'))} />
-      <Mod x={x(100)} y={26} w={x(200) - x(100)} h={36} side="bio" label={t(b('循环细化', 'Recurrent refinement'))} sub={t(b('难识别的图像', 'hard images'))} />
-      <Mod x={x(250)} y={26} w={x(300) - x(250)} h={36} side="bio" label={t(b('扫视', 'Saccade'))} sub={t(b('输入更新', 'new input'))} size={10} />
-      <Flow id={id} side="bio" kind="fb" pts={[[x(200), 44], [x(250), 44]]} />
-      {([[50, b('V1 响应', 'V1 responds')], [100, b('IT 可读出类别', 'IT carries category')]] as [number, Bi][]).map(([ms, l]) => (
-        <g key={ms}>
-          <line x1={x(ms)} y1={64} x2={x(ms)} y2={76} stroke={C.pinkD} strokeWidth={1} strokeDasharray="2 2" />
-          <T x={x(ms)} y={86} s={t(l)} size={9} color={C.pinkD} />
-        </g>
-      ))}
-
-      {/* shared time axis */}
-      <line x1={140} y1={112} x2={750} y2={112} stroke={C.line} strokeWidth={1} />
-      <T x={132} y={127} anchor="end" s={t(b('毫秒', 'ms'))} size={9.5} color={C.dim} />
-      {ticks.map((ms) => (
-        <g key={ms}>
-          <line x1={x(ms)} y1={108} x2={x(ms)} y2={116} stroke={C.dim} strokeWidth={1} />
-          <T x={x(ms)} y={127} s={String(ms)} size={9.5} color={C.dim} />
-        </g>
-      ))}
-
-      {/* computational lane */}
-      <Mod x={x(0)} y={158} w={10} h={36} side="comp" label="" />
-      <T x={x(0)} y={146} anchor="start" s={t(b('一次前向计算，约几毫秒', 'One forward pass, a few ms'))} size={9.5} color={C.skyD} />
-      <Mod x={x(40)} y={158} w={x(300) - x(40)} h={36} side="comp" label={t(b('输出固定', 'Fixed output'))} sub={t(b('不再更新，同一张图再算一次结果相同', 'never updates, and the same image gives the same result'))} />
-      <Flow id={id} side="comp" pts={[[x(0) + 10, 176], [x(40), 176]]} />
-      <Gap x={x(100)} y={206} w={x(300) - x(100)} h={30} label={t(b('没有循环细化与眼动', 'No recurrent refinement, no eye movements'))} />
-      <Num x={x(0)} y={26} n={1} side="bio" />
-      <Num x={x(100)} y={26} n={2} side="bio" />
-      <Num x={x(250)} y={26} n={3} side="bio" />
-      <Num x={x(0)} y={158} n={1} side="comp" />
-      <Num x={x(40)} y={158} n={2} side="comp" />
-      <Num x={x(100)} y={206} n={3} side="comp" />
-    </Svg>
-  )
-}
-
 export const VISUAL_FIGS: TopicFigs = {
   arch: { brain: VisualStreamsArch, ai: VisionModelArch },
-  dynamics: RecognitionTimeline,
   math: { bio: { 1: legacyFig('sys-vision', 'brain') }, comp: { 0: legacyFig('sys-vision', 'ai') } },
 }

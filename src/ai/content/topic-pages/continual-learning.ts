@@ -133,44 +133,6 @@ export const CONTINUAL_LEARNING: TopicContent = {
       b('LoRA 把对一个大矩阵的修改限制为两个小矩阵的乘积，新增参数通常不到原模型的百分之一；不同任务的适配器可以分别保存、切换使用。', 'LoRA restricts the change to a large matrix to the product of two small matrices, usually under one percent of the original parameters. Adapters for different tasks can be stored and swapped.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('分钟：编码', 'Minutes: encoding'),
-        points: [b('新经历在海马中快速写入，皮层也开始形成新的连接。', 'A new experience is written quickly into the hippocampus, and cortex begins forming new connections.')],
-      },
-      {
-        title: b('小时：突触巩固', 'Hours: synaptic consolidation'),
-        points: [b('蛋白质合成让被标记的连接稳定下来。', 'Protein synthesis stabilizes the tagged connections.')],
-      },
-      {
-        title: b('夜间到数周：系统巩固', 'Nights to weeks: systems consolidation'),
-        points: [b('睡眠回放把新内容与旧记忆交错，新皮层逐步整合；与已有知识一致的内容可在一两天内完成。', 'Sleep replay interleaves new content with old memories as the neocortex integrates them. Content that fits prior knowledge can finish within a day or two.')],
-      },
-      {
-        title: b('数月到终身：维持与修剪', 'Months to a lifetime: maintenance and pruning'),
-        points: [b('常用的连接长期保持，不用的被修剪。', 'Frequently used connections persist, and unused ones are pruned.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('每一步：梯度更新', 'Each step: gradient update'),
-        points: [b('每一批数据都改变所有共享参数；没有回放时，旧任务在几千步内就可能被覆盖。', 'Every batch changes all shared parameters. Without replay, an old task can be overwritten within a few thousand steps.')],
-      },
-      {
-        title: b('任务切换', 'Task switch'),
-        points: [b('回放、正则化或隔离在切换时生效，减轻覆盖。', 'Replay, regularization or isolation act at the switch to reduce overwriting.')],
-      },
-      {
-        title: b('长期连续训练', 'Long continual training'),
-        points: [b('任务数增加后，可塑性可能逐渐丧失。', 'As tasks accumulate, plasticity may gradually be lost.')],
-      },
-      {
-        title: b('部署：冻结', 'Deployment: frozen'),
-        points: [b('实际系统通常冻结参数，定期用混合数据重新训练新版本。', 'Real systems usually freeze parameters and periodically retrain a new version on mixed data.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('干扰：新记忆写在与旧记忆重叠的连接上', 'Interference: a new memory written onto connections shared with an old one'),

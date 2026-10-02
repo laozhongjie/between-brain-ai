@@ -103,13 +103,14 @@ describe('AI correspondence content', () => {
     for (const [id, page] of Object.entries(TOPIC_CONTENT)) {
       expect(TOPIC_BY_ID[id], id).toBeDefined()
       const figs = TOPIC_FIGS[id]
-      // figures may still be missing, but a figure set never comes half-drawn
-      if (figs?.arch) expect(figs.arch.brain && figs.arch.ai && figs.dynamics, id).toBeTruthy()
+      // figures may still be missing, but a figure set never comes half-drawn; a dynamics figure only where the page explains one
+      if (figs?.arch) expect(figs.arch.brain && figs.arch.ai && (!page.dynamicsSteps || figs.dynamics), id).toBeTruthy()
+      if (figs?.dynamics) expect(page.dynamicsSteps, id).toBeDefined()
       expect(page.capabilities.length, id).toBeGreaterThanOrEqual(3)
       for (const r of page.capabilities) expect(['bio', 'comp', 'even', 'mixed'], `${id}: ${r.dimension.en}`).toContain(r.lead)
       expect(page.bioMath.length && page.compMath.length, id).toBeTruthy()
       expect(page.refs.neuro.length && page.refs.models.length && page.refs.ai.length, id).toBeTruthy()
-      for (const steps of [page.dynamicsSteps.biological, page.dynamicsSteps.computational])
+      for (const steps of page.dynamicsSteps ? [page.dynamicsSteps.biological, page.dynamicsSteps.computational] : [])
         expect(steps.length && steps.every((s) => s.points.length), id).toBeTruthy()
       expect(page.archSteps.biological.length && page.archSteps.computational.length, id).toBeTruthy()
       expect(page.archNotes.biological.length && page.archNotes.computational.length, id).toBeTruthy()
@@ -120,7 +121,7 @@ describe('AI correspondence content', () => {
         ...page.capabilities.flatMap((r) => [r.dimension, r.brain, r.ai, r.gap]),
         ...[...page.archSteps.biological, ...page.archSteps.computational].flatMap((s) => [s.title, ...s.points]),
         ...page.archNotes.biological, ...page.archNotes.computational,
-        ...[...page.dynamicsSteps.biological, ...page.dynamicsSteps.computational].flatMap((s) => [s.title, ...s.points]),
+        ...[...(page.dynamicsSteps?.biological ?? []), ...(page.dynamicsSteps?.computational ?? [])].flatMap((s) => [s.title, ...s.points]),
         ...[...page.bioMath, ...page.compMath].flatMap((f) => [f.title, ...f.symbols.map((x) => x.meaning), ...f.steps, ...(f.example ? [f.example] : []), ...f.consequences, ...f.limitations])]
       for (const f of fields) expect(f.zh.trim() && f.en.trim(), id).toBeTruthy()
       expect(page.limits.biological.length && page.limits.computational.length && page.limits.misreadings.length, id).toBeTruthy()

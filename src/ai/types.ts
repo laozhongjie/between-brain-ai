@@ -239,8 +239,9 @@ export interface TopicContent {
   archSteps: { biological: FigStep[]; computational: FigStep[] }
   /** background under each architecture column: definitions, mechanisms, scale, debated points */
   archNotes: { biological: Bi[]; computational: Bi[] }
-  /** step-by-step explanations of the dynamics figure, per lane */
-  dynamicsSteps: { biological: FigStep[]; computational: FigStep[] }
+  /** step-by-step explanations of the dynamics figure, per lane. Only where the gap itself unfolds over time
+   * and the architecture steps do not already tell that time course (docs/atlas-v1-plan.md §5). */
+  dynamicsSteps?: { biological: FigStep[]; computational: FigStep[] }
   bioMath: TopicFormula[]
   compMath: TopicFormula[]
   limits: {

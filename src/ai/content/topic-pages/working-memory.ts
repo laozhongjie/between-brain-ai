@@ -134,40 +134,6 @@ export const WORKING_MEMORY: TopicContent = {
       b('长上下文的「中段丢失」现象在 2024 年被系统报告：关键信息放在长输入的中间时，多个模型的准确率明显低于放在两端。', 'Losing the middle of long contexts was reported systematically in 2024. With key information in the middle of a long input, several models scored clearly lower than with it at either end.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('百毫秒：编码', 'Hundreds of milliseconds: encoding'),
-        points: [b('刺激出现后，相关内容在一两百毫秒内进入前额叶，伴随短暂的高频活动爆发。', 'Within one or two hundred milliseconds of a stimulus, the relevant content enters prefrontal cortex with brief high-frequency bursts.')],
-      },
-      {
-        title: b('约一秒：突触易化', 'About a second: synaptic facilitation'),
-        points: [b('放电过的突触保持增强约一秒，可在放电间隙中保存信息。', 'Synapses that fired stay strengthened for about a second and can hold information between bursts.')],
-      },
-      {
-        title: b('秒：维持', 'Seconds: maintenance'),
-        points: [b('持续活动与复述把信息保持几秒到十几秒。', 'Persistent activity and rehearsal hold information for seconds to a dozen or so seconds.')],
-      },
-      {
-        title: b('十几秒后：消退', 'After a dozen seconds: fading'),
-        points: [b('不复述、又有干扰时，大部分内容在十几秒内丢失。', 'Without rehearsal and with distraction, most content is lost within a dozen or so seconds.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('每个词元（毫秒）', 'Each token (milliseconds)'),
-        points: [b('新词元写入 KV 缓存，并读取之前的所有词元。', 'Each new token is written into the KV cache and reads all earlier tokens.')],
-      },
-      {
-        title: b('整个会话：逐字保持', 'The whole session: kept verbatim'),
-        points: [b('窗口内的内容在会话中不会自行衰减，直到超出长度被截掉。', 'Content in the window does not decay during the session until it is cut off for exceeding the length.')],
-      },
-      {
-        title: b('会话结束：清空', 'End of session: cleared'),
-        points: [b('上下文被丢弃，下次会话从零开始。', 'The context is discarded, and the next session starts from zero.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('持续活动：循环兴奋让放电在输入消失后保持', 'Persistent activity: recurrent excitation keeps firing after the input ends'),

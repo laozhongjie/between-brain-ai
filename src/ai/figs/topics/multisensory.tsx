@@ -1,5 +1,5 @@
 import type { Bi } from '../../../data/types'
-import { C, Svg, T } from '../kit'
+import { Svg } from '../kit'
 import { Flow, Gap, Mod, Num, Var } from '../grammar'
 import type { FigProps, TopicFigs } from '../types'
 
@@ -79,46 +79,6 @@ function MultimodalModelArch({ t }: FigProps) {
   )
 }
 
-/** Time scales of multisensory integration and of multimodal models, from milliseconds to years. */
-function MultisensoryTimeline({ t }: FigProps) {
-  const id = 'f03d'
-  const ticks: [number, Bi][] = [[150, b('10 毫秒', '10 ms')], [240, b('100 毫秒', '100 ms')], [330, b('1 秒', '1 s')], [420, b('1 分钟', '1 min')], [500, b('1 小时', '1 h')], [570, b('1 天', '1 day')], [630, b('1 周', '1 week')], [690, b('1 年', '1 year')], [750, b('10 年', '10 years')]]
-  return (
-    <Svg id={id} w={760} h={250} label={t(b('多感官整合与多模态模型的时间尺度', 'Time scales of multisensory integration and multimodal models'))}>
-      <T x={16} y={44} anchor="start" s={t(b('多感官\n整合回路', 'Multisensory\ncircuits'))} size={10.5} color={C.pinkD} weight={600} />
-      <T x={16} y={176} anchor="start" s={t(b('多模态模型', 'Multimodal\nmodels'))} size={10.5} color={C.skyD} weight={600} />
-
-      {/* biological lane */}
-      <Mod x={150} y={26} w={90} h={36} side="bio" label={t(b('神经整合', 'Integration'))} sub={t(b('几十毫秒', 'tens of ms'))} size={10.5} />
-      <Mod x={240} y={26} w={90} h={36} side="bio" label={t(b('时间绑定窗口', 'Binding window'))} sub={t(b('一两百毫秒', '100 to 200 ms'))} size={10} />
-      <Mod x={400} y={26} w={80} h={36} side="bio" label={t(b('再校准', 'Recalibration'))} sub={t(b('几分钟', 'minutes'))} size={10} />
-      <Mod x={640} y={26} w={110} h={36} side="bio" label={t(b('发育', 'Development'))} sub={t(b('约 8 到 10 岁成熟', 'mature by 8 to 10 years'))} size={10.5} />
-
-      {/* time axis */}
-      <line x1={140} y1={100} x2={752} y2={100} stroke={C.line} strokeWidth={1} />
-      {ticks.map(([x, l]) => (
-        <g key={x}>
-          <line x1={x} y1={96} x2={x} y2={104} stroke={C.dim} strokeWidth={1} />
-          <T x={x} y={115} s={t(l)} size={9.5} color={C.dim} />
-        </g>
-      ))}
-
-      {/* computational lane */}
-      <Mod x={150} y={150} w={90} h={36} side="comp" label={t(b('推理', 'Inference'))} sub={t(b('一次前向计算', 'one forward pass'))} size={10.5} />
-      <Mod x={570} y={150} w={80} h={36} side="comp" label={t(b('训练', 'Training'))} sub={t(b('确定对齐', 'sets alignment'))} size={10.5} />
-      <Gap x={330} y={202} w={420} h={30} label={t(b('使用中不再校准权重与延迟', 'No recalibration of weights or delays in use'))} />
-      <Num x={150} y={26} n={1} side="bio" />
-      <Num x={240} y={26} n={2} side="bio" />
-      <Num x={400} y={26} n={3} side="bio" />
-      <Num x={640} y={26} n={4} side="bio" />
-      <Num x={150} y={150} n={1} side="comp" />
-      <Num x={570} y={150} n={2} side="comp" />
-      <Num x={330} y={202} n={3} side="comp" />
-    </Svg>
-  )
-}
-
 export const MULTISENSORY_FIGS: TopicFigs = {
   arch: { brain: MultisensoryArch, ai: MultimodalModelArch },
-  dynamics: MultisensoryTimeline,
 }

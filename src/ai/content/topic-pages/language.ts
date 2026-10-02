@@ -123,32 +123,6 @@ export const LANGUAGE: TopicContent = {
       b('模型与语言网络的表示相似，是「预测」这一共同目标造成的功能和表征上的对应，不说明两者的实现机制相同。', 'The similarity between model and language network representations is a functional and representational correspondence from a shared goal of prediction, not evidence of the same implementation.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('百毫秒：理解一个词', 'Hundreds of milliseconds: understanding a word'),
-        points: [b('一个词在约 200 到 400 毫秒内被识别并整合进句子；意外的词在约 400 毫秒处引起 N400。', 'A word is recognized and integrated into the sentence within about 200 to 400 ms, and an unexpected word evokes the N400 near 400 ms.')],
-      },
-      {
-        title: b('秒：句子与段落', 'Seconds: sentences and passages'),
-        points: [b('句子的结构和意义在几秒内建立，并与上文整合。', 'Sentence structure and meaning are built within seconds and integrated with what came before.')],
-      },
-      {
-        title: b('数年：习得', 'Years: acquisition'),
-        points: [b('儿童在最初几年迅速学会母语的语音、词汇和语法，语言能力持续发展到青春期。', 'Children quickly learn the sounds, words and grammar of their native language in the first years, and language keeps developing into adolescence.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('毫秒：每个词元', 'Milliseconds: each token'),
-        points: [b('每生成一个词元需要一次前向计算，通常几到几十毫秒。', 'Each token takes one forward pass, usually a few to tens of milliseconds.')],
-      },
-      {
-        title: b('数周到数月：预训练', 'Weeks to months: pretraining'),
-        points: [b('在数万亿词元上预训练，之后参数固定。', 'Pretraining on trillions of tokens, after which parameters are fixed.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('意外度与阅读时间：越难预测的词读得越久', 'Surprisal and reading time: harder-to-predict words take longer'),

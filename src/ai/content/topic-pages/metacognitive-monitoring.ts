@@ -118,36 +118,6 @@ export const METACOGNITIVE_MONITORING: TopicContent = {
       b('2025 年的研究发现，用户会高估模型的正确率，模型给出的解释越长，用户的信心越高，即使正确率没有提高。', 'A 2025 study found users overestimate model accuracy, and longer model explanations raised user confidence even without higher accuracy.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('约 100 毫秒：错误信号', 'About 100 ms: error signal'),
-        points: [b('出错后约 100 毫秒产生错误相关负波，常在本人意识到之前。', 'An error-related negativity appears about 100 ms after an error, often before awareness.')],
-      },
-      {
-        title: b('几百毫秒：形成信心', 'Hundreds of milliseconds: confidence forms'),
-        points: [b('信心随证据累积形成，决定之后还会继续更新几百毫秒。', 'Confidence forms with evidence accumulation and keeps updating for hundreds of milliseconds after the decision.')],
-      },
-      {
-        title: b('下一次试验：调整行为', 'Next trial: adjusted behavior'),
-        points: [b('错误之后的反应变慢、更谨慎（错误后减速）。', 'Responses after an error become slower and more careful, called post-error slowing.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('生成时：输出概率', 'During generation: output probabilities'),
-        points: [b('每个词元的概率在生成时同时得到，不需要额外计算。', 'Each token’s probability comes with generation at no extra cost.')],
-      },
-      {
-        title: b('生成后：自我评估', 'After generation: self-evaluation'),
-        points: [b('口头信心或自我评估需要再生成一段文字，耗时与生成相当。', 'Stated confidence or self-evaluation needs another stretch of generated text, taking about as long as the answer.')],
-      },
-      {
-        title: b('部署前：校准', 'Before deployment: calibration'),
-        points: [b('温度缩放等校准在部署前做一次，之后固定。', 'Calibration such as temperature scaling is done once before deployment and then fixed.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('证据累积与信心：信心是「已有证据下判断正确的概率」', 'Evidence accumulation and confidence: the probability of being right given the evidence'),

@@ -30,15 +30,17 @@ describe('topic pages', () => {
           ...page.capabilities.flatMap((r) => [r.dimension, r.brain, r.ai, r.gap]),
           ...[...page.archSteps.biological, ...page.archSteps.computational].flatMap((s) => [s.title, ...s.points]),
         ...page.archNotes.biological, ...page.archNotes.computational,
-        ...[...page.dynamicsSteps.biological, ...page.dynamicsSteps.computational].flatMap((s) => [s.title, ...s.points]),
+        ...[...(page.dynamicsSteps?.biological ?? []), ...(page.dynamicsSteps?.computational ?? [])].flatMap((s) => [s.title, ...s.points]),
           ...[...page.bioMath, ...page.compMath].flatMap((f) => [f.title, ...f.symbols.map((x) => x.meaning), ...f.steps, ...(f.example ? [f.example] : []), ...f.consequences, ...f.limitations])]
         for (const text of texts) for (const part of plain(text[lang])) expect(html, part).toContain(escaped(part))
-        // the three figures render as SVG, each followed by its numbered explanation, plus any old figures kept by an equation
+        // the architecture figures (and the dynamics figure where the topic has one) render as SVG, each followed by its numbered explanation, plus any old figures kept by an equation
         const figs = TOPIC_FIGS[id]
+        const frames = page.dynamicsSteps ? 3 : 2
         const kept = Object.keys(figs?.math?.bio ?? {}).length + Object.keys(figs?.math?.comp ?? {}).length
-        expect(html.match(/<svg[^>]*class="fig-svg"/g) ?? []).toHaveLength((figs?.arch ? 3 : 0) + kept)
-        if (!figs?.arch) expect(html.match(/class="fig fig-pending/g) ?? []).toHaveLength(3)
-        expect(html.match(/<ol class="fig-steps/g) ?? []).toHaveLength(4)
+        expect(html.match(/<svg[^>]*class="fig-svg"/g) ?? []).toHaveLength((figs?.arch ? frames : 0) + kept)
+        if (!figs?.arch) expect(html.match(/class="fig fig-pending/g) ?? []).toHaveLength(frames)
+        expect(html.includes('id="topic-dynamics"'), id).toBe(!!page.dynamicsSteps)
+        expect(html.match(/<ol class="fig-steps/g) ?? []).toHaveLength(page.dynamicsSteps ? 4 : 2)
         // every capability row gets a verdict pointer
         expect(html.match(/class="duel-row lead-/g) ?? []).toHaveLength(page.capabilities.length)
         // cross-references render as links

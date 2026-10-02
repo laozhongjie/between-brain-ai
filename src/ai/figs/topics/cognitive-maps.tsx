@@ -1,5 +1,5 @@
 import type { Bi } from '../../../data/types'
-import { C, Svg, T } from '../kit'
+import { Svg } from '../kit'
 import { Flow, Mod, Num, Region, Store } from '../grammar'
 import type { FigProps, TopicFigs } from '../types'
 
@@ -65,41 +65,6 @@ function TemArch({ t }: FigProps) {
   )
 }
 
-/** When maps form and how long they last in both systems. */
-function MapTimeline({ t }: FigProps) {
-  const id = 'f16d'
-  const ticks: [number, Bi][] = [[150, b('10 毫秒', '10 ms')], [220, b('100 毫秒', '100 ms')], [290, b('1 秒', '1 s')], [370, b('1 分钟', '1 min')], [450, b('1 小时', '1 h')], [530, b('1 天', '1 day')], [610, b('1 周', '1 week')], [680, b('1 月', '1 month')]]
-  return (
-    <Svg id={id} w={760} h={250} label={t(b('认知地图形成与维持的时间尺度', 'Time scales of forming and keeping cognitive maps'))}>
-      <T x={16} y={44} anchor="start" s={t(b('海马\n认知地图', 'Hippocampal\nmaps'))} size={10.5} color={C.pinkD} weight={600} />
-      <T x={16} y={176} anchor="start" s={t(b('TEM 与\nTransformer', 'TEM and\ntransformers'))} size={10.5} color={C.skyD} weight={600} />
-
-      <Mod x={205} y={26} w={60} h={36} side="bio" label={t(b('θ 序列', 'Theta'))} sub={t(b('约 125 毫秒', '~125 ms'))} size={10.5} />
-      <Mod x={340} y={26} w={90} h={36} side="bio" label={t(b('新地图形成', 'New map'))} sub={t(b('几分钟', 'minutes'))} size={10.5} />
-      <Mod x={530} y={26} w={170} h={36} side="bio" label={t(b('维持与漂移', 'Maintenance and drift'))} sub={t(b('天到周', 'days to weeks'))} />
-
-      <line x1={140} y1={100} x2={752} y2={100} stroke={C.line} strokeWidth={1} />
-      {ticks.map(([x, l]) => (
-        <g key={x}>
-          <line x1={x} y1={96} x2={x} y2={104} stroke={C.dim} strokeWidth={1} />
-          <T x={x} y={115} s={t(l)} size={9.5} color={C.dim} />
-        </g>
-      ))}
-
-      <Mod x={530} y={150} w={170} h={36} side="comp" label={t(b('TEM 训练', 'TEM training'))} sub={t(b('大量不同环境', 'many environments'))} />
-      <Mod x={150} y={150} w={60} h={36} side="comp" label={t(b('逐步绑定', 'Binding'))} sub={t(b('每步一次', 'each step'))} size={10} />
-      <Mod x={290} y={150} w={160} h={36} side="comp" label={t(b('上下文中的地图', 'Map in context'))} sub={t(b('会话结束即消失', 'gone after the session'))} size={10.5} />
-      <Num x={205} y={26} n={1} side="bio" />
-      <Num x={340} y={26} n={2} side="bio" />
-      <Num x={530} y={26} n={3} side="bio" />
-      <Num x={530} y={150} n={1} side="comp" />
-      <Num x={150} y={150} n={2} side="comp" />
-      <Num x={290} y={150} n={3} side="comp" />
-    </Svg>
-  )
-}
-
 export const COGNITIVE_MAP_FIGS: TopicFigs = {
   arch: { brain: CognitiveMapArch, ai: TemArch },
-  dynamics: MapTimeline,
 }

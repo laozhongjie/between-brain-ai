@@ -125,36 +125,6 @@ export const EMOTION_REGULATION: TopicContent = {
       b('情绪化的输出（例如说「我很难过」）是语言层面的模仿，不能据此推断模型有情绪体验。', 'Emotional outputs, such as saying “I feel sad”, are imitation at the level of language and do not show the model experiences emotion.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('十几毫秒：快速通路', 'A dozen milliseconds: the fast route'),
-        points: [b('粗略的威胁信号经丘脑直达杏仁核。', 'A rough threat signal reaches the amygdala directly from the thalamus.')],
-      },
-      {
-        title: b('秒：全身反应', 'Seconds: whole-body response'),
-        points: [b('心率、呼吸改变，应激激素在几分钟内升高。', 'Heart rate and breathing change, and stress hormones rise within minutes.')],
-      },
-      {
-        title: b('分钟到小时：状态持续', 'Minutes to hours: the state persists'),
-        points: [b('情绪状态持续影响注意、记忆和决策；重新评价可在几秒到几分钟内降低它。', 'The emotional state keeps affecting attention, memory and decisions, and reappraisal can lower it within seconds to minutes.')],
-      },
-      {
-        title: b('天到年：恐惧记忆与消退', 'Days to years: fear memory and extinction'),
-        points: [b('恐惧记忆可保持多年；消退需要多次安全经历，而且可能复发。', 'Fear memories can last years. Extinction needs repeated safe experiences and may relapse.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('每一步：情绪信号', 'Each step: emotion signal'),
-        points: [b('功能性情绪信号每一步重新计算，通常不会持续。', 'Functional emotion signals are recomputed every step and usually do not persist.')],
-      },
-      {
-        title: b('会话内：提示的影响', 'Within a session: prompt effects'),
-        points: [b('提示中的情绪内容在会话中持续影响输出，会话结束即消失。', 'Emotional content in the prompt keeps affecting output through the session and vanishes at its end.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('恐惧学习与消退：消退是学会「现在安全」，不是忘记', 'Fear learning and extinction: extinction learns “safe now”, not forgetting'),

@@ -122,40 +122,6 @@ export const SKILL_LEARNING: TopicContent = {
       b('2019 年的魔方实验中，还原步骤由传统算法给出，机器人手负责在手指间执行每一步转动；策略在大量随机化的仿真中训练后迁移到真实的手。', 'In the 2019 Rubik’s cube work, a classic algorithm chose the moves and the robot hand executed each turn with its fingers. The policy trained in heavily randomized simulation and transferred to the real hand.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('分钟：早期快速进步', 'Minutes: fast early gains'),
-        points: [b('第一次练习的几分钟内表现提高最快。', 'Performance improves fastest within the first minutes of practice.')],
-      },
-      {
-        title: b('夜间：睡眠巩固', 'Overnight: sleep consolidation'),
-        points: [b('练习后的睡眠在没有额外练习的情况下提高表现。', 'Sleep after practice improves performance without extra practice.')],
-      },
-      {
-        title: b('数周：皮层重组', 'Weeks: cortical reorganization'),
-        points: [b('运动皮层中相关的表征逐渐扩大，动作变得稳定。', 'Related representations in motor cortex grow and movements stabilize.')],
-      },
-      {
-        title: b('数月到数年：自动化', 'Months to years: automation'),
-        points: [b('练习时间与提高呈幂律关系，越往后进步越慢，但仍在持续。', 'Improvement follows a power law with practice time, slowing later but continuing.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('每秒几次：动作输出', 'Several times per second: action output'),
-        points: [b('模型每秒输出几次动作，底层控制器在两次之间插值执行。', 'The model outputs actions several times per second, and the low-level controller interpolates between them.')],
-      },
-      {
-        title: b('小时到天：微调', 'Hours to days: fine-tuning'),
-        points: [b('为新任务收集几十到上百条示范后微调。', 'Tens to a hundred or more demonstrations are collected for a new task, then the model is fine-tuned.')],
-      },
-      {
-        title: b('数周：预训练', 'Weeks: pretraining'),
-        points: [b('在大规模机器人数据和网页数据上预训练，之后参数固定。', 'Pretraining on large robot and web datasets, after which the parameters are fixed.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('练习的幂律：进步先快后慢，但不会停止', 'The power law of practice: fast gains first, slower later, never stopping'),

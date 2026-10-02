@@ -118,40 +118,6 @@ export const WORLD_MODELS: TopicContent = {
       b('JEPA 等方法主张在抽象的表示空间中预测，而不是逐像素生成，以避免把能力花在无关细节上。', 'Approaches such as JEPA argue for predicting in an abstract representation space rather than generating every pixel, to avoid spending capacity on irrelevant detail.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('几十毫秒：前向预测', 'Tens of milliseconds: forward prediction'),
-        points: [b('小脑在动作完成前几十到上百毫秒给出预测，用于抵消和在线校正。', 'The cerebellum predicts tens to a hundred or more milliseconds before the movement ends, for cancellation and online correction.')],
-      },
-      {
-        title: b('秒：心理模拟', 'Seconds: mental simulation'),
-        points: [b('想象一个物理过程或一条路线需要几秒，速度大致与实际过程相当或更快。', 'Imagining a physical process or a route takes seconds, about as fast as the real process or faster.')],
-      },
-      {
-        title: b('分钟：运动适应', 'Minutes: motor adaptation'),
-        points: [b('戴上让视野偏移的棱镜后，几十次尝试内动作误差就明显减小，这是前向模型被重新校准的结果。', 'After putting on prisms that shift the view, movement errors shrink clearly within tens of tries as the forward model recalibrates.')],
-      },
-      {
-        title: b('数月到数年：发育', 'Months to years: development'),
-        points: [b('婴儿在出生后数月内逐渐形成对物体持续存在和支撑关系的预期。', 'Infants gradually form expectations about object permanence and support over their first months.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('每一步：预测下一状态', 'Each step: predicting the next state'),
-        points: [b('动态模型一次前向计算预测下一个潜在状态，耗时毫秒。', 'One forward pass of the dynamics model predicts the next latent state in milliseconds.')],
-      },
-      {
-        title: b('想象：一次展开十几步', 'Imagination: rolling out a dozen or so steps'),
-        points: [b('Dreamer 每次从真实状态出发想象约 15 步，用来训练策略。', 'Dreamer imagines about 15 steps from each real state to train its policy.')],
-      },
-      {
-        title: b('训练：天到周', 'Training: days to weeks'),
-        points: [b('世界模型和策略一起训练，之后参数固定；遇到新物理情形不会自行重新校准。', 'The world model and policy train together and are then fixed. They do not recalibrate on their own in new physical situations.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('前向模型：预测感觉后果，并用误差修正自身', 'Forward model: predicting sensory outcomes and learning from the error'),

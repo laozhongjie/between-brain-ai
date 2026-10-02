@@ -1,5 +1,5 @@
 import type { Bi } from '../../../data/types'
-import { C, Svg, T } from '../kit'
+import { Svg } from '../kit'
 import { Flow, Gap, Mod, Num, Region, Var } from '../grammar'
 import type { FigProps, TopicFigs } from '../types'
 
@@ -69,44 +69,6 @@ function DreamerArch({ t }: FigProps) {
   )
 }
 
-/** Prediction from milliseconds to years in the brain, and from steps to training runs in world models. */
-function PredictionTimeline({ t }: FigProps) {
-  const id = 'f17d'
-  const ticks: [number, Bi][] = [[150, b('10 毫秒', '10 ms')], [220, b('100 毫秒', '100 ms')], [290, b('1 秒', '1 s')], [370, b('1 分钟', '1 min')], [450, b('1 小时', '1 h')], [530, b('1 天', '1 day')], [620, b('1 月', '1 month')], [700, b('1 年', '1 year')]]
-  return (
-    <Svg id={id} w={760} h={250} label={t(b('预测与内部模型的时间尺度', 'Time scales of prediction and internal models'))}>
-      <T x={16} y={44} anchor="start" s={t(b('皮层与\n小脑的预测', 'Cortical and\ncerebellar'))} size={10.5} color={C.pinkD} weight={600} />
-      <T x={16} y={176} anchor="start" s={t(b('学习型\n世界模型', 'Learned\nworld models'))} size={10.5} color={C.skyD} weight={600} />
-
-      <Mod x={160} y={26} w={80} h={36} side="bio" label={t(b('前向预测', 'Forward'))} sub={t(b('提前几十毫秒', 'tens of ms ahead'))} size={10.5} />
-      <Mod x={290} y={26} w={60} h={36} side="bio" label={t(b('模拟', 'Simulate'))} sub={t(b('秒', 'seconds'))} size={10.5} />
-      <Mod x={350} y={26} w={100} h={36} side="bio" label={t(b('运动适应', 'Adaptation'))} sub={t(b('几十次尝试', 'tens of tries'))} size={10.5} />
-      <Mod x={620} y={26} w={120} h={36} side="bio" label={t(b('发育', 'Development'))} sub={t(b('数月到数年', 'months to years'))} />
-
-      <line x1={140} y1={100} x2={752} y2={100} stroke={C.line} strokeWidth={1} />
-      {ticks.map(([x, l]) => (
-        <g key={x}>
-          <line x1={x} y1={96} x2={x} y2={104} stroke={C.dim} strokeWidth={1} />
-          <T x={x} y={115} s={t(l)} size={9.5} color={C.dim} />
-        </g>
-      ))}
-
-      <Mod x={150} y={150} w={50} h={36} side="comp" label={t(b('每步', 'Step'))} sub={t(b('毫秒', 'ms'))} size={10} />
-      <Mod x={200} y={150} w={90} h={36} side="comp" label={t(b('想象 15 步', 'Imagine 15'))} sub={t(b('毫秒到秒', 'ms to s'))} size={10.5} />
-      <Mod x={450} y={150} w={150} h={36} side="comp" label={t(b('训练', 'Training'))} sub={t(b('天到周', 'days to weeks'))} />
-      <Gap x={600} y={150} w={150} h={36} label={t(b('之后固定，不自行校准', 'Then fixed, no self-recalibration'))} />
-      <Num x={160} y={26} n={1} side="bio" />
-      <Num x={290} y={26} n={2} side="bio" />
-      <Num x={350} y={26} n={3} side="bio" />
-      <Num x={620} y={26} n={4} side="bio" />
-      <Num x={150} y={150} n={1} side="comp" />
-      <Num x={200} y={150} n={2} side="comp" />
-      <Num x={450} y={150} n={3} side="comp" />
-    </Svg>
-  )
-}
-
 export const WORLD_MODEL_FIGS: TopicFigs = {
   arch: { brain: ForwardModelArch, ai: DreamerArch },
-  dynamics: PredictionTimeline,
 }

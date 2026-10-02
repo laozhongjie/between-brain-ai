@@ -124,36 +124,6 @@ export const COMPOSITIONAL_REASONING: TopicContent = {
       b('多步任务中，即使每一步的正确率很高，整体正确率也会随步数相乘下降；分步推理和调用计算工具可以缓解。', 'In multi-step tasks, even a high per-step accuracy multiplies down with the number of steps. Step-by-step reasoning and calling tools help.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('秒：理解一个新组合', 'Seconds: understanding a new combination'),
-        points: [b('知道各部分的含义后，新组合在一两秒内就能理解。', 'Once the parts are known, a new combination is understood within a second or two.')],
-      },
-      {
-        title: b('分钟：从例子学会新规则', 'Minutes: learning a new rule from examples'),
-        points: [b('几个例子、几分钟内就能学会一套人造的组合规则。', 'A few examples and a few minutes are enough to learn a set of invented combination rules.')],
-      },
-      {
-        title: b('数年：发育', 'Years: development'),
-        points: [b('儿童在数年中逐渐掌握语言的组合规则和处理多重关系的能力。', 'Children gradually master the combination rules of language and the handling of multiple relations over several years.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('推理：毫秒到秒', 'Inference: milliseconds to seconds'),
-        points: [b('读入例子和新指令后一次前向计算给出答案；多步推理时逐步写出中间结果。', 'One forward pass after reading the examples and new instruction gives the answer. Multi-step reasoning writes out intermediate results.')],
-      },
-      {
-        title: b('元训练：天', 'Meta-training: days'),
-        points: [b('MLC 在大量随机生成的语法上训练，组合能力在这一阶段形成。', 'MLC trains on many randomly generated grammars, and compositional ability forms here.')],
-      },
-      {
-        title: b('预训练：数月', 'Pretraining: months'),
-        points: [b('大语言模型的类比和组合能力在大规模预训练中形成，之后固定。', 'Large language models gain analogy and composition abilities in large-scale pretraining, then stay fixed.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('张量积绑定：用向量表示「哪个内容在哪个角色上」', 'Tensor product binding: vectors for which content fills which role'),

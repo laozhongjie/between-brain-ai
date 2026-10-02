@@ -122,36 +122,6 @@ export const REWARD_LEARNING: TopicContent = {
       b('人类反馈强化学习先用人对回答的偏好训练一个奖励模型，再用强化学习优化语言模型；奖励模型本身不完美，过度优化会导致模型钻空子。', 'Reinforcement learning from human feedback first trains a reward model on human preferences between answers, then optimizes the language model with reinforcement learning. The reward model is imperfect, and over-optimizing lets the model game it.'),
     ],
   },
-  dynamicsSteps: {
-    biological: [
-      {
-        title: b('百毫秒：多巴胺爆发', 'Hundreds of milliseconds: dopamine burst'),
-        points: [b('意外的奖赏或预示奖赏的线索出现后约 100 毫秒，多巴胺神经元短暂爆发放电。', 'About 100 ms after an unexpected reward or a reward-predicting cue, dopamine neurons fire a brief burst.')],
-      },
-      {
-        title: b('秒：资格迹', 'Seconds: eligibility traces'),
-        points: [b('多巴胺在几秒内与带资格迹的突触结合，更新价值和动作。', 'Within seconds, dopamine meets tagged synapses and updates value and action.')],
-      },
-      {
-        title: b('多次试验：反应转移', 'Across trials: the response moves'),
-        points: [b('学习进行中，多巴胺反应逐渐从奖赏时刻转移到最早预示奖赏的线索上。', 'As learning proceeds, the dopamine response moves from the reward to the earliest cue predicting it.')],
-      },
-    ],
-    computational: [
-      {
-        title: b('每一步：时序差分更新', 'Each step: TD update'),
-        points: [b('每走一步计算一次误差，更新价值和策略。', 'Each step computes an error and updates value and policy.')],
-      },
-      {
-        title: b('训练：数百万步', 'Training: millions of steps'),
-        points: [b('Atari 游戏上需要数千万帧的经验，远多于人。', 'Atari games need tens of millions of frames of experience, far more than people.')],
-      },
-      {
-        title: b('部署：固定', 'Deployment: fixed'),
-        points: [b('训练后策略固定，不再从新的奖赏中学习。', 'After training the policy is fixed and no longer learns from new rewards.')],
-      },
-    ],
-  },
   bioMath: [
     {
       title: b('奖赏预测误差：多巴胺反应为什么会转移到线索上', 'Reward prediction error: why the dopamine response moves to the cue'),

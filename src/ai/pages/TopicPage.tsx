@@ -253,14 +253,16 @@ export function TopicPage({ topic }: { topic: Topic }) {
         </div>
       </section>
 
-      <section aria-labelledby="topic-dynamics">
-        <h2 id="topic-dynamics">{t(UI.secDynamics)}</h2>
-        <Figure Fig={figs.dynamics} wide />
-        <div className="two-col-steps">
-          <section><h3 className="bio">{bio}</h3><Steps steps={c.dynamicsSteps.biological} side="bio" /></section>
-          <section><h3 className="comp">{comp}</h3><Steps steps={c.dynamicsSteps.computational} side="comp" /></section>
-        </div>
-      </section>
+      {c.dynamicsSteps && (
+        <section aria-labelledby="topic-dynamics">
+          <h2 id="topic-dynamics">{t(UI.secDynamics)}</h2>
+          <Figure Fig={figs.dynamics} wide />
+          <div className="two-col-steps">
+            <section><h3 className="bio">{bio}</h3><Steps steps={c.dynamicsSteps.biological} side="bio" /></section>
+            <section><h3 className="comp">{comp}</h3><Steps steps={c.dynamicsSteps.computational} side="comp" /></section>
+          </div>
+        </section>
+      )}
 
       <section aria-labelledby="topic-math">
         <h2 id="topic-math">{t(UI.secMath)}</h2>
