@@ -56,75 +56,94 @@ export const EPISODIC_MEMORY: TopicContent = {
     biological: [
       {
         title: b('新皮层到内嗅皮层', 'Neocortex to entorhinal cortex'),
-        signal: b('一群皮层神经元的放电模式：哪些神经元在放电，各自放电多快。', 'The firing pattern of a population of cortical neurons: which neurons fire and how fast.'),
-        effect: b('内嗅皮层把信息分成两路：内侧的网格细胞编码「在哪里」，外侧编码「是什么」。', 'The entorhinal cortex splits it into two streams. Grid cells in the medial part code where, and the lateral part codes what.'),
-        next: b('经穿通通路进入海马，主要到齿状回，也有分支直达 CA3 和 CA1。', 'Into the hippocampus through the perforant path, mainly to the dentate gyrus, with branches straight to CA3 and CA1.'),
+        points: [
+          b('新皮层把感知到的信息以放电模式送出：哪些神经元在放电，各自放电多快。', 'The neocortex sends out what is perceived as a firing pattern: which neurons fire and how fast.'),
+          b('内嗅皮层把信息分成两路：内侧的网格细胞编码「在哪里」，外侧编码「是什么」。', 'The entorhinal cortex splits it into two streams. Grid cells in the medial part code where, and the lateral part codes what.'),
+          b('两路信息经穿通通路进入海马，主要送到齿状回，也有分支直达 CA3 和 CA1。', 'Both streams enter the hippocampus through the perforant path, mainly to the dentate gyrus, with branches straight to CA3 and CA1.'),
+        ],
       },
       {
         title: b('齿状回', 'Dentate gyrus'),
-        signal: b('内嗅皮层的放电模式。', 'The entorhinal firing pattern.'),
-        effect: b('映射到数量多得多、同一时刻只有极少数放电的颗粒细胞上。相似的输入因此变成几乎不重叠的稀疏模式，即模式分离，原理见[扩展编码](card:expansion)。', 'It is mapped onto far more granule cells, of which very few fire at once. Similar inputs become sparse patterns that barely overlap. This is pattern separation, explained in [expansion coding](card:expansion).'),
-        next: b('经苔藓纤维把稀疏模式强力传给 CA3。', 'Through the mossy fibers, which impose the sparse pattern on CA3.'),
+        points: [
+          b('放电模式被映射到数量多得多的颗粒细胞上，同一时刻只有极少数颗粒细胞放电。', 'The pattern is mapped onto far more granule cells, of which very few fire at once.'),
+          b('相似的输入因此变成几乎不重叠的稀疏模式，即模式分离，原理见[扩展编码](card:expansion)。', 'Similar inputs become sparse patterns that barely overlap. This is pattern separation, explained in [expansion coding](card:expansion).'),
+          b('这个稀疏模式经苔藓纤维被强力传给 CA3。', 'The mossy fibers impose this sparse pattern on CA3.'),
+        ],
       },
       {
         title: b('CA3 写入', 'CA3 writes'),
-        signal: b('齿状回送来的稀疏模式，让一小群 CA3 细胞同时放电。', 'The sparse pattern from the dentate gyrus makes a small group of CA3 cells fire together.'),
-        effect: b('同时放电的细胞之间，循环连接按赫布规则被加强（LTP），一次就够。经历由此被存成「哪些细胞彼此连得更紧」。', 'The recurrent connections among the co-firing cells are strengthened by the Hebbian rule (LTP), in one go. The episode is stored as which cells are more tightly connected.'),
-        next: b('保存在 CA3 的连接中，等待回忆时读出。', 'It stays in the CA3 connections until recall.'),
+        points: [
+          b('齿状回送来的稀疏模式让一小群 CA3 细胞同时放电。', 'The sparse pattern from the dentate gyrus makes a small group of CA3 cells fire together.'),
+          b('同时放电的细胞之间，循环连接按赫布规则被加强（LTP），一次就够。', 'The recurrent connections among the co-firing cells are strengthened by the Hebbian rule (LTP), in one go.'),
+          b('经历由此被存成「哪些细胞彼此连得更紧」，保存在 CA3 的连接中。', 'The episode is stored as which cells are more tightly connected, kept in the CA3 connections.'),
+        ],
       },
       {
         title: b('CA3 读出', 'CA3 reads out'),
-        signal: b('回忆线索，例如一个地点，只激活这群细胞中的一部分。', 'A recall cue, such as a place, activates only part of the group.'),
-        effect: b('加强过的循环连接把兴奋传遍整群细胞，几轮之后原来的模式被补全，即模式补全，原理见[吸引子网络](card:attractors)。', 'The strengthened recurrent connections spread excitation through the whole group, and after a few rounds the original pattern is complete. This is pattern completion, explained in [attractor networks](card:attractors).'),
-        next: b('补全的模式送往 CA1。', 'The completed pattern goes to CA1.'),
+        points: [
+          b('回忆线索（例如一个地点）只激活这群细胞中的一部分。', 'A recall cue, such as a place, activates only part of the group.'),
+          b('加强过的循环连接把兴奋传遍整群细胞，几轮之后原来的模式被补全，即模式补全，原理见[吸引子网络](card:attractors)。', 'The strengthened recurrent connections spread excitation through the whole group, and after a few rounds the original pattern is complete. This is pattern completion, explained in [attractor networks](card:attractors).'),
+          b('补全的模式送往 CA1。', 'The completed pattern goes to CA1.'),
+        ],
       },
       {
         title: b('CA1 回到新皮层', 'CA1 back to the neocortex'),
-        signal: b('CA3 补全的模式，加上内嗅皮层的直接输入。', 'The completed pattern from CA3, plus direct input from the entorhinal cortex.'),
-        effect: b('CA1 整合两路输入后输出。', 'CA1 combines the two inputs and sends out the result.'),
-        next: b('经内嗅皮层深层回到新皮层，重新激活经历当时的皮层放电模式（皮层重现），所以回忆时像「又看到」当时的场景。', 'Through the deep entorhinal layers back to the neocortex, where it reactivates the cortical firing of the original experience (cortical reinstatement). That is why recall feels like seeing the scene again.'),
+        points: [
+          b('CA1 整合 CA3 补全的模式和内嗅皮层的直接输入。', 'CA1 combines the completed pattern from CA3 with direct input from the entorhinal cortex.'),
+          b('结果经内嗅皮层深层回到新皮层，重新激活经历当时的皮层放电模式（皮层重现），所以回忆时像「又看到」当时的场景。', 'The result returns through the deep entorhinal layers to the neocortex and reactivates the cortical firing of the original experience (cortical reinstatement). That is why recall feels like seeing the scene again.'),
+        ],
       },
       {
         title: b('调质信号', 'Neuromodulators'),
-        signal: b('新奇或带情绪的事件引起的多巴胺和去甲肾上腺素。', 'Dopamine and noradrenaline released by novel or emotional events.'),
-        effect: b('增强海马的可塑性，让这一次的 LTP 更强、更持久。', 'They boost hippocampal plasticity, making this round of LTP stronger and longer lasting.'),
-        next: b('决定哪些经历被长期保留。', 'They decide which experiences are kept long term.'),
+        points: [
+          b('新奇或带情绪的事件引起多巴胺和去甲肾上腺素释放。', 'Novel or emotional events release dopamine and noradrenaline.'),
+          b('它们增强海马的可塑性，让这一次的 LTP 更强、更持久，从而决定哪些经历被长期保留。', 'They boost hippocampal plasticity, making this round of LTP stronger and longer lasting, and so decide which experiences are kept long term.'),
+        ],
       },
     ],
     computational: [
       {
         title: b('分块', 'Chunking'),
-        signal: b('原始文本：文档、对话记录。', 'Raw text: documents and chat logs.'),
-        effect: b('按固定长度切成片段，常见几百个词元一块，相邻块留少量重叠。切分只看长度和标点，不看事件边界。', 'Cut into fixed-length chunks, often a few hundred tokens each, with a little overlap. The cut follows length and punctuation, not event boundaries.'),
-        next: b('每个片段送进嵌入模型。', 'Each chunk goes to the embedding model.'),
+        points: [
+          b('文档和对话记录按固定长度切成片段，常见几百个词元一块，相邻块留少量重叠。', 'Documents and chat logs are cut into fixed-length chunks, often a few hundred tokens each, with a little overlap.'),
+          b('切分只看长度和标点，不看事件边界。每个片段随后送进嵌入模型。', 'The cut follows length and punctuation, not event boundaries. Each chunk then goes to the embedding model.'),
+        ],
       },
       {
         title: b('嵌入', 'Embedding'),
-        signal: b('一个文本片段。', 'One text chunk.'),
-        effect: b('嵌入模型把它编码成一个几百到几千维的向量；意思相近的片段，向量方向相近。', 'The embedding model encodes it as a vector with hundreds to thousands of dimensions. Chunks with similar meaning get vectors pointing in similar directions.'),
-        next: b('向量连同原文送去写入向量库。', 'The vector and the text go to the vector store.'),
+        points: [
+          b('嵌入模型把每个片段编码成一个几百到几千维的向量。', 'The embedding model encodes each chunk as a vector with hundreds to thousands of dimensions.'),
+          b('意思相近的片段，向量方向相近。向量连同原文送去写入向量库。', 'Chunks with similar meaning get vectors pointing in similar directions. The vector and the text go to the vector store.'),
+        ],
       },
       {
         title: b('写入向量库', 'Writing to the vector store'),
-        signal: b('片段的向量和原文。', 'The chunk vector and its text.'),
-        effect: b('一次插入完成，原文逐字保存，向量接入近似最近邻索引。语言模型的参数不变。', 'One insert stores the text verbatim and links the vector into an approximate nearest neighbor index. The language model parameters do not change.'),
-        next: b('留在库中，等待查询。', 'It waits in the store for queries.'),
+        points: [
+          b('一次插入就完成，原文逐字保存，向量接入近似最近邻索引。', 'One insert stores the text verbatim and links the vector into an approximate nearest neighbor index.'),
+          b('语言模型的参数不变，片段留在库中等待查询。', 'The language model parameters do not change, and the chunk waits in the store for queries.'),
+        ],
       },
       {
         title: b('查询与检索', 'Query and retrieval'),
-        signal: b('用户问题，经同一个嵌入模型变成查询向量。', 'The user question, turned into a query vector by the same embedding model.'),
-        effect: b('沿索引找出余弦相似度最高的 $k$ 个片段，常见 $k$ 为 3 到 20。', 'The index is searched for the $k$ chunks with the highest cosine similarity, commonly 3 to 20.'),
-        next: b('取回的片段送进上下文窗口。', 'The retrieved chunks go into the context window.'),
+        points: [
+          b('用户问题经同一个嵌入模型变成查询向量。', 'The user question becomes a query vector through the same embedding model.'),
+          b('向量库沿索引找出余弦相似度最高的 $k$ 个片段（常见 3 到 20 个），送进上下文窗口。', 'The store follows its index to the $k$ chunks with the highest cosine similarity, commonly 3 to 20, and sends them into the context window.'),
+        ],
       },
       {
         title: b('上下文与语言模型', 'Context and language model'),
-        signal: b('问题加上取回的片段，拼成一段提示词。', 'The question and the retrieved chunks, joined into one prompt.'),
-        effect: b('语言模型用注意力读取这些片段，生成回答。', 'The language model reads the chunks through attention and writes an answer.'),
-        next: b('回答输出给用户。会话结束后上下文被清空，模型参数始终不变。', 'The answer goes to the user. The context is cleared when the session ends, and the parameters never change.'),
+        points: [
+          b('问题和取回的片段拼成一段提示词。', 'The question and the retrieved chunks are joined into one prompt.'),
+          b('语言模型用注意力读取这些片段，生成回答。', 'The language model reads the chunks through attention and writes an answer.'),
+          b('会话结束后上下文被清空，模型参数始终不变。', 'The context is cleared when the session ends, and the parameters never change.'),
+        ],
       },
       {
         title: b('缺失的两步（虚线框）', 'The two missing steps (dashed boxes)'),
-        effect: b('没有按事件切分经历的步骤，也没有把检索到的内容写进模型参数的步骤。', 'There is no step that cuts experience into events, and none that writes retrieved content into the model parameters.'),
+        points: [
+          b('没有按事件切分经历的步骤。', 'There is no step that cuts experience into events.'),
+          b('也没有把检索到的内容写进模型参数的步骤。', 'There is no step that writes retrieved content into the model parameters.'),
+        ],
       },
     ],
   },

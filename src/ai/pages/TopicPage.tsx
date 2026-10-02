@@ -10,7 +10,7 @@ import { TOPIC_FIGS } from '../figs'
 import { GRAMMAR_LEGEND, LegendMark } from '../figs/grammar'
 import type { FigProps } from '../figs/types'
 import { Rich, Tex } from '../Tex'
-import type { FigStep, FlowStep, Topic, TopicFormula } from '../types'
+import type { FigStep, Topic, TopicFormula } from '../types'
 import { EvidenceBadge, KindTags, PagerLink, RefList } from './common'
 import { Icon } from '../../ui/Icon'
 import { ComparisonText } from '../../ui/ComparisonText'
@@ -34,29 +34,6 @@ function Steps({ steps, side }: { steps: FigStep[]; side: 'bio' | 'comp' }) {
           </div>
         </li>
       ))}
-    </ol>
-  )
-}
-
-/** The information flow through an architecture figure: per numbered step, what arrives, what it does, where it goes. */
-function FlowSteps({ steps, side }: { steps: FlowStep[]; side: 'bio' | 'comp' }) {
-  const t = useT()
-  return (
-    <ol className={`fig-steps ${side}`}>
-      {steps.map((s, i) => {
-        const rows: [Bi, Bi | undefined][] = [[UI.flowSignal, s.signal], [UI.flowEffect, s.effect], [UI.flowNext, s.next]]
-        return (
-          <li key={i}>
-            <span className="step-num" aria-hidden>{i + 1}</span>
-            <div>
-              <h4>{t(s.title)}</h4>
-              <dl className="flow">
-                {rows.filter(([, v]) => v).map(([k, v], j) => <div key={j}><dt>{t(k)}</dt><dd><Rich text={t(v!)} /></dd></div>)}
-              </dl>
-            </div>
-          </li>
-        )
-      })}
     </ol>
   )
 }
@@ -173,7 +150,7 @@ export function TopicPage({ topic }: { topic: Topic }) {
             <section key={side} className={`arch-col ${side}`}>
               <h3>{name}</h3>
               <Figure Fig={Fig} />
-              <FlowSteps steps={steps} side={side} />
+              <Steps steps={steps} side={side} />
               <aside className="arch-notes">
                 <h5>{t(UI.archNotes)}</h5>
                 <ul>{notes.map((n, i) => <li key={i}><Rich text={t(n)} /></li>)}</ul>

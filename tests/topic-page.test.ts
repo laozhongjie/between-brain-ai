@@ -27,7 +27,7 @@ describe('topic pages', () => {
           page.thesis.biological, page.thesis.computational, page.thesis.gap, page.asOf,
           ...page.limits.biological, ...page.limits.computational, ...page.limits.unsupported,
           ...page.capabilities.flatMap((r) => [r.dimension, r.brain, r.ai, r.gap]),
-          ...[...page.archSteps.biological, ...page.archSteps.computational].flatMap((s) => [s.title, s.effect, ...(s.signal ? [s.signal] : []), ...(s.next ? [s.next] : [])]),
+          ...[...page.archSteps.biological, ...page.archSteps.computational].flatMap((s) => [s.title, ...s.points]),
         ...page.archNotes.biological, ...page.archNotes.computational,
         ...[...page.dynamicsSteps.biological, ...page.dynamicsSteps.computational].flatMap((s) => [s.title, ...s.points]),
           ...[...page.bioMath, ...page.compMath].flatMap((f) => [f.title, ...f.symbols.map((x) => x.meaning), ...f.steps, ...(f.example ? [f.example] : []), ...f.consequences, ...f.limitations])]
