@@ -92,7 +92,7 @@ export const UI = {
   aiTitle: b('大脑与 AI 功能图谱', 'Brain & AI functional atlas'),
   aiIntro: b('每个功能主题在一项能力上对照一个具体的生物系统和一个具体的计算系统：双方各自做到什么程度，差距在哪里，架构与机制如何解释这些差距。功能领域是主目录；机制索引按尺度收录可复用的计算过程；综合专题处理跨领域的问题。', 'Each functional topic compares a specific biological system with a specific computational system on one capability: what each achieves, where the gaps are, and how architecture and mechanism explain them. The functional domains are the main directory. The mechanism index collects reusable computations by scale. The cross-domain topics cover questions that span domains.'),
   howToRead: b('如何阅读', 'How to read'),
-  functionalDomains: b('九个功能领域', 'Nine functional domains'),
+  functionalDomains: b('功能领域', 'Functional domains'),
   crossCuttingTopics: b('综合专题', 'Cross-domain topics'),
   scaleIndex: b('机制索引', 'Mechanism index'),
   scaleIndexIntro: b('按空间尺度收录可复用的计算过程。每个条目解释机制、公式和成立边界，并链接到相关的功能主题。', 'Reusable computations, grouped by spatial scale. Each entry explains the mechanism, its equations and where it holds, and links to related functional topics.'),

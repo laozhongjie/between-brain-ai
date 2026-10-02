@@ -15,7 +15,7 @@ export type Evidence = 'established' | 'debated' | 'speculative'
 
 export type Layer = 1 | 2 | 3 | 4 | 5
 
-/** One of the nine functional domains: the main directory. */
+/** One of the functional domains: the main directory. */
 export interface AtlasDomain {
   id: string
   name: Bi
