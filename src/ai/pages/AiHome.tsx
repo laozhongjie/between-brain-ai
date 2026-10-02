@@ -1,12 +1,24 @@
 import { Rich } from '../../rich'
 import { UI, useT } from '../../i18n'
 import { go } from '../../route'
-import { CROSS_CUTTING, DOMAINS, cardsOfDomain } from '../content'
-import { INTRO_REFS } from '../content'
+import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_GROUPS, SCALES, crossHref, topicHref, topicsOfDomain } from '../content'
 import { LABS } from '../labs/registry'
-import { CorrBadge, Legend, RefList } from './common'
+import type { Topic } from '../types'
+import { KindTags, Legend, RefList } from './common'
 import { Icon } from '../../ui/Icon'
 import { ComparisonText } from '../../ui/ComparisonText'
+
+/** A directory entry: opens its page, or shows that it is still being written. */
+function TopicChip({ topic }: { topic: Topic }) {
+  const t = useT()
+  const href = topicHref(topic)
+  return (
+    <button className={`chip topic-chip ${href ? '' : 'pending'}`} disabled={!href} onClick={() => href && go(href)}>
+      <span>{t(topic.name)}</span>
+      <span className="chip-status">{t(href ? UI.statusLegacy : UI.statusDrafting)}</span>
+    </button>
+  )
+}
 
 export function AiHome() {
   const t = useT()
@@ -29,46 +41,57 @@ export function AiHome() {
               </div>
             </header>
             <div className="rung-cards">
-              {cardsOfDomain(domain).map((c) => (
-                <button key={c.id} className="chip" onClick={() => go(`/ai/card/${c.id}`)}>
-                  <ComparisonText text={t(c.title)} />
-                  <CorrBadge corr={c.corr} />
-                </button>
-              ))}
+              {topicsOfDomain(domain).map((topic) => <TopicChip key={topic.id} topic={topic} />)}
             </div>
+          </section>
+        ))}
+      </div>
+
+      <h3>{t(UI.scaleIndex)}</h3>
+      <p className="section-note">{t(UI.scaleIndexIntro)}</p>
+      <div className="ladder domain-directory">
+        {SCALES.map((scale) => (
+          <section key={scale.id} className="rung domain-rung">
+            <header>
+              <div><h2>{t(scale.name)}</h2></div>
+            </header>
+            {MECH_GROUPS.filter((g) => g.scale === scale.id).map((group) => (
+              <div key={group.id} className="mech-group">
+                <div className="mech-group-title"><span className="rung-no">{group.id}</span>{t(group.name)}</div>
+                <div className="rung-cards">
+                  {group.cards.map((id) => CARD_BY_ID[id]).map((c) => (
+                    <button key={c.id} className="chip" onClick={() => go(`/ai/card/${c.id}`)}>
+                      <ComparisonText text={t(c.title)} />
+                      <KindTags kinds={c.kinds} />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
           </section>
         ))}
       </div>
 
       <h3>{t(UI.crossCuttingTopics)}</h3>
       <div className="ladder domain-directory">
-        {CROSS_CUTTING.map((domain) => (
-          <section key={domain.id} className="rung domain-rung">
-            <header>
-              <span className="rung-no">{domain.id}</span>
-              <div><h2>{t(domain.name)}</h2><p><Rich text={t(domain.desc)} /></p></div>
-            </header>
-            <div className="rung-cards">
-              {cardsOfDomain(domain).map((c) => (
-                <button key={c.id} className="chip" onClick={() => go(`/ai/card/${c.id}`)}>
-                  <ComparisonText text={t(c.title)} />
-                  <CorrBadge corr={c.corr} />
+        {CROSS_TOPICS.map((x) => {
+          const href = crossHref(x)
+          return (
+            <section key={x.id} className="rung domain-rung">
+              <header>
+                <span className="rung-no">{x.id}</span>
+                <div><h2>{t(x.name)}</h2><p><Rich text={t(x.desc)} /></p></div>
+              </header>
+              <div className="rung-cards">
+                <button className={`chip topic-chip ${href ? '' : 'pending'}`} disabled={!href} onClick={() => href && go(href)}>
+                  <span>{t(UI.openTopic)}</span>
+                  {!x.route && <span className="chip-status">{t(href ? UI.statusLegacy : UI.statusDrafting)}</span>}
                 </button>
-              ))}
-            </div>
-          </section>
-        ))}
+              </div>
+            </section>
+          )
+        })}
       </div>
-
-      <section className="rung blueprint-entry">
-        <header>
-          <span className="rung-no">A</span>
-          <div><h2>{t(UI.blueprintTitle).split('·')[1]?.trim() ?? t(UI.blueprintTitle)}</h2><p><Rich text={t(UI.blueprintIntro)} /></p></div>
-        </header>
-        <div className="rung-cards">
-          <button className="chip more" onClick={() => go('/ai/blueprint')}>{t(UI.openBlueprint)}</button>
-        </div>
-      </section>
 
       <h3>{t(UI.labs)}</h3>
       <div className="rung-cards">

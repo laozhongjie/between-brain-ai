@@ -13,7 +13,7 @@ export const LAYER4: CardMechanism[] = [
     brainMath: [{ tex: t`r_{\text{IT}} \approx A\,h_{\text{CNN}}^{(L)}(x)`, caption: b('Yamins 等（2014）：IT 神经反应可由 CNN 高层特征的线性映射预测', 'Yamins et al. (2014): IT responses are linearly predictable from high CNN layers') }],
     ai: b('CNN 用局部卷积逐层组合特征；ViT 把图像分成小块，再用注意力整合。任务训练的 CNN 特征可以预测部分颞下皮层响应（Yamins 2014）。这提供了可测量的对应关系，但模型在图像识别基准上的成绩不能代表完整的人类视觉能力。', 'CNNs combine features through local convolutions; ViTs split images into patches and integrate them with attention. Features from task-trained CNNs predict some inferior-temporal responses (Yamins 2014). This is a measurable correspondence, but image-benchmark scores do not capture all of human vision.'),
     aiMath: [{ tex: t`h^{(l+1)} = \mathrm{pool}\big(\phi(W^{(l)} * h^{(l)})\big)`, caption: b('卷积层级', 'Convolutional hierarchy') }],
-    corr: 'similar', evidence: 'established',
+    kinds: ['representation', 'behavior'], evidence: 'established',
     refs: ['yamins2014', 'rao1999'],
   },
   {
@@ -23,7 +23,7 @@ export const LAYER4: CardMechanism[] = [
     brainMath: [{ tex: t`\Delta t_{\text{ITD}} \approx \frac{d}{c}\sin\theta`, caption: b('双耳时间差定位声源方向 $\\theta$（$d$ 为双耳间距，$c$ 为声速）', 'Interaural time difference locates direction $\\theta$ ($d$ = ear distance, $c$ = speed of sound)') }],
     ai: b('音频模型通常从频谱图（短时傅里叶或梅尔滤波）出发；Kell 等（2018）训练的网络自然形成了与听觉皮层对应的处理层级。', 'Audio models usually start from spectrograms (STFT or mel filter banks); networks trained by Kell et al. (2018) spontaneously developed a hierarchy matching auditory cortex.'),
     aiMath: [{ tex: t`X(t,f) = \Big|\sum_n x[n]\,w[n - t]\,e^{-i2\pi f n}\Big|`, caption: b('短时傅里叶变换：工程版的「耳蜗」', 'Short-time Fourier transform: an engineering “cochlea”') }],
-    corr: 'similar', evidence: 'established',
+    kinds: ['representation', 'behavior'], evidence: 'established',
     refs: ['kell2018', 'hickok2007'],
   },
   {
@@ -32,7 +32,7 @@ export const LAYER4: CardMechanism[] = [
     brain: b('皮肤中的多种感受器（压力、振动、温度、痛）经脊髓到丘脑，再到中央后回，那里按「感觉小人」排列成拓扑地图，相邻身体部位对应相邻皮层。痛觉另有一条通往前扣带回和岛叶的情绪通路，产生「要避开」的动机。脊髓反射能在大脑参与之前完成保护动作。', 'Diverse skin receptors (pressure, vibration, temperature, pain) project via spinal cord and thalamus to the postcentral gyrus, laid out as a topographic homunculus. Pain also runs an affective route to anterior cingulate and insula, creating the motivation to avoid. Spinal reflexes protect before the brain is involved.'),
     brainMath: [{ tex: t`w_i \leftarrow w_i + \eta\,h_{c,i}\,(x - w_i),\quad c = \arg\min_k \|x - w_k\|`, caption: b('自组织映射（Kohonen 1982）：相邻单元学会相邻输入，形成类似「感觉小人」的拓扑地图', 'Self-organizing map (Kohonen 1982): neighboring units learn neighboring inputs, forming a homunculus-like topographic map') }],
     ai: b('机器人触觉传感器（电子皮肤、GelSight 等）正在发展，但与视觉相比数据少、模型弱；「痛觉」通常被简化为硬编码的安全约束或负奖励。', 'Robot tactile sensors (e-skin, GelSight…) are advancing, but data and models lag far behind vision; “pain” is usually reduced to hard-coded safety limits or negative reward.'),
-    corr: 'crude', evidence: 'established',
+    kinds: ['behavior'], evidence: 'established',
     refs: ['kohonen1982', 'craig2002'],
   },
   {
@@ -44,7 +44,7 @@ export const LAYER4: CardMechanism[] = [
       { tex: t`\min_{\pi}\ \mathbb{E}\Big[\sum_t x_t^{\top}Qx_t + u_t^{\top}Ru_t\Big]`, caption: b('最优反馈控制的代价函数', 'Optimal-feedback-control cost') },
     ],
     ai: b('机器人学使用模型预测控制、强化学习和模仿学习；视觉-语言-动作模型（如 RT-2）把网络知识迁移到机器人动作。世界模型（Dreamer 等）提供了学习型的前向模型。', 'Robotics uses MPC, RL and imitation learning; vision-language-action models (e.g. RT-2) transfer web knowledge to robot actions; world models (Dreamer…) provide learned forward models.'),
-    corr: 'crude', evidence: 'established',
+    kinds: ['algorithm', 'behavior'], evidence: 'established',
     refs: ['wolpert1998', 'todorov2002', 'brohan2023', 'hafner2023'],
   },
   {
@@ -54,7 +54,7 @@ export const LAYER4: CardMechanism[] = [
     brainMath: [{ tex: t`r_{\text{brain}}(w_t) \approx A\,h_{\text{LLM}}(w_{\le t})`, caption: b('Schrimpf 等（2021）：下一个词预测越好的模型，越能预测大脑语言区的反应', 'Schrimpf et al. (2021): models better at next-word prediction better predict language-area responses') }],
     ai: b('许多大语言模型用 Transformer 预测下一个词元，再经过指令训练等步骤学习回答问题。文本预训练能形成丰富的语言表征；图像、声音、工具和交互反馈可以进一步扩展信息来源。基础权重通常不会因一次普通对话自动改变。', 'Many large language models use Transformers to predict the next token, then learn to answer through instruction training and related stages. Text pretraining builds rich language representations; images, audio, tools and interactive feedback can extend their inputs. An ordinary conversation usually does not automatically change base weights.'),
     aiMath: [{ tex: t`\mathcal{L} = -\sum_t \log p_\theta\big(w_t \mid w_{<t}\big)`, caption: b('自回归语言建模', 'Autoregressive language modeling') }],
-    corr: 'similar', evidence: 'debated',
+    kinds: ['representation', 'behavior'], evidence: 'debated',
     refs: ['hickok2007', 'schrimpf2021', 'vaswani2017', 'lake2017'],
   },
   {
@@ -63,7 +63,7 @@ export const LAYER4: CardMechanism[] = [
     brain: b('互补学习系统理论（McClelland 1995; Kumaran 2016）：海马一次就能把一段经历绑定存储，新皮层慢慢地提取统计规律；睡眠中海马回放经历，逐渐教会新皮层。海马-内嗅系统还用位置细胞和网格细胞构建结构化的「认知地图」，Tolman–Eichenbaum 机器（TEM）把它形式化，并被证明与 Transformer 存在形式上的联系。', 'Complementary learning systems (McClelland 1995; Kumaran 2016): the hippocampus binds an episode in one shot, the neocortex slowly extracts statistics, and hippocampal replay during sleep gradually teaches the cortex. The hippocampal–entorhinal system also builds structured cognitive maps with place and grid cells; the Tolman–Eichenbaum Machine (TEM) formalizes this and relates to Transformers.'),
     brainMath: [{ tex: t`M \leftarrow M + \eta\,v\,k^{\top},\qquad \hat v = M\,q`, caption: b('海马式快速联想存储（一次写入、按线索读取）', 'Hippocampus-like fast associative storage (one-shot write, cued read)') }],
     ai: b('上下文窗口相当于短期工作记忆；检索增强生成（RAG）从外部库检索文本；DQN 的经验回放借鉴了海马回放；TEM 与 Transformer 的联系（Whittington 2022）为结构化记忆提供了新方向。', 'Context windows act like working memory; retrieval-augmented generation (RAG) fetches external text; DQN’s experience replay borrowed from hippocampal replay; the TEM–Transformer link (Whittington 2022) points to structured memory.'),
-    corr: 'crude', evidence: 'established',
+    kinds: ['algorithm'], evidence: 'established',
     refs: ['mcclelland1995', 'kumaran2016', 'whittington2020', 'whittington2022', 'lewis2020', 'mnih2015'],
   },
   {
@@ -72,7 +72,7 @@ export const LAYER4: CardMechanism[] = [
     brain: b('杏仁核及相关回路参与威胁学习与防御反应，能够影响注意、身体反应和记忆（LeDoux 2000）。不同通路可以在不同时间尺度上发挥作用。躯体标记假说认为，身体相关情绪信号参与复杂决策（Damasio 1996），但这不是情绪的唯一解释。', 'Amygdala-related circuits contribute to threat learning and defensive responses, influencing attention, bodily responses and memory (LeDoux 2000). Different pathways operate at different timescales. The somatic-marker hypothesis proposes that body-related emotional signals contribute to complex decisions (Damasio 1996), but it is not the only account of emotion.'),
     brainMath: [{ tex: t`\Delta V = \alpha\,(\lambda - V)`, caption: b('Rescorla–Wagner 规则描述的恐惧条件化：$V$ 是对威胁的预期，$\\lambda$ 是实际结果', 'Fear conditioning under the Rescorla–Wagner rule: $V$ is the expected threat, $\\lambda$ the actual outcome') }],
     ai: b('负奖励、安全约束和风险估计能承担部分保护功能。系统也可以设计一个共享状态，同时调节多个模块。语言模型能表达情绪词汇，但仅凭这种表达，不能推断它具有生物情绪机制或主观感受。', 'Negative rewards, safety constraints and risk estimates serve some protective functions. A shared state can also be designed to regulate several modules. A language model’s emotional wording alone establishes neither biological emotion mechanisms nor subjective feelings.'),
-    corr: 'crude', evidence: 'debated',
+    kinds: ['algorithm'], evidence: 'debated',
     refs: ['ledoux2000', 'damasio1996', 'schultz1997'],
   },
   {
@@ -81,7 +81,7 @@ export const LAYER4: CardMechanism[] = [
     brain: b('在经典实验中，部分中脑多巴胺神经元对意外奖励增强响应，对预期但未出现的奖励降低响应；奖励可被预测后，响应可转移到预测线索。这与 TD 误差的变化相符（Schultz, Dayan & Montague 1997）。后续研究还发现与分布式价值预测相符的响应差异（Dabney 2020），但并非所有多巴胺活动都由奖励误差解释。', 'In classic experiments, some midbrain dopamine neurons respond more to unexpected rewards and less when expected rewards are omitted. Once reward is predictable, responses can shift to predictive cues. This fits TD-error dynamics (Schultz, Dayan & Montague 1997). Later work found response differences consistent with distributional value prediction (Dabney 2020), but reward error does not explain all dopamine activity.'),
     brainMath: [{ tex: t`\delta_t = r_t + \gamma\,V(s_{t+1}) - V(s_t),\qquad V(s_t) \leftarrow V(s_t) + \alpha\,\delta_t`, caption: b('时序差分误差 ≈ 多巴胺信号', 'TD error ≈ dopamine signal') }],
     ai: b('TD 学习、actor-critic（基底节中纹状体 ≈ critic/actor）、DQN 等构成了现代强化学习的核心；分布式强化学习反过来启发了神经科学研究。', 'TD learning, actor-critic (striatum ≈ critic/actor) and DQN form the core of modern RL; distributional RL in turn inspired neuroscience.'),
-    corr: 'iso', evidence: 'established',
+    kinds: ['algorithm', 'math'], evidence: 'established',
     refs: ['schultz1997', 'dabney2020', 'daw2005', 'mnih2015'],
   },
   {
@@ -90,7 +90,7 @@ export const LAYER4: CardMechanism[] = [
     brain: b('下丘脑、脑干和岛叶持续监测体温、能量、水分、心率等内部状态（内感受，Craig 2002），并通过神经（交感/副交感）和激素（HPA 轴）两条通路调节身体。饥饿、口渴、疲劳这些驱力决定了什么东西「有价值」。', 'Hypothalamus, brainstem and insula continuously monitor temperature, energy, water, heart rate (interoception, Craig 2002) and regulate the body via neural (sympathetic/parasympathetic) and hormonal (HPA) routes. Drives like hunger, thirst and fatigue determine what is valuable.'),
     brainMath: [{ tex: t`D(H_t) = \Big(\sum_i \big|h_i^{*} - h_{i,t}\big|^{n}\Big)^{1/m},\qquad r_t = D(H_t) - D(H_{t+1})`, caption: b('稳态强化学习（Keramati & Gutkin 2014）：奖赏 = 离理想内部状态的距离减少量', 'Homeostatic RL (Keramati & Gutkin 2014): reward = reduction in distance from the ideal internal state') }],
     ai: b('独立文本模型通常不把自身电量或温度作为行为目标，但机器人可以显式管理这些资源。稳态强化学习把内部状态的改善变成奖励（Keramati & Gutkin 2014）；好奇心奖励则利用预测等信号驱动探索（Pathak 2017），与身体稳态不是同一概念。', 'Standalone text models usually do not treat their own battery or temperature as behavioral goals, but robots can explicitly manage such resources. Homeostatic RL rewards improvement in internal state (Keramati & Gutkin 2014). Curiosity rewards drive exploration using signals such as prediction (Pathak 2017), which is distinct from bodily homeostasis.'),
-    corr: 'crude', evidence: 'established',
+    kinds: ['algorithm'], evidence: 'established',
     refs: ['craig2002', 'keramati2014', 'pathak2017'],
   },
   {
@@ -100,7 +100,7 @@ export const LAYER4: CardMechanism[] = [
     brainMath: [{ tex: t`w_{ij} \leftarrow \kappa\,w_{ij},\ \ \kappa < 1\ \ (\text{sleep downscaling})`, caption: b('突触稳态：睡眠中按比例整体下调（示意）', 'Synaptic homeostasis: proportional downscaling during sleep (schematic)') }],
     ai: b('经验回放（DQN）、生成式回放（Shin 2017）用生成模型「做梦」来缓解遗忘；wake-sleep 算法（Hinton 1995）交替训练识别和生成网络；Dreamer 在世界模型的想象中训练策略。', 'Experience replay (DQN) and generative replay (Shin 2017) use a generative model to “dream” and reduce forgetting; the wake-sleep algorithm (Hinton 1995) alternates recognition and generative training; Dreamer trains policies in world-model imagination.'),
     aiMath: [{ tex: t`\mathcal{L} = \mathbb{E}_{x\sim D_{\text{new}}}\,\ell(x) + \lambda\,\mathbb{E}_{\tilde x\sim G_{\text{old}}}\,\ell(\tilde x)`, caption: b('生成式回放：新数据 + 旧生成器「梦到」的数据', 'Generative replay: new data + samples “dreamed” by the old generator') }],
-    corr: 'crude', evidence: 'debated',
+    kinds: ['algorithm'], evidence: 'debated',
     refs: ['wilson1994', 'tononi2014', 'hinton1995', 'shin2017', 'hafner2023', 'saper2005'],
   },
   {
@@ -110,7 +110,7 @@ export const LAYER4: CardMechanism[] = [
     brainMath: [{ tex: t`w_{\text{MB}} = \frac{\sigma^{-2}_{\text{MB}}}{\sigma^{-2}_{\text{MB}} + \sigma^{-2}_{\text{MF}}}`, caption: b('按不确定性仲裁：更可靠的系统获得更大的控制权（Daw 2005 的思想）', 'Uncertainty-based arbitration: the more reliable controller gets more weight (after Daw 2005)') }],
     ai: b('Transformer 注意力对所有 token 做基于内容的加权；MoE 路由实现条件计算；「慢思考」推理模型在推理时花更多计算，但切换机制多是人为设定。', 'Transformer attention weights all tokens by content; MoE routing gives conditional compute; “slow-thinking” reasoning models spend more compute at inference, but switching is mostly hand-set.'),
     aiMath: [{ tex: t`\mathrm{Attention}(Q,K,V) = \mathrm{softmax}\Big(\frac{QK^{\top}}{\sqrt{d}}\Big)V`, caption: b('缩放点积注意力', 'Scaled dot-product attention') }],
-    corr: 'similar', evidence: 'debated',
+    kinds: ['algorithm'], evidence: 'debated',
     refs: ['miller2001', 'frank2001', 'dehaene2011', 'daw2005', 'vaswani2017', 'kadavath2022'],
   },
 ]

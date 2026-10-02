@@ -24,7 +24,7 @@ export const LAYER2: CardMechanism[] = [
       { tex: t`y = H\Big(\sum_i w_i x_i - \theta\Big)\quad\to\quad y = \mathrm{ReLU}(w^{\top}x + b)`, caption: b('从 McCulloch–Pitts 阈值单元到现代 ReLU 单元', 'From the McCulloch–Pitts threshold unit to the ReLU unit') },
       { tex: t`h_t = \bar A\,h_{t-1} + \bar B\,x_t,\qquad y_t = C\,h_t`, caption: b('状态空间模型：每个通道带有线性动力学（Mamba 中 A、B 随输入变化）', 'State-space model: each channel has linear dynamics (input-dependent in Mamba)') },
     ],
-    corr: 'crude', evidence: 'established',
+    kinds: ['math'], evidence: 'established',
     refs: ['mcculloch1943', 'rosenblatt1958', 'hodgkin1952', 'izhikevich2003', 'brette2005', 'gu2023'],
     lab: 'neuron',
   },
@@ -45,7 +45,7 @@ export const LAYER2: CardMechanism[] = [
       { tex: t`y = \big(W x\big) \odot \sigma\big(U c\big)`, caption: b('上下文门控：c 是上下文（类比顶树突输入）', 'Context gating: c is context (cf. apical input)') },
       { tex: t`y = (W_1x)\odot\sigma(W_2x)`, caption: b('GLU：前馈信号自身的乘性门控', 'GLU: multiplicative self-gating') },
     ],
-    corr: 'crude', evidence: 'established',
+    kinds: ['algorithm'], evidence: 'established',
     refs: ['poirazi2003', 'beniaguev2021', 'gidon2020', 'larkum2013', 'iyer2022', 'payeur2021'],
     lab: 'dendrite',
   },
@@ -63,7 +63,7 @@ export const LAYER2: CardMechanism[] = [
       '主流网络传递的是同步更新的连续数值。脉冲神经网络（SNN，「第三代神经网络」，Maass 1997）使用事件驱动计算；由于脉冲不可微，训练时用「替代梯度」（Neftci 2019）或 e-prop 等方法。SNN 在神经形态芯片上很节能，但在大规模任务上的精度和生态仍落后于主流模型。',
       'Mainstream networks pass synchronously updated real values. Spiking neural networks (“third generation”, Maass 1997) compute event-driven; since spikes are non-differentiable, training uses surrogate gradients (Neftci 2019) or e-prop. SNNs are very efficient on neuromorphic chips but lag mainstream models in accuracy and ecosystem at scale.'),
     aiMath: [{ tex: t`\frac{\partial S}{\partial V} \approx \frac{1}{\big(1 + \beta\,|V - \theta|\big)^2}`, caption: b('替代梯度：用平滑函数代替阶跃函数的导数', 'Surrogate gradient: a smooth stand-in for the step-function derivative') }],
-    corr: 'crude', evidence: 'debated',
+    kinds: ['implementation'], evidence: 'debated',
     refs: ['maass1997', 'neftci2019', 'bellec2020'],
   },
   {
@@ -79,7 +79,7 @@ export const LAYER2: CardMechanism[] = [
       'AI 单元基本同质，权重可正可负，没有专门的抑制性单元。增益控制由 LayerNorm/BatchNorm 等全局操作完成，门控由乘性门实现。',
       'AI units are essentially uniform with signed weights and no dedicated inhibitory cells. Gain control comes from global ops like LayerNorm/BatchNorm; gating from multiplicative gates.'),
     aiMath: [{ tex: t`\mathrm{LN}(x) = \gamma\,\frac{x - \mu}{\sigma} + \beta`, caption: b('LayerNorm：一种全局的增益归一化', 'LayerNorm: a global gain normalization') }],
-    corr: 'crude', evidence: 'established',
+    kinds: ['algorithm'], evidence: 'established',
     refs: ['tremblay2016', 'carandini2012'],
   },
   {
@@ -93,7 +93,7 @@ export const LAYER2: CardMechanism[] = [
       'AI 在训练中刻意注入噪声（dropout、数据增强），在生成时用温度控制采样随机性，扩散模型更是以噪声为核心。但推理中的随机性通常是外加的，而非来自单元本身。',
       'AI injects noise deliberately in training (dropout, augmentation), controls sampling randomness with temperature, and diffusion models are built on noise. But inference randomness is usually added externally, not intrinsic to units.'),
     aiMath: [{ tex: t`\tilde h = h \odot m,\ m_i \sim \mathrm{Bernoulli}(p);\qquad p(a) \propto e^{Q(a)/T}`, caption: b('Dropout 与带温度 T 的 softmax 采样', 'Dropout and softmax sampling with temperature T') }],
-    corr: 'similar', evidence: 'debated',
+    kinds: ['algorithm'], evidence: 'debated',
     refs: ['faisal2008', 'srivastava2014', 'doya2002'],
   },
   {
@@ -107,7 +107,7 @@ export const LAYER2: CardMechanism[] = [
       '主流网络是稠密计算，训练与推理耗能巨大。条件计算提供了部分稀疏：MoE 每个 token 只激活少数专家（Switch Transformer），ReLU 网络也有天然的激活稀疏。',
       'Mainstream networks compute densely and consume enormous energy. Conditional computation adds some sparsity: MoE activates a few experts per token (Switch Transformer), and ReLU nets have natural activation sparsity.'),
     aiMath: [{ tex: t`y = \sum_{i \in \mathrm{TopK}(g(x))} g_i(x)\,E_i(x)`, caption: b('稀疏 MoE：只计算得分最高的 k 个专家', 'Sparse MoE: compute only the top-k experts') }],
-    corr: 'crude', evidence: 'established',
+    kinds: ['implementation'], evidence: 'established',
     refs: ['attwell2001', 'olshausen1996', 'fedus2022'],
   },
 ]

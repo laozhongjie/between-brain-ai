@@ -4,14 +4,15 @@ import { UI, useT } from '../../i18n'
 import { go } from '../../route'
 import { enterFocus } from '../../sim/focus'
 import { useStore } from '../../store'
-import { LAYERS, READING_ORDER } from '../content'
+import { CROSS_TOPICS, DOMAINS, MECH_ORDER, SCALES, mechOfCard, topicHref, topicsOfLegacy, topicsOfMech } from '../content'
 import { FIGS } from '../figs'
 import { LABS } from '../labs/registry'
 import { Rich, Tex } from '../Tex'
-import type { ArchitectureTrack, Card, Formula } from '../types'
-import { CorrBadge, EvidenceBadge, PagerLink, RefList } from './common'
+import type { Card, Formula } from '../types'
+import { EvidenceBadge, KindTags, PagerLink, RefList } from './common'
 import { Icon } from '../../ui/Icon'
 import { ComparisonText } from '../../ui/ComparisonText'
+import { splitComparison } from '../../rich'
 
 function Figure({ Fig, cap }: { Fig: import('../figs/types').FigPair['brain']; cap: import('../../data/types').Bi }) {
   const t = useT()
@@ -38,23 +39,6 @@ function Formulas({ list }: { list?: Formula[] }) {
         ))}
       </div>
     </div>
-  )
-}
-
-function ArchitectureTrackView({ track, className }: { track: ArchitectureTrack; className: string }) {
-  const t = useT()
-  return (
-    <section className={`architecture-col ${className}`}>
-      <p className="architecture-summary"><Rich text={t(track.summary)} /></p>
-      <ol className="architecture-flow">
-        {track.steps.map((step, index) => (
-          <li key={index} className="architecture-step">
-            <span className="architecture-step-no" aria-hidden>{String(index + 1).padStart(2, '0')}</span>
-            <div><strong>{t(step.label)}</strong><Rich text={t(step.detail)} /></div>
-          </li>
-        ))}
-      </ol>
-    </section>
   )
 }
 
@@ -139,54 +123,27 @@ function ReviewCardContent({ card, figs }: { card: Card; figs?: import('../figs/
   )
 }
 
-function LegacyCardContent({ card, figs }: { card: Card; figs?: import('../figs/types').FigPair }) {
+/** Lean template for mechanism entries (and old system cards until they are rewritten). */
+function MechanismContent({ card, figs }: { card: Card; figs?: import('../figs/types').FigPair }) {
   const t = useT()
   const guide = card.guide
+  // The two sides are named in the title: "biological ↔ computational"
+  const [bioName, compName] = splitComparison(t(card.title))
+  const left = bioName ?? t(UI.secBrain)
+  const right = compName ?? t(UI.secAi)
   return (
     <>
-      <section aria-labelledby="card-comparison-title">
-        <h2 id="card-comparison-title">{t(UI.secDiffs)}</h2>
-        <p className="card-scope"><strong>{t(UI.comparisonScope)}</strong> · {t(guide.scope)}</p>
-        <table className="card-comparison">
-          <thead><tr><th scope="col">{t(UI.dimension)}</th><th scope="col">{t(UI.brainCol)}</th><th scope="col">{t(UI.comparedAi)}</th></tr></thead>
-          <tbody>
-            {guide.comparisons.map((row, index) => (
-              <tr key={index}>
-                <th scope="row">{t(row.dimension)}</th>
-                <td><span className="comparison-mobile-label" aria-hidden>{t(UI.brainCol)}</span><Rich text={t(row.brain)} /></td>
-                <td><span className="comparison-mobile-label" aria-hidden>{t(UI.comparedAi)}</span><Rich text={t(row.ai)} /></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
-
-      {guide.architecture && (
-        <section aria-labelledby="card-architecture-title" className="card-architecture">
-          <h2 id="card-architecture-title">{t(UI.secArchitecture)}</h2>
-          <div className="architecture-grid">
-            <ArchitectureTrackView track={guide.architecture.brain} className="brain-col" />
-            <ArchitectureTrackView track={guide.architecture.ai} className="ai-col" />
-          </div>
-          <dl className="architecture-meta">
-            {guide.architecture.state && <div><dt>{t(UI.architectureState)}</dt><dd><Rich text={t(guide.architecture.state)} /></dd></div>}
-            {guide.architecture.timescale && <div><dt>{t(UI.architectureTimescale)}</dt><dd><Rich text={t(guide.architecture.timescale)} /></dd></div>}
-            {guide.architecture.caveat && <div><dt>{t(UI.architectureCaveat)}</dt><dd><Rich text={t(guide.architecture.caveat)} /></dd></div>}
-          </dl>
-        </section>
-      )}
-
       <section aria-labelledby="card-mechanisms-title">
         <h2 id="card-mechanisms-title">{t(UI.secMechanisms)}</h2>
         <div className="two-col">
           <section className="col brain-col">
-            <h3><Icon name="brain" />{t(UI.secBrain)}</h3>
+            <h3><Icon name="brain" /><Rich text={left} /></h3>
             {figs && <Figure Fig={figs.brain} cap={figs.brainCap} />}
             <p><Rich text={t(card.brain)} /></p>
             <Formulas list={card.brainMath} />
           </section>
           <section className="col ai-col">
-            <h3><Icon name="cpu" />{t(UI.secAi)}</h3>
+            <h3><Icon name="cpu" /><Rich text={right} /></h3>
             {figs && <Figure Fig={figs.ai} cap={figs.aiCap} />}
             <p><Rich text={t(card.ai)} /></p>
             <Formulas list={card.aiMath} />
@@ -194,45 +151,58 @@ function LegacyCardContent({ card, figs }: { card: Card; figs?: import('../figs/
         </div>
       </section>
 
-      <section aria-labelledby="card-lessons-title">
-        <h2 id="card-lessons-title">{t(UI.secPrinciple)}</h2>
-        <div className="card-lessons">
-          <div><h3>{t(UI.borrowLesson)}</h3><p><Rich text={t(guide.borrow)} /></p></div>
-          <div><h3>{t(UI.analogyBoundary)}</h3><p><Rich text={t(guide.boundary)} /></p></div>
-        </div>
+      <section aria-labelledby="card-comparison-title">
+        <h2 id="card-comparison-title">{t(UI.secCompare)}</h2>
+        <p className="card-scope"><strong>{t(UI.comparisonScope)}</strong> · {t(guide.scope)}</p>
+        <table className="card-comparison">
+          <thead><tr><th scope="col">{t(UI.dimension)}</th><th scope="col"><Rich text={left} /></th><th scope="col"><Rich text={right} /></th></tr></thead>
+          <tbody>
+            {guide.comparisons.map((row, index) => (
+              <tr key={index}>
+                <th scope="row">{t(row.dimension)}</th>
+                <td><span className="comparison-mobile-label" aria-hidden><Rich text={left} /></span><Rich text={t(row.brain)} /></td>
+                <td><span className="comparison-mobile-label" aria-hidden><Rich text={right} /></span><Rich text={t(row.ai)} /></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </section>
 
-      <section aria-labelledby="card-designs-title">
-        <h2 id="card-designs-title">{t(UI.secIdeas)}</h2>
-        <p className="card-note">{t(UI.designStatus)}</p>
-        <ol className="card-experiments">
-          {guide.experiments.map((experiment, index) => (
-            <li key={index}>
-              <h3><span className="experiment-number" aria-hidden>{String(index + 1).padStart(2, '0')}</span>{t(experiment.title)}</h3>
-              <dl>
-                <div><dt>{t(UI.designChange)}</dt><dd><Rich text={t(experiment.change)} /></dd></div>
-                <div><dt>{t(UI.designTest)}</dt><dd><Rich text={t(experiment.test)} /></dd></div>
-                <div><dt>{t(UI.designTradeoff)}</dt><dd><Rich text={t(experiment.tradeoff)} /></dd></div>
-              </dl>
-            </li>
-          ))}
-        </ol>
+      <section aria-labelledby="card-validity-title">
+        <h2 id="card-validity-title">{t(UI.secValidity)}</h2>
+        <p><Rich text={t(guide.boundary)} /></p>
       </section>
     </>
   )
 }
 
+/** Where a card sits in the new structure: a mechanism group, or the topics an old system card stands in for. */
+function useCardPlace(card: Card) {
+  const t = useT()
+  const group = mechOfCard(card.id)
+  if (group) {
+    const scale = SCALES.find((sc) => sc.id === group.scale)!
+    return { crumb: `${t(UI.scaleIndex)} · ${t(scale.name)} · ${group.id} ${t(group.name)}`, group, topics: [] as ReturnType<typeof topicsOfLegacy> }
+  }
+  const topics = topicsOfLegacy(card.id)
+  const domain = topics[0] && DOMAINS.find((d) => d.topics.includes(topics[0].id))
+  const cross = CROSS_TOPICS.find((x) => x.legacy === card.id)
+  const crumb = domain ? `${t(UI.functionalDomains)} · ${domain.id} ${t(domain.name)}` : cross ? `${t(UI.crossCuttingTopics)} · ${cross.id} ${t(cross.name)}` : ''
+  return { crumb, group: undefined, topics }
+}
+
 export function CardPage({ card }: { card: Card }) {
   const t = useT()
-  const layer = LAYERS.find((l) => l.id === card.layer)!
-  // Paging runs across layers: the first card of a layer goes back to the previous layer's last one,
-  // and the first card overall goes back to the layer-5 blueprint
-  const idx = READING_ORDER.findIndex((c) => c.id === card.id)
-  const prev = READING_ORDER[idx - 1]
-  const next = READING_ORDER[idx + 1]
+  const place = useCardPlace(card)
   const Lab = card.lab ? LABS[card.lab] : null
   const figs = FIGS[card.id]
   const guide = card.guide
+  // Mechanism entries page through the index in order
+  const idx = place.group ? MECH_ORDER.findIndex((c) => c.id === card.id) : -1
+  const prev = idx > 0 ? MECH_ORDER[idx - 1] : undefined
+  const next = idx >= 0 ? MECH_ORDER[idx + 1] : undefined
+  const groupLabel = (c: Card) => { const g = mechOfCard(c.id)!; return `${g.id} · ${t(g.name)}` }
+  const related = place.group ? topicsOfMech(place.group.id) : []
 
   const openInAtlas = () => {
     useStore.getState().setViewMode('3d')
@@ -244,22 +214,28 @@ export function CardPage({ card }: { card: Card }) {
     <article className="ai-page card-page">
       <div className="crumbs">
         <button onClick={() => go('/ai')}>{t(UI.backToLadder)}</button>
-        <span>{t(UI.layer).replace('{n}', String(layer.id))} · {t(layer.name)}</span>
+        {place.crumb && <span>{place.crumb}</span>}
       </div>
       <h1><ComparisonText text={t(card.title)} /></h1>
+      {!place.group && <p className="card-note legacy-note">{t(UI.legacyNote)}</p>}
       <div className="card-intro">
-        <span className="card-kicker">{t(guide.review ? UI.secThesis : UI.cardQuestion)}</span>
-        <h2>{t(guide.review ? guide.review.thesis : guide.question)}</h2>
-        {!guide.review && <p className="lead"><Rich text={t(guide.answer)} /></p>}
+        {guide.review ? (
+          <>
+            <span className="card-kicker">{t(UI.secThesis)}</span>
+            <h2>{t(guide.review.thesis)}</h2>
+          </>
+        ) : (
+          <p className="lead"><Rich text={t(guide.answer)} /></p>
+        )}
       </div>
       <div className="card-badges">
-        <CorrBadge corr={card.corr} />
+        <KindTags kinds={card.kinds} />
         <EvidenceBadge ev={card.evidence} />
         {card.tour && (
           <button className="btn-sm" onClick={openInAtlas}><Icon name="brain" />{t(UI.viewInAtlas)}：{t(TOUR_BY_ID[card.tour].name)}</button>
         )}
       </div>
-      {guide.review ? <ReviewCardContent card={card} figs={figs} /> : <LegacyCardContent card={card} figs={figs} />}
+      {guide.review ? <ReviewCardContent card={card} figs={figs} /> : <MechanismContent card={card} figs={figs} />}
 
       {Lab && (
         <section className="lab-section">
@@ -268,20 +244,34 @@ export function CardPage({ card }: { card: Card }) {
         </section>
       )}
 
+      {related.length > 0 && (
+        <section aria-labelledby="card-related-title">
+          <h2 id="card-related-title">{t(UI.relatedTopics)}</h2>
+          <div className="rung-cards">
+            {related.map((topic) => {
+              const href = topicHref(topic)
+              return (
+                <button key={topic.id} className={`chip topic-chip ${href ? '' : 'pending'}`} disabled={!href} onClick={() => href && go(href)}>
+                  <span>{t(topic.name)}</span>
+                  {!href && <span className="chip-status">{t(UI.statusDrafting)}</span>}
+                </button>
+              )
+            })}
+          </div>
+        </section>
+      )}
+
       <section>
         <h2><Icon name="library" />{t(UI.secRefs)}</h2>
-        <p className="card-note">{t(UI.referenceScope)}</p>
         <RefList ids={card.refs} />
       </section>
 
-      <nav className="pager">
-        {prev ? (
-          <PagerLink dir="prev" layer={prev.layer} title={t(prev.title)} onClick={() => go(`/ai/card/${prev.id}`)} />
-        ) : (
-          <PagerLink dir="prev" layer={5} title={t(UI.blueprintTitle).split('·')[1]?.trim() ?? ''} onClick={() => go('/ai/blueprint')} />
-        )}
-        {next ? <PagerLink dir="next" layer={next.layer} title={t(next.title)} onClick={() => go(`/ai/card/${next.id}`)} /> : <span />}
-      </nav>
+      {place.group && (
+        <nav className="pager">
+          {prev ? <PagerLink dir="prev" label={groupLabel(prev)} title={t(prev.title)} onClick={() => go(`/ai/card/${prev.id}`)} /> : <span />}
+          {next ? <PagerLink dir="next" label={groupLabel(next)} title={t(next.title)} onClick={() => go(`/ai/card/${next.id}`)} /> : <span />}
+        </nav>
+      )}
     </article>
   )
 }

@@ -469,6 +469,23 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .chip { display: inline-flex; align-items: center; gap: 10px; background: rgba(170,195,230,0.04); border: 1px solid var(--panel-border); border-radius: 8px; padding: 5px 10px; font-size: 13px; cursor: pointer; color: var(--text-h); text-align: left; }
 .chip:hover { border-color: var(--accent); background: var(--accent-soft); }
 .chip.more { color: var(--accent); }
+/* Correspondence types: one quiet tag each; "no direct counterpart" is dashed */
+.badge.kind { color: var(--accent); border-color: var(--accent-line); padding: 1px 8px; font-size: 11.5px; }
+.badge.kind.none { color: var(--text-dim); border-color: var(--line-hi); border-style: dashed; }
+.chip .badge.kind { font-size: 11px; }
+/* Directory entries: an old card standing in, or a topic still being written */
+.chip-status { font-size: 11px; color: var(--text-dim); border-left: 1px solid var(--line-hi); padding-left: 8px; }
+.chip.pending { cursor: default; color: var(--text-dim); border-style: dashed; background: none; }
+.chip.pending:hover { border-color: var(--panel-border); background: none; }
+.ai-nav button:disabled { cursor: default; color: var(--text-dim); opacity: 0.55; }
+.ai-nav button:disabled:hover { padding-left: 12px; background: none; }
+.ai-nav button:disabled:hover::before { transform: scaleY(0); }
+/* Mechanism index: groups inside each scale */
+.mech-group { margin-top: 10px; }
+.mech-group-title { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 13.5px; color: var(--text-h); }
+.mech-group-title .rung-no { width: 34px; height: 24px; font-size: 11.5px; }
+.section-note { margin: -4px 0 10px; font-size: 13.5px; color: var(--text-dim); }
+.legacy-note { margin: -4px 0 12px; }
 
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .col { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 12px; padding: 4px 16px 12px; min-width: 0; }

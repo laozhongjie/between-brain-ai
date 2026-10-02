@@ -1,10 +1,9 @@
-import { Rich } from '../../rich'
-import { CORR_INFO, EVIDENCE_INFO, LEVEL_COLORS } from '../content'
+import { EVIDENCE_INFO, KIND_INFO, LEVEL_COLORS, NO_KIND } from '../content'
 import { REF_BY_ID } from '../content/refs'
 import { UI, useT } from '../../i18n'
 import { ComparisonText } from '../../ui/ComparisonText'
 import { Icon } from '../../ui/Icon'
-import type { Corr, Evidence } from '../types'
+import type { Evidence, Kind } from '../types'
 
 /** Ordinal level bar (0–3) with a text label, so meaning never relies on colour alone. */
 export function LevelBar({ level, label }: { level: number; label: string }) {
@@ -20,10 +19,15 @@ export function LevelBar({ level, label }: { level: number; label: string }) {
   )
 }
 
-export function CorrBadge({ corr }: { corr: Corr }) {
+/** Correspondence types of a card: in which sense the two sides are comparable. */
+export function KindTags({ kinds }: { kinds: Kind[] }) {
   const t = useT()
-  const c = CORR_INFO[corr]
-  return <span className="badge" title={t(c.desc)}><LevelBar level={c.level} label={t(c.name)} /></span>
+  if (!kinds.length) return <span className="badge kind none" title={t(NO_KIND.desc)}>{t(NO_KIND.name)}</span>
+  return (
+    <>
+      {kinds.map((k) => <span key={k} className="badge kind" title={t(KIND_INFO[k].desc)}>{t(KIND_INFO[k].name)}</span>)}
+    </>
+  )
 }
 
 export function EvidenceBadge({ ev }: { ev: Evidence }) {
@@ -53,8 +57,8 @@ export function Legend() {
     <div className="ai-legend">
       <div>
         <strong>{t(UI.correspondence)}</strong>
-        {(Object.keys(CORR_INFO) as Corr[]).map((k) => (
-          <span key={k} className="legend-item"><CorrBadge corr={k} /> <small><Rich text={t(CORR_INFO[k].desc)} /></small></span>
+        {(Object.keys(KIND_INFO) as Kind[]).map((k) => (
+          <span key={k} className="legend-item"><KindTags kinds={[k]} /> <small>{t(KIND_INFO[k].desc)}</small></span>
         ))}
       </div>
       <div>
@@ -68,16 +72,16 @@ export function Legend() {
 }
 
 /**
- * Previous / next link at the foot of a page. Every one has the same shape (layer line over a one-line
+ * Previous / next link at the foot of a page. Every one has the same shape (a small label over a one-line
  * title, a chevron on the outer side), so the pair is always equally tall.
  */
-export function PagerLink({ dir, layer, title, onClick }: { dir: 'prev' | 'next'; layer: number; title: string; onClick: () => void }) {
+export function PagerLink({ dir, label, title, onClick }: { dir: 'prev' | 'next'; label: string; title: string; onClick: () => void }) {
   const t = useT()
   return (
     <button className={`pager-link ${dir}`} onClick={onClick} title={title} aria-label={`${t(dir === 'prev' ? UI.previousCard : UI.nextCard)}: ${title}`}>
       <Icon name="chevron" size={18} className="pager-chev" />
       <span className="pager-text">
-        <small className="pager-layer">{t(UI.layer).replace('{n}', String(layer))}</small>
+        <small className="pager-layer">{label}</small>
         <span className="pager-title"><ComparisonText text={title} /></span>
       </span>
     </button>

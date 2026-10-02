@@ -1,24 +1,67 @@
 import type { Bi } from '../data/types'
 
 /**
- * How closely today's AI matches the brain mechanism.
- *  iso     – same principle (e.g. dopamine ≈ TD error)
- *  similar – same function, different mechanism
- *  crude   – only a rough substitute exists
- *  absent  – no counterpart in mainstream AI
+ * In which sense the two sides can be compared (a card may have several, or none):
+ *  behavior       – task performance
+ *  representation – internal representations
+ *  algorithm      – computational steps
+ *  math           – the same or a similar mathematical form
+ *  implementation – physical implementation or resources
  */
-export type Corr = 'iso' | 'similar' | 'crude' | 'absent'
+export type Kind = 'behavior' | 'representation' | 'algorithm' | 'math' | 'implementation'
 
 /** How settled the neuroscience is. */
 export type Evidence = 'established' | 'debated' | 'speculative'
 
 export type Layer = 1 | 2 | 3 | 4 | 5
 
+/** One of the nine functional domains: the main directory. */
 export interface AtlasDomain {
   id: string
   name: Bi
   desc: Bi
+  /** topic ids */
+  topics: string[]
+}
+
+/** A functional topic: one capability compared between a specific biological and computational system. */
+export interface Topic {
+  /** url slug */
+  id: string
+  /** editorial code from the plan, e.g. F12 */
+  code: string
+  name: Bi
+  systems: {
+    biological: Bi
+    computational: Bi
+  }
+  /** old card shown until the topic has its own page */
+  legacy?: string
+  /** atlas tour of the matching brain system */
+  tour?: string
+  /** related mechanism groups */
+  mechanisms: string[]
+}
+
+/** Spatial scale of a mechanism group. */
+export type Scale = 'synapse' | 'neuron' | 'circuit' | 'cross'
+
+/** A group of mechanism entries (the old layer 1 to 3 cards) in the scale index. */
+export interface MechGroup {
+  id: string
+  name: Bi
+  scale: Scale
   cards: string[]
+}
+
+/** A cross-domain topic page. */
+export interface CrossTopic {
+  id: string
+  name: Bi
+  desc: Bi
+  /** where it opens: an old card for now, a route of its own, or nothing yet */
+  legacy?: string
+  route?: string
 }
 
 export interface Formula {
@@ -109,7 +152,7 @@ export interface CardMechanism {
   /** the closest AI counterpart(s) */
   ai: Bi
   aiMath?: Formula[]
-  corr: Corr
+  kinds: Kind[]
   evidence: Evidence
   refs: string[]
   /** interactive lab id */

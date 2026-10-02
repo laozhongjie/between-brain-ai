@@ -1,12 +1,13 @@
 import { UI, useT } from '../../i18n'
 import { go } from '../../route'
-import { CARD_BY_ID, LEVEL_COLORS, READING_ORDER } from '../content'
+import { CARD_BY_ID, CROSS_TOPICS, LEVEL_COLORS } from '../content'
 import { DIFFERENCES, MODULES, MODULE_BY_ID } from '../content/blueprint'
 import { Rich } from '../Tex'
-import { CorrBadge, LevelBar, PagerLink, RefList } from './common'
+import { KindTags, LevelBar, RefList } from './common'
 import { Icon } from '../../ui/Icon'
 import { ComparisonText } from '../../ui/ComparisonText'
 
+const BLUEPRINT = CROSS_TOPICS.find((x) => x.route === '/ai/blueprint')!
 const COV = [UI.cov0, UI.cov1, UI.cov2, UI.cov3]
 const COLS = [UI.colInput, UI.colModel, UI.colControl, UI.colValue, UI.colOutput]
 
@@ -16,7 +17,10 @@ export function Blueprint({ moduleId }: { moduleId?: string }) {
 
   return (
     <article className="ai-page">
-      <div className="crumbs"><button onClick={() => go('/ai')}>{t(UI.backToLadder)}</button></div>
+      <div className="crumbs">
+        <button onClick={() => go('/ai')}>{t(UI.backToLadder)}</button>
+        <span>{t(UI.crossCuttingTopics)} · {BLUEPRINT.id} {t(BLUEPRINT.name)}</span>
+      </div>
       <h1>{t(UI.blueprintTitle)}</h1>
       <p className="lead">{t(UI.blueprintIntro)}</p>
       <div className="cov-legend">
@@ -59,7 +63,7 @@ export function Blueprint({ moduleId }: { moduleId?: string }) {
                 {sel.cards.map((id) => (
                   <button key={id} className="chip" onClick={() => go(`/ai/card/${id}`)}>
                     <ComparisonText text={t(CARD_BY_ID[id].title)} />
-                    <CorrBadge corr={CARD_BY_ID[id].corr} />
+                    <KindTags kinds={CARD_BY_ID[id].kinds} />
                   </button>
                 ))}
               </div>
@@ -84,10 +88,6 @@ export function Blueprint({ moduleId }: { moduleId?: string }) {
         </tbody>
       </table>
 
-      <nav className="pager">
-        <span />
-        <PagerLink dir="next" layer={READING_ORDER[0].layer} title={t(READING_ORDER[0].title)} onClick={() => go(`/ai/card/${READING_ORDER[0].id}`)} />
-      </nav>
     </article>
   )
 }

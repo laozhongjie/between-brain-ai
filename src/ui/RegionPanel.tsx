@@ -1,5 +1,5 @@
 import { Rich } from '../rich'
-import { cardForTour } from '../ai/content'
+import { aiLinkForTour } from '../ai/content'
 import { NODE_BY_ID, resolveKey } from '../data/nodes'
 import { TOURS } from '../data/tours'
 import { go } from '../route'
@@ -44,9 +44,9 @@ export function RegionPanel() {
   const info = node.info
   const sys = SYSTEMS[info.system]
   const side = node.hemi === 'lh' ? t(UI.left) : node.hemi === 'rh' ? t(UI.right) : null
-  // Link to the Brain ↔ AI card of the functional system this region belongs to
+  // Link to the Brain & AI page of the functional system this region belongs to
   const tour = TOURS.find((x) => x.system === info.system)
-  const aiCard = tour ? cardForTour(tour.id) : undefined
+  const aiLink = tour ? aiLinkForTour(tour.id) : undefined
 
   return (
     // keyed by region so switching regions replays the entrance (name decodes, sections fade in)
@@ -64,12 +64,12 @@ export function RegionPanel() {
         <button className="icon-btn" aria-label={t(UI.close)} onClick={() => select(null)}>×</button>
       </header>
       <ActivitySpark index={node.index} color={sys.color} />
-      {aiCard && (
-        <button className="ai-link" onClick={() => go(`/ai/card/${aiCard.id}`)}>
+      {aiLink && (
+        <button className="ai-link" onClick={() => go(aiLink.href)}>
           <Icon name="cpu" size={16} />
           <span className="ai-link-text">
             <small>{t(UI.aiLink)}</small>
-            <span><ComparisonText text={t(aiCard.title)} /></span>
+            <span><ComparisonText text={t(aiLink.title)} /></span>
           </span>
           <Icon name="chevron" size={16} className="ai-link-go" />
         </button>
