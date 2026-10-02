@@ -49,7 +49,7 @@ export function HomeAI() {
       const shift = (1 - homeState.open) * w * 0.3
       const x0 = w * 0.2 - shift
       const x1 = w * 0.8 - shift
-      const cy = h * 0.47
+      const cy = h * 0.5
       const span = Math.min(h * 0.46, w * 0.62)
       const px = (l: number) => x0 + ((x1 - x0) * l) / (LAYERS.length - 1)
       const py = (l: number, i: number) => cy + (i - (LAYERS[l] - 1) / 2) * (span / 8)

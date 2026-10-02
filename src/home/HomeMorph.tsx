@@ -12,11 +12,12 @@ void main() { gl_Position = vec4(aPos, 0.0, 1.0); }`
  * Per pixel (CSS px, y down). uField holds where the structures are: the brain's silhouette (left) and the
  * network's links and units (right). The liquid runs out from the slit (uWave, fractions of a panel) and
  * only along the structures, reaching their parts sooner and in surges; behind its crest it thins, breaks
- * into beads and is gone, leaving the real brain | AI showing. Ahead of it the window is still dark. At the
- * slit sits the white mass of the mark (uMass), its edge starting to wobble as it drains. Each half has its
- * own noise, and all of it moves with the scroll (uFlow), not with time. Shaded from the thickness field:
- * a meniscus at the rim, a highlight where the surface tilts, translucent where thin; level liquid is
- * exactly the mark's white, so the hand-over is seamless.
+ * into beads and is gone, leaving the real brain | AI showing. Ahead of it the window is still dark. The
+ * mark's own white (uDisc) is washed off the same way, from the slit outward, flowing on into the streams;
+ * nothing of the disc is left standing. Each half has its own noise, and all of it moves with the scroll
+ * (uFlow), not with time. Shaded from the thickness field: a meniscus at the rim, a highlight where the
+ * surface tilts, translucent where thin; level liquid is exactly the mark's white, so the hand-over is
+ * seamless.
  */
 const FRAG = `#version 300 es
 precision highp float;
@@ -24,7 +25,7 @@ uniform sampler2D uField;
 uniform vec2 uCanvas;   // canvas size, device px
 uniform vec2 uStage;    // stage size, CSS px
 uniform vec2 uC;        // disc centre, CSS px
-uniform float uGap, uPW, uWave, uMass, uWobble;
+uniform float uGap, uPW, uWave, uDisc, uWobble;
 uniform float uFlow;    // drift phase: follows the scroll, so scrolling back runs the flow backward
 out vec4 outColor;
 
@@ -67,10 +68,15 @@ void main() {
   float beads = smoothstep(0.6, 0.72, fbm(p / 10.0 + vec2(-side * uFlow * 0.5, uFlow * 0.15) + seed));
   float h = max(crest * st, tail * beads * st * 0.9);
 
-  // the mark's white mass at the slit
+  // the mark's own white fills the window until it is washed off, from the slit outward (by where a point
+  // lies across the disc) along an uneven edge, its outer arc the last to flow away into the streams
   float d = length(v);
-  float edge = uMass * (1.0 + 0.25 * uWobble * (fbm(vec2(atan(v.y, abs(v.x)) * 3.0, uFlow * 0.2) + seed) - 0.5));
-  h = max(h, 1.0 - smoothstep(edge - 1.5, edge + 1.5, d));
+  float ang = atan(v.y, abs(v.x));
+  float discEdge = uDisc * (1.0 + 0.2 * uWobble * (fbm(vec2(ang * 3.0, uFlow * 0.2) + seed) - 0.5));
+  float inDisc = 1.0 - smoothstep(discEdge - 1.5, discEdge + 1.5, d);
+  float TD = 0.3 * clamp((abs(v.x) - uGap) / uDisc, 0.0, 1.0) + uWobble * 0.1 * (fbm(vec2(ang * 4.0, d / 30.0 + uFlow * 0.3) + seed + 3.0) - 0.5);
+  float washed = smoothstep(0.0, 0.05, 1.6 * uWave - 0.01 - TD);
+  h = max(h, inDisc * (1.0 - washed));
 
   // surface: ripples running outward on the moving liquid, then light from the slope
   float hh = h + 0.12 * uWobble * crest * fbm(p / 26.0 + vec2(-side * uFlow * 0.6, uFlow * 0.2) + seed);
@@ -134,7 +140,7 @@ export function HomeMorph() {
     const u = (name: string) => gl.getUniformLocation(prog, name)
     const U = {
       canvas: u('uCanvas'), stage: u('uStage'), c: u('uC'), gap: u('uGap'), pw: u('uPW'),
-      wave: u('uWave'), mass: u('uMass'), wobble: u('uWobble'), flow: u('uFlow'),
+      wave: u('uWave'), disc: u('uDisc'), wobble: u('uWobble'), flow: u('uFlow'),
     }
     // the structure field: white where the brain | network are, on black
     const fcv = document.createElement('canvas')
@@ -214,8 +220,7 @@ export function HomeMorph() {
       gl.uniform1f(U.gap, gap)
       gl.uniform1f(U.pw, pw)
       gl.uniform1f(U.wave, wave)
-      // the mass starts as the window's own disc (exactly the white it takes over from), then drains
-      gl.uniform1f(U.mass, r * (1 - Math.min(1, wave / 0.3)))
+      gl.uniform1f(U.disc, r)
       gl.uniform1f(U.wobble, Math.min(1, wave / 0.06))
       gl.uniform1f(U.flow, wave * 8)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
