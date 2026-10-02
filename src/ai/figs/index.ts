@@ -3,7 +3,7 @@ import { LAYER2_FIGS } from './layer2'
 import { LAYER3_FIGS } from './layer3'
 import { LAYER4_FIGS } from './layer4'
 import { EPISODIC_FIGS } from './topics/episodic-memory'
-import { ATTENTION_FIGS, EMOTION_REG_FIGS, INTEROCEPTION_FIGS, LANGUAGE_FIGS, MOTOR_FIGS, REWARD_FIGS, SKILL_FIGS } from './topics/legacy-only'
+import { EMOTION_REG_FIGS, INTEROCEPTION_FIGS, LANGUAGE_FIGS, MOTOR_FIGS, REWARD_FIGS, SKILL_FIGS } from './topics/legacy-only'
 import { WORLD_MODEL_FIGS } from './topics/world-models'
 import { COGNITIVE_MAP_FIGS } from './topics/cognitive-maps'
 import { CONSOLIDATION_FIGS } from './topics/consolidation-replay'
@@ -14,6 +14,11 @@ import { CREDIT_FIGS } from './topics/credit-assignment'
 import { MULTISENSORY_FIGS } from './topics/multisensory'
 import { AUDITORY_FIGS } from './topics/auditory-scene'
 import { VISUAL_FIGS } from './topics/visual-recognition'
+import { COMPOSITIONAL_FIGS } from './topics/compositional-reasoning'
+import { PLANNING_FIGS } from './topics/planning'
+import { ATTENTION_FIGS } from './topics/attention-gating'
+import { MONITORING_FIGS } from './topics/metacognitive-monitoring'
+import { CONTROL_FIGS } from './topics/metacognitive-control'
 import type { FigPair, TopicFigs } from './types'
 
 export const FIGS: Record<string, FigPair> = { ...LAYER1_FIGS, ...LAYER2_FIGS, ...LAYER3_FIGS, ...LAYER4_FIGS }
@@ -31,6 +36,10 @@ export const TOPIC_FIGS: Record<string, TopicFigs> = {
   'consolidation-replay': CONSOLIDATION_FIGS,
   'cognitive-maps': COGNITIVE_MAP_FIGS,
   'world-models': WORLD_MODEL_FIGS,
+  'compositional-reasoning': COMPOSITIONAL_FIGS,
+  'planning': PLANNING_FIGS,
+  'metacognitive-monitoring': MONITORING_FIGS,
+  'metacognitive-control': CONTROL_FIGS,
   'attention-gating': ATTENTION_FIGS,
   'motor-control': MOTOR_FIGS,
   'skill-learning': SKILL_FIGS,
