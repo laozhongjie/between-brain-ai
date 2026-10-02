@@ -15,8 +15,10 @@ import { EvidenceBadge, KindTags, PagerLink, RefList } from './common'
 import { Icon } from '../../ui/Icon'
 import { ComparisonText } from '../../ui/ComparisonText'
 
-function Figure({ Fig }: { Fig: ComponentType<FigProps> }) {
+/** A figure, or an empty frame while it is still to be drawn. */
+function Figure({ Fig, wide }: { Fig?: ComponentType<FigProps>; wide?: boolean }) {
   const t = useT()
+  if (!Fig) return <figure className={`fig fig-pending${wide ? ' wide' : ''}`}><span>{t(UI.figPending)}</span></figure>
   return <figure className="fig"><Fig t={t} /></figure>
 }
 
@@ -184,7 +186,7 @@ function Misreadings({ items }: { items: Misreading[] }) {
 export function TopicPage({ topic }: { topic: Topic }) {
   const t = useT()
   const c = TOPIC_CONTENT[topic.id]
-  const figs = TOPIC_FIGS[topic.id]
+  const figs = TOPIC_FIGS[topic.id] ?? {}
   const domain = domainOfTopic(topic.id)
   const bio = t(topic.systems.biological)
   const comp = t(topic.systems.computational)
@@ -237,7 +239,7 @@ export function TopicPage({ topic }: { topic: Topic }) {
           {GRAMMAR_LEGEND.map((g) => <li key={g.key}><LegendMark k={g.key} />{t(g.label)}</li>)}
         </ul>
         <div className="arch-grid">
-          {([['bio', bio, figs.arch.brain, c.archSteps.biological, c.archNotes.biological], ['comp', comp, figs.arch.ai, c.archSteps.computational, c.archNotes.computational]] as const).map(([side, name, Fig, steps, notes]) => (
+          {([['bio', bio, figs.arch?.brain, c.archSteps.biological, c.archNotes.biological], ['comp', comp, figs.arch?.ai, c.archSteps.computational, c.archNotes.computational]] as const).map(([side, name, Fig, steps, notes]) => (
             <section key={side} className={`arch-col ${side}`}>
               <h3>{name}</h3>
               <Figure Fig={Fig} />
@@ -253,7 +255,7 @@ export function TopicPage({ topic }: { topic: Topic }) {
 
       <section aria-labelledby="topic-dynamics">
         <h2 id="topic-dynamics">{t(UI.secDynamics)}</h2>
-        <Figure Fig={figs.dynamics} />
+        <Figure Fig={figs.dynamics} wide />
         <div className="two-col-steps">
           <section><h3 className="bio">{bio}</h3><Steps steps={c.dynamicsSteps.biological} side="bio" /></section>
           <section><h3 className="comp">{comp}</h3><Steps steps={c.dynamicsSteps.computational} side="comp" /></section>

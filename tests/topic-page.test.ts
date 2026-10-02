@@ -34,9 +34,10 @@ describe('topic pages', () => {
           ...[...page.bioMath, ...page.compMath].flatMap((f) => [f.title, ...f.symbols.map((x) => x.meaning), ...f.steps, ...(f.example ? [f.example] : []), ...f.consequences, ...f.limitations])]
         for (const text of texts) for (const part of plain(text[lang])) expect(html, part).toContain(escaped(part))
         // the three figures render as SVG, each followed by its numbered explanation, plus any old figures kept by an equation
-        const math = TOPIC_FIGS[id].math
-        const kept = Object.keys(math?.bio ?? {}).length + Object.keys(math?.comp ?? {}).length
-        expect(html.match(/<svg[^>]*class="fig-svg"/g) ?? []).toHaveLength(3 + kept)
+        const figs = TOPIC_FIGS[id]
+        const kept = Object.keys(figs?.math?.bio ?? {}).length + Object.keys(figs?.math?.comp ?? {}).length
+        expect(html.match(/<svg[^>]*class="fig-svg"/g) ?? []).toHaveLength((figs?.arch ? 3 : 0) + kept)
+        if (!figs?.arch) expect(html.match(/class="fig fig-pending/g) ?? []).toHaveLength(3)
         expect(html.match(/<ol class="fig-steps/g) ?? []).toHaveLength(4)
         // every capability row gets a verdict pointer
         expect(html.match(/class="duel-row lead-/g) ?? []).toHaveLength(page.capabilities.length)

@@ -103,7 +103,8 @@ describe('AI correspondence content', () => {
     for (const [id, page] of Object.entries(TOPIC_CONTENT)) {
       expect(TOPIC_BY_ID[id], id).toBeDefined()
       const figs = TOPIC_FIGS[id]
-      expect(figs?.arch.brain && figs.arch.ai && figs.dynamics, id).toBeTruthy()
+      // figures may still be missing, but a figure set never comes half-drawn
+      if (figs?.arch) expect(figs.arch.brain && figs.arch.ai && figs.dynamics, id).toBeTruthy()
       expect(page.capabilities.length, id).toBeGreaterThanOrEqual(3)
       for (const r of page.capabilities) expect(['bio', 'comp', 'even', 'mixed'], `${id}: ${r.dimension.en}`).toContain(r.lead)
       expect(page.bioMath.length && page.compMath.length, id).toBeTruthy()
@@ -125,7 +126,7 @@ describe('AI correspondence content', () => {
       expect(page.limits.biological.length && page.limits.computational.length && page.limits.misreadings.length, id).toBeTruthy()
       // a kept figure sits next to an equation that exists
       for (const [side, list] of [['bio', page.bioMath], ['comp', page.compMath]] as const)
-        for (const i of Object.keys(figs.math?.[side] ?? {})) expect(Number(i) < list.length, `${id}: ${side} figure ${i}`).toBe(true)
+        for (const i of Object.keys(figs?.math?.[side] ?? {})) expect(Number(i) < list.length, `${id}: ${side} figure ${i}`).toBe(true)
       // a limit points at architecture steps that exist on its own side
       for (const [limits, steps] of [[page.limits.biological, page.archSteps.biological], [page.limits.computational, page.archSteps.computational]] as const)
         for (const l of limits) for (const n of l.steps ?? []) expect(n >= 1 && n <= steps.length, `${id}: ${l.title.en} step ${n}`).toBe(true)
