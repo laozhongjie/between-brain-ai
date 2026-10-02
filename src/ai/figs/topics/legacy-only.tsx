@@ -19,3 +19,7 @@ export const MOTOR_FIGS: TopicFigs = {
     },
   },
 }
+
+export const SKILL_FIGS: TopicFigs = {
+  math: { comp: { 1: legacyFig('sys-motor', 'ai') } },
+}

@@ -325,6 +325,19 @@ export const REFS: Ref[] = [
   { id: 'dicarlo2018', authors: 'Di Carlo, J., Wensing, P. M., Katz, B., Bledt, G. & Kim, S.', year: 2018, title: 'Dynamic locomotion in the MIT Cheetah 3 through convex model-predictive control', venue: 'IROS 2018', url: doi('10.1109/IROS.2018.8594448') },
   { id: 'lee2020', authors: 'Lee, J., Hwangbo, J., Wellhausen, L., Koltun, V. & Hutter, M.', year: 2020, title: 'Learning quadrupedal locomotion over challenging terrain', venue: 'Science Robotics 5(47), eabc5986', url: doi('10.1126/scirobotics.abc5986') },
   { id: 'kumar2021', authors: 'Kumar, A., Fu, Z., Pathak, D. & Malik, J.', year: 2021, title: 'RMA: rapid motor adaptation for legged robots', venue: 'arXiv (RSS 2021)', url: arxiv('2107.04034') },
+  // ── F27 Skill learning ──
+  { id: 'karni1995', authors: 'Karni, A. et al.', year: 1995, title: 'Functional MRI evidence for adult motor cortex plasticity during motor skill learning', venue: 'Nature 377(6545), 155–158', url: doi('10.1038/377155a0') },
+  { id: 'graybiel1998', authors: 'Graybiel, A. M.', year: 1998, title: 'The basal ganglia and chunking of action repertoires', venue: 'Neurobiology of Learning and Memory 70(1–2), 119–136', url: doi('10.1006/nlme.1998.3843') },
+  { id: 'walker2002', authors: 'Walker, M. P., Brakefield, T., Morgan, A., Hobson, J. A. & Stickgold, R.', year: 2002, title: 'Practice with sleep makes perfect', venue: 'Neuron 35(1), 205–211', url: doi('10.1016/S0896-6273(02)00746-8') },
+  { id: 'costa2004', authors: 'Costa, R. M., Cohen, D. & Nicolelis, M. A. L.', year: 2004, title: 'Differential corticostriatal plasticity during fast and slow motor skill learning in mice', venue: 'Current Biology 14(13), 1124–1134', url: doi('10.1016/j.cub.2004.06.053') },
+  { id: 'yin2006', authors: 'Yin, H. H. & Knowlton, B. J.', year: 2006, title: 'The role of the basal ganglia in habit formation', venue: 'Nature Reviews Neuroscience 7(6), 464–476', url: doi('10.1038/nrn1919') },
+  { id: 'wolpert2011', authors: 'Wolpert, D. M., Diedrichsen, J. & Flanagan, J. R.', year: 2011, title: 'Principles of sensorimotor learning', venue: 'Nature Reviews Neuroscience 12(12), 739–751', url: doi('10.1038/nrn3112') },
+  { id: 'fitts1954', authors: 'Fitts, P. M.', year: 1954, title: 'The information capacity of the human motor system in controlling the amplitude of movement', venue: 'Journal of Experimental Psychology 47(6), 381–391', url: doi('10.1037/h0055392') },
+  { id: 'akkaya2019', authors: 'OpenAI, Akkaya, I. et al.', year: 2019, title: 'Solving Rubik’s cube with a robot hand', venue: 'arXiv', url: arxiv('1910.07113') },
+  { id: 'chi2023', authors: 'Chi, C. et al.', year: 2023, title: 'Diffusion policy: visuomotor policy learning via action diffusion', venue: 'arXiv (RSS 2023)', url: arxiv('2303.04137') },
+  { id: 'oxe2023', authors: 'Open X-Embodiment Collaboration', year: 2023, title: 'Open X-Embodiment: robotic learning datasets and RT-X models', venue: 'arXiv (ICRA 2024)', url: arxiv('2310.08864') },
+  { id: 'kim2024', authors: 'Kim, M. J. et al.', year: 2024, title: 'OpenVLA: an open-source vision-language-action model', venue: 'arXiv (CoRL 2024)', url: arxiv('2406.09246') },
+  { id: 'pi2025', authors: 'Physical Intelligence et al.', year: 2025, title: 'π0.5: a vision-language-action model with open-world generalization', venue: 'arXiv', url: arxiv('2504.16054') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))
