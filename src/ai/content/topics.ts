@@ -91,7 +91,7 @@ export const TOPICS: Topic[] = [
     systems: sys(b('左半球语言网络', 'Left-hemisphere language network'), b('大语言模型', 'Large language models')),
     legacy: 'sys-language', tour: 'language', mechanisms: [] },
   { id: 'social-inference', code: 'F37', name: b('社会推断与他人模型', 'Social inference and models of others'),
-    systems: sys(b('心智理论网络', 'Theory-of-mind network'), b('大语言模型的信念推断', 'Belief inference in large language models')),
+    systems: sys(b('心智理论网络', 'Theory-of-mind network'), b('大语言模型的信念推断', 'Belief inference in LLMs')),
     mechanisms: [] },
 
   // D9 Development & long-term organization

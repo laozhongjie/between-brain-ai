@@ -1,5 +1,6 @@
 import type { TopicContent } from '../../types'
 import { EPISODIC_MEMORY } from './episodic-memory'
+import { SOCIAL_INFERENCE } from './social-inference'
 import { LANGUAGE } from './language'
 import { INTEROCEPTION } from './interoception'
 import { EMOTION_REGULATION } from './emotion-regulation'
@@ -48,4 +49,5 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   'emotion-regulation': EMOTION_REGULATION,
   'interoception': INTEROCEPTION,
   'language': LANGUAGE,
+  'social-inference': SOCIAL_INFERENCE,
 }

@@ -393,6 +393,18 @@ export const REFS: Ref[] = [
   { id: 'kaplan2020', authors: 'Kaplan, J. et al.', year: 2020, title: 'Scaling laws for neural language models', venue: 'arXiv', url: arxiv('2001.08361') },
   { id: 'warstadt2022', authors: 'Warstadt, A. & Bowman, S. R.', year: 2022, title: 'What artificial neural networks can tell us about human language acquisition', venue: 'arXiv', url: arxiv('2208.07998') },
   { id: 'mahowald2024', authors: 'Mahowald, K. et al.', year: 2024, title: 'Dissociating language and thought in large language models', venue: 'Trends in Cognitive Sciences 28(6), 517–540', url: doi('10.1016/j.tics.2024.01.011') },
+  // ── F37 Social inference ──
+  { id: 'wimmer1983', authors: 'Wimmer, H. & Perner, J.', year: 1983, title: 'Beliefs about beliefs: representation and constraining function of wrong beliefs in young children’s understanding of deception', venue: 'Cognition 13(1), 103–128', url: doi('10.1016/0010-0277(83)90004-5') },
+  { id: 'baroncohen1985', authors: 'Baron-Cohen, S., Leslie, A. M. & Frith, U.', year: 1985, title: 'Does the autistic child have a “theory of mind”?', venue: 'Cognition 21(1), 37–46', url: doi('10.1016/0010-0277(85)90022-8') },
+  { id: 'saxe2003', authors: 'Saxe, R. & Kanwisher, N.', year: 2003, title: 'People thinking about thinking people: the role of the temporo-parietal junction in “theory of mind”', venue: 'NeuroImage 19(4), 1835–1842', url: doi('10.1016/S1053-8119(03)00230-1') },
+  { id: 'onishi2005', authors: 'Onishi, K. H. & Baillargeon, R.', year: 2005, title: 'Do 15-month-old infants understand false beliefs?', venue: 'Science 308(5719), 255–258', url: doi('10.1126/science.1107621') },
+  { id: 'koster2013', authors: 'Koster-Hale, J. & Saxe, R.', year: 2013, title: 'Theory of mind: a neural prediction problem', venue: 'Neuron 79(5), 836–848', url: doi('10.1016/j.neuron.2013.08.020') },
+  { id: 'baker2017', authors: 'Baker, C. L., Jara-Ettinger, J., Saxe, R. & Tenenbaum, J. B.', year: 2017, title: 'Rational quantitative attribution of beliefs, desires and percepts in human mentalizing', venue: 'Nature Human Behaviour 1, 0064', url: doi('10.1038/s41562-017-0064') },
+  { id: 'rabinowitz2018', authors: 'Rabinowitz, N. C. et al.', year: 2018, title: 'Machine theory of mind', venue: 'arXiv (ICML 2018)', url: arxiv('1802.07740') },
+  { id: 'ullman2023', authors: 'Ullman, T.', year: 2023, title: 'Large language models fail on trivial alterations to theory-of-mind tasks', venue: 'arXiv', url: arxiv('2302.08399') },
+  { id: 'shapira2023', authors: 'Shapira, N. et al.', year: 2023, title: 'Clever Hans or neural theory of mind? Stress testing social reasoning in large language models', venue: 'arXiv (EACL 2024)', url: arxiv('2305.14763') },
+  { id: 'strachan2024', authors: 'Strachan, J. W. A. et al.', year: 2024, title: 'Testing theory of mind in large language models and humans', venue: 'Nature Human Behaviour 8(7), 1285–1295', url: doi('10.1038/s41562-024-01882-z') },
+  { id: 'kosinski2024', authors: 'Kosinski, M.', year: 2024, title: 'Evaluating large language models in theory of mind tasks', venue: 'PNAS 121(45), e2405460121', url: doi('10.1073/pnas.2405460121') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))
