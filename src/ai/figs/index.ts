@@ -3,6 +3,7 @@ import { LAYER2_FIGS } from './layer2'
 import { LAYER3_FIGS } from './layer3'
 import { LAYER4_FIGS } from './layer4'
 import { EPISODIC_FIGS } from './topics/episodic-memory'
+import { WORKING_MEMORY_FIGS } from './topics/working-memory'
 import { CONTINUAL_FIGS } from './topics/continual-learning'
 import { META_FIGS } from './topics/meta-learning'
 import { CREDIT_FIGS } from './topics/credit-assignment'
@@ -21,5 +22,6 @@ export const TOPIC_FIGS: Record<string, TopicFigs> = {
   'credit-assignment': CREDIT_FIGS,
   'meta-learning': META_FIGS,
   'continual-learning': CONTINUAL_FIGS,
+  'working-memory': WORKING_MEMORY_FIGS,
   'episodic-memory': EPISODIC_FIGS,
 }

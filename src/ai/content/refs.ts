@@ -211,6 +211,20 @@ export const REFS: Ref[] = [
   { id: 'dohare2024', authors: 'Dohare, S. et al.', year: 2024, title: 'Loss of plasticity in deep continual learning', venue: 'Nature 632(8026), 768–774', url: doi('10.1038/s41586-024-07711-7') },
   { id: 'parisi2018', authors: 'Parisi, G. I., Kemker, R., Part, J. L., Kanan, C. & Wermter, S.', year: 2018, title: 'Continual lifelong learning with neural networks: a review', venue: 'arXiv (Neural Networks 113, 2019)', url: arxiv('1802.07569') },
   { id: 'wang2024cl', authors: 'Wang, L., Zhang, X., Su, H. & Zhu, J.', year: 2024, title: 'A comprehensive survey of continual learning: theory, method and application', venue: 'IEEE Transactions on Pattern Analysis and Machine Intelligence 46(8), 5362–5383', url: doi('10.1109/TPAMI.2024.3367329') },
+  // ── F11 Working memory ──
+  { id: 'cowan2001', authors: 'Cowan, N.', year: 2001, title: 'The magical number 4 in short-term memory: a reconsideration of mental storage capacity', venue: 'Behavioral and Brain Sciences 24(1), 87–114', url: doi('10.1017/S0140525X01003922') },
+  { id: 'peterson1959', authors: 'Peterson, L. & Peterson, M. J.', year: 1959, title: 'Short-term retention of individual verbal items', venue: 'Journal of Experimental Psychology 58(3), 193–198', url: doi('10.1037/h0049234') },
+  { id: 'murdock1962', authors: 'Murdock, B. B.', year: 1962, title: 'The serial position effect of free recall', venue: 'Journal of Experimental Psychology 64(5), 482–488', url: doi('10.1037/h0045106') },
+  { id: 'funahashi1989', authors: 'Funahashi, S., Bruce, C. J. & Goldman-Rakic, P. S.', year: 1989, title: 'Mnemonic coding of visual space in the monkey’s dorsolateral prefrontal cortex', venue: 'Journal of Neurophysiology 61(2), 331–349', url: doi('10.1152/jn.1989.61.2.331') },
+  { id: 'goldmanrakic1995', authors: 'Goldman-Rakic, P. S.', year: 1995, title: 'Cellular basis of working memory', venue: 'Neuron 14(3), 477–485', url: doi('10.1016/0896-6273(95)90304-6') },
+  { id: 'lundqvist2016', authors: 'Lundqvist, M. et al.', year: 2016, title: 'Gamma and beta bursts underlie working memory', venue: 'Neuron 90(1), 152–164', url: doi('10.1016/j.neuron.2016.02.028') },
+  { id: 'stokes2015', authors: 'Stokes, M. G.', year: 2015, title: '‘Activity-silent’ working memory in prefrontal cortex: a dynamic coding framework', venue: 'Trends in Cognitive Sciences 19(7), 394–405', url: doi('10.1016/j.tics.2015.05.004') },
+  { id: 'wang2001', authors: 'Wang, X.-J.', year: 2001, title: 'Synaptic reverberation underlying mnemonic persistent activity', venue: 'Trends in Neurosciences 24(8), 455–463', url: doi('10.1016/S0166-2236(00)01868-3') },
+  { id: 'mongillo2008', authors: 'Mongillo, G., Barak, O. & Tsodyks, M.', year: 2008, title: 'Synaptic theory of working memory', venue: 'Science 319(5869), 1543–1546', url: doi('10.1126/science.1150769') },
+  { id: 'oreilly2006', authors: 'O’Reilly, R. C. & Frank, M. J.', year: 2006, title: 'Making working memory work: a computational model of learning in the prefrontal cortex and basal ganglia', venue: 'Neural Computation 18(2), 283–328', url: doi('10.1162/089976606775093909') },
+  { id: 'hochreiter1997', authors: 'Hochreiter, S. & Schmidhuber, J.', year: 1997, title: 'Long short-term memory', venue: 'Neural Computation 9(8), 1735–1780', url: doi('10.1162/neco.1997.9.8.1735') },
+  { id: 'shi2023', authors: 'Shi, F. et al.', year: 2023, title: 'Large language models can be easily distracted by irrelevant context', venue: 'arXiv (ICML 2023)', url: arxiv('2302.00093') },
+  { id: 'kim2023', authors: 'Kim, N. & Schuster, S.', year: 2023, title: 'Entity tracking in language models', venue: 'arXiv (ACL 2023)', url: arxiv('2305.02363') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

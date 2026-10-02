@@ -30,7 +30,7 @@ export const TOPICS: Topic[] = [
 
   // D3 Memory & knowledge
   { id: 'working-memory', code: 'F11', name: b('工作记忆', 'Working memory'),
-    systems: sys(b('前额叶持续活动与动态编码', 'Prefrontal persistent activity and dynamic coding'), b('上下文窗口与循环状态', 'Context windows and recurrent state')),
+    systems: sys(b('前额叶工作记忆', 'Prefrontal working memory'), b('上下文窗口与循环状态', 'Context windows and recurrent state')),
     legacy: 'sys-memory', mechanisms: ['M02', 'M07'] },
   { id: 'episodic-memory', code: 'F12', name: b('情景记忆与联想检索', 'Episodic memory and associative retrieval'),
     systems: sys(b('海马情景记忆系统', 'Hippocampal episodic memory'), b('RAG 与外部记忆', 'RAG and external memory')),
