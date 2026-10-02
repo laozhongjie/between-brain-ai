@@ -1,7 +1,7 @@
 import katex from 'katex'
 import { describe, expect, it } from 'vitest'
 import { MODULES } from '../src/ai/content/blueprint'
-import { CARDS, CARD_BY_ID, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_BY_ID, MECH_GROUPS, TOPICS, TOPIC_BY_ID, TOPIC_CONTENT, aiLinkForTour } from '../src/ai/content/index'
+import { CARDS, CARD_BY_ID, CONCEPTS, CONCEPT_GROUPS, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_BY_ID, MECH_GROUPS, TOPICS, TOPIC_BY_ID, TOPIC_CONTENT, aiLinkForTour } from '../src/ai/content/index'
 import { REF_BY_ID, REFS } from '../src/ai/content/refs'
 import { LABS } from '../src/ai/labs/registry'
 import { TOUR_BY_ID } from '../src/data/tours'
@@ -140,6 +140,23 @@ describe('AI correspondence content', () => {
     for (const m of text.matchAll(/\]\((card|topic):([a-z0-9-]+)\)/g)) {
       if (m[1] === 'card') expect(CARD_BY_ID[m[2]], m[0]).toBeDefined()
       else expect(TOPIC_CONTENT[m[2]], m[0]).toBeDefined()
+    }
+  })
+
+  it('every AI concept links to pages that exist and that mention it', () => {
+    const ids = CONCEPTS.map((c) => c.id)
+    expect(new Set(ids).size).toBe(ids.length)
+    expect(new Set(CONCEPT_GROUPS.map((g) => g.id)).size).toBe(CONCEPT_GROUPS.length)
+    for (const c of CONCEPTS) {
+      expect(c.links.length, c.id).toBeGreaterThan(0)
+      const names = [c.term.zh, c.term.en, ...c.aka].map((s) => s.toLowerCase())
+      for (const l of c.links) {
+        const [kind, id] = l.to.split(':')
+        const page = kind === 'topic' ? TOPIC_CONTENT[id] && [TOPIC_CONTENT[id], TOPIC_BY_ID[id]] : kind === 'card' ? CARD_BY_ID[id] : undefined
+        expect(page, `${c.id} -> ${l.to}`).toBeDefined()
+        const text = JSON.stringify(page).toLowerCase()
+        expect(names.some((n) => text.includes(n)), `${c.id} is not mentioned on ${l.to}`).toBe(true)
+      }
     }
   })
 

@@ -26,6 +26,7 @@ export function AiHome() {
     <article className="ai-page">
       <h1>{t(UI.aiTitle)}</h1>
       <p className="lead">{t(UI.aiIntro)}</p>
+      <button className="chip concept-entry" onClick={() => go('/ai/concepts')}><Icon name="search" size={14} />{t(UI.conceptIndex)}</button>
       <h3>{t(UI.howToRead)}</h3>
       <Legend />
 
@@ -34,7 +35,7 @@ export function AiHome() {
         {DOMAINS.map((domain) => (
           <section key={domain.id} className="rung domain-rung">
             <header>
-              <span className="rung-no">{domain.id}</span>
+              <span className="rung-no">{domain.id.replace(/^D/, '')}</span>
               <div>
                 <h2>{t(domain.name)}</h2>
                 <p><Rich text={t(domain.desc)} /></p>

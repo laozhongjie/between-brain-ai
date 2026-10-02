@@ -485,6 +485,18 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .mech-group-title { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 13.5px; color: var(--text-h); }
 .mech-group-title .rung-no { width: 34px; height: 24px; font-size: 11.5px; }
 .section-note { margin: -4px 0 10px; font-size: 13.5px; color: var(--text-dim); }
+
+/* AI concept index: an entry from AI vocabulary, each concept beside the brain mechanisms it meets */
+.ai-nav .ai-nav-concepts { display: flex; align-items: center; gap: 6px; }
+.concept-entry { margin: 4px 0 6px; color: var(--accent); }
+.concept-search { display: flex; align-items: center; gap: 8px; max-width: 600px; margin: 14px 0 4px; padding: 8px 12px; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(170,195,230,0.04); color: var(--text-dim); }
+.concept-search:focus-within { border-color: var(--accent); }
+.concept-search input { flex: 1; min-width: 0; background: none; border: 0; outline: none; color: var(--text-h); font: inherit; font-size: 14px; }
+.concept-row { display: grid; grid-template-columns: minmax(0, 15em) minmax(0, 1fr); gap: 8px 18px; align-items: start; padding: 9px 0; border-bottom: 1px solid rgba(170,195,230,0.06); }
+.concept-term { padding-top: 6px; font-size: 14px; font-weight: 500; color: var(--text-h); }
+.concept-target { flex-direction: column; align-items: flex-start; gap: 1px; }
+.concept-page { font-size: 11.5px; color: var(--text-dim); }
+@media (max-width: 760px) { .concept-row { grid-template-columns: 1fr; } }
 .legacy-note { margin: -4px 0 12px; }
 
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }

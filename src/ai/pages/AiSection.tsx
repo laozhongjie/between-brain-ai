@@ -5,6 +5,8 @@ import { go } from '../../route'
 import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, MECH_GROUPS, SCALES, TOPIC_BY_ID, TOPIC_CONTENT, crossHref, topicHref, topicsOfDomain } from '../content'
 import { LABS } from '../labs/registry'
 import { Blueprint } from './Blueprint'
+import { ConceptIndex } from './ConceptIndex'
+import { Icon } from '../../ui/Icon'
 import { CardPage } from './CardPage'
 import { AiHome } from './AiHome'
 import { LabPage } from './LabPage'
@@ -25,6 +27,7 @@ export function AiSection({ route }: { route: string[] }) {
   if (page === 'topic' && id && TOPIC_CONTENT[id]) content = <TopicPage topic={TOPIC_BY_ID[id]} />
   else if (page === 'card' && id && CARD_BY_ID[id]) content = <CardPage card={CARD_BY_ID[id]} />
   else if (page === 'blueprint') content = <Blueprint moduleId={id} />
+  else if (page === 'concepts') content = <ConceptIndex />
   else if (page === 'lab' && id && LABS[id]) content = <LabPage id={id} />
   else content = <AiHome />
 
@@ -38,11 +41,12 @@ export function AiSection({ route }: { route: string[] }) {
     <div className="ai-section">
       <nav className="ai-nav">
         <button className={`ai-nav-home ${key === '' ? 'on' : ''}`} onClick={() => go('/ai')}>{t(UI.overview)}</button>
+        <button className={`ai-nav-home ai-nav-concepts ${key === 'concepts' ? 'on' : ''}`} onClick={() => go('/ai/concepts')}><Icon name="search" size={13} />{t(UI.conceptIndex)}</button>
         <div className="ai-nav-layer ai-nav-domains">
           <div className="ai-nav-layer-title">{t(UI.functionalDomains)}</div>
           {DOMAINS.map((domain) => (
             <div key={domain.id} className="ai-nav-domain">
-              <div className="ai-nav-domain-title">{domain.id} · {t(domain.name)}</div>
+              <div className="ai-nav-domain-title">{domain.id.replace(/^D/, '')} · {t(domain.name)}</div>
               {topicsOfDomain(domain).map((topic) => link(topicHref(topic), t(topic.name), topic.id))}
             </div>
           ))}

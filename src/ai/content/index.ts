@@ -9,6 +9,7 @@ import { CROSS_TOPICS, MECH_GROUPS, TOPICS, TOPIC_BY_ID } from './topics'
 import { TOPIC_CONTENT } from './topic-pages'
 
 export * from './topics'
+export * from './concepts'
 export { TOPIC_CONTENT }
 
 const b = (zh: string, en: string): Bi => ({ zh, en })

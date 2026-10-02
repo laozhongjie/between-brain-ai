@@ -1,7 +1,7 @@
 import {
   Activity, AlarmClock, Bed, BookOpen, Box, ChevronRight, Brain, BrainCircuit, Car, Check, Coffee, Cpu, Ear, Eye, Flame, FlaskConical,
   Footprints, Hand, Heart, HeartPulse, Hourglass, Lamp, Laptop, Library, Lightbulb, MessageSquareText, Moon, MoonStar,
-  Music, Pause, PersonStanding, Play, Presentation, RotateCcw, Scale, ScanEye, SkipBack, SkipForward, SlidersHorizontal, Sparkles,
+  Music, Pause, PersonStanding, Play, Presentation, RotateCcw, Scale, ScanEye, Search, SkipBack, SkipForward, SlidersHorizontal, Sparkles,
   Sunrise, Users, Wind, Workflow, X, Zap, type LucideIcon,
 } from 'lucide-react'
 
@@ -12,7 +12,7 @@ const ICONS: Record<string, LucideIcon> = {
   flask: FlaskConical, footprints: Footprints, hand: Hand, heart: Heart, 'heart-pulse': HeartPulse, hourglass: Hourglass,
   lamp: Lamp, laptop: Laptop, library: Library, lightbulb: Lightbulb, 'message-square-text': MessageSquareText, moon: Moon,
   'moon-star': MoonStar, music: Music, pause: Pause, 'person-standing': PersonStanding, play: Play,
-  presentation: Presentation, rotate: RotateCcw, scale: Scale, 'scan-eye': ScanEye, 'skip-back': SkipBack, 'skip-forward': SkipForward,
+  presentation: Presentation, rotate: RotateCcw, scale: Scale, 'scan-eye': ScanEye, search: Search, 'skip-back': SkipBack, 'skip-forward': SkipForward,
   sliders: SlidersHorizontal, sparkles: Sparkles, sunrise: Sunrise, users: Users, wind: Wind, workflow: Workflow, x: X, zap: Zap,
 }
 
