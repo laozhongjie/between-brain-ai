@@ -44,7 +44,7 @@ export const TOPICS: Topic[] = [
 
   // D4 Prediction, reasoning & planning
   { id: 'world-models', code: 'F17', name: b('世界模型与预测', 'World models and prediction'),
-    systems: sys(b('皮层预测与小脑前向模型', 'Cortical prediction and cerebellar forward models'), b('学习型世界模型', 'Learned world models')),
+    systems: sys(b('皮层与小脑的预测', 'Cortical and cerebellar prediction'), b('学习型世界模型', 'Learned world models')),
     mechanisms: ['M07'] },
   { id: 'compositional-reasoning', code: 'F19', name: b('组合与关系推理', 'Compositional and relational reasoning'),
     systems: sys(b('人类组合推理', 'Human compositional reasoning'), b('元学习组合网络与大语言模型', 'Meta-learned compositional networks and large language models')),

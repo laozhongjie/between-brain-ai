@@ -249,6 +249,13 @@ export const REFS: Ref[] = [
   { id: 'cueva2018', authors: 'Cueva, C. J. & Wei, X.-X.', year: 2018, title: 'Emergence of grid-like representations by training recurrent neural networks to perform spatial localization', venue: 'arXiv (ICLR 2018)', url: arxiv('1803.07770') },
   { id: 'gurnee2023', authors: 'Gurnee, W. & Tegmark, M.', year: 2023, title: 'Language models represent space and time', venue: 'arXiv (ICLR 2024)', url: arxiv('2310.02207') },
   { id: 'momennejad2023', authors: 'Momennejad, I. et al.', year: 2023, title: 'Evaluating cognitive maps and planning in large language models with CogEval', venue: 'arXiv (NeurIPS 2023)', url: arxiv('2309.15129') },
+  // ── F17 World models ──
+  { id: 'blakemore1998', authors: 'Blakemore, S.-J., Wolpert, D. M. & Frith, C. D.', year: 1998, title: 'Central cancellation of self-produced tickle sensation', venue: 'Nature Neuroscience 1(7), 635–640', url: doi('10.1038/2870') },
+  { id: 'shadmehr2010', authors: 'Shadmehr, R., Smith, M. A. & Krakauer, J. W.', year: 2010, title: 'Error correction, sensory prediction, and adaptation in motor control', venue: 'Annual Review of Neuroscience 33, 89–108', url: doi('10.1146/annurev-neuro-060909-153135') },
+  { id: 'keller2012', authors: 'Keller, G. B., Bonhoeffer, T. & Hübener, M.', year: 2012, title: 'Sensorimotor mismatch signals in primary visual cortex of the behaving mouse', venue: 'Neuron 74(5), 809–815', url: doi('10.1016/j.neuron.2012.03.040') },
+  { id: 'battaglia2013', authors: 'Battaglia, P. W., Hamrick, J. B. & Tenenbaum, J. B.', year: 2013, title: 'Simulation as an engine of physical scene understanding', venue: 'PNAS 110(45), 18327–18332', url: doi('10.1073/pnas.1306572110') },
+  { id: 'hafner2025', authors: 'Hafner, D., Pasukonis, J., Ba, J. & Lillicrap, T.', year: 2025, title: 'Mastering diverse control tasks through world models', venue: 'Nature 640(8059), 647–653', url: doi('10.1038/s41586-025-08744-2') },
+  { id: 'kang2024', authors: 'Kang, B. et al.', year: 2024, title: 'How far is video generation from world model: a physical law perspective', venue: 'arXiv', url: arxiv('2411.02385') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))
