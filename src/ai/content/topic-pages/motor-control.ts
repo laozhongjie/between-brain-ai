@@ -229,7 +229,7 @@ export const MOTOR_CONTROL: TopicContent = {
         '$K_p = 50$、$K_d = 2$，目标角度 $1.0$ 弧度，当前 $0.9$ 弧度、静止。力矩为 $50 \\times 0.1 = 5$；当关节以 $2$ 弧度每秒冲向目标时，微分项贡献 $-4$，力矩只剩约 $1$，避免冲过头。',
         '$K_p = 50$ and $K_d = 2$, with target $1.0$ rad and current $0.9$ rad at rest. Torque is $50 \\times 0.1 = 5$. When the joint rushes toward the target at $2$ rad/s, the derivative term adds $-4$, leaving about $1$ and preventing overshoot.'),
       consequences: [
-        b('形式与左边的肌肉弹簧模型相同，$K_p$ 相当于刚度、$K_d$ 相当于阻尼。', 'It has the same form as the muscle spring model on the left: $K_p$ acts as stiffness and $K_d$ as damping.'),
+        b('形式与生物侧的肌肉弹簧模型相同，$K_p$ 相当于刚度、$K_d$ 相当于阻尼。', 'It has the same form as the muscle spring model on the biological side: $K_p$ acts as stiffness and $K_d$ as damping.'),
         b('增益可以由软件随时改变，相当于可编程的刚度。', 'Gains can be changed by software at any time, a programmable stiffness.'),
       ],
       limitations: [

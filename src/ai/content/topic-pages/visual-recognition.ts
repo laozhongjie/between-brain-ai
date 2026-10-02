@@ -248,7 +248,7 @@ export const VISUAL_RECOGNITION: TopicContent = {
         b('把卷积核移到下一个位置重复。所有位置用同一组 $W$，所以同一个特征在哪里都能被检出。', 'Move the kernel to the next position and repeat. Every position uses the same $W$, so a feature is found wherever it is.'),
       ],
       example: b(
-        '与左边 V1 的例子相同：一行权重 $(-1, -1, +1, +1)$ 扫过一行亮度 $(0, 0, 1, 1, 1, 1)$。在第 1 个位置得到 $2$，检测到边缘；在第 3 个位置 $(1, 1, 1, 1)$ 得到 $0$，没有边缘。',
+        '与生物侧 V1 的例子相同：一行权重 $(-1, -1, +1, +1)$ 扫过一行亮度 $(0, 0, 1, 1, 1, 1)$。在第 1 个位置得到 $2$，检测到边缘；在第 3 个位置 $(1, 1, 1, 1)$ 得到 $0$，没有边缘。',
         'As in the V1 example: the weights $(-1, -1, +1, +1)$ slide along the row $(0, 0, 1, 1, 1, 1)$. At position 1 the result is $2$, an edge. At position 3, $(1, 1, 1, 1)$ gives $0$, no edge.'),
       consequences: [
         b('卷积层的计算与简单细胞模型形式相同：加权求和再整流。', 'A convolution layer computes the same form as the simple cell model: a weighted sum, then rectification.'),

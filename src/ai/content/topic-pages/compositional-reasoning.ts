@@ -208,31 +208,6 @@ export const COMPOSITIONAL_REASONING: TopicContent = {
         b('元训练任务需要人专门设计，规模远超人类学习这类规则所需的经验。', 'Meta-training tasks must be designed by people and far exceed the experience humans need for such rules.'),
       ],
     },
-    {
-      title: b('多步组合的误差累积：每步都对，整体也可能错', 'Error accumulation over many steps: right at each step, wrong overall'),
-      tex: t`P_{\text{correct}} = p^{\,k}`,
-      symbols: [
-        { tex: t`p`, meaning: b('单个步骤的正确率', 'accuracy of a single step') },
-        { tex: t`k`, meaning: b('完成任务需要的步骤数', 'number of steps the task needs') },
-        { tex: t`P_{\text{correct}}`, meaning: b('全部 $k$ 步都做对的概率', 'probability that all $k$ steps are right') },
-      ],
-      steps: [
-        b('把多步任务看成 $k$ 个依次进行的步骤，每一步都要做对。', 'Treat a multi-step task as $k$ steps in a row, each of which must be right.'),
-        b('若各步的错误相互独立，整体正确率等于各步正确率相乘。', 'If errors are independent across steps, overall accuracy is the product of the step accuracies.'),
-        b('步数增加时，整体正确率指数下降。', 'As steps increase, overall accuracy falls exponentially.'),
-      ],
-      example: b(
-        '单步正确率 $p = 0.95$。3 步时整体为 $0.95^3 \\approx 0.86$；10 步时为 $0.95^{10} \\approx 0.60$；20 步时只有 $0.95^{20} \\approx 0.36$。多位数乘法的步数随位数快速增加，所以准确率急剧下降。',
-        'With per-step accuracy $p = 0.95$: 3 steps give $0.95^3 \\approx 0.86$, 10 steps $0.95^{10} \\approx 0.60$ and 20 steps only $0.95^{20} \\approx 0.36$. Multi-digit multiplication needs many more steps as digits grow, so accuracy falls sharply.'),
-      consequences: [
-        b('解释了模型在「各部分都会、组合起来出错」时的表现。', 'It explains how models err on combinations even when they handle each part.'),
-        b('也说明了提高单步可靠性、在中途检查或调用精确工具（如计算器）的价值。', 'It also shows the value of raising per-step reliability, checking along the way and calling exact tools such as a calculator.'),
-      ],
-      limitations: [
-        b('真实的错误并不独立：模型可能在某类步骤上系统性出错，也可能在中途自我纠正。', 'Real errors are not independent. Models may err systematically on some kinds of steps or correct themselves along the way.'),
-        b('人在多步任务中同样会累积错误，区别在于人能按明确的规则检查每一步。', 'People also accumulate errors over many steps. The difference is that people can check each step against an explicit rule.'),
-      ],
-    },
   ],
   limits: {
     biological: [

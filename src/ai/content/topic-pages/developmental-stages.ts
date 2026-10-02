@@ -149,7 +149,7 @@ export const DEVELOPMENTAL_STAGES: TopicContent = {
       ],
     },
     {
-      title: b('可塑性窗口：同样的经验，在不同年龄效果不同', 'The plasticity window: the same experience works differently at different ages'),
+      title: b('可塑性窗口（示意）：同样的经验，在不同年龄效果不同', 'The plasticity window (schematic): the same experience works differently at different ages'),
       tex: t`\eta(t) = \eta_{\max}\,\exp\!\Big(-\frac{(t - t_0)^2}{2\sigma^2}\Big) + \eta_{\min}`,
       symbols: [
         { tex: t`t`, meaning: b('年龄', 'age') },

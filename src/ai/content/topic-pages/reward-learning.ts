@@ -220,8 +220,8 @@ export const REWARD_LEARNING: TopicContent = {
         b('一组不同 $\\tau$ 的输出，共同描绘出整个奖赏分布。', 'A set of outputs with different $\\tau$ together traces the whole reward distribution.'),
       ],
       example: b(
-        '奖赏一半时候是 $0$、一半时候是 $10$。$\\tau = 0.25$ 的输出最终停在 $0$ 附近，$\\tau = 0.75$ 的停在 $10$ 附近，中间的分位点落在两者之间的某处。这与左边乐观、悲观神经元的例子相对应。',
-        'Reward is $0$ half the time and $10$ the other half. The $\\tau = 0.25$ output settles near $0$ and the $\\tau = 0.75$ output near $10$, with middle quantiles between. This matches the optimistic and pessimistic neurons on the left.'),
+        '奖赏一半时候是 $0$、一半时候是 $10$。$\\tau = 0.25$ 的输出最终停在 $0$ 附近，$\\tau = 0.75$ 的停在 $10$ 附近，中间的分位点落在两者之间的某处。这与生物侧乐观、悲观神经元的例子相对应。',
+        'Reward is $0$ half the time and $10$ the other half. The $\\tau = 0.25$ output settles near $0$ and the $\\tau = 0.75$ output near $10$, with middle quantiles between. This matches the optimistic and pessimistic neurons on the biological side.'),
       consequences: [
         b('不对称的惩罚等价于对正负误差用不同的学习率，正是多巴胺分布式编码的机制。', 'Asymmetric penalties equal different learning rates for positive and negative errors, the very mechanism of distributional dopamine coding.'),
         b('学习完整分布让表示更丰富，在 Atari 等任务上提高了表现。', 'Learning the full distribution enriches the representation and improved performance on Atari and other tasks.'),

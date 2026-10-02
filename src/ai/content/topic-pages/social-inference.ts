@@ -192,33 +192,6 @@ export const SOCIAL_INFERENCE: TopicContent = {
         b('大语言模型并不包含这样明确的结构，二者的心智理论表现来源不同。', 'Large language models contain no such explicit structure, so their theory-of-mind performance comes from different sources.'),
       ],
     },
-    {
-      title: b('稳健性检验：改动题目后成绩下降多少', 'Robustness check: how much scores drop on altered tasks'),
-      tex: t`\Delta = \mathrm{acc}_{\text{orig}} - \mathrm{acc}_{\text{alt}},\qquad \mathrm{acc}_{\text{alt}} = \frac{1}{K}\sum_{k=1}^{K} \mathbb{1}\big[\hat{y}_k = y_k^{\text{alt}}\big]`,
-      symbols: [
-        { tex: t`\mathrm{acc}_{\text{orig}}`, meaning: b('在原始标准题目上的正确率', 'accuracy on the original standard items') },
-        { tex: t`\mathrm{acc}_{\text{alt}}`, meaning: b('在改动后题目上的正确率', 'accuracy on the altered items') },
-        { tex: t`y_k^{\text{alt}}`, meaning: b('改动后第 $k$ 题的正确答案（可能与原题不同）', 'correct answer to altered item $k$, possibly different from the original') },
-        { tex: t`K`, meaning: b('改动题目的数量', 'number of altered items') },
-        { tex: t`\Delta`, meaning: b('成绩下降：越大越说明依赖题目的表面形式', 'drop in score: larger means more reliance on surface form') },
-      ],
-      steps: [
-        b('对标准题目做细微改动，例如把容器改成透明的，使正确答案改变。', 'Make small changes to standard items, such as a transparent container, that change the correct answer.'),
-        b('分别计算原题和改动题的正确率。', 'Compute accuracy on original and altered items separately.'),
-        b('若模型真的在推断信念，改动后应同样答对；成绩大幅下降，说明它在套用题目的常见模式。', 'If the model truly infers beliefs, it should answer altered items equally well. A large drop shows it applies familiar task patterns.'),
-      ],
-      example: b(
-        '假设某模型在原题上正确率 $90\\%$，在「容器透明」等改动题上降到 $40\\%$，$\\Delta = 50$ 个百分点；成年人在两类题上都接近 $100\\%$，$\\Delta \\approx 0$。',
-        'Suppose a model scores $90\\%$ on original items and drops to $40\\%$ on altered ones such as a transparent container, $\\Delta = 50$ points. Adults score near $100\\%$ on both, $\\Delta \\approx 0$.'),
-      consequences: [
-        b('把「会做题」和「会推理」区分开，是评估模型心智理论的关键方法。', 'It separates solving test items from reasoning, a key way to evaluate model theory of mind.'),
-        b('同样的思路也用于其他能力，例如规划和类比。', 'The same idea applies to other abilities, such as planning and analogy.'),
-      ],
-      limitations: [
-        b('改动的设计本身可能引入新的难度，下降不一定全部来自缺乏推理。', 'Alterations can add new difficulty, so not every drop reflects missing reasoning.'),
-        b('随着模型更新，具体的数字会很快过时，需要持续重新评估。', 'Specific numbers age quickly as models update and need ongoing reevaluation.'),
-      ],
-    },
   ],
   limits: {
     biological: [

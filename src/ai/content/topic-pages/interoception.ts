@@ -201,32 +201,6 @@ export const INTEROCEPTION: TopicContent = {
         b('主要在模拟环境中验证，真实机器人中的应用仍然有限。', 'It has been tested mainly in simulation, with limited use on real robots.'),
       ],
     },
-    {
-      title: b('机器人的充电决策：剩余能量能否完成任务并安全返回', 'A robot’s charging decision: can remaining energy finish the task and return safely'),
-      tex: t`E_{\text{rem}} < \hat{E}_{\text{task}} + \hat{E}_{\text{return}} + E_{\text{margin}}`,
-      symbols: [
-        { tex: t`E_{\text{rem}}`, meaning: b('剩余电量', 'remaining battery energy') },
-        { tex: t`\hat{E}_{\text{task}}`, meaning: b('预测完成当前任务需要的能量', 'predicted energy to finish the current task') },
-        { tex: t`\hat{E}_{\text{return}}`, meaning: b('预测返回充电站需要的能量', 'predicted energy to return to the charger') },
-        { tex: t`E_{\text{margin}}`, meaning: b('安全余量；不等式成立时先去充电', 'safety margin; when the inequality holds, charge first') },
-      ],
-      steps: [
-        b('用能耗模型预测完成任务和返回所需的能量。', 'Predict the energy to finish the task and return with an energy model.'),
-        b('加上安全余量，与剩余电量比较。', 'Add a safety margin and compare with the remaining energy.'),
-        b('不够就先去充电，够则继续任务。', 'If it is not enough, charge first. Otherwise continue.'),
-      ],
-      example: b(
-        '剩余 $40\\%$，预测任务需 $25\\%$、返回需 $10\\%$、余量 $10\\%$，合计 $45\\%$，大于剩余，所以先去充电。若任务只需 $15\\%$，合计 $35\\%$，就继续工作。',
-        'With $40\\%$ left, the task needs a predicted $25\\%$, the return $10\\%$ and the margin $10\\%$, totaling $45\\%$, more than remains, so the robot charges first. If the task needed only $15\\%$, the total of $35\\%$ would let it keep working.'),
-      consequences: [
-        b('与生物的预测性调节在功能上相似：根据对未来需求的预测提前行动。', 'It resembles biological predictive regulation: acting early on predicted future needs.'),
-        b('规则简单、可靠，便于验证和保证安全。', 'The rule is simple and reliable, easy to verify and keep safe.'),
-      ],
-      limitations: [
-        b('电量只影响「何时充电」这一个决策，不像饥饿那样同时改变感知、学习和价值。', 'Battery level affects only when to charge, unlike hunger, which changes perception, learning and value together.'),
-        b('需要准确的能耗模型；任务难以预测时规则可能过于保守或冒险。', 'It needs an accurate energy model, and when tasks are hard to predict the rule may be too cautious or too risky.'),
-      ],
-    },
   ],
   limits: {
     biological: [

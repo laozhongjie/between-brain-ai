@@ -189,6 +189,32 @@ export const CONTINUAL_LEARNING: TopicContent = {
   ],
   compMath: [
     {
+      title: b('梯度干扰：学新任务的一步，会怎样改变旧任务的损失', 'Gradient interference: how one step on a new task changes the loss on an old one'),
+      tex: t`\mathcal{L}_A\big(\theta - \eta\,\mathbf{g}_B\big) \approx \mathcal{L}_A(\theta) - \eta\,\mathbf{g}_A \cdot \mathbf{g}_B,\qquad \mathbf{g}_A = \nabla_{\theta}\mathcal{L}_A,\quad \mathbf{g}_B = \nabla_{\theta}\mathcal{L}_B`,
+      symbols: [
+        { tex: t`\theta`, meaning: b('两个任务共用的参数', 'parameters shared by both tasks') },
+        { tex: t`\mathcal{L}_A,\ \mathcal{L}_B`, meaning: b('旧任务 A 和新任务 B 的损失', 'loss of the old task A and the new task B') },
+        { tex: t`\mathbf{g}_A,\ \mathbf{g}_B`, meaning: b('两个损失对参数的梯度：各自希望参数往哪个方向改', 'gradients of the two losses: the direction each would like the parameters to move') },
+        { tex: t`\eta`, meaning: b('学习率', 'learning rate') },
+      ],
+      steps: [
+        b('学任务 B 时，参数沿 $-\\mathbf{g}_B$ 走一小步。', 'Learning task B moves the parameters a small step along $-\\mathbf{g}_B$.'),
+        b('用一阶泰勒展开看这一步对任务 A 的影响：A 的损失变化约为 $-\\eta\\,\\mathbf{g}_A \\cdot \\mathbf{g}_B$。', 'A first-order Taylor expansion gives the effect on task A: its loss changes by about $-\\eta\\,\\mathbf{g}_A \\cdot \\mathbf{g}_B$.'),
+        b('两个梯度方向一致（点积为正）时，学 B 也帮了 A；方向相反（点积为负）时，学 B 就在损害 A，这就是干扰。', 'When the gradients agree (positive dot product), learning B also helps A. When they conflict (negative dot product), learning B harms A. This is interference.'),
+      ],
+      example: b(
+        '设 $\\mathbf{g}_A = (1, 0.5)$、$\\mathbf{g}_B = (-1, 1)$、$\\eta = 0.1$。点积为 $-1 + 0.5 = -0.5$，所以学 B 的每一步让 A 的损失增加约 $0.1 \\times 0.5 = 0.05$。只训练 B 时，这种增加一步步累积，A 被逐渐覆盖。',
+        'Let $\\mathbf{g}_A = (1, 0.5)$, $\\mathbf{g}_B = (-1, 1)$ and $\\eta = 0.1$. The dot product is $-1 + 0.5 = -0.5$, so each step on B raises A’s loss by about $0.1 \\times 0.5 = 0.05$. Training only on B accumulates these increases until A is overwritten.'),
+      consequences: [
+        b('与生物侧的干扰公式是同一个道理：新旧内容共用参数、表示又相互重叠时，干扰最严重；海马的稀疏编码和让梯度互不冲突的方法，都是在减少这种重叠。', 'It is the same principle as the interference equation on the biological side: interference is worst when old and new content share parameters and overlap. Sparse coding in the hippocampus and methods that keep gradients from conflicting both reduce this overlap.'),
+        b('GEM 等方法在每次更新前检查这个点积，若为负，就把 $\\mathbf{g}_B$ 投影到不损害旧任务的方向。', 'Methods such as GEM check this dot product before each update and, if it is negative, project $\\mathbf{g}_B$ onto a direction that does not harm the old task.'),
+      ],
+      limitations: [
+        b('一阶近似只在步长小时成立；训练很多步后的总遗忘还取决于损失曲面的弯曲。', 'The first-order approximation holds only for small steps. Total forgetting over many steps also depends on the curvature of the loss.'),
+        b('计算 $\\mathbf{g}_A$ 需要旧任务的数据，所以这类方法仍要保存一部分旧样本或旧梯度。', 'Computing $\\mathbf{g}_A$ needs data from the old task, so these methods still keep some old samples or gradients.'),
+      ],
+    },
+    {
       title: b('EWC：给对旧任务重要的参数加上弹性约束', 'EWC: elastic constraints on parameters important to old tasks'),
       tex: t`\mathcal{L}(\theta) = \mathcal{L}_B(\theta) + \sum_i \frac{\lambda}{2}\,F_i\,\big(\theta_i - \theta_{A,i}^{*}\big)^2`,
       symbols: [
@@ -283,6 +309,6 @@ export const CONTINUAL_LEARNING: TopicContent = {
   refs: {
     neuro: ['wixted2004', 'yang2009', 'tse2007', 'wilson1994', 'girardeau2009'],
     models: ['mcclelland1995', 'kumaran2016', 'benna2016'],
-    ai: ['mccloskey1989', 'french1999', 'kirkpatrick2017', 'rolnick2018', 'vitter1985', 'rusu2016', 'hu2021', 'dohare2024', 'parisi2018', 'wang2024cl'],
+    ai: ['mccloskey1989', 'french1999', 'kirkpatrick2017', 'lopezpaz2017', 'rolnick2018', 'vitter1985', 'rusu2016', 'hu2021', 'dohare2024', 'parisi2018', 'wang2024cl'],
   },
 }

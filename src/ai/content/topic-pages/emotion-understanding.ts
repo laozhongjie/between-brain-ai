@@ -197,31 +197,6 @@ export const EMOTION_UNDERSTANDING: TopicContent = {
         b('只看单张图像或片段，缺少情境和对这个人的了解。', 'It sees a single image or clip, without context or knowledge of the person.'),
       ],
     },
-    {
-      title: b('一致性评估：模型与人类共识的一致程度', 'Agreement: how closely a model matches human consensus'),
-      tex: t`\kappa = \frac{p_o - p_e}{1 - p_e}`,
-      symbols: [
-        { tex: t`p_o`, meaning: b('观察到的一致比例：模型与标准答案相同的比例', 'observed agreement: share of answers matching the standard') },
-        { tex: t`p_e`, meaning: b('随机猜测时预期的一致比例', 'agreement expected by chance') },
-        { tex: t`\kappa`, meaning: b('扣除偶然一致后的一致程度：$1$ 为完全一致，$0$ 为与随机相当', 'agreement beyond chance: $1$ is perfect and $0$ is chance level') },
-      ],
-      steps: [
-        b('情绪测验的标准答案通常来自专家或多数人的共识。', 'Standard answers on emotion tests usually come from experts or majority consensus.'),
-        b('算出模型与标准答案一致的比例，减去随机猜中的部分。', 'Compute how often the model matches the standard and subtract what chance would give.'),
-        b('再除以「除了偶然以外最多还能一致多少」，得到可比较的分数。', 'Divide by the most agreement possible beyond chance to get a comparable score.'),
-      ],
-      example: b(
-        '假设都是四选一的题目，随机猜中的比例 $p_e = 0.25$。模型答对 $81\\%$：$\\kappa = (0.81 - 0.25)/0.75 \\approx 0.75$；人类平均答对 $56\\%$：$\\kappa \\approx 0.41$。',
-        'Suppose every item has four options, so chance agreement is $p_e = 0.25$. A model at $81\\%$ gives $\\kappa = (0.81 - 0.25)/0.75 \\approx 0.75$, and the human average of $56\\%$ gives $\\kappa \\approx 0.41$.'),
-      consequences: [
-        b('能把人和模型放在同一尺度上比较「与共识的一致程度」。', 'It puts people and models on one scale of agreement with consensus.'),
-        b('说明模型在这类测验上更接近「标准答案」。', 'It shows models land closer to the standard answer on such tests.'),
-      ],
-      limitations: [
-        b('标准答案本身是一种共识，未必等于当事人的真实感受；与共识一致不等于理解得更深。', 'The standard answer is itself a consensus and need not equal what the person actually feels. Agreeing with consensus is not deeper understanding.'),
-        b('测验多为文字情境题，与面对面互动中的理解差别很大。', 'Tests are mostly text scenarios, very different from understanding face to face.'),
-      ],
-    },
   ],
   limits: {
     biological: [

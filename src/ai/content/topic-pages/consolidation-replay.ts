@@ -211,33 +211,6 @@ export const CONSOLIDATION_REPLAY: TopicContent = {
         b('回放的是逐字保存的原始经历，不会像大脑那样压缩、重组或泛化。', 'It replays verbatim raw experience, without the compression, recombination or generalization of the brain.'),
       ],
     },
-    {
-      title: b('分片遗忘：删除数据时只重新训练受影响的部分', 'Sharded unlearning: retrain only the affected part when deleting data'),
-      tex: t`f(x) = \operatorname{agg}\big(f_1(x), \dots, f_S(x)\big),\qquad C_{\text{delete}} \approx \frac{C_{\text{train}}}{S}`,
-      symbols: [
-        { tex: t`S`, meaning: b('训练数据被分成的片数', 'number of shards the training data is split into') },
-        { tex: t`f_s`, meaning: b('只在第 $s$ 片数据上训练的子模型', 'submodel trained only on shard $s$') },
-        { tex: t`\operatorname{agg}`, meaning: b('汇总各子模型的预测，例如投票', 'aggregation of the submodels’ predictions, such as a vote') },
-        { tex: t`f(x)`, meaning: b('最终的预测', 'the final prediction') },
-        { tex: t`C_{\text{delete}},\;C_{\text{train}}`, meaning: b('删除一条数据的代价和完整训练一次的代价', 'cost of deleting one data point and of one full training run') },
-      ],
-      steps: [
-        b('把训练数据分成 $S$ 片，每片训练一个独立的子模型。', 'Split the training data into $S$ shards and train an independent submodel on each.'),
-        b('预测时汇总所有子模型的输出。', 'At prediction time, aggregate the outputs of all submodels.'),
-        b('要删除某条数据时，只重新训练包含它的那个子模型，其余不动。', 'To delete a data point, retrain only the submodel that contains it and leave the rest.'),
-      ],
-      example: b(
-        '分成 $S = 10$ 片。删除一条数据只需重新训练一个子模型，代价约为完整训练的 10%。代价是每个子模型只见过十分之一的数据，汇总后的准确率可能低于在全部数据上训练的单个模型。',
-        'With $S = 10$ shards, deleting one data point retrains a single submodel, about 10% of full training. The cost is that each submodel sees only a tenth of the data, so the aggregate may be less accurate than one model trained on everything.'),
-      consequences: [
-        b('能保证被删数据的影响真正消失，而不是只被掩盖。', 'It guarantees the deleted data’s influence is truly gone, not just hidden.'),
-        b('说明「精确遗忘」在 AI 中需要从训练阶段就为它设计结构。', 'It shows precise forgetting in AI must be designed into the structure from training onward.'),
-      ],
-      limitations: [
-        b('对大语言模型这样的单一大模型，分片训练很难实施，近似遗忘方法的效果难以验证。', 'For a single large model such as a language model, sharded training is hard to apply, and approximate unlearning is hard to verify.'),
-        b('与大脑的遗忘不同：这里删除的是指定的数据，大脑遗忘的是不再有用的内容。', 'Unlike forgetting in the brain, this deletes specified data, while the brain forgets what is no longer useful.'),
-      ],
-    },
   ],
   limits: {
     biological: [

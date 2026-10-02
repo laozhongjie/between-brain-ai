@@ -199,6 +199,7 @@ export const PLANNING: TopicContent = {
         b('第一项是利用：已经看起来好的走法得分高。', 'The first term exploits: moves that already look good score high.'),
         b('第二项是探索：网络认为有希望、但还没怎么试过的走法得分高；试得越多，这一项越小。', 'The second term explores: moves the network finds promising but that are little tried score high, and the term shrinks as they are tried.'),
         b('每次模拟在每一层选得分最高的走法往下走。', 'Each simulation picks the highest-scoring move at every level.'),
+        b('走到叶节点后，用网络对它的评估 $v$ 更新路径上每个走法的平均价值 $Q$，访问次数 $N$ 加一，下一次模拟就用更新后的值。最后选访问次数最多的走法，它比平均值最高的走法更可靠。', 'At a leaf, the network’s evaluation $v$ updates the average value $Q$ of every move on the path and adds one to its visit count $N$, so the next simulation uses the new values. In the end the most visited move is chosen, which is more reliable than the one with the highest average.'),
       ],
       example: b(
         '总共模拟了 $100$ 次，取 $c = 1$。走法 A：$Q = 0.6$、$P = 0.3$、已试 $50$ 次，得分 $0.6 + 0.3 \\times 10/51 \\approx 0.66$。走法 B：$Q = 0.5$、$P = 0.4$、只试 $5$ 次，得分 $0.5 + 0.4 \\times 10/6 \\approx 1.17$。这一次会去探索 B。',
@@ -210,31 +211,6 @@ export const PLANNING: TopicContent = {
       limitations: [
         b('需要一个可以精确模拟的环境（规则或学到的模型）；开放的真实环境很难满足。', 'It needs an environment that can be simulated exactly, by rules or a learned model, which open real settings rarely allow.'),
         b('要好的结果需要大量模拟，计算成本高。', 'Good results need many simulations, at high computational cost.'),
-      ],
-    },
-    {
-      title: b('回传：用叶节点的评估更新路径上每个节点的平均价值', 'Backup: updating every node on the path with the leaf evaluation'),
-      tex: t`Q(s, a) \leftarrow \frac{N(s, a)\,Q(s, a) + v}{N(s, a) + 1},\qquad N(s, a) \leftarrow N(s, a) + 1`,
-      symbols: [
-        { tex: t`v`, meaning: b('这次模拟在叶节点得到的评估值', 'evaluation at the leaf in this simulation') },
-        { tex: t`Q(s, a)`, meaning: b('节点上的平均价值', 'average value at the node') },
-        { tex: t`N(s, a)`, meaning: b('节点被访问的次数', 'visit count of the node') },
-      ],
-      steps: [
-        b('一次模拟到达叶节点后，网络给出评估值 $v$。', 'When a simulation reaches a leaf, the network gives an evaluation $v$.'),
-        b('沿着这次走过的路径往回，每个节点的平均价值都加入这个新的 $v$，访问次数加一。', 'Going back along the path, each node folds this new $v$ into its average and adds one to its count.'),
-        b('（两人对弈时，每往上一层要把 $v$ 的符号翻转，因为对手的好就是自己的坏。）', '(In two-player games, flip the sign of $v$ at each level up, since the opponent’s gain is one’s loss.)'),
-      ],
-      example: b(
-        '某节点已访问 $4$ 次，平均价值 $0.5$。这次叶节点评估为 $1.0$，更新后平均价值为 $(4 \\times 0.5 + 1.0)/5 = 0.6$，访问次数变为 $5$。',
-        'A node has $4$ visits and an average value of $0.5$. This leaf evaluates to $1.0$, so the new average is $(4 \\times 0.5 + 1.0)/5 = 0.6$ and the count becomes $5$.'),
-      consequences: [
-        b('访问越多，平均值越稳定；最终选访问最多的走法，比选平均值最高的更可靠。', 'More visits make the average more stable, so choosing the most visited move is more reliable than the highest average.'),
-        b('与大脑「预演后评估」相似，都是用模拟出的结果更新对选择的估计。', 'Like preview and evaluation in the brain, it updates the estimate of a choice with simulated outcomes.'),
-      ],
-      limitations: [
-        b('评估值来自网络，网络在少见的局面上可能估计错误，搜索会被带偏。', 'Evaluations come from the network, which may be wrong in rare positions, misleading the search.'),
-        b('每一步的搜索结果在下一步大多被丢弃，计算不能像人的离线规划那样被长期复用。', 'Most of each move’s search is discarded at the next move, so the computation is not reused long term like offline planning in people.'),
       ],
     },
   ],
