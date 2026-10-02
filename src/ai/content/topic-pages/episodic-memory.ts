@@ -57,7 +57,7 @@ export const EPISODIC_MEMORY: TopicContent = {
       {
         title: b('新皮层到内嗅皮层', 'Neocortex to entorhinal cortex'),
         points: [
-          b('新皮层把感知到的信息以放电模式送出：哪些神经元在放电，各自放电多快。', 'The neocortex sends out what is perceived as a firing pattern: which neurons fire and how fast.'),
+          b('新皮层的神经元以电脉冲的形式把信息送出，信息就体现在哪些神经元在放电、各自放电多快。', 'Neocortical neurons send the information out as electrical pulses. The information lies in which neurons fire and how fast each one fires.'),
           b('内嗅皮层把信息分成两路：内侧的网格细胞编码「在哪里」，外侧编码「是什么」。', 'The entorhinal cortex splits it into two streams. Grid cells in the medial part code where, and the lateral part codes what.'),
           b('两路信息经穿通通路进入海马，主要送到齿状回，也有分支直达 CA3 和 CA1。', 'Both streams enter the hippocampus through the perforant path, mainly to the dentate gyrus, with branches straight to CA3 and CA1.'),
         ],
@@ -150,7 +150,7 @@ export const EPISODIC_MEMORY: TopicContent = {
   archNotes: {
     biological: [
       b('新皮层是大脑表面的一层皮层，包括处理视觉、听觉等单一感觉的感觉皮层，以及整合多种信息的联合皮层。图中用一个方框代表整个新皮层。', 'The neocortex is the outer layer of the brain. It includes sensory cortex for single senses such as vision and hearing, and association cortex that combines them. One box in the figure stands for all of it.'),
-      b('信号的物理形式：感受器把光和声音转成神经元的电脉冲（动作电位）。每个神经元只对特定特征放电，例如某个方向的线条、某个音高；高级区域的神经元对面孔、物体或地点放电。一群神经元的放电频率合起来，可以看成一个数字向量，作用类似 RAG 的嵌入向量。', 'The physical form of the signal: receptors turn light and sound into electrical pulses of neurons (action potentials). Each neuron fires for particular features, such as a line at one angle or one pitch, and higher areas respond to faces, objects or places. The firing rates of a population together form a vector of numbers, much like an embedding vector in RAG.'),
+      b('信号的物理形式：感受器把光和声音转成神经元的电脉冲（动作电位）。每个神经元只对特定特征放电，例如某个方向的线条、某个音高；高级区域的神经元对面孔、物体或地点放电。一群神经元的放电频率合起来，可以看成一个数字向量，作用类似 RAG 的嵌入向量。放电的精确时间也携带一部分信息。', 'The physical form of the signal: receptors turn light and sound into electrical pulses of neurons (action potentials). Each neuron fires for particular features, such as a line at one angle or one pitch, and higher areas respond to faces, objects or places. The firing rates of a population together form a vector of numbers, much like an embedding vector in RAG. The precise timing of spikes carries some information too.'),
       b('海马指图中框内的部分，由齿状回、CA3 和 CA1 组成。', 'The hippocampus is the framed part of the figure: the dentate gyrus, CA3 and CA1.'),
       b('齿状回颗粒细胞的数量远多于输入它的内嗅皮层细胞，任一时刻只有很小比例的颗粒细胞放电。单个苔藓纤维突触很强，少数几个就能让一个 CA3 细胞放电。', 'Dentate granule cells far outnumber their entorhinal inputs, and only a small fraction fire at any moment. A single mossy fiber synapse is strong, and a few of them can make a CA3 cell fire.'),
       b('CA3 锥体细胞之间有大量相互连接（循环侧支）。在大鼠中，每个 CA3 细胞约接收一万多个来自其他 CA3 细胞的输入。', 'CA3 pyramidal cells are densely interconnected by recurrent collaterals. In the rat, each CA3 cell receives on the order of ten thousand inputs from other CA3 cells.'),
