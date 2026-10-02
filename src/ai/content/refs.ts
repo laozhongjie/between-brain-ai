@@ -256,6 +256,18 @@ export const REFS: Ref[] = [
   { id: 'battaglia2013', authors: 'Battaglia, P. W., Hamrick, J. B. & Tenenbaum, J. B.', year: 2013, title: 'Simulation as an engine of physical scene understanding', venue: 'PNAS 110(45), 18327–18332', url: doi('10.1073/pnas.1306572110') },
   { id: 'hafner2025', authors: 'Hafner, D., Pasukonis, J., Ba, J. & Lillicrap, T.', year: 2025, title: 'Mastering diverse control tasks through world models', venue: 'Nature 640(8059), 647–653', url: doi('10.1038/s41586-025-08744-2') },
   { id: 'kang2024', authors: 'Kang, B. et al.', year: 2024, title: 'How far is video generation from world model: a physical law perspective', venue: 'arXiv', url: arxiv('2411.02385') },
+  // ── F19 Compositional reasoning ──
+  { id: 'fodor1988', authors: 'Fodor, J. A. & Pylyshyn, Z. W.', year: 1988, title: 'Connectionism and cognitive architecture: a critical analysis', venue: 'Cognition 28(1–2), 3–71', url: doi('10.1016/0010-0277(88)90031-5') },
+  { id: 'halford1998', authors: 'Halford, G. S., Wilson, W. H. & Phillips, S.', year: 1998, title: 'Processing capacity defined by relational complexity: implications for comparative, developmental, and cognitive psychology', venue: 'Behavioral and Brain Sciences 21(6), 803–831', url: doi('10.1017/S0140525X98001769') },
+  { id: 'christoff2001', authors: 'Christoff, K. et al.', year: 2001, title: 'Rostrolateral prefrontal cortex involvement in relational integration during reasoning', venue: 'NeuroImage 14(5), 1136–1149', url: doi('10.1006/nimg.2001.0922') },
+  { id: 'lake2023', authors: 'Lake, B. M. & Baroni, M.', year: 2023, title: 'Human-like systematic generalization through a meta-learning neural network', venue: 'Nature 623(7985), 115–121', url: doi('10.1038/s41586-023-06668-3') },
+  { id: 'smolensky1990', authors: 'Smolensky, P.', year: 1990, title: 'Tensor product variable binding and the representation of symbolic structures in connectionist systems', venue: 'Artificial Intelligence 46(1–2), 159–216', url: doi('10.1016/0004-3702(90)90007-M') },
+  { id: 'tenenbaum2011', authors: 'Tenenbaum, J. B., Kemp, C., Griffiths, T. L. & Goodman, N. D.', year: 2011, title: 'How to grow a mind: statistics, structure, and abstraction', venue: 'Science 331(6022), 1279–1285', url: doi('10.1126/science.1192788') },
+  { id: 'lake2018', authors: 'Lake, B. M. & Baroni, M.', year: 2018, title: 'Generalization without systematicity: on the compositional skills of sequence-to-sequence recurrent networks', venue: 'arXiv (ICML 2018)', url: arxiv('1711.00350') },
+  { id: 'press2022', authors: 'Press, O. et al.', year: 2022, title: 'Measuring and narrowing the compositionality gap in language models', venue: 'arXiv (EMNLP Findings 2023)', url: arxiv('2210.03350') },
+  { id: 'dziri2023', authors: 'Dziri, N. et al.', year: 2023, title: 'Faith and fate: limits of transformers on compositionality', venue: 'arXiv (NeurIPS 2023)', url: arxiv('2305.18654') },
+  { id: 'webb2023', authors: 'Webb, T., Holyoak, K. J. & Lu, H.', year: 2023, title: 'Emergent analogical reasoning in large language models', venue: 'Nature Human Behaviour 7(9), 1526–1541', url: doi('10.1038/s41562-023-01659-w') },
+  { id: 'lewis2024', authors: 'Lewis, M. & Mitchell, M.', year: 2024, title: 'Using counterfactual tasks to evaluate the generality of analogical reasoning in large language models', venue: 'arXiv', url: arxiv('2402.08955') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))
