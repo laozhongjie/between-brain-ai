@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react'
+import { useLayoutEffect, useRef, useState, type ComponentType } from 'react'
 import { TOUR_BY_ID } from '../../data/tours'
 import type { Bi } from '../../data/types'
 import { UI, useT } from '../../i18n'
@@ -74,38 +74,79 @@ function CapabilityDuel({ rows, bio, comp, short }: { rows: TopicCapability[]; b
 }
 
 /** One equation, taught: what it describes, its symbols, how it computes, an example, what follows and its limits. */
+/** The symbol table of an equation: two symbols per row, or one when it shares the width with a figure. */
+function SymbolTable({ symbols, pairs }: { symbols: TopicFormula['symbols']; pairs: boolean }) {
+  const t = useT()
+  const rows = pairs ? symbols.filter((_, i) => i % 2 === 0).map((s, r) => [s, symbols[2 * r + 1]] as const) : symbols.map((s) => [s] as const)
+  return (
+    <table className="symbols">
+      <thead>
+        <tr>
+          <th scope="col">{t(UI.mathSymbols)}</th><th scope="col">{t(UI.mathMeaning)}</th>
+          {pairs && <><th scope="col" className="pair">{t(UI.mathSymbols)}</th><th scope="col" className="pair">{t(UI.mathMeaning)}</th></>}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map(([s, s2], r) => (
+          <tr key={r}>
+            <td className="sym"><Rich text={`$${s.tex}$`} /></td><td><Rich text={t(s.meaning)} /></td>
+            {pairs && (s2 ? (<><td className="sym pair"><Rich text={`$${s2.tex}$`} /></td><td className="pair"><Rich text={t(s2.meaning)} /></td></>) : (<><td className="pair" /><td className="pair" /></>))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
+
+/** With a figure, the equation and its symbols sit left of the figure. An equation too long for the left column
+ * takes the whole width above, with the symbols and the figure side by side below it. */
+function useWideFormula(fig: MathFig | undefined) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [wide, setWide] = useState(false)
+  useLayoutEffect(() => {
+    const grid = ref.current
+    if (!fig || !grid) return
+    const check = () => {
+      const math = grid.querySelector('.formula .katex-html')
+      const box = grid.querySelector<HTMLElement>('.formula')
+      const figure = grid.querySelector<HTMLElement>('.formula-fig')
+      if (!math || !box || !figure || getComputedStyle(grid).display !== 'grid') return setWide(false)
+      const range = document.createRange()
+      range.selectNodeContents(math)
+      const pad = parseFloat(getComputedStyle(box).paddingLeft) + parseFloat(getComputedStyle(box).paddingRight)
+      const room = grid.clientWidth - figure.offsetWidth - parseFloat(getComputedStyle(grid).columnGap)
+      setWide(range.getBoundingClientRect().width + pad > room)
+    }
+    check()
+    document.fonts?.ready.then(check)
+    const ro = new ResizeObserver(check)
+    ro.observe(grid)
+    return () => ro.disconnect()
+  }, [fig])
+  return [ref, wide] as const
+}
+
 function FormulaCard({ f, side, fig }: { f: TopicFormula; side: 'bio' | 'comp'; fig?: MathFig }) {
   const t = useT()
+  const [gridRef, wide] = useWideFormula(fig)
   return (
     <article className={`formula-card ${side}`}>
       <h4><Rich text={t(f.title)} /></h4>
-      <div className="formula"><Tex tex={f.tex} /></div>
-      {fig && (
-        <figure className="fig formula-fig">
-          <fig.Fig t={t} />
-          <figcaption><Rich text={t(fig.cap)} /></figcaption>
-        </figure>
+      {fig ? (
+        <div ref={gridRef} className={`formula-with-fig${wide ? ' wide' : ''}`}>
+          <div className="formula"><Tex tex={f.tex} /></div>
+          <figure className="fig formula-fig">
+            <fig.Fig t={t} />
+            <figcaption><Rich text={t(fig.cap)} /></figcaption>
+          </figure>
+          <SymbolTable symbols={f.symbols} pairs={false} />
+        </div>
+      ) : (
+        <>
+          <div className="formula"><Tex tex={f.tex} /></div>
+          <SymbolTable symbols={f.symbols} pairs />
+        </>
       )}
-      <table className="symbols">
-        <thead>
-          <tr>
-            <th scope="col">{t(UI.mathSymbols)}</th><th scope="col">{t(UI.mathMeaning)}</th>
-            <th scope="col" className="pair">{t(UI.mathSymbols)}</th><th scope="col" className="pair">{t(UI.mathMeaning)}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* two symbols per row */}
-          {f.symbols.filter((_, i) => i % 2 === 0).map((s, r) => {
-            const s2 = f.symbols[2 * r + 1]
-            return (
-              <tr key={r}>
-                <td className="sym"><Rich text={`$${s.tex}$`} /></td><td><Rich text={t(s.meaning)} /></td>
-                {s2 ? (<><td className="sym pair"><Rich text={`$${s2.tex}$`} /></td><td className="pair"><Rich text={t(s2.meaning)} /></td></>) : (<><td className="pair" /><td className="pair" /></>)}
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
       <h5>{t(UI.mathSteps)}</h5>
       <ol>{f.steps.map((s, i) => <li key={i}><Rich text={t(s)} /></li>)}</ol>
       {f.example && (
