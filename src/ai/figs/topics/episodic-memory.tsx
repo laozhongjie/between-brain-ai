@@ -1,6 +1,6 @@
 import type { Bi } from '../../../data/types'
 import { C, Svg, T } from '../kit'
-import { Flow, Gap, Mod, Store, Var } from '../grammar'
+import { Flow, Gap, Mod, Num, Store, Var } from '../grammar'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -26,6 +26,12 @@ function HippocampusArch({ t }: FigProps) {
       <Flow id={id} side="bio" head="read" pts={[[238, 189], [262, 189]]} label={t(b('读出', 'read'))} ly={-9} />
       <Flow id={id} side="bio" pts={[[314, 168], [314, 109], [270, 109]]} />
       <Flow id={id} side="bio" kind="fb" pts={[[190, 253], [190, 222]]} label={t(b('增强写入', 'boost writing'))} lx={-34} ly={0} />
+      <Num x={122} y={74} n={1} side="bio" />
+      <Num x={14} y={168} n={2} side="bio" />
+      <Num x={142} y={162} n={3} side="bio" />
+      <Num x={250} y={206} n={4} side="bio" />
+      <Num x={330} y={138} n={5} side="bio" />
+      <Num x={166} y={266} n={6} side="bio" />
     </Svg>
   )
 }
@@ -34,7 +40,7 @@ function HippocampusArch({ t }: FigProps) {
 function RagArch({ t }: FigProps) {
   const id = 'f12c'
   return (
-    <Svg id={id} w={380} h={290} label={t(b('检索增强生成的结构与信息流', 'Structure and information flow of retrieval-augmented generation'))}>
+    <Svg id={id} w={380} h={290} label={t(b('RAG 的结构与信息流', 'Structure and information flow of RAG'))}>
       <Mod x={14} y={14} w={118} h={32} side="comp" label={t(b('文档与对话', 'Documents, chats'))} size={10.5} />
       <Mod x={248} y={14} w={118} h={32} side="comp" label={t(b('用户问题', 'User query'))} size={10.5} />
       <Mod x={14} y={76} w={52} h={32} side="comp" label={t(b('分块', 'Chunk'))} size={10.5} />
@@ -55,6 +61,13 @@ function RagArch({ t }: FigProps) {
       <Flow id={id} side="comp" head="read" pts={[[132, 214], [190, 214], [190, 152], [248, 152]]} at={2} label={t(b('读出前 k 个', 'read top k'))} ly={-8} />
       <Flow id={id} side="comp" pts={[[307, 168], [307, 196]]} />
       <Flow id={id} side="comp" pts={[[307, 234], [307, 250]]} />
+      <Num x={14} y={76} n={1} side="comp" />
+      <Num x={14} y={136} n={2} side="comp" />
+      <Num x={56} y={182} n={3} side="comp" />
+      <Num x={248} y={136} n={4} side="comp" />
+      <Num x={248} y={196} n={5} side="comp" />
+      <Num x={72} y={76} n={6} side="comp" />
+      <Num x={150} y={250} n={6} side="comp" />
     </Svg>
   )
 }
@@ -66,7 +79,7 @@ function MemoryTimeline({ t }: FigProps) {
   return (
     <Svg id={id} w={760} h={262} label={t(b('一条记忆在两个系统中的时间进程', 'One memory over time in both systems'))}>
       <T x={16} y={58} anchor="start" s={t(b('海马\n情景记忆', 'Hippocampal\nepisodic memory'))} size={10.5} color={C.pinkD} weight={600} />
-      <T x={16} y={198} anchor="start" s={t(b('检索增强\n生成', 'Retrieval\naugmented\ngeneration'))} size={10.5} color={C.skyD} weight={600} />
+      <T x={16} y={198} anchor="start" s={t(b('RAG', 'RAG'))} size={10.5} color={C.skyD} weight={600} />
 
       {/* biological lane */}
       <Mod x={150} y={26} w={90} h={36} side="bio" label={t(b('编码', 'Encoding'))} sub={t(b('一次经历', 'one experience'))} />
@@ -98,25 +111,19 @@ function MemoryTimeline({ t }: FigProps) {
       <Mod x={612} y={222} w={134} h={30} side="comp" label={t(b('进入上下文，会话后清空', 'Into context, then cleared'))} size={9.5} />
       <Flow id={id} side="comp" head="read" pts={[[560, 202], [560, 222]]} />
       <Flow id={id} side="comp" pts={[[590, 237], [612, 237]]} />
+      <Num x={150} y={26} n={1} side="bio" />
+      <Num x={322} y={26} n={2} side="bio" />
+      <Num x={470} y={26} n={3} side="bio" />
+      <Num x={530} y={80} n={4} side="bio" />
+      <Num x={150} y={166} n={1} side="comp" />
+      <Num x={262} y={166} n={2} side="comp" />
+      <Num x={530} y={222} n={3} side="comp" />
+      <Num x={300} y={222} n={4} side="comp" />
     </Svg>
   )
 }
 
 export const EPISODIC_FIGS: TopicFigs = {
-  arch: {
-    brain: HippocampusArch,
-    ai: RagArch,
-    brainCap: b(
-      '新皮层的内容经内嗅皮层进入海马。齿状回把相似的输入分开，CA3 通过一次赫布式写入存下经历，并能凭部分线索补全。CA1 把结果送回内嗅皮层，在新皮层重现原来的表征。新奇和情绪信号增强写入。按索引理论，海马存的是指向皮层内容的索引。',
-      'Cortical content enters the hippocampus via the entorhinal cortex. The dentate gyrus separates similar inputs. CA3 stores the episode with one Hebbian write and completes it from a partial cue. CA1 returns the result to the entorhinal cortex, reinstating the cortical pattern. Novelty and emotion signals strengthen writing. Under indexing theory, the hippocampus stores an index to cortical content.'),
-    aiCap: b(
-      '文档按固定长度分块，由嵌入模型写入向量库。查询用同类编码器编码后，按相似度读出前 $k$ 个片段，放进上下文窗口，交给参数冻结的语言模型。虚线空框标出没有对应的两步：按事件分段，以及把检索到的内容巩固进参数。',
-      'Documents are split into fixed-length chunks and written to the vector store by an embedding model. The query is encoded the same way, and the top $k$ chunks are read out by similarity into the context window of a frozen language model. Dashed boxes mark two missing steps: splitting by event, and consolidating retrieved content into the parameters.'),
-  },
-  dynamics: {
-    Fig: MemoryTimeline,
-    cap: b(
-      '同一条记忆在两个系统中的时间进程，时间轴为对数刻度。上：海马在一次经历中完成编码，突触巩固在数小时内让痕迹稳定。按标准巩固理论，睡眠回放在数天到数年间把记忆逐步转入新皮层，这一点仍有争议。每次提取都会让记忆短暂变得可塑，需要再巩固，所以回忆本身可能改写记忆。下：检索增强系统写入一次后内容不再变化。检索结果只在本次会话的上下文中使用，存储的内容不会因为被使用而巩固或改变。',
-      'One memory over time in both systems, on a log time axis. Top: the hippocampus encodes during one experience, and synaptic consolidation stabilizes the trace within hours. Under the standard consolidation theory, which is debated, sleep replay moves the memory into neocortex over days to years. Each recall makes the memory briefly labile until it is reconsolidated, so recalling can rewrite it. Bottom: once written, stored content does not change. Retrieved chunks serve only the current session, and use never consolidates or alters what is stored.'),
-  },
+  arch: { brain: HippocampusArch, ai: RagArch },
+  dynamics: MemoryTimeline,
 }

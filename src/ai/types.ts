@@ -182,28 +182,48 @@ export interface Module {
   pos: [number, number]
 }
 
-/** An equation on a topic page, with what it stands for, explains and leaves out. */
-export interface TopicFormula extends Formula {
-  maps: Bi
-  explains: Bi
-  limits: Bi
+/** An equation on a topic page, taught step by step. */
+export interface TopicFormula {
+  /** the process the equation describes */
+  title: Bi
+  tex: string
+  /** every symbol and what it stands for (symbol in TeX) */
+  symbols: { tex: string; meaning: Bi }[]
+  /** how the computation runs, in order */
+  steps: Bi[]
+  /** a small worked example */
+  example?: Bi
+  /** what follows from the equation */
+  consequences: Bi[]
+  limitations: Bi[]
+}
+
+/** One numbered step of a figure explanation; its number matches a marker in the figure. */
+export interface FigStep {
+  title: Bi
+  points: Bi[]
 }
 
 /** The full page of a functional topic (docs/atlas-v1-plan.md §5). */
 export interface TopicContent {
-  thesis: Bi
+  /** one short paragraph per side, then the key gap */
+  thesis: { biological: Bi; computational: Bi; gap: Bi }
   kinds: Kind[]
   evidence: Evidence
   /** which systems the computational column describes, and as of when */
   asOf: Bi
   capabilities: CapabilityComparison[]
+  /** step-by-step explanations of the architecture figures */
+  archSteps: { biological: FigStep[]; computational: FigStep[] }
+  /** step-by-step explanations of the dynamics figure, per lane */
+  dynamicsSteps: { biological: FigStep[]; computational: FigStep[] }
   bioMath: TopicFormula[]
   compMath: TopicFormula[]
   limits: {
-    biological: Bi
-    computational: Bi
+    biological: Bi[]
+    computational: Bi[]
     /** conclusions the evidence does not support */
-    unsupported: Bi
+    unsupported: Bi[]
   }
   refs: {
     neuro: string[]

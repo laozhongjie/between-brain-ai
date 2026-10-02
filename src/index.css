@@ -554,16 +554,42 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .review-limits > div:nth-child(3) { border-color: var(--lemon); }
 .review-limits h3 { margin: 0 0 6px; color: var(--text-h); font-size: 14px; letter-spacing: 0; }
 .review-limits p { margin: 0; }
-/* Topic pages */
-.topic-page .card-intro h2 { font-size: 18px; line-height: 1.7; font-weight: 500; }
-.topic-page > .card-kicker { display: block; margin-top: 4px; font-family: var(--label); letter-spacing: 0.04em; color: var(--accent); }
-.fig-wide .fig-svg { max-width: 980px; margin: 0 auto; }
-.grammar-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; margin: 4px 0 0; padding: 0; font-size: 12px; color: var(--text-dim); }
-.grammar-legend li { display: inline-flex; align-items: center; gap: 6px; }
-.topic-formula dl { margin: 6px 0 0; display: grid; gap: 4px; }
-.topic-formula dl > div { display: grid; grid-template-columns: 4.5em 1fr; gap: 8px; font-size: 12.5px; line-height: 1.55; }
-.topic-formula dt { color: var(--text-dim); }
-.topic-formula dd { margin: 0; color: var(--text); }
+/* Topic pages: explanations are the main reading, so they use the body size, not caption size */
+.topic-kicker { display: block; margin-top: 4px; font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; color: var(--accent); }
+.topic-page .bio { --side: var(--pink); }
+.topic-page .comp { --side: var(--accent); }
+.thesis { margin: 14px 0 12px; }
+.thesis-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+.thesis-sides > section { padding: 12px 16px 14px; border-top: 2px solid var(--side); background: rgba(170,195,230,0.025); border-radius: 0 0 10px 10px; }
+.thesis-sides h3 { margin: 0 0 6px; font-size: 14px; letter-spacing: 0; color: var(--side); }
+.thesis-sides p { margin: 0; font-size: 15.5px; line-height: 1.8; color: var(--text-h); }
+.thesis-gap { margin: 12px 0 0; padding: 10px 16px; border-left: 2px solid var(--lemon); font-size: 15.5px; line-height: 1.8; color: var(--text-h); background: rgba(232,194,103,0.04); }
+.thesis-gap strong { display: block; margin-bottom: 2px; font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; color: var(--lemon); }
+.grammar-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; margin: 0 0 12px; padding: 0; font-size: 13px; color: var(--text-dim); }
+.grammar-legend li { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.fig-steps { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 14px; }
+.fig-steps > li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; }
+.step-num { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; margin-top: 1px; font: 600 12px/1 var(--mono); color: var(--side); border: 1.4px solid var(--side); }
+.fig-steps h4 { margin: 0 0 4px; font-size: 15px; color: var(--text-h); font-weight: 600; }
+.fig-steps ul, .bullets { margin: 0; padding-left: 18px; }
+.ai-page .fig-steps li li, .ai-page .bullets li, .ai-page .formula-card li { font-size: 15px; line-height: 1.8; color: var(--text); margin-bottom: 4px; }
+.two-col-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.two-col-steps h3 { margin: 6px 0 0; font-size: 14px; letter-spacing: 0; color: var(--side); }
+.topic-page .math-side { margin: 18px 0 8px; font-size: 14px; letter-spacing: 0; color: var(--side); }
+.formula-card { margin: 0 0 16px; padding: 14px 18px 8px; border: 1px solid var(--panel-border); border-left: 2px solid var(--side, var(--panel-border)); border-radius: 10px; background: rgba(170,195,230,0.025); }
+.formula-card h4 { margin: 0 0 6px; font-size: 16px; color: var(--text-h); font-weight: 600; }
+.formula-card h5 { margin: 14px 0 6px; font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; color: var(--text-dim); text-transform: none; }
+.formula-card .formula { padding: 6px 12px 10px; }
+.formula-card .formula .katex-display { font-size: 1.3em; }
+.symbols .katex { font-size: 1.08em; }
+.formula-card ol, .formula-card ul { margin: 0; padding-left: 20px; }
+.symbols { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; align-items: baseline; font-size: 15px; line-height: 1.7; }
+.symbols > div { display: contents; }
+.symbols dt { color: var(--text-h); }
+.symbols dd { margin: 0; color: var(--text); }
+.ai-page .formula-card .example { margin: 0; font-size: 15px; line-height: 1.8; padding: 8px 12px; border-radius: 8px; background: var(--well); }
+.topic-page .review-limits li { font-size: 15px; }
+@media (max-width: 760px) { .thesis-sides, .two-col-steps { grid-template-columns: 1fr; } }
 .ref-groups { display: grid; gap: 6px; }
 .ref-groups h3 { margin: 6px 0 4px; font-size: 13.5px; color: var(--text-h); }
 .card-lessons { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }

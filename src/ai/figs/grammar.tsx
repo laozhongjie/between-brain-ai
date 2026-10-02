@@ -126,3 +126,14 @@ export function LegendMark({ k }: { k: (typeof GRAMMAR_LEGEND)[number]['key'] })
     </svg>
   )
 }
+
+/** Step marker: the number of the matching point in the explanation under the figure. */
+export function Num({ x, y, n, side }: { x: number; y: number; n: number; side: Side }) {
+  const s = SIDE[side]
+  return (
+    <g>
+      <circle cx={x} cy={y} r={8} fill={C.white} stroke={s.stroke} strokeWidth={1.4} />
+      <T x={x} y={y + 0.5} s={String(n)} size={9.5} color={s.stroke} weight={700} />
+    </g>
+  )
+}

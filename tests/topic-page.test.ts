@@ -3,7 +3,6 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it, vi } from 'vitest'
 import type { Bi } from '../src/data/types'
 import { TOPIC_BY_ID, TOPIC_CONTENT } from '../src/ai/content'
-import { TOPIC_FIGS } from '../src/ai/figs'
 import { TopicPage } from '../src/ai/pages/TopicPage'
 
 const language = vi.hoisted(() => ({ current: 'zh' as 'zh' | 'en' }))
@@ -24,15 +23,16 @@ describe('topic pages', () => {
         language.current = lang
         const topic = TOPIC_BY_ID[id]
         const html = renderToStaticMarkup(createElement(TopicPage, { topic }))
-        const figs = TOPIC_FIGS[id]
-        const texts: Bi[] = [topic.name, topic.systems.biological, topic.systems.computational, page.thesis, page.asOf,
-          page.limits.biological, page.limits.computational, page.limits.unsupported,
+        const texts: Bi[] = [topic.name, topic.systems.biological, topic.systems.computational,
+          page.thesis.biological, page.thesis.computational, page.thesis.gap, page.asOf,
+          ...page.limits.biological, ...page.limits.computational, ...page.limits.unsupported,
           ...page.capabilities.flatMap((r) => [r.dimension, r.brain, r.ai, r.gap]),
-          ...[...page.bioMath, ...page.compMath].flatMap((f) => [f.caption, f.maps, f.explains, f.limits])]
+          ...[page.archSteps, page.dynamicsSteps].flatMap((g) => [...g.biological, ...g.computational]).flatMap((s) => [s.title, ...s.points]),
+          ...[...page.bioMath, ...page.compMath].flatMap((f) => [f.title, ...f.symbols.map((x) => x.meaning), ...f.steps, ...(f.example ? [f.example] : []), ...f.consequences, ...f.limitations])]
         for (const text of texts) for (const part of plain(text[lang])) expect(html, part).toContain(escaped(part))
-        // the three figures render as SVG with their captions
+        // the three figures render as SVG, each followed by its numbered explanation
         expect(html.match(/<svg[^>]*class="fig-svg"/g) ?? []).toHaveLength(3)
-        for (const cap of [figs.arch.brainCap, figs.arch.aiCap, figs.dynamics.cap]) for (const part of plain(cap[lang])) expect(html).toContain(escaped(part))
+        expect(html.match(/<ol class="fig-steps/g) ?? []).toHaveLength(4)
         // equations are always shown, never folded
         expect(html).not.toContain('<details')
       })

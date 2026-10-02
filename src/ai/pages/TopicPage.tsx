@@ -10,39 +10,64 @@ import { TOPIC_FIGS } from '../figs'
 import { GRAMMAR_LEGEND, LegendMark } from '../figs/grammar'
 import type { FigProps } from '../figs/types'
 import { Rich, Tex } from '../Tex'
-import type { Topic, TopicFormula } from '../types'
+import type { FigStep, Topic, TopicFormula } from '../types'
 import { EvidenceBadge, KindTags, PagerLink, RefList } from './common'
 import { Icon } from '../../ui/Icon'
 import { ComparisonText } from '../../ui/ComparisonText'
 
-function Figure({ Fig, cap, wide }: { Fig: ComponentType<FigProps>; cap: Bi; wide?: boolean }) {
+function Figure({ Fig }: { Fig: ComponentType<FigProps> }) {
+  const t = useT()
+  return <figure className="fig"><Fig t={t} /></figure>
+}
+
+/** The numbered explanation under a figure; each number matches a marker in the figure. */
+function Steps({ steps, side }: { steps: FigStep[]; side: 'bio' | 'comp' }) {
   const t = useT()
   return (
-    <figure className={`fig ${wide ? 'fig-wide' : ''}`}>
-      <Fig t={t} />
-      <figcaption><Rich text={t(cap)} /></figcaption>
-    </figure>
+    <ol className={`fig-steps ${side}`}>
+      {steps.map((s, i) => (
+        <li key={i}>
+          <span className="step-num" aria-hidden>{i + 1}</span>
+          <div>
+            <h4>{t(s.title)}</h4>
+            <ul>{s.points.map((p, j) => <li key={j}><Rich text={t(p)} /></li>)}</ul>
+          </div>
+        </li>
+      ))}
+    </ol>
   )
 }
 
-/** One equation with what its symbols stand for, what it explains and what it leaves out. */
-function TopicFormulas({ list }: { list: TopicFormula[] }) {
+/** One equation, taught: what it describes, its symbols, how it computes, an example, what follows and its limits. */
+function FormulaCard({ f, side }: { f: TopicFormula; side: 'bio' | 'comp' }) {
   const t = useT()
   return (
-    <div className="formulas">
-      {list.map((f, i) => (
-        <figure key={i} className="formula topic-formula">
-          <Tex tex={f.tex} />
-          <figcaption><Rich text={t(f.caption)} /></figcaption>
-          <dl>
-            <div><dt>{t(UI.mathMaps)}</dt><dd><Rich text={t(f.maps)} /></dd></div>
-            <div><dt>{t(UI.mathExplains)}</dt><dd><Rich text={t(f.explains)} /></dd></div>
-            <div><dt>{t(UI.mathLimits)}</dt><dd><Rich text={t(f.limits)} /></dd></div>
-          </dl>
-        </figure>
-      ))}
-    </div>
+    <article className={`formula-card ${side}`}>
+      <h4><Rich text={t(f.title)} /></h4>
+      <div className="formula"><Tex tex={f.tex} /></div>
+      <h5>{t(UI.mathSymbols)}</h5>
+      <dl className="symbols">
+        {f.symbols.map((s, i) => <div key={i}><dt><Rich text={`$${s.tex}$`} /></dt><dd><Rich text={t(s.meaning)} /></dd></div>)}
+      </dl>
+      <h5>{t(UI.mathSteps)}</h5>
+      <ol>{f.steps.map((s, i) => <li key={i}><Rich text={t(s)} /></li>)}</ol>
+      {f.example && (
+        <>
+          <h5>{t(UI.mathExample)}</h5>
+          <p className="example"><Rich text={t(f.example)} /></p>
+        </>
+      )}
+      <h5>{t(UI.mathConsequences)}</h5>
+      <ul>{f.consequences.map((s, i) => <li key={i}><Rich text={t(s)} /></li>)}</ul>
+      <h5>{t(UI.mathLimitations)}</h5>
+      <ul>{f.limitations.map((s, i) => <li key={i}><Rich text={t(s)} /></li>)}</ul>
+    </article>
   )
+}
+
+const Bullets = ({ items }: { items: Bi[] }) => {
+  const t = useT()
+  return <ul className="bullets">{items.map((x, i) => <li key={i}><Rich text={t(x)} /></li>)}</ul>
 }
 
 /** A functional topic: one capability compared between two named systems (docs/atlas-v1-plan.md §5). */
@@ -71,11 +96,15 @@ export function TopicPage({ topic }: { topic: Topic }) {
         <button onClick={() => go('/ai')}>{t(UI.backToLadder)}</button>
         <span>{t(UI.functionalDomains)} · {domain.id} {t(domain.name)} · {topic.code}</span>
       </div>
-      <span className="card-kicker">{t(topic.name)}</span>
+      <span className="topic-kicker">{t(topic.name)}</span>
       <h1><ComparisonText text={`${bio} ↔ ${comp}`} /></h1>
-      <div className="card-intro">
+      <div className="thesis">
         <span className="card-kicker">{t(UI.secThesis)}</span>
-        <h2><Rich text={t(c.thesis)} /></h2>
+        <div className="thesis-sides">
+          <section className="bio"><h3>{bio}</h3><p><Rich text={t(c.thesis.biological)} /></p></section>
+          <section className="comp"><h3>{comp}</h3><p><Rich text={t(c.thesis.computational)} /></p></section>
+        </div>
+        <p className="thesis-gap"><strong>{t(UI.thesisGap)}</strong><Rich text={t(c.thesis.gap)} /></p>
       </div>
       <div className="card-badges">
         <KindTags kinds={c.kinds} />
@@ -105,46 +134,46 @@ export function TopicPage({ topic }: { topic: Topic }) {
 
       <section aria-labelledby="topic-architecture" className="review-architecture">
         <h2 id="topic-architecture">{t(UI.secArchitecture)}</h2>
-        <div className="review-architecture-grid">
-          <section className="review-system biological-system">
-            <h3>{bio}</h3>
-            <Figure Fig={figs.arch.brain} cap={figs.arch.brainCap} />
-          </section>
-          <section className="review-system computational-system">
-            <h3>{comp}</h3>
-            <Figure Fig={figs.arch.ai} cap={figs.arch.aiCap} />
-          </section>
-        </div>
         <ul className="grammar-legend">
           {GRAMMAR_LEGEND.map((g) => <li key={g.key}><LegendMark k={g.key} />{t(g.label)}</li>)}
         </ul>
+        <div className="review-architecture-grid">
+          <section className="review-system biological-system">
+            <h3>{bio}</h3>
+            <Figure Fig={figs.arch.brain} />
+            <Steps steps={c.archSteps.biological} side="bio" />
+          </section>
+          <section className="review-system computational-system">
+            <h3>{comp}</h3>
+            <Figure Fig={figs.arch.ai} />
+            <Steps steps={c.archSteps.computational} side="comp" />
+          </section>
+        </div>
       </section>
 
       <section aria-labelledby="topic-dynamics">
         <h2 id="topic-dynamics">{t(UI.secDynamics)}</h2>
-        <Figure Fig={figs.dynamics.Fig} cap={figs.dynamics.cap} wide />
+        <Figure Fig={figs.dynamics} />
+        <div className="two-col-steps">
+          <section><h3 className="bio">{bio}</h3><Steps steps={c.dynamicsSteps.biological} side="bio" /></section>
+          <section><h3 className="comp">{comp}</h3><Steps steps={c.dynamicsSteps.computational} side="comp" /></section>
+        </div>
       </section>
 
       <section aria-labelledby="topic-math">
         <h2 id="topic-math">{t(UI.secMath)}</h2>
-        <div className="two-col review-mechanisms">
-          <section className="col brain-col">
-            <h3>{bio}</h3>
-            <TopicFormulas list={c.bioMath} />
-          </section>
-          <section className="col ai-col">
-            <h3>{comp}</h3>
-            <TopicFormulas list={c.compMath} />
-          </section>
-        </div>
+        <h3 className="math-side bio">{bio}</h3>
+        {c.bioMath.map((f, i) => <FormulaCard key={i} f={f} side="bio" />)}
+        <h3 className="math-side comp">{comp}</h3>
+        {c.compMath.map((f, i) => <FormulaCard key={i} f={f} side="comp" />)}
       </section>
 
       <section aria-labelledby="topic-limits">
         <h2 id="topic-limits">{t(UI.secLimits)}</h2>
         <div className="review-limits">
-          <div><h3>{bio}</h3><p><Rich text={t(c.limits.biological)} /></p></div>
-          <div><h3>{comp}</h3><p><Rich text={t(c.limits.computational)} /></p></div>
-          <div><h3>{t(UI.limitsUnsupported)}</h3><p><Rich text={t(c.limits.unsupported)} /></p></div>
+          <div><h3>{bio}</h3><Bullets items={c.limits.biological} /></div>
+          <div><h3>{comp}</h3><Bullets items={c.limits.computational} /></div>
+          <div><h3>{t(UI.limitsUnsupported)}</h3><Bullets items={c.limits.unsupported} /></div>
         </div>
       </section>
 

@@ -68,7 +68,8 @@ describe('AI correspondence content', () => {
         expect(() => katex.renderToString(f.tex, { throwOnError: true }), `${c.id}: ${f.tex}`).not.toThrow()
     for (const [id, page] of Object.entries(TOPIC_CONTENT))
       for (const f of [...page.bioMath, ...page.compMath])
-        expect(() => katex.renderToString(f.tex, { throwOnError: true }), `${id}: ${f.tex}`).not.toThrow()
+        for (const tex of [f.tex, ...f.symbols.map((s) => s.tex)])
+          expect(() => katex.renderToString(tex, { throwOnError: true }), `${id}: ${tex}`).not.toThrow()
   })
 
   it('every cited reference exists and every reference is cited', () => {
@@ -98,18 +99,23 @@ describe('AI correspondence content', () => {
     }
   })
 
-  it('every topic page is complete: capabilities, figures, equations, limits and grouped evidence', () => {
+  it('every topic page is complete: thesis per side, capabilities, explained figures, taught equations, limits, evidence', () => {
     for (const [id, page] of Object.entries(TOPIC_CONTENT)) {
       expect(TOPIC_BY_ID[id], id).toBeDefined()
       const figs = TOPIC_FIGS[id]
-      expect(figs?.arch.brain && figs.arch.ai && figs.dynamics.Fig, id).toBeTruthy()
+      expect(figs?.arch.brain && figs.arch.ai && figs.dynamics, id).toBeTruthy()
       expect(page.capabilities.length, id).toBeGreaterThanOrEqual(3)
       expect(page.bioMath.length && page.compMath.length, id).toBeTruthy()
       expect(page.refs.neuro.length && page.refs.models.length && page.refs.ai.length, id).toBeTruthy()
-      const fields = [page.thesis, page.asOf, page.limits.biological, page.limits.computational, page.limits.unsupported,
-        figs.arch.brainCap, figs.arch.aiCap, figs.dynamics.cap,
+      for (const steps of [page.archSteps.biological, page.archSteps.computational, page.dynamicsSteps.biological, page.dynamicsSteps.computational])
+        expect(steps.length && steps.every((s) => s.points.length), id).toBeTruthy()
+      for (const f of [...page.bioMath, ...page.compMath])
+        expect(f.symbols.length && f.steps.length && f.consequences.length && f.limitations.length, `${id}: ${f.tex}`).toBeTruthy()
+      const fields = [page.thesis.biological, page.thesis.computational, page.thesis.gap, page.asOf,
+        ...page.limits.biological, ...page.limits.computational, ...page.limits.unsupported,
         ...page.capabilities.flatMap((r) => [r.dimension, r.brain, r.ai, r.gap]),
-        ...[...page.bioMath, ...page.compMath].flatMap((f) => [f.caption, f.maps, f.explains, f.limits])]
+        ...[page.archSteps, page.dynamicsSteps].flatMap((g) => [...g.biological, ...g.computational]).flatMap((s) => [s.title, ...s.points]),
+        ...[...page.bioMath, ...page.compMath].flatMap((f) => [f.title, ...f.symbols.map((x) => x.meaning), ...f.steps, ...(f.example ? [f.example] : []), ...f.consequences, ...f.limitations])]
       for (const f of fields) expect(f.zh.trim() && f.en.trim(), id).toBeTruthy()
     }
     for (const id of Object.keys(TOPIC_FIGS)) expect(TOPIC_CONTENT[id], id).toBeDefined()
