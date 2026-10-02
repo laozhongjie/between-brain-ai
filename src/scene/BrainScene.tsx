@@ -73,7 +73,7 @@ export function BrainScene() {
       <Pulses />
       <Labels />
       <CameraRig />
-      <EffectComposer multisampling={2}>
+      <EffectComposer multisampling={4}>
         <Bloom mipmapBlur luminanceThreshold={0.45} luminanceSmoothing={0.3} intensity={0.9} />
         <Vignette offset={0.25} darkness={0.6} />
       </EffectComposer>

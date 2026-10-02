@@ -57,7 +57,7 @@ export function HomeBrain() {
       <Pathways />
       <Pulses />
       <OrbitCamera />
-      <EffectComposer multisampling={2}>
+      <EffectComposer multisampling={4}>
         <Bloom mipmapBlur luminanceThreshold={0.45} luminanceSmoothing={0.3} intensity={0.9} />
       </EffectComposer>
     </Canvas>
