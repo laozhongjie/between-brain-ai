@@ -151,6 +151,20 @@ export const REFS: Ref[] = [
   { id: 'geirhos2021', authors: 'Geirhos, R. et al.', year: 2021, title: 'Partial success in closing the gap between human and machine vision', venue: 'arXiv (NeurIPS 2021)', url: arxiv('2106.07411') },
   { id: 'radford2021', authors: 'Radford, A. et al.', year: 2021, title: 'Learning transferable visual models from natural language supervision', venue: 'arXiv (ICML 2021)', url: arxiv('2103.00020') },
   { id: 'rahmanzadehgervi2024', authors: 'Rahmanzadehgervi, P., Bolton, L., Taesiri, M. R. & Nguyen, A. T.', year: 2024, title: 'Vision language models are blind', venue: 'arXiv (ACCV 2024)', url: arxiv('2407.06581') },
+  // ── F02 Audition ──
+  { id: 'glasberg1990', authors: 'Glasberg, B. R. & Moore, B. C. J.', year: 1990, title: 'Derivation of auditory filter shapes from notched-noise data', venue: 'Hearing Research 47(1–2), 103–138', url: doi('10.1016/0378-5955(90)90170-T') },
+  { id: 'jeffress1948', authors: 'Jeffress, L. A.', year: 1948, title: 'A place theory of sound localization', venue: 'Journal of Comparative and Physiological Psychology 41(1), 35–39', url: doi('10.1037/h0061495') },
+  { id: 'mills1958', authors: 'Mills, A. W.', year: 1958, title: 'On the minimum audible angle', venue: 'Journal of the Acoustical Society of America 30(4), 237–246', url: doi('10.1121/1.1909553') },
+  { id: 'grothe2010', authors: 'Grothe, B., Pecka, M. & McAlpine, D.', year: 2010, title: 'Mechanisms of sound localization in mammals', venue: 'Physiological Reviews 90(3), 983–1012', url: doi('10.1152/physrev.00026.2009') },
+  { id: 'cherry1953', authors: 'Cherry, E. C.', year: 1953, title: 'Some experiments on the recognition of speech, with one and with two ears', venue: 'Journal of the Acoustical Society of America 25(5), 975–979', url: doi('10.1121/1.1907229') },
+  { id: 'mcdermott2009', authors: 'McDermott, J. H.', year: 2009, title: 'The cocktail party problem', venue: 'Current Biology 19(22), R1024–R1027', url: doi('10.1016/j.cub.2009.09.005') },
+  { id: 'mesgarani2012', authors: 'Mesgarani, N. & Chang, E. F.', year: 2012, title: 'Selective cortical representation of attended speaker in multi-talker speech perception', venue: 'Nature 485(7397), 233–236', url: doi('10.1038/nature11020') },
+  { id: 'giraud2012', authors: 'Giraud, A.-L. & Poeppel, D.', year: 2012, title: 'Cortical oscillations and speech processing: emerging computational principles and operations', venue: 'Nature Neuroscience 15(4), 511–517', url: doi('10.1038/nn.3063') },
+  { id: 'clarke2004', authors: 'Clarke, C. M. & Garrett, M. F.', year: 2004, title: 'Rapid adaptation to foreign-accented English', venue: 'Journal of the Acoustical Society of America 116(6), 3647–3658', url: doi('10.1121/1.1815131') },
+  { id: 'radford2022', authors: 'Radford, A., Kim, J. W., Xu, T., Brockman, G., McLeavey, C. & Sutskever, I.', year: 2022, title: 'Robust speech recognition via large-scale weak supervision', venue: 'arXiv (ICML 2023)', url: arxiv('2212.04356') },
+  { id: 'luo2019', authors: 'Luo, Y. & Mesgarani, N.', year: 2019, title: 'Conv-TasNet: surpassing ideal time-frequency magnitude masking for speech separation', venue: 'IEEE/ACM Transactions on Audio, Speech, and Language Processing 27(8), 1256–1266', url: doi('10.1109/TASLP.2019.2915167') },
+  { id: 'yu2017', authors: 'Yu, D., Kolbæk, M., Tan, Z.-H. & Jensen, J.', year: 2017, title: 'Permutation invariant training of deep models for speaker-independent multi-talker speech separation', venue: 'ICASSP 2017, 241–245', url: doi('10.1109/ICASSP.2017.7952154') },
+  { id: 'koenecke2024', authors: 'Koenecke, A., Choi, A. S. G., Mei, K. X., Schellmann, H. & Sloane, M.', year: 2024, title: 'Careless Whisper: speech-to-text hallucination harms', venue: 'arXiv (FAccT 2024)', url: arxiv('2402.08021') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

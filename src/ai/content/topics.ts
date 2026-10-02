@@ -11,7 +11,7 @@ export const TOPICS: Topic[] = [
     systems: sys(b('腹侧与背侧视觉通路', 'Ventral and dorsal streams'), b('CNN 与视觉 Transformer', 'CNNs and vision transformers')),
     legacy: 'sys-vision', tour: 'vision', mechanisms: ['M06', 'M07'] },
   { id: 'auditory-scene', code: 'F02', name: b('听觉与声场分析', 'Audition and auditory scene analysis'),
-    systems: sys(b('听觉通路与听觉皮层', 'Auditory pathway and auditory cortex'), b('语音识别与声源分离模型', 'Speech recognition and source separation models')),
+    systems: sys(b('听觉通路与听觉皮层', 'Auditory pathway and cortex'), b('语音识别与声源分离', 'Speech recognition and separation')),
     legacy: 'sys-hearing', tour: 'hearing', mechanisms: ['M05'] },
   { id: 'multisensory', code: 'F03', name: b('多感官整合', 'Multisensory integration'),
     systems: sys(b('多感官整合回路', 'Multisensory integration circuits'), b('多模态融合模型', 'Multimodal fusion models')),
