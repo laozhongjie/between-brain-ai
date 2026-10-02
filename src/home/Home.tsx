@@ -8,7 +8,6 @@ import { CHAPTERS, homeState } from './chapters'
 import { HomeAI } from './HomeAI'
 import { HeroField } from './HeroField'
 import { HomeBrain } from './HomeBrain'
-import { HomeMorph } from './HomeMorph'
 
 const PANEL_GAP = 8
 const MARK_GAP_RATIO = 0.11
@@ -23,8 +22,8 @@ const CLOSING_VH = 66
 const SCROLL_VH = OPENING_VH + CHAPTERS.length * CHAPTER_VH + CLOSING_VH // the track is this plus one screen
 const at = (vh: number) => vh / SCROLL_VH
 const HERO_END = at(59) // the hero's labels, lines and wordmark fade away
+const FILL = [at(13), at(86)] // the white disc turns into a window onto brain | AI
 const OPEN = [at(20), at(OPENING_VH)] // the disc grows until it fills the screen
-const MORPH = [OPEN[0], at(OPENING_VH - 1)] // as it grows, the white flows out as a liquid that washes brain | AI clean
 const CH = [at(OPENING_VH), at(OPENING_VH + CHAPTERS.length * CHAPTER_VH)] // five chapters
 const CTA = CH[1] // closing call to action
 const CTA_RAMP = at(46)
@@ -179,36 +178,23 @@ export function Home() {
       if (Math.abs(target - p) < 1e-4) p = target
       last = p === target ? 0 : now
       const h = clamp(p / HERO_END)
-      const morph = clamp((p - MORPH[0]) / (MORPH[1] - MORPH[0]))
+      const fill = 1 - clamp((p - FILL[0]) / (FILL[1] - FILL[0]))
       const open = ease(clamp((p - OPEN[0]) / (OPEN[1] - OPEN[0])))
       const g = heroGeom(st.clientWidth, st.clientHeight)
       const cover = Math.hypot(st.clientWidth / 2, st.clientHeight / 2) + PANEL_GAP
       const cta = clamp((p - CTA) / CTA_RAMP)
-      const gap = g.r * MARK_GAP_RATIO * (1 - open) + PANEL_GAP / 2 * open
-      // the white liquid's front (fraction of a panel out from the slit) follows the scroll from its first
-      // step, past 1 so the last of it clears the panels; the window opens at least as fast as it runs
-      const wave = 1.75 * morph
-      const reach = clamp((wave * (st.clientWidth / 2 - gap) * 0.85) / (cover - g.r))
-      const r = g.r + Math.max(open * open, reach) * (cover - g.r)
-      // the solid white hands over to the liquid (HomeMorph, the same shape) as soon as it starts to flow
       for (const el of [sc, st]) el.style.setProperty('--hero', h.toFixed(3))
-      st.style.setProperty('--fill', (1 - clamp(morph / 0.01)).toFixed(3))
-      // brain | AI stay hidden behind the mark (and its entrance) until the liquid has taken over
-      st.style.setProperty('--reveal', morph > 0 ? '1' : '0')
+      st.style.setProperty('--fill', fill.toFixed(3))
+      st.style.setProperty('--reveal', (1 - fill).toFixed(3))
       st.style.setProperty('--open', open.toFixed(3))
-      st.style.setProperty('--half-gap', `${gap}px`)
-      st.style.setProperty('--r', `${r.toFixed(1)}px`)
+      st.style.setProperty('--half-gap', `${g.r * MARK_GAP_RATIO * (1 - open) + PANEL_GAP / 2 * open}px`)
+      st.style.setProperty('--r', `${(g.r + open * open * (cover - g.r)).toFixed(1)}px`)
       st.style.setProperty('--cta', cta.toFixed(3))
       st.classList.toggle('cta-on', cta > 0.5)
       homeState.hero = h
       const c = p < CH[0] ? -1 : Math.min(CHAPTERS.length - 1, Math.floor(((p - CH[0]) / (CH[1] - CH[0])) * CHAPTERS.length))
       homeState.chapter = c
       homeState.open = open
-      homeState.morph = morph
-      homeState.wave = wave
-      homeState.r0 = g.r
-      homeState.r = r
-      homeState.gap = gap
       setChapter(c)
       if (p !== target) raf = requestAnimationFrame(update)
     }
@@ -224,7 +210,6 @@ export function Home() {
       homeState.chapter = -1
       homeState.open = 0
       homeState.hero = 0
-      homeState.morph = 0
     }
   }, [])
 
@@ -323,7 +308,6 @@ export function Home() {
           {/* the mark itself: white halves that turn into windows as the page scrolls */}
           <div className="hero-fill left" />
           <div className="hero-fill right" />
-          <HomeMorph />
           <HeroField />
           <Hero g={geom} />
 

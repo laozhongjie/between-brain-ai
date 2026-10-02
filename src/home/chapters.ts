@@ -4,11 +4,9 @@ const b = (zh: string, en: string): Bi => ({ zh, en })
 
 /**
  * Shared between the scroll handler and the render loops: which chapter is on screen (−1 before the first)
- * how far the split disc has opened, how far the hero has scrolled away and how far the white halves have
- * turned into brain | AI (all 0..1); how far out the white liquid has run (fraction of a panel); the
- * mark's resting radius, the disc radius and the half gap in px.
+ * how far the split disc has opened, and how far the hero has scrolled away (both 0..1).
  */
-export const homeState = { chapter: -1, open: 0, hero: 0, morph: 0, wave: 0, r0: 0, r: 0, gap: 0 }
+export const homeState = { chapter: -1, open: 0, hero: 0 }
 
 export interface Chapter {
   /** layer tag, e.g. "SYNAPSE ↔ WEIGHT" */
