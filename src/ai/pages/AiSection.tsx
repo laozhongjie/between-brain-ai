@@ -1,5 +1,5 @@
 import { Rich, splitComparison } from '../../rich'
-import { useEffect, useRef, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { UI, useT } from '../../i18n'
 import { go } from '../../route'
 import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, MECH_GROUPS, SCALES, TOPIC_BY_ID, TOPIC_CONTENT, crossHref, topicHref, topicsOfDomain } from '../content'
@@ -12,12 +12,15 @@ import { AiHome } from './AiHome'
 import { LabPage } from './LabPage'
 import { TopicPage } from './TopicPage'
 
-/** The Brain & AI section: sidebar directory + routed page. */
+/** The Brain & AI section: a directory drawer at the left edge (opens on hover, or on tapping its tab) over the routed page. */
 export function AiSection({ route }: { route: string[] }) {
   const t = useT()
   const main = useRef<HTMLDivElement>(null)
   const [page, id] = route
   const key = route.join('/')
+  // opened by the tab (touch screens have no hover) for the current page only, so navigating closes it
+  const [openAt, setOpenAt] = useState<string | null>(null)
+  const navOpen = openAt === key
 
   useEffect(() => {
     main.current?.scrollTo({ top: 0 })
@@ -39,7 +42,9 @@ export function AiSection({ route }: { route: string[] }) {
 
   return (
     <div className="ai-section">
-      <nav className="ai-nav">
+      <aside className={`ai-drawer ${navOpen ? 'open' : ''}`} onMouseLeave={() => setOpenAt(null)}>
+      <button className="ai-drawer-tab" aria-label={t(UI.directory)} aria-expanded={navOpen} onClick={() => setOpenAt(navOpen ? null : key)}><Icon name="chevron" size={14} /></button>
+      <nav className="ai-nav" aria-label={t(UI.directory)}>
         <button className={`ai-nav-home ${key === '' ? 'on' : ''}`} onClick={() => go('/ai')}>{t(UI.overview)}</button>
         <button className={`ai-nav-home ai-nav-concepts ${key === 'concepts' ? 'on' : ''}`} onClick={() => go('/ai/concepts')}><Icon name="search" size={13} />{t(UI.conceptIndex)}</button>
         <div className="ai-nav-layer ai-nav-domains">
@@ -70,6 +75,7 @@ export function AiSection({ route }: { route: string[] }) {
           {Object.entries(LABS).map(([lid, lab]) => link(`/ai/lab/${lid}`, <Rich text={t(lab.title).replace(/^(实验：|Lab: )/, '')} />, lid))}
         </div>
       </nav>
+      </aside>
       <div className="ai-main" ref={main}>
         {/* keyed so the entrance animation replays on every navigation */}
         <div key={key} className="ai-enter">{content}</div>

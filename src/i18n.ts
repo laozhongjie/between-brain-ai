@@ -88,6 +88,7 @@ export const UI = {
   spinalBus: b('脊髓', 'Spinal cord'),
   navAtlas: b('大脑图谱', 'Brain atlas'),
   overview: b('总览', 'Overview'),
+  directory: b('目录', 'Contents'),
   navAi: b('大脑与 AI', 'Brain & AI'),
   aiTitle: b('大脑与 AI 功能图谱', 'Brain & AI functional atlas'),
   aiIntro: b('每个功能主题在一项能力上对照一个具体的生物系统和一个具体的计算系统：双方各自做到什么程度，差距在哪里，架构与机制如何解释这些差距。功能领域是主目录；机制索引按尺度收录可复用的计算过程；综合专题处理跨领域的问题。', 'Each functional topic compares a specific biological system with a specific computational system on one capability: what each achieves, where the gaps are, and how architecture and mechanism explain them. The functional domains are the main directory. The mechanism index collects reusable computations by scale. The cross-domain topics cover questions that span domains.'),
