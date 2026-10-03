@@ -1,7 +1,7 @@
 import type { Bi } from '../../../data/types'
 import { C, Svg, T } from '../kit'
 import { Flow, Gap, Mod, Num, Region, Var } from '../grammar'
-import { legacyFig } from '../layer4'
+import { Axes, Heat, Label, Path, SIDE_COLOR, Vec, gauss, px, py, rng, trace, type Frame } from '../plot'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -78,7 +78,133 @@ function VisionModelArch({ t }: FigProps) {
   )
 }
 
+/** An odd-symmetric Gabor receptive field (an edge detector, dark left and bright right), and its rectified response
+ * to a matched grating as the grating turns away from the preferred orientation. */
+function GaborPlot({ t }: FigProps) {
+  const col = SIDE_COLOR.bio
+  const n = 21, sigma = 4, gamma = 0.7, lambda = 9
+  const G = (x: number, y: number) => Math.exp(-(x * x + gamma * gamma * y * y) / (2 * sigma * sigma)) * Math.sin((2 * Math.PI * x) / lambda)
+  const cells = Array.from({ length: n }, (_, r) => Array.from({ length: n }, (_, c) => G(c - 10, r - 10)))
+  const peak = Math.max(...cells.flat())
+  const resp = (deg: number) => {
+    const a = (deg * Math.PI) / 180
+    let s = 0
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) s += cells[r][c] * Math.sin((2 * Math.PI * ((c - 10) * Math.cos(a) + (r - 10) * Math.sin(a))) / lambda)
+    return s
+  }
+  const r0 = resp(0)
+  const f: Frame = { x: 196, y: 34, w: 166, h: 120, xr: [-90, 90], yr: [0, 1] }
+  return (
+    <Svg id="f01mb0" w={380} h={200} label={t(b('V1 简单细胞：感受野是一个边缘检测器，只对接近偏好方向的条纹放电', 'A V1 simple cell: the receptive field is an edge detector that fires only for stripes near its preferred orientation'))}>
+      <Heat x={18} y={34} cell={6} vals={cells.map((row) => row.map((v) => v / peak))} pos={col} neg={C.lavD} gap={0} />
+      <rect x={18} y={34} width={126} height={126} fill="none" stroke={C.line} />
+      <Label x={81} y={174} s={t(b('感受野 G：粉色处变亮增加放电，\n灰色处变亮抑制放电', 'Receptive field G: light on pink\nexcites, light on gray inhibits'))} size={10} />
+      <Axes f={f} xTicks={[[-90, '−90'], [-45, '−45'], [0, '0'], [45, '45'], [90, '90']]} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]}
+        xLabel={t(b('条纹偏离偏好方向（度）', 'Stripe angle from preferred (°)'))} yLabel={t(b('放电 r，相对最大值', 'Firing r, relative to peak'))} />
+      <Path pts={trace(f, (d) => Math.max(0, resp(d)) / r0, -90, 90, 90)} color={col} />
+    </Svg>
+  )
+}
+
+/** Two neurons' responses to faces and cars: tangled in V1, separable by one line in IT (w = (1, −1), b = 0). */
+function ReadoutPlot({ t }: FigProps) {
+  const col = SIDE_COLOR.bio
+  const u = rng(7)
+  const cloud = (cx: number, cy: number, sd: number, k: number) => Array.from({ length: k }, () => [cx + sd * gauss(u), cy + sd * gauss(u)] as [number, number])
+  const v1Face = [...cloud(12, 12, 4, 7), ...cloud(36, 36, 4, 7)], v1Car = [...cloud(12, 36, 4, 7), ...cloud(36, 12, 4, 7)]
+  const itFace = cloud(38, 8, 4.5, 14), itCar = cloud(8, 38, 4.5, 14)
+  const f1: Frame = { x: 40, y: 32, w: 130, h: 120, xr: [0, 48], yr: [0, 48] }
+  const f2: Frame = { x: 228, y: 32, w: 130, h: 120, xr: [0, 48], yr: [0, 48] }
+  const ticks: [number, string][] = [[0, '0'], [20, '20'], [40, '40']]
+  const pts = (f: Frame, list: [number, number][], face: boolean) => list.map(([a, c], i) => (
+    <circle key={i} cx={px(f, Math.max(0, Math.min(48, a)))} cy={py(f, Math.max(0, Math.min(48, c)))} r={3} fill={face ? col : 'none'} fillOpacity={0.8} stroke={face ? col : C.dim} strokeWidth={1.3} />
+  ))
+  return (
+    <Svg id="f01mb1" w={380} h={210} label={t(b('同一组面孔和汽车：在 V1 中交织在一起，在 IT 中一条直线就能分开', 'The same faces and cars: tangled in V1, separable by one line in IT'))}>
+      <Axes f={f1} xTicks={ticks} yTicks={ticks} xLabel={t(b('神经元 1', 'Neuron 1'))} yLabel={t(b('V1：交织', 'V1: tangled'))} />
+      {pts(f1, v1Face, true)}{pts(f1, v1Car, false)}
+      <Axes f={f2} xTicks={ticks} yTicks={ticks} xLabel={t(b('面孔细胞（次/秒）', 'Face cell (spikes/s)'))} yLabel={t(b('IT：汽车细胞', 'IT: car cell'))} />
+      <Path pts={[[px(f2, 0), py(f2, 0)], [px(f2, 48), py(f2, 48)]]} color={C.ink} width={1.2} dashed />
+      {pts(f2, itFace, true)}{pts(f2, itCar, false)}
+      <Label x={px(f2, 40)} y={py(f2, 24)} s={t(b('判为面孔', 'face'))} size={10} color={col} />
+      <Label x={px(f2, 12)} y={py(f2, 22)} s={t(b('判为汽车', 'car'))} size={10} />
+      <circle cx={46} cy={194} r={3} fill={col} />
+      <Label x={54} y={194} s={t(b('面孔', 'faces'))} anchor="start" size={10} />
+      <circle cx={100} cy={194} r={3} fill="none" stroke={C.dim} strokeWidth={1.3} />
+      <Label x={108} y={194} s={t(b('汽车', 'cars'))} anchor="start" size={10} />
+    </Svg>
+  )
+}
+
+/** A vertical-edge kernel slides over an image of a bright square; after ReLU only the left edge lights up. */
+function ConvMapPlot({ t }: FigProps) {
+  const col = SIDE_COLOR.comp
+  const img = Array.from({ length: 8 }, (_, r) => Array.from({ length: 8 }, (_, c) => (r >= 2 && r <= 5 && c >= 2 && c <= 5 ? 1 : 0)))
+  const K = [[-1, 0, 1], [-1, 0, 1], [-1, 0, 1]]
+  const out = Array.from({ length: 6 }, (_, i) => Array.from({ length: 6 }, (_, j) => {
+    let s = 0
+    for (let u = 0; u < 3; u++) for (let v = 0; v < 3; v++) s += K[u][v] * img[i + u][j + v]
+    return Math.max(0, s) / 3
+  }))
+  const c1 = 13, x1 = 14, y0 = 40, xk = 152, xo = 268
+  // the outlined window: rows 2..4, columns 1..3 of the input, output cell (2, 1), sum +3
+  return (
+    <Svg id="f01mc0" w={380} h={196} label={t(b('卷积：同一个竖直边缘模板扫过整张图，ReLU 后只在左边缘点亮', 'Convolution: one vertical-edge template slides over the image; after ReLU only the left edge lights up'))}>
+      <Heat x={x1} y={y0} cell={c1} vals={img} pos={C.ink} neg={C.ink} />
+      <rect x={x1 + 1 * c1} y={y0 + 2 * c1} width={3 * c1} height={3 * c1} fill="none" stroke={col} strokeWidth={1.8} />
+      <Label x={x1 + 4 * c1} y={y0 - 14} s={t(b('输入图像', 'Input image'))} color={C.ink} />
+      {K.map((row, r) => row.map((v, c) => (
+        <g key={`${r}-${c}`}>
+          <rect x={xk + c * 20} y={y0 + 20 + r * 20} width={19} height={19} fill={v > 0 ? col : C.lavD} fillOpacity={v ? 0.55 : 0.08} />
+          <text x={xk + c * 20 + 9.5} y={y0 + 30 + r * 20} fontSize={10} textAnchor="middle" dominantBaseline="middle" fill={C.ink}>{v > 0 ? '+1' : v < 0 ? '−1' : '0'}</text>
+        </g>
+      )))}
+      <Label x={xk + 30} y={y0 - 14} s={t(b('卷积核', 'Kernel'))} color={C.ink} />
+      <Label x={xk + 30} y={y0 + 94} s={t(b('同一组权重\n用在每个位置', 'same weights\nat every position'))} size={10} />
+      <Vec x1={x1 + 8 * c1 + 6} y1={y0 + 52} x2={xk - 6} y2={y0 + 52} color={C.dim} width={1.2} />
+      <Vec x1={xk + 66} y1={y0 + 52} x2={xo - 6} y2={y0 + 52} color={C.dim} width={1.2} />
+      <Heat x={xo} y={y0 + 13} cell={c1} vals={out} pos={col} />
+      <rect x={xo + c1} y={y0 + 13 + 2 * c1} width={c1} height={c1} fill="none" stroke={col} strokeWidth={1.8} />
+      <Label x={xo + 3 * c1} y={y0 - 14} s={t(b('特征图', 'Feature map'))} color={C.ink} />
+      <Label x={xo + 3 * c1} y={y0 + 108} s={t(b('左边缘点亮；\n右边缘为负，被 ReLU 截掉', 'left edge lit; the right\nedge is negative, cut by ReLU'))} size={10} />
+    </Svg>
+  )
+}
+
+/** Attention from one patch (an ear) over an 8 × 8 grid of patches: far-away face patches get high weight; a CNN's
+ * first layer sees only the 3 × 3 neighborhood. Scores are illustrative. */
+function PatchAttentionPlot({ t }: FigProps) {
+  const col = SIDE_COLOR.comp
+  const face: [number, number][] = [[1, 5], [3, 2], [3, 5], [4, 1], [4, 6], [5, 3], [5, 4]]
+  const score = (r: number, c: number) => (r === 1 && c === 2 ? 3 : face.some(([a, d]) => a === r && d === c) ? 2.6 : (r >= 2 && r <= 5 && c >= 2 && c <= 5 ? 1 : 0))
+  const ex = Array.from({ length: 8 }, (_, r) => Array.from({ length: 8 }, (_, c) => Math.exp(score(r, c))))
+  const sum = ex.flat().reduce((a, v) => a + v, 0)
+  const w = ex.map((row) => row.map((v) => v / sum))
+  const top = Math.max(...w.flat())
+  const cell = 18, x0 = 20, y0 = 26
+  return (
+    <Svg id="f01mc1" w={380} h={196} label={t(b('ViT 中一个图块的注意力：远处的脸部图块拿到高权重，CNN 第一层只看到周围一圈', 'One ViT patch’s attention: distant face patches get high weight, while a CNN’s first layer sees only its neighbors'))}>
+      <Heat x={x0} y={y0} cell={cell} vals={w.map((row) => row.map((v) => v / top))} pos={col} />
+      <rect x={x0 + 1 * cell} y={y0 + 0 * cell} width={3 * cell} height={3 * cell} fill="none" stroke={C.dim} strokeDasharray="3 2" strokeWidth={1.4} />
+      <rect x={x0 + 2 * cell} y={y0 + 1 * cell} width={cell} height={cell} fill="none" stroke={C.ink} strokeWidth={2} />
+      <Vec x1={x0 + 8 * cell + 44} y1={y0 + 30} x2={x0 + 3 * cell + 4} y2={y0 + 1.5 * cell} color={C.ink} width={1.1} />
+      <Label x={x0 + 8 * cell + 48} y={y0 + 30} s={t(b('查询图块：猫耳朵', 'Query patch: cat ear'))} anchor="start" color={C.ink} />
+      <Label x={x0 + 8 * cell + 18} y={y0 + 70} s={t(b('颜色越深，注意力权重越大：\n眼睛、胡须、另一只耳朵\n都拿到高权重，哪怕相隔很远', 'Darker means more attention:\neyes, whiskers and the other ear\nscore high, however far away'))} anchor="start" size={10} />
+      <Label x={x0 + 8 * cell + 18} y={y0 + 128} s={t(b('虚线框：CNN 第一层的 3 × 3\n卷积能看到的范围', 'Dashed box: what a CNN’s first\n3 × 3 convolution can see'))} anchor="start" size={10} />
+    </Svg>
+  )
+}
+
 export const VISUAL_FIGS: TopicFigs = {
   arch: { brain: VisualStreamsArch, ai: VisionModelArch },
-  math: { bio: { 1: legacyFig('sys-vision', 'brain') }, comp: { 0: legacyFig('sys-vision', 'ai') } },
+  math: {
+    bio: {
+      0: { Fig: GaborPlot, cap: b('左：感受野 $G$，左负右正，是一个「左暗右亮」的边缘检测器，与小例子中的 $(-1, -1, +1, +1)$ 相同。右：条纹转离偏好方向，加权和变小，整流后在约 $\\pm 40°$ 以外为 $0$，所以每个细胞只报告一个方向。', 'Left: the receptive field $G$, negative on the left and positive on the right, is a dark-to-bright edge detector, the same as the worked example’s $(-1, -1, +1, +1)$. Right: as stripes turn away from the preferred orientation the weighted sum shrinks, and after rectification it is $0$ beyond about $\\pm 40°$, so each cell reports one orientation.') },
+      1: { Fig: ReadoutPlot, cap: b('每个点是一张图片引起的两个神经元的放电。V1 中面孔和汽车交错分布，没有一条直线能分开。IT 中面孔细胞对面孔放电多，汽车细胞对汽车放电多，$\\mathbf{w} = (1, -1)$、$b = 0$ 的读出就是虚线 $y = 0$。', 'Each dot is two neurons’ firing for one image. In V1 faces and cars interleave and no straight line splits them. In IT the face cell fires more for faces and the car cell for cars, and the readout with $\\mathbf{w} = (1, -1)$, $b = 0$ is the dashed line $y = 0$.') },
+    },
+    comp: {
+      0: { Fig: ConvMapPlot, cap: b('一个 $3 \\times 3$ 的竖直边缘核扫过亮方块。框出的窗口跨在左边缘上，加权和为 $+3$，对应特征图中框出的格子；右边缘得到 $-3$，ReLU 后为 $0$。同一组 9 个权重用在所有位置，这就是权重共享。', 'A $3 \\times 3$ vertical-edge kernel slides over a bright square. The outlined window straddles the left edge and sums to $+3$, the outlined cell of the feature map. The right edge gives $-3$, which ReLU sets to $0$. The same nine weights serve every position: weight sharing.') },
+      1: { Fig: PatchAttentionPlot, cap: b('示意：图块「猫耳朵」对 $8 \\times 8$ 个图块的 softmax 权重。查询与脸部图块的键相似度高，所以眼睛、胡须拿到大部分权重，背景几乎为 $0$。CNN 第一层只能混合虚线框内的邻居，远处的信息要经过很多层才能到达。', 'Illustration: the softmax weights of the patch “cat ear” over $8 \\times 8$ patches. Its query matches the keys of face patches, so the eyes and whiskers take most of the weight and the background almost none. A CNN’s first layer mixes only the neighbors inside the dashed box; distant information takes many layers to arrive.') },
+    },
+  },
 }

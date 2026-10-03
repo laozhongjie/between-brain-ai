@@ -1,6 +1,7 @@
 import type { Bi } from '../../../data/types'
 import { C, Svg, T } from '../kit'
 import { Flow, Mod, Num, Store, Var } from '../grammar'
+import { Axes, Bar, Dot, Label, Path, SIDE_COLOR, Vec, gauss, px, py, rng, trace, type Frame } from '../plot'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -67,6 +68,83 @@ function BackpropArch({ t }: FigProps) {
   )
 }
 
+/** The eligibility trace after co-activity at t = 0 (τ_e = 1 s) and the weight change for dopamine at 0.5 s or 3 s. */
+function EligibilityPlot({ t }: FigProps) {
+  const col = SIDE_COLOR.bio
+  const f: Frame = { x: 40, y: 34, w: 310, h: 120, xr: [-0.5, 4], yr: [0, 1.1] }
+  const e = (s: number) => (s < 0 ? 0 : Math.exp(-s))
+  const drop = (s: number) => (
+    <g>
+      <Vec x1={px(f, s)} y1={f.y - 16} x2={px(f, s)} y2={py(f, e(s)) - 6} color={C.lemonD} width={1.3} />
+      <Dot f={f} x={s} y={e(s)} color={col} />
+    </g>
+  )
+  return (
+    <Svg id="f07mb0" w={380} h={198} label={t(b('资格迹：共同活动留下的痕迹逐渐衰减，多巴胺来得越晚，突触改变越小', 'The eligibility trace: the mark left by co-activity fades, so the later dopamine arrives, the smaller the change'))}>
+      <Axes f={f} xTicks={[[0, '0'], [0.5, '0.5'], [1, '1'], [2, '2'], [3, '3'], [4, '4']]} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]}
+        xLabel={t(b('共同活动之后的时间（秒）', 'Time after co-activity (s)'))} />
+      <Label x={f.x - 4} y={14} s={t(b('资格迹 e', 'Trace e'))} anchor="start" />
+      <Path pts={trace(f, e, -0.5, 4, 200)} color={col} />
+      {drop(0.5)}
+      {drop(3)}
+      <Label x={px(f, 0.5) + 8} y={f.y - 10} s={t(b('多巴胺 0.5 秒后到：Δw ∝ 0.61', 'dopamine at 0.5 s: Δw ∝ 0.61'))} anchor="start" size={10} color={C.lemonD} />
+      <Label x={px(f, 3) - 6} y={py(f, 0.32)} s={t(b('3 秒后才到：\nΔw ∝ 0.05', 'at 3 s:\nΔw ∝ 0.05'))} anchor="end" size={10} color={C.lemonD} />
+    </Svg>
+  )
+}
+
+/** Weight perturbation in two dimensions: single-trial updates (g · ξ) ξ scatter in every direction, yet their average
+ * points along the gradient g. Forty seeded samples. */
+function PerturbationPlot({ t }: FigProps) {
+  const col = SIDE_COLOR.bio
+  const g = [1, 0.45], u = rng(11), k = 40, sc = 24, cx = 96, cy = 104
+  const ups = Array.from({ length: k }, () => { const xi = [gauss(u), gauss(u)]; const d = g[0] * xi[0] + g[1] * xi[1]; return [d * xi[0], d * xi[1]] })
+  const mean = [ups.reduce((a, v) => a + v[0], 0) / k, ups.reduce((a, v) => a + v[1], 0) / k]
+  const clip = ([a, c]: number[]) => { const l = Math.hypot(a, c), m = 3.3; return l > m ? [(a / l) * m, (c / l) * m] : [a, c] }
+  return (
+    <Svg id="f07mb1" w={380} h={200} label={t(b('扰动学习：每次更新的方向都很乱，平均起来指向梯度', 'Perturbation learning: each update points somewhere random, yet on average they point along the gradient'))}>
+      <circle cx={cx} cy={cy} r={3.3 * sc} fill="none" stroke={C.line} strokeDasharray="2 3" />
+      {ups.map((v, i) => { const [a, c] = clip(v); return <line key={i} x1={cx} y1={cy} x2={cx + a * sc} y2={cy - c * sc} stroke={C.dim} strokeOpacity={0.55} strokeWidth={1} /> })}
+      <Vec x1={cx} y1={cy} x2={cx + g[0] * sc * 2} y2={cy - g[1] * sc * 2} color={C.ink} width={1.4} dashed />
+      <Vec x1={cx} y1={cy} x2={cx + mean[0] * sc * 2} y2={cy - mean[1] * sc * 2} color={col} width={2.4} />
+      <Label x={200} y={58} s={t(b('细线：40 次单独的更新\n(R − R̄) ξ x，方向随噪声乱跳', 'Thin lines: 40 single updates\n(R − R̄) ξ x, scattered by noise'))} anchor="start" size={10} />
+      <Label x={200} y={110} s={t(b('粗箭头：它们的平均', 'Bold arrow: their average'))} anchor="start" size={10} color={col} />
+      <Label x={200} y={134} s={t(b('虚线箭头：真实梯度', 'Dashed arrow: the true gradient'))} anchor="start" size={10} color={C.ink} />
+      <Label x={cx} y={190} s={t(b('两个权重组成的平面（示意）', 'Plane of two weights (illustration)'))} size={10} />
+    </Svg>
+  )
+}
+
+/** Values of A, B, C after the first episode of the worked example, without and with an eligibility trace. */
+function TdTracePlot({ t }: FigProps) {
+  const col = SIDE_COLOR.comp
+  const f: Frame = { x: 40, y: 30, w: 230, h: 124, xr: [0.4, 3.6], yr: [0, 0.6] }
+  const l0 = [0, 0, 0.5], l5 = [0.125, 0.25, 0.5]
+  return (
+    <Svg id="f07mc1" w={380} h={198} label={t(b('第一次走完 A、B、C 后的价值：有资格迹时，奖赏一次就传回较早的状态', 'Values after the first pass through A, B, C: with a trace, the reward reaches earlier states at once'))}>
+      <Axes f={f} xTicks={[[1, 'A'], [2, 'B'], [3, 'C']]} yTicks={[[0, '0'], [0.25, '0.25'], [0.5, '0.5']]} xLabel={t(b('依次经过的状态，C 之后得到奖赏 1', 'States in order; reward 1 after C'))} yLabel={t(b('第一次之后的价值 V', 'Value V after one pass'))} grid />
+      {l0.map((v, i) => <Bar key={`a${i}`} f={f} x={i + 0.83} v={v} w={0.3} color={C.dim} />)}
+      {l5.map((v, i) => <Bar key={`b${i}`} f={f} x={i + 1.17} v={v} w={0.3} color={col} />)}
+      {l5.map((v, i) => <Label key={i} x={px(f, i + 1.17)} y={py(f, v) - 8} s={String(v)} size={10} color={col} />)}
+      <Label x={px(f, 0.83)} y={py(f, 0) - 8} s="0" size={10} />
+      <Label x={px(f, 1.83)} y={py(f, 0) - 8} s="0" size={10} />
+      <rect x={290} y={60} width={10} height={10} fill={C.dim} fillOpacity={0.35} stroke={C.dim} />
+      <Label x={306} y={65} s={t(b('λ = 0\n没有迹', 'λ = 0\nno trace'))} anchor="start" size={10} />
+      <rect x={290} y={98} width={10} height={10} fill={col} fillOpacity={0.35} stroke={col} />
+      <Label x={306} y={103} s={t(b('λ = 0.5\n有资格迹', 'λ = 0.5\nwith a trace'))} anchor="start" size={10} color={col} />
+    </Svg>
+  )
+}
+
 export const CREDIT_FIGS: TopicFigs = {
   arch: { brain: ThreeFactorArch, ai: BackpropArch },
+  math: {
+    bio: {
+      0: { Fig: EligibilityPlot, cap: b('共同活动在 $t = 0$ 把迹设为 $1$，之后按 $\\tau_e = 1$ 秒衰减。多巴胺 $0.5$ 秒后到达时迹还有 $0.61$，突触明显增强；$3$ 秒后才到只剩 $0.05$，几乎不变。所以奖赏只能回溯几个 $\\tau_e$。', 'Co-activity at $t = 0$ sets the trace to $1$, which then decays with $\\tau_e = 1$ s. Dopamine arriving after $0.5$ s finds $0.61$ and the synapse clearly strengthens; arriving after $3$ s it finds $0.05$ and almost nothing changes. Reward reaches back only a few $\\tau_e$.') },
+      1: { Fig: PerturbationPlot, cap: b('示意：两个权重时，每次的随机波动 $\\xi$ 不同，单次更新可能指向任何方向，甚至与梯度相反。把 40 次平均，结果就接近真实梯度。神经元越多，单次更新越乱，需要平均的次数越多，这就是全局信号学得慢的原因。', 'Illustration with two weights: the random fluctuation $\\xi$ differs each time, so a single update can point anywhere, even against the gradient. Averaged over 40 trials, the result is close to the true gradient. With more neurons each update is noisier and more trials are needed, which is why a global signal learns slowly.') },
+    },
+    comp: {
+      1: { Fig: TdTracePlot, cap: b('小例子中第一次走完 A、B、C 后的价值（$\\gamma = 1$、$\\alpha = 0.5$）。没有资格迹时只有 C 学到 $0.5$；$\\lambda = 0.5$ 时三者的迹为 $1$、$0.5$、$0.25$，一次就更新为 $0.5$、$0.25$、$0.125$。', 'Values after the first pass through A, B, C in the worked example, with $\\gamma = 1$ and $\\alpha = 0.5$. Without a trace only C learns $0.5$. With $\\lambda = 0.5$ the traces are $1$, $0.5$ and $0.25$, so one pass gives $0.5$, $0.25$ and $0.125$.') },
+    },
+  },
 }

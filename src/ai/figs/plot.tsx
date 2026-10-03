@@ -20,13 +20,25 @@ export interface Frame { x: number; y: number; w: number; h: number; xr: [number
 export const px = (f: Frame, v: number) => f.x + ((v - f.xr[0]) / (f.xr[1] - f.xr[0])) * f.w
 export const py = (f: Frame, v: number) => f.y + f.h - ((v - f.yr[0]) / (f.yr[1] - f.yr[0])) * f.h
 
-/** Sample `fn` over [from, to] (default: the frame's x range) into pixel points, clipped to the frame's y range. */
+/** Sample `fn` over [from, to] (default: the frame's x range) into pixel points. Where the curve leaves the frame's
+ * y range it is cut at the edge rather than flattened along it. */
 export function trace(f: Frame, fn: (x: number) => number, from = f.xr[0], to = f.xr[1], n = 160): [number, number][] {
-  return Array.from({ length: n + 1 }, (_, i) => {
-    const x = from + ((to - from) * i) / n
-    const y = Math.min(f.yr[1], Math.max(f.yr[0], fn(x)))
-    return [px(f, x), py(f, y)] as [number, number]
-  })
+  const [lo, hi] = f.yr
+  const inside = (y: number) => y >= lo && y <= hi
+  const pts: [number, number][] = []
+  let prev: [number, number] | undefined
+  for (let i = 0; i <= n; i++) {
+    const x = from + ((to - from) * i) / n, y = fn(x)
+    if (prev && inside(y) !== inside(prev[1])) {
+      // the crossing with the edge, by linear interpolation
+      const edge = inside(y) ? (prev[1] > hi ? hi : lo) : (y > hi ? hi : lo)
+      const k = (edge - prev[1]) / (y - prev[1])
+      pts.push([px(f, prev[0] + k * (x - prev[0])), py(f, edge)])
+    }
+    if (inside(y)) pts.push([px(f, x), py(f, y)])
+    prev = [x, y]
+  }
+  return pts
 }
 
 /** Tick number or short tick text. */
@@ -47,7 +59,8 @@ export function Axes({ f, xTicks = [], yTicks = [], xLabel, yLabel, grid }: {
       {xTicks.map(([v, s]) => (
         <g key={`x${v}`}>
           <line x1={px(f, v)} x2={px(f, v)} y1={bottom} y2={bottom + 3} stroke={C.dim} strokeWidth={1} />
-          <Tick x={px(f, v)} y={bottom + 11} s={s} />
+          {/* the first tick label leans right, clear of the y axis's lowest label */}
+          {v === f.xr[0] ? <Tick x={px(f, v) - 3} y={bottom + 11} s={s} anchor="start" /> : <Tick x={px(f, v)} y={bottom + 11} s={s} />}
         </g>
       ))}
       {yTicks.map(([v, s]) => (
@@ -115,3 +128,26 @@ export function rng(seed: number) {
 
 /** A standard normal sample from a uniform generator. */
 export const gauss = (u: () => number) => Math.sqrt(-2 * Math.log(1 - u())) * Math.cos(2 * Math.PI * u())
+
+/** A heatmap of values in [−1, 1] (or [0, 1]): positive cells in `pos`, negative cells in `neg`, opacity by size. */
+export function Heat({ x, y, cell, vals, pos, neg = C.lavD, gap = 0.6 }: { x: number; y: number; cell: number; vals: number[][]; pos: string; neg?: string; gap?: number }) {
+  return (
+    <g>
+      {vals.map((row, r) => row.map((v, c) => (
+        <rect key={`${r}-${c}`} x={x + c * cell} y={y + r * cell} width={cell - gap} height={cell - gap} fill={v >= 0 ? pos : neg} fillOpacity={0.06 + 0.86 * Math.min(1, Math.abs(v))} />
+      )))}
+    </g>
+  )
+}
+
+/** An arrow in pixel space, with a head drawn inline so it takes any color. */
+export function Vec({ x1, y1, x2, y2, color, width = 1.6, opacity = 1, dashed }: { x1: number; y1: number; x2: number; y2: number; color: string; width?: number; opacity?: number; dashed?: boolean }) {
+  const a = Math.atan2(y2 - y1, x2 - x1), h = 4 + width * 1.5
+  const p = (d: number) => `${x2 - h * Math.cos(a + d)},${y2 - h * Math.sin(a + d)}`
+  return (
+    <g opacity={opacity}>
+      <line x1={x1} y1={y1} x2={x2 - h * 0.6 * Math.cos(a)} y2={y2 - h * 0.6 * Math.sin(a)} stroke={color} strokeWidth={width} strokeDasharray={dashed ? '4 3' : undefined} />
+      <polygon points={`${x2},${y2} ${p(0.45)} ${p(-0.45)}`} fill={color} />
+    </g>
+  )
+}
