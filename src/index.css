@@ -499,8 +499,11 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .ai-page .lead { font-size: 16px; line-height: 1.85; color: var(--text); }
 .ai-page a { color: var(--accent); }
 .muted { color: var(--text-dim); }
-.crumbs { display: flex; gap: 12px; align-items: center; font-size: 12px; color: var(--text-dim); }
-.crumbs button { background: none; border: 0; color: var(--accent); cursor: pointer; padding: 0; font-size: 12px; }
+.crumbs { display: flex; gap: 14px; align-items: center; margin-bottom: 14px; font-size: 13px; color: var(--text-dim); }
+/* the way back: the shared pill button (outline drawn on hover), a size up, its arrow nudging left */
+.crumbs .crumb-back { padding: 6px 14px 6px 11px; font-size: 13px; color: var(--text); }
+.crumbs .crumb-back svg { width: 14px; height: 14px; transition: transform .25s var(--ease); }
+.crumbs .crumb-back:hover svg { transform: translateX(-2px); }
 
 .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; border: 1px solid var(--panel-border); border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
 .badge.ev { color: var(--text-dim); }

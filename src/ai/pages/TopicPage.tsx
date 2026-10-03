@@ -281,8 +281,8 @@ export function TopicPage({ topic }: { topic: Topic }) {
   return (
     <article className="ai-page card-page topic-page">
       <div className="crumbs">
-        <button onClick={() => go('/ai')}>{t(UI.backToLadder)}</button>
-        <span>{t(UI.functionalDomains)} · {domain.id} {t(domain.name)} · {topic.code}</span>
+        <button className="btn-sm crumb-back" onClick={() => go('/ai')}><Icon name="arrow-left" />{t(UI.backToLadder)}</button>
+        <span>{t(UI.functionalDomains)} · {t(domain.name)}</span>
       </div>
       <span className="topic-kicker">{t(topic.name)}</span>
       <h1><ComparisonText text={`${bio} ↔ ${comp}`} /></h1>

@@ -18,8 +18,8 @@ export function Blueprint({ moduleId }: { moduleId?: string }) {
   return (
     <article className="ai-page">
       <div className="crumbs">
-        <button onClick={() => go('/ai')}>{t(UI.backToLadder)}</button>
-        <span>{t(UI.crossCuttingTopics)} · {BLUEPRINT.id} {t(BLUEPRINT.name)}</span>
+        <button className="btn-sm crumb-back" onClick={() => go('/ai')}><Icon name="arrow-left" />{t(UI.backToLadder)}</button>
+        <span>{t(UI.crossCuttingTopics)} · {t(BLUEPRINT.name)}</span>
       </div>
       <h1>{t(UI.blueprintTitle)}</h1>
       <p className="lead">{t(UI.blueprintIntro)}</p>

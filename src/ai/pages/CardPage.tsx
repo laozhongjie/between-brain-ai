@@ -182,12 +182,12 @@ function useCardPlace(card: Card) {
   const group = mechOfCard(card.id)
   if (group) {
     const scale = SCALES.find((sc) => sc.id === group.scale)!
-    return { crumb: `${t(UI.scaleIndex)} · ${t(scale.name)} · ${group.id} ${t(group.name)}`, group, topics: [] as ReturnType<typeof topicsOfLegacy> }
+    return { crumb: `${t(UI.scaleIndex)} · ${t(scale.name)} · ${t(group.name)}`, group, topics: [] as ReturnType<typeof topicsOfLegacy> }
   }
   const topics = topicsOfLegacy(card.id)
   const domain = topics[0] && DOMAINS.find((d) => d.topics.includes(topics[0].id))
   const cross = CROSS_TOPICS.find((x) => x.legacy === card.id)
-  const crumb = domain ? `${t(UI.functionalDomains)} · ${domain.id} ${t(domain.name)}` : cross ? `${t(UI.crossCuttingTopics)} · ${cross.id} ${t(cross.name)}` : ''
+  const crumb = domain ? `${t(UI.functionalDomains)} · ${t(domain.name)}` : cross ? `${t(UI.crossCuttingTopics)} · ${t(cross.name)}` : ''
   return { crumb, group: undefined, topics }
 }
 
@@ -213,7 +213,7 @@ export function CardPage({ card }: { card: Card }) {
   return (
     <article className="ai-page card-page">
       <div className="crumbs">
-        <button onClick={() => go('/ai')}>{t(UI.backToLadder)}</button>
+        <button className="btn-sm crumb-back" onClick={() => go('/ai')}><Icon name="arrow-left" />{t(UI.backToLadder)}</button>
         {place.crumb && <span>{place.crumb}</span>}
       </div>
       <h1><ComparisonText text={t(card.title)} /></h1>

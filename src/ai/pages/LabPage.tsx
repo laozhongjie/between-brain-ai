@@ -13,7 +13,7 @@ export function LabPage({ id }: { id: string }) {
   const cards = CARDS.filter((c) => c.lab === id)
   return (
     <article className="ai-page">
-      <div className="crumbs"><button onClick={() => go('/ai')}>{t(UI.backToLadder)}</button></div>
+      <div className="crumbs"><button className="btn-sm crumb-back" onClick={() => go('/ai')}><Icon name="arrow-left" />{t(UI.backToLadder)}</button></div>
       <h1><Icon name="flask" size={22} /><Rich text={t(lab.title)} /></h1>
       <lab.component />
       <h3>{t(UI.relatedCards)}</h3>
