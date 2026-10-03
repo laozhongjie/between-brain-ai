@@ -441,12 +441,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   height: 100%; overflow-y: auto; padding: 10px 12px 24px 16px; background: none;
   backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px);
 }
-/* a luminous edge along the open side */
-.ai-drawer::before {
-  content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 1px; pointer-events: none;
-  background: linear-gradient(180deg, transparent, rgba(255,255,255,0.8) 30%, rgba(255,255,255,0.4) 70%, transparent);
-  box-shadow: 0 0 10px 1px rgba(255,255,255,0.3);
-}
+/* a plain hairline along the open side */
+.ai-drawer::before { content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 1px; pointer-events: none; background: var(--panel-border); }
 .ai-nav button { display: block; width: 100%; text-align: left; background: none; border: 0; border-radius: 5px; padding: 3px 8px; font-size: 12.5px; color: var(--text-dim); cursor: pointer; }
 .ai-nav button:hover { color: var(--text-h); background: rgba(170,195,230,0.06); }
 .ai-nav button.on { color: var(--text-h); background: var(--accent-soft); }
