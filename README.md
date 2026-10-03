@@ -135,12 +135,12 @@ flowchart LR
     pathways["pathways"]
     scenario["scenario · tours"]
   end
-  subgraph sim["src/sim (ticked every frame)"]
+  subgraph sim["src/sim · every frame"]
     director["director<br>day script, narration"]
     engine["engine<br>Wilson–Cowan network,<br>brain state, EEG"]
     signals["signals<br>pulses along pathways"]
   end
-  subgraph views["views (read typed arrays per frame)"]
+  subgraph views["views"]
     scene["3D scene<br>React Three Fiber"]
     schematic["2D schematic<br>SVG + overlay"]
     panels["panels<br>body, EEG, narration"]
