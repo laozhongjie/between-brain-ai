@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
+import { Rich } from '../Tex'
 import { FONT_MONO } from '../../theme'
 import { C } from './kit'
 import type { Side } from './grammar'
@@ -149,5 +150,20 @@ export function Vec({ x1, y1, x2, y2, color, width = 1.6, opacity = 1, dashed }:
       <line x1={x1} y1={y1} x2={x2 - h * 0.6 * Math.cos(a)} y2={y2 - h * 0.6 * Math.sin(a)} stroke={color} strokeWidth={width} strokeDasharray={dashed ? '4 3' : undefined} />
       <polygon points={`${x2},${y2} ${p(0.45)} ${p(-0.45)}`} fill={color} />
     </g>
+  )
+}
+
+/** A slider under an interactive figure: what it changes, the control, and a live readout. Starts at the worked
+ * example's value, so the figure as first shown matches the caption. */
+export function FigSlider({ label, value, min, max, step, onChange, readout }: {
+  label: string; value: number; min: number; max: number; step: number; onChange: (v: number) => void; readout: string
+}) {
+  return (
+    <label className="fig-slider">
+      <span><Rich text={label} /></span>
+      <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(+e.target.value)}
+        style={{ '--v': `${((value - min) / (max - min)) * 100}%` } as CSSProperties} />
+      <output><Rich text={readout} /></output>
+    </label>
   )
 }

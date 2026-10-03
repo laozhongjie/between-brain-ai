@@ -1,7 +1,8 @@
+import { useState } from 'react'
 import type { Bi } from '../../../data/types'
 import { C, Svg, T } from '../kit'
 import { Flow, Gap, Mod, Num, Region, Store, Var } from '../grammar'
-import { Axes, Bar, Dot, Label, Path, Ref, SIDE_COLOR, STEPS, Tick, px, py, trace, type Frame } from '../plot'
+import { Axes, Bar, Dot, FigSlider, Label, Path, Ref, SIDE_COLOR, STEPS, Tick, px, py, trace, type Frame } from '../plot'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -72,25 +73,36 @@ function ContextStateArch({ t }: FigProps) {
   )
 }
 
-/** Persistent activity: decay after the input ends, τ_eff = τ / (1 − w) with τ = 10 ms. */
+/** Persistent activity, interactive: drag w to see the decay after the input ends (left) and where w sits on
+ * τ_eff = τ / (1 − w), τ = 10 ms (right, log scale). Starts at the worked example's w = 0.99. */
 function PersistentDecayPlot({ t }: FigProps) {
-  const f: Frame = { x: 44, y: 28, w: 250, h: 140, xr: [0, 1000], yr: [0, 1] }
+  const [w, setW] = useState(0.99)
   const col = SIDE_COLOR.bio
   const e = Math.exp(-1)
+  const tauOf = (v: number) => 10 / (1 - v)
+  const tau = tauOf(w)
+  const f: Frame = { x: 40, y: 30, w: 196, h: 128, xr: [0, 1000], yr: [0, 1] }
+  const f2: Frame = { x: 296, y: 30, w: 70, h: 128, xr: [0.8, 1], yr: [1, 4] }
+  const left = Math.exp(-1000 / tau)
+  const fmt = (raw: number) => { const ms = Math.round(raw); return ms < 1000 ? t(b(`${Math.round(ms)} 毫秒`, `${Math.round(ms)} ms`)) : t(b(`${(ms / 1000).toFixed(ms < 9995 ? 2 : 1)} 秒`, `${(ms / 1000).toFixed(ms < 9995 ? 2 : 1)} s`)) }
   return (
-    <Svg id="f11mb0" w={380} h={206} label={t(b('输入结束后活动的衰减：w 越接近 1，保持越久', 'Decay after the input ends: the closer w is to 1, the longer the hold'))}>
-      <Axes f={f} xTicks={[[0, '0'], [250, '250'], [500, '500'], [750, '750'], [1000, '1000']]} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]}
-        xLabel={t(b('输入结束后的时间（毫秒）', 'Time after the input ends (ms)'))} yLabel={t(b('活动，相对输入结束时', 'Activity, relative to input offset'))} />
-      <Ref f={f} y={e} />
-      <Label x={f.x - 5} y={py(f, e)} s="1/e" anchor="end" size={10} />
-      {[0, 0.9, 0.99, 0.999].map((w, i) => <Path key={w} pts={trace(f, (x) => Math.exp((-x * (1 - w)) / 10), 0, 1000, 400)} color={col} opacity={STEPS[i]} />)}
-      <Dot f={f} x={100} y={e} color={col} />
-      <Dot f={f} x={1000} y={e} color={col} />
-      <Label x={px(f, 0) + 8} y={py(f, 0.1)} s="w = 0" anchor="start" color={col} />
-      <Label x={px(f, 100) + 7} y={py(f, e) - 9} s={t(b('w = 0.9，100 毫秒', 'w = 0.9, 100 ms'))} anchor="start" color={col} />
-      <Label x={f.x + f.w + 6} y={py(f, e)} s={t(b('w = 0.99\n1 秒', 'w = 0.99\n1 s'))} anchor="start" color={col} />
-      <Label x={f.x + f.w + 6} y={py(f, Math.exp(-0.1))} s={t(b('w = 0.999\n10 秒', 'w = 0.999\n10 s'))} anchor="start" color={col} />
-    </Svg>
+    <>
+      <Svg id="f11mb0" w={380} h={200} label={t(b('输入结束后活动的衰减，以及有效时间常数随 w 的变化：w 越接近 1，保持越久', 'Decay after the input ends, and the effective time constant against w: the closer w is to 1, the longer the hold'))}>
+        <Axes f={f} xTicks={[[0, '0'], [500, '500'], [1000, '1000']]} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]}
+          xLabel={t(b('输入结束后（毫秒）', 'After the input ends (ms)'))} yLabel={t(b('活动，相对输入结束时', 'Activity, relative to offset'))} />
+        <Ref f={f} y={e} />
+        <Label x={f.x - 5} y={py(f, e)} s="1/e" anchor="end" size={10} />
+        <Path pts={trace(f, (x) => Math.exp(-x / tau), 0, 1000, 300)} color={col} width={2.2} />
+        {tau <= 1000 && <Dot f={f} x={tau} y={e} color={col} />}
+        <Label x={f.x + f.w + 6} y={py(f, left) - 11} s={`${Math.round(left * 100)}%`} anchor="start" size={10} color={col} />
+        <Axes f={f2} xTicks={[[0.8, '0.8'], [0.9, '0.9'], [1, '1']]} yTicks={[[1, '10ms'], [2, '100ms'], [3, '1s'], [4, '10s']]} xLabel="w" grid />
+        <text x={f2.x - 4} y={f2.y - 12} fontSize={11} fill={C.dim} dominantBaseline="middle">τ<tspan fontSize={8} dy={3}>eff</tspan></text>
+        <Path pts={trace(f2, (v) => Math.log10(tauOf(v)), 0.8, 0.999, 200)} color={col} opacity={0.45} />
+        <Dot f={f2} x={w} y={Math.log10(tau)} color={col} r={4} />
+      </Svg>
+      <FigSlider label={t(b('循环强度 $w$', 'Recurrent strength $w$'))} value={w} min={0.8} max={0.999} step={0.001} onChange={setW}
+        readout={`$w = ${w.toFixed(3)}$${t(b('，', ', '))}$\\tau_{\\text{eff}} =$ ${fmt(tau)}`} />
+    </>
   )
 }
 
@@ -188,7 +200,7 @@ export const WORKING_MEMORY_FIGS: TopicFigs = {
   arch: { brain: WorkingMemoryArch, ai: ContextStateArch },
   math: {
     bio: {
-      0: { Fig: PersistentDecayPlot, cap: b('输入结束后活动按 $e^{-t/\\tau_{\\text{eff}}}$ 衰减。圆点是降到 $1/e$ 的时刻：$w$ 从 $0.9$ 到 $0.99$ 只差 $0.09$，保持时间却从 100 毫秒变成 1 秒。', 'After the input ends, activity decays as $e^{-t/\\tau_{\\text{eff}}}$. Dots mark where it falls to $1/e$: moving $w$ from $0.9$ to $0.99$, a change of only $0.09$, stretches the hold from 100 ms to 1 s.') },
+      0: { Fig: PersistentDecayPlot, cap: b('拖动滑块改变 $w$。左：输入结束后活动按 $e^{-t/\\tau_{\\text{eff}}}$ 衰减，圆点是降到 $1/e$ 的时刻，右端是 1 秒后还剩多少。右：$\\tau_{\\text{eff}} = \\tau/(1 - w)$，纵轴为对数。从 $0.9$ 拖到 $0.99$，保持时间从 100 毫秒变成 1 秒；再到 $0.999$ 就是 10 秒，越接近 $1$ 越陡。', 'Drag the slider to change $w$. Left: after the input ends, activity decays as $e^{-t/\\tau_{\\text{eff}}}$; the dot marks where it falls to $1/e$, and the right end shows what is left after 1 s. Right: $\\tau_{\\text{eff}} = \\tau/(1 - w)$ on a log axis. From $0.9$ to $0.99$ the hold grows from 100 ms to 1 s, and at $0.999$ it is 10 s: the curve steepens as $w$ nears $1$.') },
       1: { Fig: FacilitationPlot, cap: b('8 次放电（$U = 0.2$）把 $u$ 推高、把 $x$ 耗尽。停止放电后，$x$ 在约 0.2 秒内恢复，$u$ 要 1.5 秒量级才回到基线，这段时间里突触保存了「刚才谁在放电」。', 'Eight spikes, with $U = 0.2$, push $u$ up and drain $x$. After firing stops, $x$ recovers within about 0.2 s while $u$ takes on the order of 1.5 s to return to baseline, and during that time the synapses store which group just fired.') },
     },
     comp: {
