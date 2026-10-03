@@ -551,6 +551,13 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .dir-card-pair > span { position: relative; padding-left: 13px; text-wrap: balance; }
 .dir-card-pair > span::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 5px; height: 5px; border-radius: 50%; background: var(--pink); }
 .dir-card-pair > .comp::before { background: var(--accent); }
+/* English runs wider than Chinese: a size smaller, and lines filled as usual (balanced lines would break early
+   around long words), only the last line kept from ending on a lone word */
+:root[lang='en'] .dir-row { grid-template-columns: 240px minmax(0, 1fr); }
+:root[lang='en'] :is(.dir-head h2, .dir-head p) { text-wrap: pretty; }
+:root[lang='en'] .dir-card-title { font-size: 14px; text-wrap: pretty; }
+:root[lang='en'] .dir-card-pair { font-size: 12px; }
+:root[lang='en'] .dir-card-pair > span { text-wrap: pretty; }
 .dir-card-desc { text-wrap: pretty; font-size: 13px; line-height: 1.5; color: var(--text-dim); }
 .dir-card-status { margin-top: auto; font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); }
 .dir-card-go { position: absolute; top: 15px; right: 12px; color: var(--accent); opacity: 0; transform: translateX(-4px); transition: opacity .25s, transform .25s var(--ease); }
