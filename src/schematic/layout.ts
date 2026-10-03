@@ -329,6 +329,12 @@ export function makeLayout(k = 1): Layout {
     const s2 = sides(e)
     const p0 = port(from, s2.src!)
     const p1 = port(to, s2.dst!)
+    if (e.id === 'inferiortemporal>entorhinal') {
+      const leftOfA1 = byKey.transversetemporal.x - hw - 12
+      const entorhinalLeft = port(to, 'L')
+      const clearY = p0[1] + 8
+      return [p0, [p0[0], clearY], [leftOfA1, clearY], [leftOfA1, entorhinalLeft[1]], entorhinalLeft]
+    }
     if (c.col > a.col) {
       // feedforward
       if (c.col === a.col + 1 || (a.y === c.y && !rowBlocked(a.y, a.col, c.col))) {

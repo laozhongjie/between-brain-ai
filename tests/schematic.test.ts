@@ -67,7 +67,21 @@ describe.each([1, 1.2, 1.5, 1.8])('schematic routing (stretch %s)', (k) => {
       const p = L.routes[e.id]
       const [x, y] = p[p.length - 1]
       if (c.col > a.col) expect(near(x, c.x - hw), `${e.id} should enter left`).toBe(true)
-      if (c.col < a.col) expect(near(y, c.y + hh), `${e.id} should enter bottom`).toBe(true)
+      if (c.col < a.col && e.id !== 'inferiortemporal>entorhinal') expect(near(y, c.y + hh), `${e.id} should enter bottom`).toBe(true)
     }
+  })
+
+  it('routes memory encoding past A1 left to entorhinal left', () => {
+    const edge = L.edges.find((e) => e.id === 'inferiortemporal>entorhinal')
+    expect(edge).toBeDefined()
+    const route = L.routes[edge!.id]
+    const a1 = L.byKey.transversetemporal
+    const inferiorTemporal = L.byKey.inferiortemporal
+    const entorhinal = L.byKey.entorhinal
+    expect(near(route[0][0], inferiorTemporal.x)).toBe(true)
+    expect(near(route[1][0], inferiorTemporal.x)).toBe(true)
+    expect(route[1][1]).toBeGreaterThan(route[0][1])
+    expect(near(route[route.length - 1][0], entorhinal.x - hw)).toBe(true)
+    expect(route.some(([x]) => near(x, a1.x - hw - 12))).toBe(true)
   })
 })
