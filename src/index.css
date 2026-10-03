@@ -530,11 +530,12 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .ai-stats dt { margin-top: 10px; font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); white-space: nowrap; }
 .ai-page h3.dir-title { margin: 44px 0 6px; }
 .dir { border-bottom: 1px solid var(--panel-border); }
-.dir-row { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 32px; padding: 20px 0; border-top: 1px solid var(--panel-border); }
+.dir-row { display: grid; grid-template-columns: 310px minmax(0, 1fr); gap: 32px; padding: 20px 0; border-top: 1px solid var(--panel-border); }
 .dir-head { display: flex; flex-direction: column; gap: 4px; }
 .dir-no { font: 400 12px/1.4 var(--label); letter-spacing: 0.14em; color: var(--accent); }
-.ai-page .dir-head h2 { margin: 0; font-size: 19px; line-height: 1.35; }
-.ai-page .dir-head p { margin: 2px 0 0; font-size: 13px; line-height: 1.5; color: var(--text-dim); }
+.ai-page .dir-head h2 { margin: 0; font-size: 19px; line-height: 1.35; text-wrap: balance; }
+/* 310px: every Chinese description fits one line; English ones balance over two */
+.ai-page .dir-head p { margin: 2px 0 0; font-size: 13px; line-height: 1.5; color: var(--text-dim); text-wrap: balance; }
 .dir-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; align-content: start; }
 .dir-cards[class*='cols-'] { grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); }
 .dir-cards.wide { margin-top: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
