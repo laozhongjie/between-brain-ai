@@ -442,6 +442,20 @@ export const REFS: Ref[] = [
   { id: 'vandeven2020', authors: 'van de Ven, G. M., Siegelmann, H. T. & Tolias, A. S.', year: 2020, title: 'Brain-inspired replay for continual learning with artificial neural networks', venue: 'Nature Communications 11, 4069', url: doi('10.1038/s41467-020-17866-2') },
   { id: 'lin2025', authors: 'Lin, K. et al.', year: 2025, title: 'Sleep-time compute: beyond inference scaling at test-time', venue: 'arXiv', url: arxiv('2504.13171') },
   { id: 'hayes2021', authors: 'Hayes, T. L. et al.', year: 2021, title: 'Replay in deep learning: current approaches and missing biological elements', venue: 'Neural Computation 33(11), 2908–2950', url: doi('10.1162/neco_a_01433') },
+  // ── X02 Efficiency, resources and physical implementation ──
+  { id: 'raichle2002', authors: 'Raichle, M. E. & Gusnard, D. A.', year: 2002, title: 'Appraising the brain’s energy budget', venue: 'PNAS 99(16), 10237–10239', url: doi('10.1073/pnas.172399499') },
+  { id: 'harris2012', authors: 'Harris, J. J., Jolivet, R. & Attwell, D.', year: 2012, title: 'Synaptic energy use and supply', venue: 'Neuron 75(5), 762–777', url: doi('10.1016/j.neuron.2012.08.019') },
+  { id: 'lennie2003', authors: 'Lennie, P.', year: 2003, title: 'The cost of cortical computation', venue: 'Current Biology 13(6), 493–497', url: doi('10.1016/S0960-9822(03)00135-0') },
+  { id: 'levy2021', authors: 'Levy, W. B. & Calvert, V. G.', year: 2021, title: 'Communication consumes 35 times more energy than computation in the human cortex, but both costs are needed to predict synapse number', venue: 'PNAS 118(18), e2008173118', url: doi('10.1073/pnas.2008173118') },
+  { id: 'levy1996', authors: 'Levy, W. B. & Baxter, R. A.', year: 1996, title: 'Energy efficient neural codes', venue: 'Neural Computation 8(3), 531–543', url: doi('10.1162/neco.1996.8.3.531') },
+  { id: 'horowitz2014', authors: 'Horowitz, M.', year: 2014, title: 'Computing’s energy problem (and what we can do about it)', venue: 'IEEE ISSCC 2014, 10–14', url: doi('10.1109/ISSCC.2014.6757323') },
+  { id: 'williams2009', authors: 'Williams, S., Waterman, A. & Patterson, D.', year: 2009, title: 'Roofline: an insightful visual performance model for multicore architectures', venue: 'Communications of the ACM 52(4), 65–76', url: doi('10.1145/1498765.1498785') },
+  { id: 'patterson2021', authors: 'Patterson, D. et al.', year: 2021, title: 'Carbon emissions and large neural network training', venue: 'arXiv', url: arxiv('2104.10350') },
+  { id: 'elsworth2025', authors: 'Elsworth, C. et al.', year: 2025, title: 'Measuring the environmental impact of delivering AI at Google scale', venue: 'arXiv', url: arxiv('2508.15734') },
+  { id: 'merolla2014', authors: 'Merolla, P. A. et al.', year: 2014, title: 'A million spiking-neuron integrated circuit with a scalable communication network and interface', venue: 'Science 345(6197), 668–673', url: doi('10.1126/science.1254642') },
+  { id: 'davies2018', authors: 'Davies, M. et al.', year: 2018, title: 'Loihi: a neuromorphic manycore processor with on-chip learning', venue: 'IEEE Micro 38(1), 82–99', url: doi('10.1109/MM.2018.112130359') },
+  { id: 'dettmers2022', authors: 'Dettmers, T., Lewis, M., Belkada, Y. & Zettlemoyer, L.', year: 2022, title: 'LLM.int8(): 8-bit matrix multiplication for transformers at scale', venue: 'NeurIPS 2022', url: arxiv('2208.07339') },
+  { id: 'dao2022', authors: 'Dao, T., Fu, D. Y., Ermon, S., Rudra, A. & Ré, C.', year: 2022, title: 'FlashAttention: fast and memory-efficient exact attention with IO-awareness', venue: 'NeurIPS 2022', url: arxiv('2205.14135') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

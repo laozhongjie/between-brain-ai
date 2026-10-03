@@ -26,6 +26,7 @@ import { MULTISENSORY } from './multisensory'
 import { AUDITORY_SCENE } from './auditory-scene'
 import { VISUAL_RECOGNITION } from './visual-recognition'
 import { SLEEP_OFFLINE } from './sleep-offline'
+import { EFFICIENCY } from './efficiency'
 
 /** Topics (functional and cross-domain) that have their own page, keyed by topic id. The rest still open their old card or are in progress. */
 export const TOPIC_CONTENT: Record<string, TopicContent> = {
@@ -56,4 +57,5 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   'innate-constraints': INNATE_CONSTRAINTS,
   'developmental-stages': DEVELOPMENTAL_STAGES,
   'sleep-offline': SLEEP_OFFLINE,
+  'efficiency': EFFICIENCY,
 }
