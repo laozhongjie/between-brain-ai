@@ -85,6 +85,7 @@ function PersistentDecayPlot({ t }: FigProps) {
   const f2: Frame = { x: 296, y: 30, w: 70, h: 128, xr: [0.8, 1], yr: [1, 4] }
   const left = Math.exp(-1000 / tau)
   const fmt = (raw: number) => { const ms = Math.round(raw); return ms < 1000 ? t(b(`${Math.round(ms)} 毫秒`, `${Math.round(ms)} ms`)) : t(b(`${(ms / 1000).toFixed(ms < 9995 ? 2 : 1)} 秒`, `${(ms / 1000).toFixed(ms < 9995 ? 2 : 1)} s`)) }
+  const readout = (v: number) => `$w = ${v.toFixed(3)}$${t(b('，', ', '))}$\\tau_{\\text{eff}} =$ ${fmt(tauOf(v))}`
   return (
     <>
       <Svg id="f11mb0" w={380} h={200} label={t(b('输入结束后活动的衰减，以及有效时间常数随 w 的变化：w 越接近 1，保持越久', 'Decay after the input ends, and the effective time constant against w: the closer w is to 1, the longer the hold'))}>
@@ -101,7 +102,7 @@ function PersistentDecayPlot({ t }: FigProps) {
         <Dot f={f2} x={w} y={Math.log10(tau)} color={col} r={4} />
       </Svg>
       <FigSlider label={t(b('循环强度 $w$', 'Recurrent strength $w$'))} value={w} min={0.8} max={0.999} step={0.001} onChange={setW}
-        readout={`$w = ${w.toFixed(3)}$${t(b('，', ', '))}$\\tau_{\\text{eff}} =$ ${fmt(tau)}`} />
+        readout={readout(w)} widest={[0.989, 0.995, 0.999].map(readout)} />
     </>
   )
 }

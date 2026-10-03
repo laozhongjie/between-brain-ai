@@ -154,16 +154,21 @@ export function Vec({ x1, y1, x2, y2, color, width = 1.6, opacity = 1, dashed }:
 }
 
 /** A slider under an interactive figure: what it changes, the control, and a live readout. Starts at the worked
- * example's value, so the figure as first shown matches the caption. */
-export function FigSlider({ label, value, min, max, step, onChange, readout }: {
-  label: string; value: number; min: number; max: number; step: number; onChange: (v: number) => void; readout: string
+ * example's value, so the figure as first shown matches the caption. `widest` lists readouts at the values where the
+ * text is longest; they are laid invisibly under the live one, so the readout keeps one width and the slider never
+ * shifts while dragging. */
+export function FigSlider({ label, value, min, max, step, onChange, readout, widest = [] }: {
+  label: string; value: number; min: number; max: number; step: number; onChange: (v: number) => void; readout: string; widest?: string[]
 }) {
   return (
     <label className="fig-slider">
       <span><Rich text={label} /></span>
       <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(+e.target.value)}
         style={{ '--v': `${((value - min) / (max - min)) * 100}%` } as CSSProperties} />
-      <output><Rich text={readout} /></output>
+      <output>
+        {widest.map((w, i) => <span key={i} className="fig-slider-sizer" aria-hidden="true"><Rich text={w} /></span>)}
+        <span><Rich text={readout} /></span>
+      </output>
     </label>
   )
 }
