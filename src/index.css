@@ -280,7 +280,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 /* ── Focus (single system) panel ── */
 .focusing .bottom { grid-template-columns: 1fr; }
-.focus-panel { border-top: 1px solid var(--c); box-shadow: var(--shadow), 0 -8px 30px -18px var(--c); display: flex; flex-direction: column; gap: 8px; }
+.focus-panel { border-top: 1px solid var(--c); border-radius: 999px; box-shadow: var(--shadow), 0 -8px 30px -18px var(--c); display: flex; flex-direction: column; gap: 8px; }
 .focus-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
 .focus-name { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; flex: 1; min-width: 260px; }
 .focus-name strong { font-size: 17px; color: var(--ci); }
@@ -314,7 +314,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .focus-steps button.on { border-color: var(--c); color: var(--text-h); background: color-mix(in srgb, var(--c) 20%, transparent); }
 .step-no { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; background: rgba(170,195,230,0.09); }
 .focus-steps button.on .step-no { background: var(--ci); color: var(--bg); }
-.focus-body { display: grid; grid-template-columns: 36px 1fr 36px; gap: 10px; align-items: center; }
+.focus-body { display: grid; grid-template-columns: 36px 1fr 36px; gap: 16px; align-items: center; }
 .step-nav { width: 100%; max-width: 60px; aspect-ratio: 1; height: auto; border-radius: 50%; border: 1px solid var(--panel-border); background: rgba(170,195,230,0.05); cursor: pointer; font-size: 14px; }
 .step-nav:hover:not(:disabled) { border-color: var(--ci); }
 .step-nav:disabled { opacity: 0.3; cursor: default; }
@@ -1148,7 +1148,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   .atlas .focus-steps { grid-column: 2; grid-row: 1; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; align-items: center; }
   .atlas .focus-steps button { white-space: nowrap; }
   .atlas .focus-actions { grid-column: 3; grid-row: 1; }
-  .atlas .focus-body { grid-column: 1 / -1; grid-row: 2; grid-template-columns: 30px 1fr 30px; min-height: 0; }
+  .atlas .focus-body { grid-column: 1 / -1; grid-row: 2; grid-template-columns: 40px 1fr 40px; gap: 16px; min-height: 0; }
   .atlas .step-nav { width: 40px; height: 40px; max-width: none; max-height: none; }
   .atlas .focus-text { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
   .atlas .focus-step-title { flex: none; margin: 0; font-size: 13.5px; }
