@@ -286,14 +286,30 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .focus-name strong { font-size: 17px; color: var(--ci); }
 .focus-summary { font-size: 12.5px; color: var(--text-dim); }
 .focus-actions { display: flex; gap: 6px; }
-.btn-sm { display: inline-flex; align-items: center; gap: 6px; background: rgba(170,195,230,0.04); border: 1px solid var(--panel-border); border-radius: 8px; padding: 4px 10px; font-size: 12px; cursor: pointer; white-space: nowrap; transition: border-color .2s, color .2s, background .2s; }
+.btn-sm { position: relative; display: inline-flex; align-items: center; gap: 6px; background: rgba(170,195,230,0.04); border: 1px solid var(--panel-border); border-radius: 999px; padding: 4px 10px; font-size: 12px; cursor: pointer; white-space: nowrap; transition: color .25s var(--ease), background .25s var(--ease); }
+.btn-sm::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; border: 1px solid var(--line-hi); pointer-events: none;
+  -webkit-mask: conic-gradient(from 270deg, #000 var(--p), transparent 0); mask: conic-gradient(from 270deg, #000 var(--p), transparent 0);
+  transition: --p .5s var(--ease), border-color .25s var(--ease);
+}
 .btn-sm svg { width: 13px; height: 13px; }
-.btn-sm:hover, .btn-sm.on { border-color: var(--ci, var(--accent)); color: var(--text-h); background: var(--accent-soft); }
+.btn-sm:hover, .btn-sm.on { border-color: transparent; color: var(--text-h); background: none; }
+.btn-sm:hover::after, .btn-sm.on::after { --p: 100%; }
+.btn-sm.on::after { border-color: var(--ci, var(--accent-line)); }
 .focus-steps { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; flex-wrap: wrap; }
 .focus-steps button {
-  display: flex; align-items: center; gap: 6px; font-size: 12px; cursor: pointer; padding: 3px 10px 3px 3px;
+  position: relative; display: flex; align-items: center; gap: 6px; font-size: 12px; cursor: pointer; padding: 3px 10px 3px 3px;
   border-radius: 999px; border: 1px solid var(--panel-border); background: rgba(170,195,230,0.04); color: var(--text-dim);
+  transition: color .25s var(--ease), background .25s var(--ease);
 }
+.focus-steps button::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; border: 1px solid var(--line-hi); pointer-events: none;
+  -webkit-mask: conic-gradient(from 270deg, #000 var(--p), transparent 0); mask: conic-gradient(from 270deg, #000 var(--p), transparent 0);
+  transition: --p .5s var(--ease), border-color .25s var(--ease);
+}
+.focus-steps button:hover { color: var(--text-h); }
+.focus-steps button:hover::after, .focus-steps button.on::after { --p: 100%; }
+.focus-steps button.on::after { border-color: var(--c); }
 .focus-steps button.done { color: var(--text); }
 .focus-steps button.on { border-color: var(--c); color: var(--text-h); background: color-mix(in srgb, var(--c) 20%, transparent); }
 .step-no { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; background: rgba(170,195,230,0.09); }
@@ -304,6 +320,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .step-nav:disabled { opacity: 0.3; cursor: default; }
 .focus-step-title { font-size: 14.5px; color: var(--text-h); font-weight: 500; margin-bottom: 3px; }
 .focus-text p { margin: 0; font-size: 13.5px; line-height: 1.55; }
+.focus-line { font-size: 13.5px; line-height: 1.55; color: var(--text-h); }
 
 /* ── Schematic ── */
 .schematic { position: absolute; top: 112px; left: 16px; right: 332px; bottom: 212px; }
