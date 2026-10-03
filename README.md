@@ -39,10 +39,11 @@
 
 <p align="center"><img src="docs/screenshots/home.jpg" alt="BETWEEN landing page: the split-disc logo between Brain (86 billion neurons, 20 W) and AI"></p>
 
-> between brain and AI<br>
-> between biology and computation<br>
-> between neurons and intelligence<br>
-> **between what we understand and what we can build**
+> between synapses and weights<br>
+> between neurons and units<br>
+> between microcircuits and modules<br>
+> between brain systems and AI architectures<br>
+> **between an organism and an agent**
 
 ## Overview
 
