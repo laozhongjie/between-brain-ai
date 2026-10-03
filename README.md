@@ -43,7 +43,8 @@
 > between neurons and units<br>
 > between microcircuits and modules<br>
 > between brain systems and AI architectures<br>
-> **between an organism and an agent**
+> between an organism and an agent<br>
+> **between what we understand and what we can build**
 
 ## Overview
 
