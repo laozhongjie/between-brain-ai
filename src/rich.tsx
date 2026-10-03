@@ -69,11 +69,16 @@ export function tokenToTex(tok: string): string {
   return out.trim()
 }
 
+/** A formula that is only a number ($0.5$, $16 \times 16$, $80\%$) is set as text, in the same face as every other number. */
+const NUMERIC = /^(?:[0-9.,\s]|\\times|\\approx|\\%|\\,)+$/
+const numberText = (tex: string) =>
+  tex.trim().replace(/\\times/g, '×').replace(/\\approx/g, '≈').replace(/\\%/g, '%').replace(/\\,/g, ' ')
+
 /** Split plain text into text and TeX segments: explicit $…$ plus auto-detected symbols. */
 export function toSegments(text: string): { tex: boolean; s: string }[] {
   const out: { tex: boolean; s: string }[] = []
   text.split(/\$([^$]+)\$/g).forEach((part, k) => {
-    if (k % 2) return out.push({ tex: true, s: part })
+    if (k % 2) return out.push(NUMERIC.test(part) ? { tex: false, s: numberText(part) } : { tex: true, s: part })
     let last = 0
     for (const m of part.matchAll(TOKEN)) {
       const tok = m[0]

@@ -29,6 +29,8 @@
   --mono: 'JetBrains Mono Variable', 'MiSans VF', ui-monospace, Menlo, monospace;
   /* titles, tags and small labels: Jost (the wordmark face), set apart from the Inter body text */
   --label: 'Jost Variable', 'MiSans VF', 'PingFang SC', system-ui, sans-serif;
+  /* Brain ↔ AI page and section titles: a serif against the sans body (loaded by AiSection) */
+  --serif: 'Noto Serif SC Variable', 'Songti SC', serif;
   font: 14px/1.5 var(--sans);
   color: var(--text);
   background: var(--bg);
@@ -491,11 +493,12 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .ai-nav-domain button { padding-left: 16px; font-size: 12px; }
 .ai-main { position: absolute; inset: 0; overflow-y: auto; padding: 18px 48px 60px; }
 .ai-page { max-width: 1180px; margin: 0 auto; }
-.ai-page h1 { font-size: 26px; color: var(--text-h); margin: 6px 0 10px; line-height: 1.3; }
-.ai-page h2 { font-size: 17px; color: var(--text-h); margin: 26px 0 8px; }
-.ai-page h3 { font-size: 13px; color: var(--text-dim); letter-spacing: 0.05em; margin: 22px 0 8px; }
-.ai-page p, .ai-page li { font-size: 14.5px; line-height: 1.7; }
-.ai-page .lead { font-size: 15.5px; color: var(--text-h); opacity: 0.9; }
+/* Type in this section: serif page / section titles; sans body 15, secondary 13, labels 12 (Jost) */
+.ai-page h1 { font: 600 32px/1.3 var(--serif); color: var(--text-h); margin: 6px 0 12px; }
+.ai-page h2 { font: 600 21px/1.4 var(--serif); color: var(--text-h); margin: 32px 0 10px; }
+.ai-page h3 { font-size: 12px; color: var(--text-dim); letter-spacing: 0.08em; margin: 22px 0 8px; }
+.ai-page p, .ai-page li { font-size: 15px; line-height: 1.8; }
+.ai-page .lead { font: 400 16.5px/1.85 var(--serif); color: var(--text); }
 .ai-page a { color: var(--accent); }
 .muted { color: var(--text-dim); }
 .crumbs { display: flex; gap: 12px; align-items: center; font-size: 12px; color: var(--text-dim); }
@@ -517,9 +520,9 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .rung { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 12px; padding: 12px 16px; }
 .rung header { display: flex; gap: 12px; align-items: flex-start; }
 .rung-no { flex: none; width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-weight: 500; background: var(--accent-soft); color: var(--accent); }
-.rung h2 { margin: 0 0 2px; font-size: 16px; }
+.rung h2 { margin: 0 0 2px; font-size: 18px; }
 .rung h2 small { font-weight: 400; color: var(--text-dim); font-size: 12px; margin-left: 6px; }
-.rung p { margin: 0 0 8px; font-size: 13.5px; color: var(--text-dim); }
+.rung p { margin: 0 0 8px; font-size: 13px; color: var(--text-dim); }
 .rung-cards { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { display: inline-flex; align-items: center; gap: 10px; background: rgba(170,195,230,0.04); border: 1px solid var(--panel-border); border-radius: 8px; padding: 5px 10px; font-size: 13px; cursor: pointer; color: var(--text-h); text-align: left; }
 .chip:hover { border-color: var(--accent); background: var(--accent-soft); }
@@ -537,9 +540,9 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .ai-nav button:disabled:hover::before { transform: scaleY(0); }
 /* Mechanism index: groups inside each scale */
 .mech-group { margin-top: 10px; }
-.mech-group-title { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 13.5px; color: var(--text-h); }
+.mech-group-title { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 14px; color: var(--text-h); }
 .mech-group-title .rung-no { width: 34px; height: 24px; font-size: 11.5px; }
-.section-note { margin: -4px 0 10px; font-size: 13.5px; color: var(--text-dim); }
+.ai-page .section-note { margin: -4px 0 10px; font-size: 13px; color: var(--text-dim); }
 
 /* AI concept index: an entry from AI vocabulary, each concept beside the brain mechanisms it meets */
 .ai-nav .ai-nav-concepts { display: flex; align-items: center; gap: 6px; }
@@ -560,14 +563,14 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .ai-col { border-top: 1px solid var(--accent); }
 .formulas { display: flex; flex-direction: column; gap: 6px; }
 .formula { margin: 0; background: var(--well); border-radius: 8px; padding: 2px 10px 8px; overflow-x: auto; }
-.formula figcaption { font-size: 12px; color: var(--text-dim); }
+.formula figcaption { font-size: 13px; color: var(--text-dim); }
 .tex .katex-display { margin: 8px 0; }
 .tex .katex { font-size: 1.02em; color: var(--text-h); }
 .card-page { min-width: 0; overflow-wrap: anywhere; }
 .card-page > section { margin-top: 36px; }
 .card-intro { margin: 24px 0 18px; padding-left: 18px; border-left: 2px solid var(--accent-line); }
-.card-kicker { font-size: 12px; color: var(--text-dim); }
-.card-intro h2 { margin: 8px 0; font: 500 clamp(20px, 2.4vw, 27px)/1.45 var(--sans); }
+.card-kicker { font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); }
+.card-intro h2 { margin: 8px 0; font: 600 clamp(20px, 2.4vw, 26px)/1.5 var(--serif); }
 .card-intro .lead { margin: 8px 0 0; }
 .card-page .card-note, .card-page .card-scope { font-size: 13px; color: var(--text-dim); margin: 8px 0 16px; }
 .card-scope strong { font-weight: 500; color: var(--text); }
@@ -622,37 +625,38 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .review-limits h3 { margin: 0 0 6px; color: var(--text-h); font-size: 14px; letter-spacing: 0; }
 .review-limits p { margin: 0; }
 /* Topic pages: explanations are the main reading, so they use the body size, not caption size */
-.topic-kicker { display: block; margin-top: 4px; font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; color: var(--accent); }
+.topic-kicker { display: block; margin-top: 4px; font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--accent); }
 .topic-page .bio { --side: var(--pink); }
 .topic-page .comp { --side: var(--accent); }
 .thesis { margin: 14px 0 12px; }
 .thesis-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
 .thesis-sides > section { padding: 12px 16px 14px; border-top: 2px solid var(--side); background: rgba(170,195,230,0.025); border-radius: 0 0 10px 10px; }
 .thesis-sides h3 { margin: 0 0 6px; font-size: 14px; letter-spacing: 0; color: var(--side); }
-.thesis-sides p { margin: 0; font-size: 15.5px; line-height: 1.8; color: var(--text-h); }
-.thesis-gap { margin: 12px 0 0; padding: 10px 16px; border-left: 2px solid var(--lemon); font-size: 15.5px; line-height: 1.8; color: var(--text-h); background: rgba(232,194,103,0.04); }
-.thesis-gap strong { display: block; margin-bottom: 2px; font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; color: var(--lemon); }
+.thesis-sides p { margin: 0; font-size: 15px; line-height: 1.85; color: var(--text-h); }
+.thesis-gap { margin: 12px 0 0; padding: 10px 16px; border-left: 2px solid var(--lemon); font-size: 15px; line-height: 1.85; color: var(--text-h); background: rgba(232,194,103,0.04); }
+.thesis-gap strong { display: block; margin-bottom: 2px; font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--lemon); }
 .grammar-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; margin: 0 0 12px; padding: 0; font-size: 13px; color: var(--text-dim); }
 .grammar-legend li { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
 /* Capabilities as a face-off: dimension on the spine, the two systems facing each other, a pointer to the side ahead */
 .duel { margin-top: 6px; }
 .duel-head, .duel-row { display: grid; grid-template-columns: 1fr 8.5em 1fr; column-gap: 22px; }
-.duel-head { padding: 0 0 8px; border-bottom: 1px solid var(--panel-border); font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; color: var(--text-dim); }
+.duel-head { padding: 0 0 8px; border-bottom: 1px solid var(--panel-border); font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); }
 .duel-head > span:nth-child(2) { text-align: center; }
 .duel-head .bio { text-align: right; padding-right: 14px; color: var(--pink); }
 .duel-head .comp { padding-left: 14px; color: var(--accent); }
 .duel-row { row-gap: 8px; padding: 14px 0 12px; border-bottom: 1px solid rgba(170,195,230,0.08); }
-.duel-side { font-size: 15px; line-height: 1.75; color: var(--text-h); }
-.duel-side.bio { text-align: right; }
+/* both sides justified; the brain side's last line hugs the spine */
+.duel-side { font-size: 15px; line-height: 1.8; color: var(--text); text-align: justify; }
+.duel-side.bio { text-align-last: right; }
 .duel-dim { align-self: center; text-align: center; padding: 7px 10px; border: 1px solid var(--panel-border); border-radius: 999px; font-size: 14px; font-weight: 600; color: var(--text-h); background: rgba(170,195,230,0.04); }
 /* the side ahead is tinted in its own color, with a line on the spine side */
 .duel-side { padding: 8px 12px; border-radius: 8px; border: 0 solid transparent; transition: background .2s; }
 .lead-bio .duel-side.bio, .lead-mixed .duel-side.bio { background: rgba(255,143,168,0.07); border-right: 2px solid var(--pink); }
 .lead-comp .duel-side.comp, .lead-mixed .duel-side.comp { background: rgba(125,211,252,0.07); border-left: 2px solid var(--accent); }
 .lead-even .duel-side { background: rgba(170,195,230,0.05); }
-.duel-key { margin: -2px 0 10px; font-size: 12.5px; color: var(--text-dim); }
+.ai-page .duel-key { margin: -2px 0 10px; font-size: 13px; color: var(--text-dim); }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.ai-page .duel-gap { grid-column: 1 / -1; margin: 2px auto 0; max-width: 46em; text-align: center; font-size: 13.5px; line-height: 1.7; color: var(--text-dim); }
+.ai-page .duel-gap { grid-column: 1 / -1; margin: 2px auto 0; max-width: 46em; text-align: center; font-size: 13px; line-height: 1.7; color: var(--text-dim); }
 @media (max-width: 760px) {
   .duel-head, .duel-row { grid-template-columns: 1fr 1fr; }
   .duel-head > span:nth-child(2) { display: none; }
@@ -666,7 +670,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .arch-col .fig { margin: 0; }
 .arch-col .fig-steps { margin: 0; align-self: start; }
 .arch-notes { align-self: start; padding: 10px 12px 4px; border-radius: 8px; background: var(--well); }
-.arch-notes h5 { margin: 0 0 6px; font: 500 12px/1.4 var(--label); letter-spacing: 0.04em; color: var(--text-dim); }
+.arch-notes h5 { margin: 0 0 6px; font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); }
 .arch-notes ul { margin: 0; padding-left: 16px; }
 .ai-page .arch-notes li { font-size: 13px; line-height: 1.7; color: var(--text-dim); margin-bottom: 6px; text-align: justify; }
 @media (max-width: 760px) { .arch-grid { grid-template-columns: 1fr; grid-template-rows: none; gap: 16px; } .arch-col { grid-row: auto; grid-template-rows: none; } }
@@ -680,8 +684,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .two-col-steps h3 { margin: 6px 0 0; font-size: 14px; letter-spacing: 0; color: var(--side); }
 .topic-page .math-side { margin: 18px 0 8px; font-size: 14px; letter-spacing: 0; color: var(--side); }
 .formula-card { position: relative; margin: 0 0 14px; padding: 12px 18px 6px; border: 1px solid var(--panel-border); border-left: 2px solid var(--side, var(--panel-border)); border-radius: 10px; background: rgba(170,195,230,0.025); }
-.formula-card h4 { margin: 0 0 6px; font-size: 16px; color: var(--text-h); font-weight: 600; }
-.formula-card h5 { margin: 12px 0 4px; font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; color: var(--text-dim); text-transform: none; }
+.formula-card h4 { margin: 0 0 6px; font-size: 15px; color: var(--text-h); font-weight: 600; }
+.formula-card h5 { margin: 12px 0 4px; font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); text-transform: none; }
 .formula-card .formula { padding: 6px 12px 10px; }
 /* a hidden copy of the equation and its parts, measured to decide where it breaks (useFormulaLayout) */
 .formula-card .formula-measure { position: absolute; top: 0; left: 0; width: max-content; visibility: hidden; pointer-events: none; }
@@ -700,17 +704,17 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .formula-card .formula-fig { margin: 10px 0; }
 }
 /* the slider of an interactive equation figure (FigSlider in figs/plot.tsx) */
-.fig-slider { display: grid; grid-template-columns: auto minmax(80px, 1fr) auto; gap: 10px; align-items: center; margin: 2px 6px 6px; font-size: 12.5px; color: var(--text-dim); }
+.fig-slider { display: grid; grid-template-columns: auto minmax(80px, 1fr) auto; gap: 10px; align-items: center; margin: 2px 6px 6px; font-size: 13px; color: var(--text-dim); }
 .fig-slider input { width: 100%; }
-.fig-slider output { display: grid; justify-items: start; color: var(--text-h); font-size: 12.5px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.fig-slider output { display: grid; justify-items: start; color: var(--text-h); font-size: 13px; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .fig-slider output > span { grid-area: 1 / 1; }
 .fig-slider-sizer { visibility: hidden; }
-.formula-fig figcaption { margin: 4px 4px 0; font-size: 12.5px; line-height: 1.6; color: var(--text-dim); text-align: justify; }
+.formula-fig figcaption { margin: 4px 4px 0; font-size: 13px; line-height: 1.6; color: var(--text-dim); text-align: justify; }
 .formula-card .formula .katex-display { font-size: 1.3em; }
 .symbols .katex { font-size: 1.08em; }
 .formula-card ol, .formula-card ul { margin: 0; padding-left: 20px; }
 .symbols { width: 100%; margin: 8px 0 4px; border-collapse: collapse; font-size: 13px; }
-.symbols th { text-align: left; font: 500 12px/1.4 var(--label); letter-spacing: 0.04em; color: var(--text-dim); padding: 4px 10px; border-bottom: 1px solid var(--panel-border); }
+.symbols th { text-align: left; font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); padding: 4px 10px; border-bottom: 1px solid var(--panel-border); }
 .symbols td { padding: 5px 10px; line-height: 1.6; color: var(--text); border-bottom: 1px solid rgba(170,195,230,0.06); vertical-align: baseline; }
 /* symbol columns shrink to their longest symbol; the two meaning columns share the rest equally */
 .symbols th:nth-child(odd) { width: 1%; white-space: nowrap; }
@@ -728,9 +732,9 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .limit-col h3 { margin: 0 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--side); font-size: 14px; letter-spacing: 0; color: var(--side); }
 .limit-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .limit { padding: 11px 14px 12px; border-radius: 10px; border: 1px solid rgba(170,195,230,0.08); border-left: 2px solid var(--side); background: rgba(170,195,230,0.03); }
-.ai-page .limit h4 { margin: 0 0 3px; font-size: 15.5px; font-weight: 600; color: var(--text-h); }
+.ai-page .limit h4 { margin: 0 0 3px; font-size: 15px; font-weight: 600; color: var(--text-h); }
 .ai-page .limit p { margin: 0; font-size: 15px; line-height: 1.8; color: var(--text); }
-.limit-steps { display: flex; align-items: center; gap: 6px; margin-top: 8px; font: 500 12px/1 var(--label); letter-spacing: 0.04em; color: var(--text-dim); }
+.limit-steps { display: flex; align-items: center; gap: 6px; margin-top: 8px; font: 500 12px/1 var(--label); letter-spacing: 0.06em; color: var(--text-dim); }
 .limit-steps span { margin-right: 2px; }
 .limit-steps .step-num { width: 20px; height: 20px; margin: 0; padding: 0; background: none; cursor: pointer; font-size: 11px; transition: background .15s; }
 .limit-steps .step-num:hover, .limit-steps .step-num:focus-visible { background: color-mix(in srgb, var(--side) 18%, transparent); }
@@ -744,8 +748,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .ai-page .misreading p { margin: 0; padding: 11px 16px 12px; font-size: 15px; line-height: 1.8; }
 .ai-page .misreading .claim { background: rgba(232,194,103,0.05); color: var(--text); border-right: 1px solid rgba(232,194,103,0.16); }
 .ai-page .misreading .fact { color: var(--text-h); }
-.ai-page .misreading .mr-source { display: block; margin-top: 6px; font-size: 12.5px; line-height: 1.6; color: var(--text-dim); }
-.mr-tag { display: flex; align-items: center; gap: 5px; margin-bottom: 3px; font: 500 12px/1.4 var(--label); letter-spacing: 0.04em; color: var(--lemon); }
+.ai-page .misreading .mr-source { display: block; margin-top: 6px; font-size: 13px; line-height: 1.6; color: var(--text-dim); }
+.mr-tag { display: flex; align-items: center; gap: 5px; margin-bottom: 3px; font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--lemon); }
 .fact .mr-tag { color: var(--ok); }
 @media (max-width: 760px) {
   .limit-cols, .misreading { grid-template-columns: 1fr; }
@@ -753,7 +757,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 }
 @media (max-width: 760px) { .thesis-sides, .two-col-steps { grid-template-columns: 1fr; } }
 .ref-groups { display: grid; gap: 6px; }
-.ref-groups h3 { margin: 6px 0 4px; font-size: 13.5px; color: var(--text-h); }
+.ref-groups h3 { margin: 6px 0 4px; font-size: 14px; color: var(--text-h); }
 .card-lessons { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .card-lessons > div { padding-left: 16px; border-left: 2px solid var(--accent-line); min-width: 0; }
 .card-lessons > div + div { border-color: var(--lemon); }
@@ -856,13 +860,14 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 }
 @media (max-width: 760px) {
   .ai-section { top: 92px; }
-  .ai-page h1 { font-size: 21px; }
+  .ai-page h1 { font-size: 25px; }
+  .ai-page h2 { font-size: 19px; }
 }
 
 /* Structure diagrams on cards */
 .fig { margin: 4px 0 12px; background: rgba(0,0,0,0.25); border: 1px solid var(--panel-border); border-radius: 10px; padding: 8px 8px 6px; }
 .fig-svg { width: 100%; height: auto; display: block; }
-.fig-pending { display: grid; place-items: center; aspect-ratio: 380 / 290; background: none; border: 1px dashed var(--panel-border); font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; color: var(--text-faint); }
+.fig-pending { display: grid; place-items: center; aspect-ratio: 380 / 290; background: none; border: 1px dashed var(--panel-border); font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-faint); }
 .fig-pending.wide { aspect-ratio: 760 / 250; }
 .fig figcaption { font-size: 12px; color: var(--text-dim); line-height: 1.55; padding: 4px 4px 0; }
 
@@ -872,7 +877,8 @@ h1 .tex-inline .katex, h2 .tex-inline .katex { font-size: 0.95em; }
 
 /* Type scale: headings 500, body 400 (Inter + MiSans) */
 h1, h2, h3, h4, strong, b { font-weight: 500; }
-h1, h2, .topbar h1, .ai-page h1, .ai-page h2 { letter-spacing: -0.01em; }
+h1, h2, .topbar h1 { letter-spacing: -0.01em; }
+.ai-page h1, .ai-page h2 { letter-spacing: 0.02em; }
 
 /* Numbers and code in JetBrains Mono; tags and metadata in the label face */
 code, kbd, .tl-hour, .narr-time {
