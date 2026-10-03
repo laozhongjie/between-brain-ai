@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState, type ComponentType, type CSSProperties } from 'react'
+import { useLayoutEffect, useMemo, useRef, useState, type ComponentType, type CSSProperties } from 'react'
 import { TOUR_BY_ID } from '../../data/tours'
 import type { Bi } from '../../data/types'
 import { UI, useT } from '../../i18n'
@@ -9,7 +9,7 @@ import { CARD_BY_ID, MECH_BY_ID, TOPIC_CONTENT, WRITTEN_TOPICS, domainOfTopic } 
 import { TOPIC_FIGS } from '../figs'
 import { GRAMMAR_LEGEND, LegendMark } from '../figs/grammar'
 import type { FigProps, MathFig } from '../figs/types'
-import { Rich, Tex } from '../Tex'
+import { Rich, Tex, linesTex, packLines, splitTex } from '../Tex'
 import type { FigStep, Lead, Misreading, Topic, TopicCapability, TopicFormula, TopicLimit } from '../types'
 import { EvidenceBadge, KindTags, PagerLink, RefList } from './common'
 import { Icon } from '../../ui/Icon'
@@ -99,45 +99,73 @@ function SymbolTable({ symbols, pairs }: { symbols: TopicFormula['symbols']; pai
 }
 
 /** With a figure, the equation and its symbols sit left of the figure, which takes about half the width, a little
- * less if the equation needs the room to stay on one line (down to FIG_MIN of half). An equation too long even for
- * that takes the whole width above, with the symbols and a half-width figure side by side below it. */
+ * less if the equation needs the room (down to FIG_MIN of half). An equation that lists several parts (`a,\\qquad b`)
+ * too long for one line there breaks into lines; one whose longest part still does not fit takes the whole width above,
+ * with the symbols and a half-width figure side by side below it. Without a figure, or on a narrow screen, an equation
+ * wider than its box breaks into lines the same way. Widths come from a hidden copy of the equation and its parts. */
 const FIG_MIN = 0.8
-function useFormulaLayout(fig: MathFig | undefined) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [layout, setLayout] = useState<{ wide: boolean; figW?: number }>({ wide: false })
+interface FormulaLayout { wide: boolean; figW?: number; lines?: number[][] }
+
+function useFormulaLayout(tex: string) {
+  const ref = useRef<HTMLElement>(null)
+  const [layout, setLayout] = useState<FormulaLayout>({ wide: false })
   useLayoutEffect(() => {
-    const grid = ref.current
-    if (!fig || !grid) return
+    const card = ref.current
+    if (!card) return
     const check = () => {
-      const math = grid.querySelector('.formula .katex-html')
-      const box = grid.querySelector<HTMLElement>('.formula')
-      if (!math || !box || getComputedStyle(grid).display !== 'grid') return setLayout({ wide: false })
-      const range = document.createRange()
-      range.selectNodeContents(math)
-      const pad = parseFloat(getComputedStyle(box).paddingLeft) + parseFloat(getComputedStyle(box).paddingRight)
-      const gap = parseFloat(getComputedStyle(grid).columnGap)
-      const half = Math.floor((grid.clientWidth - gap) / 2)
-      const room = Math.floor(grid.clientWidth - gap - range.getBoundingClientRect().width - pad - 2)
-      setLayout(room >= FIG_MIN * half ? { wide: false, figW: Math.min(half, room) } : { wide: true, figW: half })
+      const box = card.querySelector<HTMLElement>('.formula:not(.formula-measure)')
+      const measure = card.querySelector('.formula-measure')
+      if (!box || !measure) return
+      const [full, ...parts] = [...measure.querySelectorAll('.katex-html')].map((el) => {
+        const range = document.createRange()
+        range.selectNodeContents(el)
+        return range.getBoundingClientRect().width
+      })
+      const css = getComputedStyle(box)
+      const pad = parseFloat(css.paddingLeft) + parseFloat(css.paddingRight) + 2
+      const sep = parts.length > 1 ? (full - parts.reduce((a, w) => a + w, 0)) / (parts.length - 1) : 0
+      const lineWidth = (lines: number[][]) => Math.max(...lines.map((l) => l.reduce((a, i) => a + parts[i], 0) + sep * (l.length - 1)))
+      const stack = (max: number) => (parts.length > 1 && full > max ? packLines(parts, sep, max) : undefined)
+      const grid = card.querySelector<HTMLElement>('.formula-with-fig')
+      let next: FormulaLayout
+      if (!grid || getComputedStyle(grid).display !== 'grid') next = { wide: false, lines: stack(box.clientWidth - pad) }
+      else {
+        const gap = parseFloat(getComputedStyle(grid).columnGap)
+        const half = Math.floor((grid.clientWidth - gap) / 2)
+        const side = grid.clientWidth - gap - FIG_MIN * half - pad
+        const figFor = (w: number) => Math.min(half, Math.floor(grid.clientWidth - gap - w - pad))
+        if (full <= side) next = { wide: false, figW: figFor(full) }
+        else if (parts.length > 1 && Math.max(...parts) <= side) {
+          const lines = packLines(parts, sep, side)
+          next = { wide: false, figW: figFor(lineWidth(lines)), lines }
+        } else next = { wide: true, figW: half, lines: stack(grid.clientWidth - pad) }
+      }
+      setLayout((prev) => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next))
     }
     check()
     document.fonts?.ready.then(check)
     const ro = new ResizeObserver(check)
-    ro.observe(grid)
+    ro.observe(card)
     return () => ro.disconnect()
-  }, [fig])
+  }, [tex])
   return [ref, layout] as const
 }
 
 function FormulaCard({ f, side, fig }: { f: TopicFormula; side: 'bio' | 'comp'; fig?: MathFig }) {
   const t = useT()
-  const [gridRef, { wide, figW }] = useFormulaLayout(fig)
+  const parts = useMemo(() => splitTex(f.tex), [f.tex])
+  const [cardRef, { wide, figW, lines }] = useFormulaLayout(f.tex)
+  const tex = lines ? linesTex(lines.map((l) => l.map((i) => parts[i]))) : f.tex
   return (
-    <article className={`formula-card ${side}`}>
+    <article ref={cardRef} className={`formula-card ${side}`}>
       <h4><Rich text={t(f.title)} /></h4>
+      <div className="formula formula-measure" aria-hidden="true">
+        <Tex tex={f.tex} />
+        {parts.length > 1 && parts.map((p, i) => <Tex key={i} tex={p} />)}
+      </div>
       {fig ? (
-        <div ref={gridRef} className={`formula-with-fig${wide ? ' wide' : ''}`} style={figW ? ({ '--fig-w': `${figW}px` } as CSSProperties) : undefined}>
-          <div className="formula"><Tex tex={f.tex} /></div>
+        <div className={`formula-with-fig${wide ? ' wide' : ''}`} style={figW ? ({ '--fig-w': `${figW}px` } as CSSProperties) : undefined}>
+          <div className="formula"><Tex tex={tex} /></div>
           <figure className="fig formula-fig">
             <fig.Fig t={t} />
             <figcaption><Rich text={t(fig.cap)} /></figcaption>
@@ -146,7 +174,7 @@ function FormulaCard({ f, side, fig }: { f: TopicFormula; side: 'bio' | 'comp'; 
         </div>
       ) : (
         <>
-          <div className="formula"><Tex tex={f.tex} /></div>
+          <div className="formula"><Tex tex={tex} /></div>
           <SymbolTable symbols={f.symbols} pairs />
         </>
       )}
