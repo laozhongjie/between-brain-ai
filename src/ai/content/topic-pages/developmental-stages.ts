@@ -20,7 +20,7 @@ export const DEVELOPMENTAL_STAGES: TopicContent = {
   short: { biological: b('发育', 'Development'), computational: b('分阶段训练', 'Staged training') },
   kinds: ['behavior', 'algorithm'],
   evidence: 'established',
-  asOf: b('计算侧描述截至 2026 年 10 月的课程学习与大模型的分阶段训练；具体结果按发表年份注明。', 'The computational column describes curriculum learning and staged training of large models as of October 2026. Results are dated by publication year.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的课程学习与大模型的分阶段训练；具体结果按发表年份注明。', 'The AI column describes curriculum learning and staged training of large models as of October 2026. Results are dated by publication year.'),
   capabilities: [
     {
       lead: 'even',

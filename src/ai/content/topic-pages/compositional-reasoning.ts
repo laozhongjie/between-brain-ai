@@ -20,7 +20,7 @@ export const COMPOSITIONAL_REASONING: TopicContent = {
   short: { biological: b('人', 'People'), computational: b('模型', 'Models') },
   kinds: ['behavior', 'algorithm', 'math'],
   evidence: 'debated',
-  asOf: b('计算侧描述截至 2026 年 10 月的元学习组合模型与大语言模型；具体评测结果按发表年份注明。', 'The computational column describes meta-learned compositional models and large language models as of October 2026. Benchmark results are dated by publication year.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的元学习组合模型与大语言模型；具体评测结果按发表年份注明。', 'The AI column describes meta-learned compositional models and large language models as of October 2026. Benchmark results are dated by publication year.'),
   capabilities: [
     {
       lead: 'even',

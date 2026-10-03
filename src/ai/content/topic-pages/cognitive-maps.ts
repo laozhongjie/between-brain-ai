@@ -20,7 +20,7 @@ export const COGNITIVE_MAPS: TopicContent = {
   short: { biological: b('认知地图', 'Cognitive map'), computational: b('TEM 与 Transformer', 'TEM and transformers') },
   kinds: ['representation', 'algorithm', 'math'],
   evidence: 'established',
-  asOf: b('计算侧描述截至 2026 年 10 月的 TEM 类研究模型与通用大语言模型；具体评测结果按发表年份注明。', 'The computational column describes TEM-like research models and general large language models as of October 2026. Benchmark results are dated by publication year.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的 TEM 类研究模型与通用大语言模型；具体评测结果按发表年份注明。', 'The AI column describes TEM-like research models and general large language models as of October 2026. Benchmark results are dated by publication year.'),
   capabilities: [
     {
       lead: 'bio',

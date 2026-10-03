@@ -20,7 +20,7 @@ export const CONTINUAL_LEARNING: TopicContent = {
   short: { biological: b('大脑', 'The brain'), computational: b('持续学习方法', 'Continual learning methods') },
   kinds: ['behavior', 'algorithm', 'math'],
   evidence: 'debated',
-  asOf: b('计算侧描述截至 2026 年 10 月的持续学习方法与大模型的更新方式。', 'The computational column describes continual learning methods and how large models are updated as of October 2026.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的持续学习方法与大模型的更新方式。', 'The AI column describes continual learning methods and how large models are updated as of October 2026.'),
   capabilities: [
     {
       lead: 'bio',

@@ -20,7 +20,7 @@ export const WORLD_MODELS: TopicContent = {
   short: { biological: b('大脑', 'The brain'), computational: b('世界模型', 'World models') },
   kinds: ['behavior', 'algorithm', 'math'],
   evidence: 'debated',
-  asOf: b('计算侧描述截至 2026 年 10 月的学习型世界模型与视频生成模型；具体评测结果按发表年份注明。', 'The computational column describes learned world models and video generation models as of October 2026. Benchmark results are dated by publication year.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的学习型世界模型与视频生成模型；具体评测结果按发表年份注明。', 'The AI column describes learned world models and video generation models as of October 2026. Benchmark results are dated by publication year.'),
   capabilities: [
     {
       lead: 'even',

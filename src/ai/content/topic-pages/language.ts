@@ -20,7 +20,7 @@ export const LANGUAGE: TopicContent = {
   short: { biological: b('语言网络', 'Language network'), computational: b('大语言模型', 'LLMs') },
   kinds: ['behavior', 'representation', 'algorithm'],
   evidence: 'established',
-  asOf: b('计算侧描述截至 2026 年 10 月的大语言模型；具体研究结果按发表年份注明。', 'The computational column describes large language models as of October 2026. Study results are dated by publication year.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的大语言模型；具体研究结果按发表年份注明。', 'The AI column describes large language models as of October 2026. Study results are dated by publication year.'),
   capabilities: [
     {
       lead: 'even',

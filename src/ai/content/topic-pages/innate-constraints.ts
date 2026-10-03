@@ -20,7 +20,7 @@ export const INNATE_CONSTRAINTS: TopicContent = {
   short: { biological: b('先天结构', 'Innate structure'), computational: b('归纳偏置', 'Inductive biases') },
   kinds: ['behavior', 'implementation'],
   evidence: 'debated',
-  asOf: b('计算侧描述截至 2026 年 10 月的网络架构、预训练与相关研究方法。', 'The computational column describes network architectures, pretraining and related research methods as of October 2026.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的网络架构、预训练与相关研究方法。', 'The AI column describes network architectures, pretraining and related research methods as of October 2026.'),
   capabilities: [
     {
       lead: 'bio',

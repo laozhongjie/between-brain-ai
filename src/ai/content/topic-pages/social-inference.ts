@@ -20,7 +20,7 @@ export const SOCIAL_INFERENCE: TopicContent = {
   short: { biological: b('人', 'People'), computational: b('模型', 'Models') },
   kinds: ['behavior'],
   evidence: 'debated',
-  asOf: b('计算侧描述截至 2026 年 10 月的大语言模型与机器心智理论研究；具体评测结果按发表年份注明。', 'The computational column describes large language models and machine theory-of-mind research as of October 2026. Benchmark results are dated by publication year.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的大语言模型与机器心智理论研究；具体评测结果按发表年份注明。', 'The AI column describes large language models and machine theory-of-mind research as of October 2026. Benchmark results are dated by publication year.'),
   capabilities: [
     {
       lead: 'even',

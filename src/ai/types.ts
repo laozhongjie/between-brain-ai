@@ -234,7 +234,7 @@ export interface TopicContent {
   thesis: { biological: Bi; computational: Bi; gap: Bi }
   kinds: Kind[]
   evidence: Evidence
-  /** which systems the computational column describes, and as of when */
+  /** which systems the AI column describes, and as of when */
   asOf: Bi
   capabilities: TopicCapability[]
   /** the information flow through each architecture figure, step by step */

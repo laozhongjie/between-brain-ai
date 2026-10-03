@@ -20,7 +20,7 @@ export const PLANNING: TopicContent = {
   short: { biological: b('人', 'People'), computational: b('机器', 'Machines') },
   kinds: ['behavior', 'algorithm', 'math'],
   evidence: 'debated',
-  asOf: b('计算侧描述截至 2026 年 10 月的树搜索系统与大语言模型的规划能力；具体评测结果按发表年份注明。', 'The computational column describes tree search systems and planning by large language models as of October 2026. Benchmark results are dated by publication year.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的树搜索系统与大语言模型的规划能力；具体评测结果按发表年份注明。', 'The AI column describes tree search systems and planning by large language models as of October 2026. Benchmark results are dated by publication year.'),
   capabilities: [
     {
       lead: 'comp',

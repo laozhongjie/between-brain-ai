@@ -20,7 +20,7 @@ export const INTEROCEPTION: TopicContent = {
   short: { biological: b('身体调节', 'Bodily regulation'), computational: b('稳态强化学习', 'Homeostatic RL') },
   kinds: ['behavior', 'algorithm', 'math'],
   evidence: 'established',
-  asOf: b('计算侧描述截至 2026 年 10 月的稳态强化学习与机器人资源管理；文本模型没有内部生理变量。', 'The computational column describes homeostatic reinforcement learning and robot resource management as of October 2026. Text models have no internal physiological variables.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的稳态强化学习与机器人资源管理；文本模型没有内部生理变量。', 'The AI column describes homeostatic reinforcement learning and robot resource management as of October 2026. Text models have no internal physiological variables.'),
   capabilities: [
     {
       lead: 'comp',

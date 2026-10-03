@@ -20,7 +20,7 @@ export const SKILL_LEARNING: TopicContent = {
   short: { biological: b('人', 'People'), computational: b('VLA', 'VLAs') },
   kinds: ['behavior', 'algorithm'],
   evidence: 'established',
-  asOf: b('计算侧描述截至 2026 年 10 月的 VLA 模型与机器人模仿学习；具体结果按发表年份注明。', 'The computational column describes VLA models and robot imitation learning as of October 2026. Results are dated by publication year.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的 VLA 模型与机器人模仿学习；具体结果按发表年份注明。', 'The AI column describes VLA models and robot imitation learning as of October 2026. Results are dated by publication year.'),
   capabilities: [
     {
       lead: 'even',

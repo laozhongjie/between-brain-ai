@@ -18,7 +18,7 @@ export const ATTENTION_GATING: TopicContent = {
   short: { biological: b('注意', 'Attention'), computational: b('注意力机制', 'Attention mechanism') },
   kinds: ['behavior', 'math'],
   evidence: 'established',
-  asOf: b('计算侧描述截至 2026 年 10 月的 Transformer 注意力与混合专家路由；具体评测结果按发表年份注明。', 'The computational column describes transformer attention and mixture-of-experts routing as of October 2026. Benchmark results are dated by publication year.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的 Transformer 注意力与混合专家路由；具体评测结果按发表年份注明。', 'The AI column describes transformer attention and mixture-of-experts routing as of October 2026. Benchmark results are dated by publication year.'),
   capabilities: [
     {
       lead: 'bio',

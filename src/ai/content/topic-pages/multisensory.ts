@@ -20,7 +20,7 @@ export const MULTISENSORY: TopicContent = {
   short: { biological: b('多感官回路', 'Multisensory circuits'), computational: b('多模态模型', 'Multimodal models') },
   kinds: ['behavior', 'algorithm', 'math'],
   evidence: 'established',
-  asOf: b('计算侧描述截至 2026 年 10 月的主流多模态编码与多模态大模型；具体评测结果按发表年份注明。', 'The computational column describes mainstream multimodal encoders and multimodal large models as of October 2026. Benchmark results are dated by publication year.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的主流多模态编码与多模态大模型；具体评测结果按发表年份注明。', 'The AI column describes mainstream multimodal encoders and multimodal large models as of October 2026. Benchmark results are dated by publication year.'),
   capabilities: [
     {
       lead: 'bio',

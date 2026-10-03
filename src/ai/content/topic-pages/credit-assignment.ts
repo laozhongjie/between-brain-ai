@@ -20,7 +20,7 @@ export const CREDIT_ASSIGNMENT: TopicContent = {
   short: { biological: b('三因子学习', 'Three-factor learning'), computational: b('反向传播', 'Backpropagation') },
   kinds: ['algorithm', 'math'],
   evidence: 'debated',
-  asOf: b('计算侧描述截至 2026 年 10 月深度学习与强化学习的标准训练方法。', 'The computational column describes standard training in deep learning and reinforcement learning as of October 2026.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月深度学习与强化学习的标准训练方法。', 'The AI column describes standard training in deep learning and reinforcement learning as of October 2026.'),
   capabilities: [
     {
       lead: 'even',

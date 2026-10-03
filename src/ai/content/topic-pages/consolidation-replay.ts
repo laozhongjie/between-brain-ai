@@ -20,7 +20,7 @@ export const CONSOLIDATION_REPLAY: TopicContent = {
   short: { biological: b('睡眠回放', 'Sleep replay'), computational: b('经验回放', 'Experience replay') },
   kinds: ['algorithm', 'math'],
   evidence: 'debated',
-  asOf: b('计算侧描述截至 2026 年 10 月强化学习中的回放方法与大模型的更新方式。', 'The computational column describes replay methods in reinforcement learning and how large models are updated as of October 2026.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月强化学习中的回放方法与大模型的更新方式。', 'The AI column describes replay methods in reinforcement learning and how large models are updated as of October 2026.'),
   capabilities: [
     {
       lead: 'even',

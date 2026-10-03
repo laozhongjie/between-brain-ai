@@ -20,7 +20,7 @@ export const EMOTION_REGULATION: TopicContent = {
   short: { biological: b('大脑', 'The brain'), computational: b('智能体', 'Agents') },
   kinds: ['behavior', 'algorithm'],
   evidence: 'debated',
-  asOf: b('计算侧描述截至 2026 年 10 月强化学习中的功能性情绪模型与大语言模型；具体结果按发表年份注明。', 'The computational column describes functional emotion models in reinforcement learning and large language models as of October 2026. Results are dated by publication year.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月强化学习中的功能性情绪模型与大语言模型；具体结果按发表年份注明。', 'The AI column describes functional emotion models in reinforcement learning and large language models as of October 2026. Results are dated by publication year.'),
   capabilities: [
     {
       lead: 'bio',

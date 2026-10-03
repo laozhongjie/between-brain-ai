@@ -20,7 +20,7 @@ export const WORKING_MEMORY: TopicContent = {
   short: { biological: b('工作记忆', 'Working memory'), computational: b('上下文窗口', 'Context window') },
   kinds: ['behavior', 'algorithm', 'math'],
   evidence: 'debated',
-  asOf: b('计算侧描述截至 2026 年 10 月的主流大语言模型的上下文窗口与循环类模型；具体评测结果按发表年份注明。', 'The computational column describes context windows of mainstream large language models and recurrent models as of October 2026. Benchmark results are dated by publication year.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的主流大语言模型的上下文窗口与循环类模型；具体评测结果按发表年份注明。', 'The AI column describes context windows of mainstream large language models and recurrent models as of October 2026. Benchmark results are dated by publication year.'),
   capabilities: [
     {
       lead: 'comp',

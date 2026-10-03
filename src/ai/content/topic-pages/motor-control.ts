@@ -20,7 +20,7 @@ export const MOTOR_CONTROL: TopicContent = {
   short: { biological: b('人', 'People'), computational: b('机器人', 'Robots') },
   kinds: ['behavior', 'algorithm', 'math'],
   evidence: 'established',
-  asOf: b('计算侧描述截至 2026 年 10 月的机器人反馈控制、模型预测控制与学习型运动策略；具体结果按发表年份注明。', 'The computational column describes robot feedback control, model predictive control and learned locomotion policies as of October 2026. Results are dated by publication year.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的机器人反馈控制、模型预测控制与学习型运动策略；具体结果按发表年份注明。', 'The AI column describes robot feedback control, model predictive control and learned locomotion policies as of October 2026. Results are dated by publication year.'),
   capabilities: [
     {
       lead: 'comp',

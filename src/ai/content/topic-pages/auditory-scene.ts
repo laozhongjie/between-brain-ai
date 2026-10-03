@@ -20,7 +20,7 @@ export const AUDITORY_SCENE: TopicContent = {
   short: { biological: b('听觉系统', 'Auditory system'), computational: b('语音模型', 'Speech models') },
   kinds: ['behavior', 'representation', 'algorithm'],
   evidence: 'established',
-  asOf: b('计算侧描述截至 2026 年 10 月的主流语音识别与语音分离模型；具体评测结果按发表年份注明。', 'The computational column describes mainstream speech recognition and separation models as of October 2026. Benchmark results are dated by publication year.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的主流语音识别与语音分离模型；具体评测结果按发表年份注明。', 'The AI column describes mainstream speech recognition and separation models as of October 2026. Benchmark results are dated by publication year.'),
   capabilities: [
     {
       lead: 'even',

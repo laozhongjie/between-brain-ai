@@ -20,7 +20,7 @@ export const REWARD_LEARNING: TopicContent = {
   short: { biological: b('多巴胺系统', 'Dopamine system'), computational: b('强化学习', 'Reinforcement learning') },
   kinds: ['representation', 'algorithm', 'math'],
   evidence: 'established',
-  asOf: b('计算侧描述截至 2026 年 10 月的强化学习算法与大语言模型的奖励模型训练；具体结果按发表年份注明。', 'The computational column describes reinforcement learning algorithms and reward-model training for large language models as of October 2026. Results are dated by publication year.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的强化学习算法与大语言模型的奖励模型训练；具体结果按发表年份注明。', 'The AI column describes reinforcement learning algorithms and reward-model training for large language models as of October 2026. Results are dated by publication year.'),
   capabilities: [
     {
       lead: 'even',

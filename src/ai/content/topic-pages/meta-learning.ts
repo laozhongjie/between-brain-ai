@@ -20,7 +20,7 @@ export const META_LEARNING: TopicContent = {
   short: { biological: b('前额叶', 'Prefrontal cortex'), computational: b('上下文学习', 'In-context learning') },
   kinds: ['behavior', 'algorithm', 'math'],
   evidence: 'debated',
-  asOf: b('计算侧描述截至 2026 年 10 月的大语言模型上下文学习与主流元学习算法。', 'The computational column describes in-context learning in large language models and mainstream meta-learning algorithms as of October 2026.'),
+  asOf: b('AI 侧描述截至 2026 年 10 月的大语言模型上下文学习与主流元学习算法。', 'The AI column describes in-context learning in large language models and mainstream meta-learning algorithms as of October 2026.'),
   capabilities: [
     {
       lead: 'even',
