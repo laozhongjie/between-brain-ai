@@ -677,6 +677,9 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .step-num { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; margin-top: 1px; font: 600 12px/1 var(--mono); color: var(--side); border: 1.4px solid var(--side); }
 .fig-steps h4 { margin: 0 0 4px; font-size: 15px; color: var(--text-h); font-weight: 600; }
 .fig-steps ul, .bullets { margin: 0; padding-left: 18px; }
+/* small filled dots in the side's colour: a hollow circle reads like the Chinese full stop 。 */
+.fig-steps ul { list-style: disc; }
+.fig-steps li li::marker { color: var(--side); font-size: 0.8em; }
 .ai-page .fig-steps li li, .ai-page .bullets li, .ai-page .formula-card li { font-size: 15px; line-height: 1.8; color: var(--text); margin-bottom: 4px; }
 .two-col-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .two-col-steps h3 { margin: 6px 0 0; font-size: 14px; letter-spacing: 0; color: var(--side); }
