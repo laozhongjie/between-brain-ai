@@ -1,6 +1,6 @@
 import type { Bi } from '../../data/types'
 import { Arrow, Box, C, Chain, Dot, Grid, Line, Svg, T, plot } from './kit'
-import type { FigPair, FigProps, MathFig } from './types'
+import type { FigPair, FigProps } from './types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
 const P = { fill: C.pink, stroke: C.pinkD }
@@ -603,10 +603,4 @@ export const LAYER4_FIGS: Record<string, FigPair> = {
     brainCap: b('这里并列展示目标引导、工作记忆门控和全局工作空间等理论中的机制。格子表示有限容量，不是固定四项的生理存储器；这些理论也不是同一个已证实模型。', 'This diagram combines mechanisms from accounts of goal guidance, working-memory gating and global workspace. Slots illustrate limited capacity, not a literal fixed four-item store; the theories are not one established model.'),
     aiCap: b('标准注意力头把词元映射为查询、键和值，再按查询与键的匹配程度混合值。可访问的内容受上下文和掩码限制；任务目标可以通过输入与训练影响这些表示。', 'A standard attention head maps tokens to queries, keys and values, then mixes values by query–key match. Context and masks limit accessible content; task goals can influence these representations through input and training.'),
   },
-}
-
-/** One half of an old system card's figure pair, for reuse next to an equation on its topic page. */
-export const legacyFig = (cardId: string, side: 'brain' | 'ai'): MathFig => {
-  const pair = LAYER4_FIGS[cardId]
-  return side === 'brain' ? { Fig: pair.brain, cap: pair.brainCap } : { Fig: pair.ai, cap: pair.aiCap }
 }
