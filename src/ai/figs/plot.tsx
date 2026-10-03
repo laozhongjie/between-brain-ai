@@ -172,3 +172,12 @@ export function FigSlider({ label, value, min, max, step, onChange, readout, wid
     </label>
   )
 }
+
+/** A symbol with a subscript, such as g_A, for labels inside a figure. */
+export function Sub({ x, y, base, sub, color = C.dim, size = 10, anchor = 'start' }: { x: number; y: number; base: string; sub: string; color?: string; size?: number; anchor?: 'start' | 'middle' | 'end' }) {
+  return (
+    <text x={x} y={y} fontSize={size} fill={color} textAnchor={anchor} dominantBaseline="middle" fontStyle="italic">
+      {base}<tspan fontSize={size * 0.75} dy={size * 0.3}>{sub}</tspan>
+    </text>
+  )
+}

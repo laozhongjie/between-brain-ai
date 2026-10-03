@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import type { Bi } from '../../../data/types'
-import { Svg } from '../kit'
+import { C, Svg } from '../kit'
 import { Flow, Mod, Num, Region, Store } from '../grammar'
+import { Axes, Bar, FigSlider, Heat, Label, SIDE_COLOR, Vec, px, py, type Frame } from '../plot'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -65,6 +67,107 @@ function TemArch({ t }: FigProps) {
   )
 }
 
+/** A grid cell's firing map in a 1 m box, interactive: three plane waves 60° apart sum to a hexagonal grid; drag the
+ * spacing λ. Starts at the worked example's 50 cm. */
+function GridCellPlot({ t }: FigProps) {
+  const [lam, setLam] = useState(50)
+  const col = SIDE_COLOR.bio
+  const n = 50, size = 100, cell = 3
+  const k = (4 * Math.PI) / (Math.sqrt(3) * lam)
+  const us = [0, 1, 2].map((i) => { const a = (i * 60 * Math.PI) / 180; return [k * Math.cos(a), k * Math.sin(a)] })
+  const r = (x: number, y: number) => us.reduce((s, [a, c]) => s + Math.cos(a * (x - 50) + c * (y - 50)), 0)
+  const vals = Array.from({ length: n }, (_, i) => Array.from({ length: n }, (_, j) => Math.max(0, (r((j + 0.5) * (size / n), (i + 0.5) * (size / n)) + 1.5) / 4.5) ** 2))
+  const x0 = 20, y0 = 26
+  const readout = (v: number) => t(b(`间距 $\\lambda = ${v}$ 厘米`, `spacing $\\lambda = ${v}$ cm`))
+  return (
+    <>
+      <Svg id="f16mb0" w={380} h={196} label={t(b('网格细胞：三组相隔 60 度的平面波叠加，在环境中形成六边形排列的放电点', 'A grid cell: three plane waves 60 degrees apart add up to firing fields arranged in hexagons'))}>
+        <Heat x={x0} y={y0} cell={cell} vals={vals} pos={col} gap={0} />
+        <rect x={x0} y={y0} width={n * cell} height={n * cell} fill="none" stroke={C.line} />
+        <line x1={x0} x2={x0 + (lam / size) * n * cell} y1={y0 + n * cell + 10} y2={y0 + n * cell + 10} stroke={C.ink} strokeWidth={1.6} />
+        <Label x={x0 + (lam / size) * n * cell + 6} y={y0 + n * cell + 10} s={`λ = ${lam} ${t(b('厘米', 'cm'))}`} anchor="start" size={10} color={C.ink} />
+        <Label x={190} y={44} s={t(b('1 米 × 1 米的场地，\n颜色越亮放电越多', 'A 1 m × 1 m box;\nbrighter means more firing'))} anchor="start" size={10} />
+        {us.map(([a, c], i) => <Vec key={i} x1={230} y1={120} x2={230 + (a / k) * 34} y2={120 - (c / k) * 34} color={C.dim} width={1.2} />)}
+        <Label x={276} y={120} s={t(b('三组平面波的方向，\n相隔 60°', 'the three waves’\ndirections, 60° apart'))} anchor="start" size={10} />
+        <Label x={190} y={168} s={t(b('相隔一个周期的位置，\n单个细胞分不出来', 'one cell cannot tell apart\nplaces a period apart'))} anchor="start" size={10} />
+      </Svg>
+      <FigSlider label="$\lambda$" value={lam} min={30} max={80} step={1} onChange={setLam} readout={readout(lam)} widest={[50].map(readout)} />
+    </>
+  )
+}
+
+/** The successor representation on the worked example's one-way corridor A → B → C (ending at C), interactive: drag γ.
+ * M(A, ·) = (1, γ, γ²), and with reward at C, V = (γ², γ, 1). Starts at γ = 0.5. */
+function SuccessorPlot({ t }: FigProps) {
+  const [g, setG] = useState(0.5)
+  const col = SIDE_COLOR.bio
+  const M = [1, g, g * g], V = [g * g, g, 1]
+  const f1: Frame = { x: 40, y: 34, w: 130, h: 120, xr: [0.4, 3.6], yr: [0, 1.1] }
+  const f2: Frame = { x: 226, y: 34, w: 130, h: 120, xr: [0.4, 3.6], yr: [0, 1.1] }
+  const ticks: [number, string][] = [[1, 'A'], [2, 'B'], [3, 'C']]
+  const readout = (v: number) => t(b(`$\\gamma = ${v.toFixed(2)}$：$V(\\mathrm{A}) = ${(v * v).toFixed(2)}$`, `$\\gamma = ${v.toFixed(2)}$: $V(\\mathrm{A}) = ${(v * v).toFixed(2)}$`))
+  return (
+    <>
+      <Svg id="f16mb1" w={380} h={196} label={t(b('后继表征：从 A 出发将来到访各处的折扣次数，乘以奖赏就得到价值', 'Successor representation: discounted future visits from A, times reward, give value'))}>
+        <Axes f={f1} xTicks={ticks} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]} xLabel={t(b('将来到访的位置', 'Future position'))} grid />
+        <Label x={f1.x - 4} y={f1.y - 14} s={t(b('M(A, ·)：从 A 出发', 'M(A, ·): starting at A'))} anchor="start" />
+        {M.map((v, i) => <Bar key={i} f={f1} x={i + 1} v={v} w={0.55} color={col} opacity={0.7} />)}
+        {M.map((v, i) => <Label key={i} x={px(f1, i + 1)} y={py(f1, v) - 8} s={v.toFixed(2)} size={10} color={col} />)}
+        <Axes f={f2} xTicks={ticks} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]} xLabel={t(b('出发位置（奖赏在 C）', 'Start (reward at C)'))} grid />
+        <Label x={f2.x - 4} y={f2.y - 14} s={t(b('V = M · R', 'V = M · R'))} anchor="start" />
+        {V.map((v, i) => <Bar key={i} f={f2} x={i + 1} v={v} w={0.55} color={col} />)}
+        {V.map((v, i) => <Label key={i} x={px(f2, i + 1)} y={py(f2, v) - 8} s={v.toFixed(2)} size={10} color={col} />)}
+      </Svg>
+      <FigSlider label="$\gamma$" value={g} min={0} max={0.95} step={0.01} onChange={setG} readout={readout(g)} widest={[0.5].map(readout)} />
+    </>
+  )
+}
+
+/** Path integration from the worked example: right, down, left, up from (0, 0) brings the position back to the start,
+ * where a red door was seen at step 1. */
+function PathIntegrationPlot({ t }: FigProps) {
+  const col = SIDE_COLOR.comp
+  const sc = 70, ox = 100, oy = 56
+  const P = (x: number, y: number) => [ox + x * sc, oy - y * sc] as const
+  const pts: [number, number][] = [[0, 0], [1, 0], [1, -1], [0, -1], [0, 0]]
+  return (
+    <Svg id="f16mc0" w={380} h={196} label={t(b('路径积分：按动作更新位置，右下左上走一圈回到起点', 'Path integration: the position updates with each action, and right, down, left, up returns to the start'))}>
+      {pts.slice(0, 4).map(([x, y], i) => {
+        const [x1, y1] = P(x, y), [x2, y2] = P(pts[i + 1][0], pts[i + 1][1])
+        const dx = Math.sign(x2 - x1) * 10, dy = Math.sign(y2 - y1) * 10
+        return (
+          <g key={i}>
+            <Vec x1={x1 + dx} y1={y1 + dy} x2={x2 - dx} y2={y2 - dy} color={col} width={1.8} />
+            <circle cx={(x1 + x2) / 2 + (dy ? (x === 1 ? 12 : -12) : 0)} cy={(y1 + y2) / 2 + (dx ? (y === 0 ? -12 : 12) : 0)} r={8} fill={C.white} stroke={col} />
+            <text x={(x1 + x2) / 2 + (dy ? (x === 1 ? 12 : -12) : 0)} y={(y1 + y2) / 2 + (dx ? (y === 0 ? -12 : 12) : 0)} fontSize={9.5} textAnchor="middle" dominantBaseline="middle" fill={col}>{i + 1}</text>
+          </g>
+        )
+      })}
+      {([[0, 0, '(0, 0)'], [1, 0, '(1, 0)'], [1, -1, '(1, −1)'], [0, -1, '(0, −1)']] as [number, number, string][]).map(([x, y, s]) => {
+        const [cx, cy] = P(x, y)
+        return (
+          <g key={s}>
+            <circle cx={cx} cy={cy} r={5} fill={x === 0 && y === 0 ? C.pinkD : C.ink} />
+            <text x={cx + (x ? 10 : -10)} y={cy + (y ? 14 : -10)} fontSize={10} textAnchor={x ? 'start' : 'end'} dominantBaseline="middle" fill={C.dim} fontFamily="var(--mono)">{s}</text>
+          </g>
+        )
+      })}
+      <Label x={ox - 12} y={oy + 18} s={t(b('红门：第 1 步看到', 'Red door,\nseen at step 1'))} anchor="end" size={10} color={C.pinkD} />
+      <Label x={250} y={64} s={t(b('右 (1, 0)、下 (0, −1)、\n左 (−1, 0)、上 (0, 1)', 'right (1, 0), down (0, −1),\nleft (−1, 0), up (0, 1)'))} anchor="start" size={10} />
+      <Label x={250} y={124} s={t(b('回到 (0, 0)：模型知道\n这里来过，可以取出\n当初看到的红门', 'back at (0, 0): the model\nknows it has been here\nand recalls the red door'))} anchor="start" size={10} color={col} />
+    </Svg>
+  )
+}
+
 export const COGNITIVE_MAP_FIGS: TopicFigs = {
   arch: { brain: CognitiveMapArch, ai: TemArch },
+  math: {
+    bio: {
+      0: { Fig: GridCellPlot, cap: b('拖动滑块改变网格间距 $\\lambda$。三组方向相隔 $60°$ 的余弦平面波相加，波峰重合处是放电中心，排成六边形；默认 $\\lambda = 50$ 厘米。不同网格模块的间距不同，几个模块组合起来，才能唯一确定位置。', 'Drag the slider to change the grid spacing $\\lambda$. Three cosine plane waves $60°$ apart add up; where their crests meet are the firing centers, arranged in hexagons. The default is $\\lambda = 50$ cm. Grid modules differ in spacing, and only several together pin down a unique position.') },
+      1: { Fig: SuccessorPlot, cap: b('小例子的单向走廊 A、B、C。拖动滑块改变折扣 $\\gamma$。左：从 A 出发将来到访各处的折扣次数 $(1, \\gamma, \\gamma^2)$；右：奖赏在 C 时的价值 $(\\gamma^2, \\gamma, 1)$。默认 $\\gamma = 0.5$ 时 $V(\\mathrm{A}) = 0.25$。奖赏换地方时只需重算乘积，$M$ 不变。', 'The worked example’s one-way corridor A, B, C. Drag the slider to change the discount $\\gamma$. Left: discounted future visits from A, $(1, \\gamma, \\gamma^2)$. Right: values with the reward at C, $(\\gamma^2, \\gamma, 1)$. At the default $\\gamma = 0.5$, $V(\\mathrm{A}) = 0.25$. If the reward moves, only the product is recomputed; $M$ stays.') },
+    },
+    comp: {
+      0: { Fig: PathIntegrationPlot, cap: b('小例子：位置向量取二维坐标，每个动作加上一个固定的位移。依次走右、下、左、上，回到 $(0, 0)$。模型从未沿这条路走到这里，却能从位置知道「来过这里」，从绑定记忆中取出第 1 步看到的红门。', 'The worked example: the position vector is a 2D coordinate, and each action adds a fixed step. Right, down, left, up returns to $(0, 0)$. The model has never taken this route here, yet from the position it knows it has been here and recalls the red door seen at step 1.') },
+    },
+  },
 }
