@@ -426,6 +426,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .ai-section { position: absolute; top: 58px; left: 0; right: 0; bottom: 0; }
 /* Directory drawer: hidden past the left edge, slides out over the page when the pointer reaches the edge or its tab */
 .ai-drawer { position: absolute; top: 0; bottom: 0; left: 0; z-index: 20; width: min(290px, 86vw); transform: translateX(-100%); transition: transform .35s var(--ease) .15s; }
+/* English titles run longer: wide enough that the longest stays on one line with the hover indent */
+:root[lang='en'] .ai-drawer { width: min(370px, 86vw); }
 .ai-drawer::after { content: ''; position: absolute; top: 0; bottom: 0; right: -14px; width: 14px; }
 .ai-drawer:hover, .ai-drawer:has(:focus-visible), .ai-drawer.open { transform: none; transition-delay: 0s; }
 .ai-drawer-tab {
