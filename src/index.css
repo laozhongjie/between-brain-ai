@@ -619,14 +619,16 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .concept-index mark { padding: 0 1px; border-radius: 3px; color: var(--accent); background: rgba(125,211,252,0.14); }
 .ci-group { scroll-margin-top: 12px; padding: 4px 0 26px; }
 .ci-group + .ci-group { padding-top: 22px; border-top: 1px solid var(--panel-border); }
-.ci-group-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; }
-.ai-page .ci-group-head h2 { margin: 0; font-size: 19px; }
+/* the number and the letter sit in a line box as tall as the first line of the text beside them, centred in it */
+.ci-group-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.ci-group-head .dir-no { line-height: 26.6px; }
+.ai-page .ci-group-head h2 { margin: 0; font-size: 19px; line-height: 26.6px; }
 .ci-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .ci-card { display: flex; flex-direction: column; padding: 14px 8px 8px 16px; border: 1px solid rgba(170,195,230,0.09); border-radius: 10px; background: rgba(170,195,230,0.025); }
-.ci-card-head { display: flex; align-items: baseline; gap: 10px; padding-right: 8px; margin-bottom: 8px; }
-.ci-letter { flex: none; width: 14px; font: 400 12px/1 var(--label); letter-spacing: 0.04em; color: var(--accent); }
-.ci-term { font-size: 15px; font-weight: 500; line-height: 1.45; color: var(--text-h); text-wrap: balance; }
-:root[lang='en'] .ci-term { font-size: 14px; text-wrap: pretty; }
+.ci-card-head { display: flex; align-items: flex-start; gap: 10px; padding-right: 8px; margin-bottom: 8px; }
+.ci-letter { flex: none; width: 14px; font: 400 12px/21.75px var(--label); letter-spacing: 0.04em; color: var(--accent); }
+.ci-term { font-size: 15px; font-weight: 500; line-height: 21.75px; color: var(--text-h); text-wrap: balance; }
+:root[lang='en'] .ci-term { font-size: 14px; line-height: 21.75px; text-wrap: pretty; }
 .ci-links { list-style: none; margin: 0; padding: 0 0 0 24px; }
 .ai-page .ci-links li { margin: 0; font-size: inherit; line-height: inherit; }
 .ci-link { position: relative; display: flex; flex-direction: column; gap: 1px; width: 100%; padding: 6px 28px 6px 14px; border: 0; border-radius: 6px; background: none; text-align: left; cursor: pointer; transition: background .2s; }
