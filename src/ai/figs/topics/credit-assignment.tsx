@@ -1,7 +1,8 @@
+import { useState } from 'react'
 import type { Bi } from '../../../data/types'
 import { C, Svg, T } from '../kit'
 import { Flow, Mod, Num, Store, Var } from '../grammar'
-import { Axes, Bar, Dot, Label, Path, SIDE_COLOR, Vec, gauss, px, py, rng, trace, type Frame } from '../plot'
+import { Axes, Bar, Dot, FigSlider, Label, Path, SIDE_COLOR, Vec, gauss, px, py, rng, trace, type Frame } from '../plot'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -68,28 +69,29 @@ function BackpropArch({ t }: FigProps) {
   )
 }
 
-/** The eligibility trace after co-activity at t = 0 (τ_e = 1 s) and the weight change for dopamine at 0.5 s or 3 s. */
+/** The eligibility trace after co-activity at t = 0 (τ_e = 1 s), interactive: drag when dopamine arrives; the weight
+ * change is proportional to the trace at that moment. Starts at the worked example's 0.5 s. */
 function EligibilityPlot({ t }: FigProps) {
+  const [delay, setDelay] = useState(0.5)
   const col = SIDE_COLOR.bio
   const f: Frame = { x: 40, y: 34, w: 310, h: 120, xr: [-0.5, 4], yr: [0, 1.1] }
   const e = (s: number) => (s < 0 ? 0 : Math.exp(-s))
-  const drop = (s: number) => (
-    <g>
-      <Vec x1={px(f, s)} y1={f.y - 16} x2={px(f, s)} y2={py(f, e(s)) - 6} color={C.lemonD} width={1.3} />
-      <Dot f={f} x={s} y={e(s)} color={col} />
-    </g>
-  )
+  const readout = (s: number) => t(b(`多巴胺 ${s.toFixed(2)} 秒后到：$\\Delta w \\propto ${e(s).toFixed(2)}$`, `dopamine at ${s.toFixed(2)} s: $\\Delta w \\propto ${e(s).toFixed(2)}$`))
   return (
-    <Svg id="f07mb0" w={380} h={198} label={t(b('资格迹：共同活动留下的痕迹逐渐衰减，多巴胺来得越晚，突触改变越小', 'The eligibility trace: the mark left by co-activity fades, so the later dopamine arrives, the smaller the change'))}>
-      <Axes f={f} xTicks={[[0, '0'], [0.5, '0.5'], [1, '1'], [2, '2'], [3, '3'], [4, '4']]} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]}
-        xLabel={t(b('共同活动之后的时间（秒）', 'Time after co-activity (s)'))} />
-      <Label x={f.x - 4} y={14} s={t(b('资格迹 e', 'Trace e'))} anchor="start" />
-      <Path pts={trace(f, e, -0.5, 4, 200)} color={col} />
-      {drop(0.5)}
-      {drop(3)}
-      <Label x={px(f, 0.5) + 8} y={f.y - 10} s={t(b('多巴胺 0.5 秒后到：Δw ∝ 0.61', 'dopamine at 0.5 s: Δw ∝ 0.61'))} anchor="start" size={10} color={C.lemonD} />
-      <Label x={px(f, 3) - 6} y={py(f, 0.32)} s={t(b('3 秒后才到：\nΔw ∝ 0.05', 'at 3 s:\nΔw ∝ 0.05'))} anchor="end" size={10} color={C.lemonD} />
-    </Svg>
+    <>
+      <Svg id="f07mb0" w={380} h={198} label={t(b('资格迹：共同活动留下的痕迹逐渐衰减，多巴胺来得越晚，突触改变越小', 'The eligibility trace: the mark left by co-activity fades, so the later dopamine arrives, the smaller the change'))}>
+        <Axes f={f} xTicks={[[0, '0'], [1, '1'], [2, '2'], [3, '3'], [4, '4']]} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]}
+          xLabel={t(b('共同活动之后的时间（秒）', 'Time after co-activity (s)'))} />
+        <Label x={f.x - 4} y={14} s={t(b('资格迹 e', 'Trace e'))} anchor="start" />
+        <Path pts={trace(f, e, -0.5, 4, 200)} color={col} />
+        <Vec x1={px(f, delay)} y1={f.y - 14} x2={px(f, delay)} y2={py(f, e(delay)) - 6} color={C.lemonD} width={1.3} />
+        <Label x={px(f, delay) + (delay > 3 ? -6 : 6)} y={f.y - 10} s={t(b('多巴胺', 'dopamine'))} anchor={delay > 3 ? 'end' : 'start'} size={10} color={C.lemonD} />
+        <line x1={px(f, delay)} x2={px(f, delay)} y1={py(f, e(delay))} y2={py(f, 0)} stroke={col} strokeOpacity={0.6} strokeWidth={3} />
+        <Dot f={f} x={delay} y={e(delay)} color={col} r={4} />
+      </Svg>
+      <FigSlider label={t(b('多巴胺到达', 'Dopamine arrives'))} value={delay} min={0} max={4} step={0.05} onChange={setDelay}
+        readout={readout(delay)} widest={[0.5, 3.85].map(readout)} />
+    </>
   )
 }
 
@@ -140,7 +142,7 @@ export const CREDIT_FIGS: TopicFigs = {
   arch: { brain: ThreeFactorArch, ai: BackpropArch },
   math: {
     bio: {
-      0: { Fig: EligibilityPlot, cap: b('共同活动在 $t = 0$ 把迹设为 $1$，之后按 $\\tau_e = 1$ 秒衰减。多巴胺 $0.5$ 秒后到达时迹还有 $0.61$，突触明显增强；$3$ 秒后才到只剩 $0.05$，几乎不变。所以奖赏只能回溯几个 $\\tau_e$。', 'Co-activity at $t = 0$ sets the trace to $1$, which then decays with $\\tau_e = 1$ s. Dopamine arriving after $0.5$ s finds $0.61$ and the synapse clearly strengthens; arriving after $3$ s it finds $0.05$ and almost nothing changes. Reward reaches back only a few $\\tau_e$.') },
+      0: { Fig: EligibilityPlot, cap: b('拖动滑块改变多巴胺到达的时间。共同活动在 $t = 0$ 把迹设为 $1$，之后按 $\\tau_e = 1$ 秒衰减；突触的改变与多巴胺到达那一刻的迹成正比（竖线高度）。默认 $0.5$ 秒时迹还有 $0.61$，突触明显增强；拖到 $3$ 秒只剩 $0.05$，几乎不变。所以奖赏只能回溯几个 $\\tau_e$。', 'Drag the slider to change when dopamine arrives. Co-activity at $t = 0$ sets the trace to $1$, which then decays with $\\tau_e = 1$ s; the change in the synapse is proportional to the trace when dopamine arrives (the bar). At the default $0.5$ s the trace is still $0.61$ and the synapse clearly strengthens; at $3$ s only $0.05$ is left and almost nothing changes. Reward reaches back only a few $\\tau_e$.') },
       1: { Fig: PerturbationPlot, cap: b('示意：两个权重时，每次的随机波动 $\\xi$ 不同，单次更新可能指向任何方向，甚至与梯度相反。把 40 次平均，结果就接近真实梯度。神经元越多，单次更新越乱，需要平均的次数越多，这就是全局信号学得慢的原因。', 'Illustration with two weights: the random fluctuation $\\xi$ differs each time, so a single update can point anywhere, even against the gradient. Averaged over 40 trials, the result is close to the true gradient. With more neurons each update is noisier and more trials are needed, which is why a global signal learns slowly.') },
     },
     comp: {

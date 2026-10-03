@@ -1,7 +1,8 @@
+import { useState } from 'react'
 import type { Bi } from '../../../data/types'
 import { C, Svg } from '../kit'
 import { Flow, Gap, Mod, Num } from '../grammar'
-import { Axes, Bar, Dot, Label, Path, Ref, SIDE_COLOR, gauss, px, py, rng, trace, type Frame } from '../plot'
+import { Axes, Bar, Dot, FigSlider, Label, Path, Ref, SIDE_COLOR, gauss, px, py, rng, trace, type Frame } from '../plot'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -124,28 +125,37 @@ function ReliabilityPlot({ t }: FigProps) {
   )
 }
 
-/** Softmax of scores (2, 0) at T = 1 and T = 2, against an accuracy of 73%. */
+/** Temperature scaling, interactive: scores (2, 0); drag T to see the two probabilities (left) and the top answer's
+ * probability against T (right), with the actual accuracy of 73%. Starts at the worked example's answer, T = 2. */
 function TemperaturePlot({ t }: FigProps) {
+  const [T, setT] = useState(2)
   const col = SIDE_COLOR.comp
-  const f: Frame = { x: 44, y: 28, w: 210, h: 140, xr: [0.3, 4.7], yr: [0, 1] }
-  const sm = (T: number) => { const a = Math.exp(2 / T); return [a / (a + 1), 1 / (a + 1)] }
-  const groups = [[1, sm(1)], [2, sm(2)]] as const
+  const pOf = (v: number) => { const a = Math.exp(2 / v); return a / (a + 1) }
+  const pa = pOf(T), pb = 1 - pa
+  const f1: Frame = { x: 40, y: 40, w: 120, h: 124, xr: [0.4, 2.6], yr: [0, 1] }
+  const f2: Frame = { x: 210, y: 40, w: 120, h: 124, xr: [0.5, 4], yr: [0.5, 1] }
+  const readout = (v: number) => t(b(`$T = ${v.toFixed(2)}$，答案 A 的概率 ${pOf(v).toFixed(2)}`, `$T = ${v.toFixed(2)}$: answer A gets ${pOf(v).toFixed(2)}`))
   return (
-    <Svg id="f24mc1" w={380} h={214} label={t(b('温度 T = 2 把较高答案的概率从 0.88 降到 0.73，与实际正确率一致', 'Temperature T = 2 lowers the top answer from 0.88 to 0.73, matching actual accuracy'))}>
-      <Axes f={f} xTicks={[[1, 'A'], [2, 'B'], [3, 'A'], [4, 'B']]} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]} yLabel={t(b('概率', 'Probability'))} grid />
-      <Ref f={f} y={0.73} color={C.lemonD} />
-      <Label x={f.x + f.w + 6} y={py(f, 0.73)} s={t(b('实际正确率\n73%', 'actual accuracy\n73%'))} anchor="start" color={C.lemonD} />
-      {groups.map(([T, [pa, pb]], g) => (
-        <g key={T}>
-          <Bar f={f} x={1 + 2 * g} v={pa} w={0.6} color={col} />
-          <Bar f={f} x={2 + 2 * g} v={pb} w={0.6} color={C.dim} />
-          <Label x={px(f, 1 + 2 * g)} y={py(f, pa) - 8} s={pa.toFixed(2)} size={10} color={col} />
-          <Label x={px(f, 2 + 2 * g)} y={py(f, pb) - 8} s={pb.toFixed(2)} size={10} />
-          <Label x={px(f, 1.5 + 2 * g)} y={f.y + f.h + 27} s={`T = ${T}`} color={C.ink} />
-        </g>
-      ))}
-      <Label x={f.x + f.w + 6} y={py(f, 0.2)} s={t(b('A 得分 2\nB 得分 0', 'A scores 2\nB scores 0'))} anchor="start" />
-    </Svg>
+    <>
+      <Svg id="f24mc1" w={380} h={206} label={t(b('温度缩放：T 越大，较高答案的概率越低；T = 2 时与实际正确率一致', 'Temperature scaling: the larger T, the lower the top answer’s probability; at T = 2 it matches actual accuracy'))}>
+        <Axes f={f1} xTicks={[[1, 'A'], [2, 'B']]} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]} grid />
+        <Label x={f1.x - 4} y={f1.y - 24} s={t(b('概率', 'Probability'))} anchor="start" />
+        <Ref f={f1} y={0.73} color={C.lemonD} />
+        <Bar f={f1} x={1} v={pa} w={0.6} color={col} />
+        <Bar f={f1} x={2} v={pb} w={0.6} color={C.dim} />
+        <Label x={px(f1, 1)} y={py(f1, pa) - 8} s={pa.toFixed(2)} size={10} color={col} />
+        <Label x={px(f1, 2)} y={py(f1, pb) - 8} s={pb.toFixed(2)} size={10} />
+        <Label x={px(f1, 1.5)} y={f1.y + f1.h + 27} s={t(b('A 得分 2，B 得分 0', 'A scores 2, B scores 0'))} size={10} />
+        <Axes f={f2} xTicks={[[0.5, ''], [1, '1'], [2, '2'], [3, '3'], [4, '4']]} yTicks={[[0.5, '0.5'], [0.73, '0.73'], [1, '1']]} xLabel={t(b('温度 T', 'Temperature T'))} grid />
+        <Label x={f2.x - 4} y={f2.y - 24} s={t(b('答案 A 的概率', 'Probability of A'))} anchor="start" />
+        <Ref f={f2} y={0.73} color={C.lemonD} />
+        <Label x={f2.x + f2.w + 5} y={py(f2, 0.73)} s={t(b('实际\n正确率', 'actual\naccuracy'))} anchor="start" size={10} color={C.lemonD} />
+        <Path pts={trace(f2, pOf, 0.5, 4, 200)} color={col} opacity={0.45} />
+        <Dot f={f2} x={T} y={pa} color={col} r={4} />
+      </Svg>
+      <FigSlider label={t(b('温度 $T$', 'Temperature $T$'))} value={T} min={0.5} max={4} step={0.05} onChange={setT}
+        readout={readout(T)} widest={[0.5, 2, 3.95].map(readout)} />
+    </>
   )
 }
 
@@ -157,7 +167,7 @@ export const MONITORING_FIGS: TopicFigs = {
     },
     comp: {
       0: { Fig: ReliabilityPlot, cap: b('可靠性图把回答按置信度分组，比较每组的置信度和实际正确率。落在对角线上就是校准良好；高信心组比对角线低 $0.2$，乘以它占的 60%，就是 $\\mathrm{ECE} = 0.12$。', 'A reliability diagram groups answers by confidence and compares each group’s confidence with its accuracy. On the diagonal means well calibrated. The high-confidence group sits $0.2$ below it, and times its 60% share that gives $\\mathrm{ECE} = 0.12$.') },
-      1: { Fig: TemperaturePlot, cap: b('同样的得分 $(2, 0)$，$T = 1$ 时较高答案的概率为 $0.88$，比实际正确率高出 $0.15$；$T = 2$ 把分布摊平到 $0.73$，与正确率一致。答案的排序不变，只是置信度变了。', 'With the same scores $(2, 0)$, the top answer gets $0.88$ at $T = 1$, $0.15$ above actual accuracy. $T = 2$ flattens the distribution to $0.73$, matching accuracy. The ranking of answers is unchanged; only the confidence moves.') },
+      1: { Fig: TemperaturePlot, cap: b('拖动滑块改变温度 $T$，得分仍是 $(2, 0)$。左：两个答案的概率；右：答案 A 的概率随 $T$ 的变化，黄线是实际正确率 $73\\%$。$T = 1$ 时为 $0.88$，高出 $0.15$；拖到 $T = 2$ 正好落在黄线上。答案的排序始终不变，变的只是置信度。', 'Drag the slider to change the temperature $T$; the scores stay $(2, 0)$. Left: the two answers’ probabilities. Right: answer A’s probability against $T$, with actual accuracy, $73\\%$, in yellow. At $T = 1$ it is $0.88$, $0.15$ too high; at $T = 2$ it sits on the yellow line. The ranking never changes, only the confidence.') },
     },
   },
 }

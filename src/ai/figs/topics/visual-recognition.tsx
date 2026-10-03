@@ -1,7 +1,8 @@
+import { useState } from 'react'
 import type { Bi } from '../../../data/types'
 import { C, Svg, T } from '../kit'
 import { Flow, Gap, Mod, Num, Region, Var } from '../grammar'
-import { Axes, Heat, Label, Path, SIDE_COLOR, Vec, gauss, px, py, rng, trace, type Frame } from '../plot'
+import { Axes, Dot, FigSlider, Heat, Label, Path, SIDE_COLOR, Vec, gauss, px, py, rng, trace, type Frame } from '../plot'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -78,31 +79,42 @@ function VisionModelArch({ t }: FigProps) {
   )
 }
 
-/** An odd-symmetric Gabor receptive field (an edge detector, dark left and bright right), and its rectified response
- * to a matched grating as the grating turns away from the preferred orientation. */
+/** A V1 simple cell, interactive: an odd-symmetric Gabor receptive field (an edge detector, dark left and bright
+ * right), a matched grating at the angle set by the slider, and the rectified response against angle with the current
+ * point. Starts at the preferred orientation, 0°. */
 function GaborPlot({ t }: FigProps) {
+  const [deg, setDeg] = useState(0)
   const col = SIDE_COLOR.bio
   const n = 21, sigma = 4, gamma = 0.7, lambda = 9
   const G = (x: number, y: number) => Math.exp(-(x * x + gamma * gamma * y * y) / (2 * sigma * sigma)) * Math.sin((2 * Math.PI * x) / lambda)
   const cells = Array.from({ length: n }, (_, r) => Array.from({ length: n }, (_, c) => G(c - 10, r - 10)))
   const peak = Math.max(...cells.flat())
-  const resp = (deg: number) => {
-    const a = (deg * Math.PI) / 180
-    let s = 0
-    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) s += cells[r][c] * Math.sin((2 * Math.PI * ((c - 10) * Math.cos(a) + (r - 10) * Math.sin(a))) / lambda)
-    return s
-  }
+  const grating = (d: number, x: number, y: number) => { const a = (d * Math.PI) / 180; return Math.sin((2 * Math.PI * (x * Math.cos(a) + y * Math.sin(a))) / lambda) }
+  const resp = (d: number) => { let s = 0; for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) s += cells[r][c] * grating(d, c - 10, r - 10); return s }
   const r0 = resp(0)
-  const f: Frame = { x: 196, y: 34, w: 166, h: 120, xr: [-90, 90], yr: [0, 1] }
+  const rel = (d: number) => Math.max(0, resp(d)) / r0
+  const stim = Array.from({ length: n }, (_, r) => Array.from({ length: n }, (_, c) => (grating(deg, c - 10, r - 10) + 1) / 2))
+  const f: Frame = { x: 224, y: 34, w: 138, h: 120, xr: [-90, 90], yr: [0, 1] }
+  const readout = (d: number) => t(b(`偏离 ${d}°：放电 ${rel(d).toFixed(2)}`, `${d}° off: firing ${rel(d).toFixed(2)}`))
   return (
-    <Svg id="f01mb0" w={380} h={200} label={t(b('V1 简单细胞：感受野是一个边缘检测器，只对接近偏好方向的条纹放电', 'A V1 simple cell: the receptive field is an edge detector that fires only for stripes near its preferred orientation'))}>
-      <Heat x={18} y={34} cell={6} vals={cells.map((row) => row.map((v) => v / peak))} pos={col} neg={C.lavD} gap={0} />
-      <rect x={18} y={34} width={126} height={126} fill="none" stroke={C.line} />
-      <Label x={81} y={174} s={t(b('感受野 G：粉色处变亮增加放电，\n灰色处变亮抑制放电', 'Receptive field G: light on pink\nexcites, light on gray inhibits'))} size={10} />
-      <Axes f={f} xTicks={[[-90, '−90'], [-45, '−45'], [0, '0'], [45, '45'], [90, '90']]} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]}
-        xLabel={t(b('条纹偏离偏好方向（度）', 'Stripe angle from preferred (°)'))} yLabel={t(b('放电 r，相对最大值', 'Firing r, relative to peak'))} />
-      <Path pts={trace(f, (d) => Math.max(0, resp(d)) / r0, -90, 90, 90)} color={col} />
-    </Svg>
+    <>
+      <Svg id="f01mb0" w={380} h={200} label={t(b('V1 简单细胞：感受野是一个边缘检测器，只对接近偏好方向的条纹放电', 'A V1 simple cell: the receptive field is an edge detector that fires only for stripes near its preferred orientation'))}>
+        <Heat x={14} y={44} cell={4} vals={cells.map((row) => row.map((v) => v / peak))} pos={col} neg={C.lavD} gap={0} />
+        <rect x={14} y={44} width={84} height={84} fill="none" stroke={C.line} />
+        <Label x={56} y={30} s={t(b('感受野 G', 'Receptive field G'))} size={10} color={C.ink} />
+        <Label x={56} y={146} s={t(b('粉色处变亮增加放电\n灰色处变亮抑制放电', 'light on pink excites,\non gray inhibits'))} size={9.5} />
+        <Heat x={112} y={44} cell={4} vals={stim} pos={C.ink} gap={0} />
+        <rect x={112} y={44} width={84} height={84} fill="none" stroke={C.line} />
+        <Label x={154} y={30} s={t(b('条纹刺激', 'Stripe stimulus'))} size={10} color={C.ink} />
+        <Label x={154} y={140} s={t(b(`转了 ${deg}°`, `turned ${deg}°`))} size={10} />
+        <Axes f={f} xTicks={[[-90, '−90'], [0, '0'], [90, '90']]} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]}
+          xLabel={t(b('条纹方向（度）', 'Stripe angle (°)'))} yLabel={t(b('放电 r', 'Firing r'))} />
+        <Path pts={trace(f, rel, -90, 90, 90)} color={col} opacity={0.45} />
+        <Dot f={f} x={deg} y={rel(deg)} color={col} r={4} />
+      </Svg>
+      <FigSlider label={t(b('条纹方向', 'Stripe angle'))} value={deg} min={-90} max={90} step={1} onChange={setDeg}
+        readout={readout(deg)} widest={[-88, -45, 0].map(readout)} />
+    </>
   )
 }
 
@@ -199,7 +211,7 @@ export const VISUAL_FIGS: TopicFigs = {
   arch: { brain: VisualStreamsArch, ai: VisionModelArch },
   math: {
     bio: {
-      0: { Fig: GaborPlot, cap: b('左：感受野 $G$，左负右正，是一个「左暗右亮」的边缘检测器，与小例子中的 $(-1, -1, +1, +1)$ 相同。右：条纹转离偏好方向，加权和变小，整流后在约 $\\pm 40°$ 以外为 $0$，所以每个细胞只报告一个方向。', 'Left: the receptive field $G$, negative on the left and positive on the right, is a dark-to-bright edge detector, the same as the worked example’s $(-1, -1, +1, +1)$. Right: as stripes turn away from the preferred orientation the weighted sum shrinks, and after rectification it is $0$ beyond about $\\pm 40°$, so each cell reports one orientation.') },
+      0: { Fig: GaborPlot, cap: b('拖动滑块转动条纹。左：感受野 $G$，左负右正，是一个「左暗右亮」的边缘检测器，与小例子中的 $(-1, -1, +1, +1)$ 相同。中：与之间距相同的条纹，转动到滑块设定的角度。右：加权和整流后的放电，圆点是当前角度。偏离约 $\\pm 40°$ 以外放电为 $0$，所以每个细胞只报告一个方向。', 'Drag the slider to turn the stripes. Left: the receptive field $G$, negative on the left and positive on the right, a dark-to-bright edge detector like the worked example’s $(-1, -1, +1, +1)$. Middle: stripes of matching spacing, turned to the slider’s angle. Right: the rectified weighted sum, with a dot at the current angle. Beyond about $\\pm 40°$ the cell is silent, so each cell reports one orientation.') },
       1: { Fig: ReadoutPlot, cap: b('每个点是一张图片引起的两个神经元的放电。V1 中面孔和汽车交错分布，没有一条直线能分开。IT 中面孔细胞对面孔放电多，汽车细胞对汽车放电多，$\\mathbf{w} = (1, -1)$、$b = 0$ 的读出就是虚线 $y = 0$。', 'Each dot is two neurons’ firing for one image. In V1 faces and cars interleave and no straight line splits them. In IT the face cell fires more for faces and the car cell for cars, and the readout with $\\mathbf{w} = (1, -1)$, $b = 0$ is the dashed line $y = 0$.') },
     },
     comp: {

@@ -1,7 +1,8 @@
+import { useState } from 'react'
 import type { Bi } from '../../../data/types'
 import { C, Svg } from '../kit'
 import { Flow, Gap, Mod, Num, Var } from '../grammar'
-import { Axes, Bar, Dot, Label, Path, Ref, SIDE_COLOR, px, py, trace, type Frame } from '../plot'
+import { Axes, Bar, Dot, FigSlider, Label, Path, Ref, SIDE_COLOR, px, py, trace, type Frame } from '../plot'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -82,47 +83,65 @@ function MultimodalModelArch({ t }: FigProps) {
 
 const normal = (m: number, s: number) => (x: number) => Math.exp(-((x - m) ** 2) / (2 * s * s)) / (s * Math.sqrt(2 * Math.PI))
 
-/** The worked example: vision says 10 cm (σ = 1), touch 12 cm (σ = 2); the combined estimate is 10.4 cm with σ ≈ 0.89. */
+/** Cue combination, interactive: touch says 12 cm (σ = 2); drag vision's σ_V (vision says 10 cm) to see the weights
+ * and the combined estimate move. Starts at the worked example's σ_V = 1. */
 function CueCombinationPlot({ t }: FigProps) {
+  const [sv, setSv] = useState(1)
   const col = SIDE_COLOR.bio
-  const f: Frame = { x: 40, y: 30, w: 318, h: 128, xr: [4, 18], yr: [0, 0.5] }
-  const sVH = Math.sqrt(0.8)
+  const f: Frame = { x: 40, y: 30, w: 318, h: 128, xr: [4, 18], yr: [0, 0.9] }
+  const comb = (s: number) => { const wv = (1 / s ** 2) / (1 / s ** 2 + 1 / 4); return { wv, m: wv * 10 + (1 - wv) * 12, sd: Math.sqrt((s * s * 4) / (s * s + 4)) } }
+  const c = comb(sv)
+  const readout = (s: number) => { const r = comb(s); return t(b(`$\\sigma_V = ${s.toFixed(2)}$，$w_V = ${r.wv.toFixed(2)}$，合并 ${r.m.toFixed(1)} 厘米`, `$\\sigma_V = ${s.toFixed(2)}$, $w_V = ${r.wv.toFixed(2)}$, combined ${r.m.toFixed(1)} cm`)) }
+  const key = (y: number, color: string, s: string, width = 1.8, opacity = 1) => (
+    <g>
+      <line x1={222} x2={240} y1={y} y2={y} stroke={color} strokeWidth={width} strokeOpacity={opacity} />
+      <Label x={246} y={y} s={s} anchor="start" size={10} color={color} />
+    </g>
+  )
   return (
-    <Svg id="f03mb0" w={380} h={202} label={t(b('视觉与触觉的估计按可靠性合并，合并后的分布比任何一个都窄', 'Vision and touch combined by reliability: the combined distribution is narrower than either'))}>
-      <Axes f={f} xTicks={[[4, '4'], [8, '8'], [10, '10'], [12, '12'], [16, '16']]} xLabel={t(b('物体宽度（厘米）', 'Object width (cm)'))} yLabel={t(b('估计的分布', 'Spread of the estimate'))} />
-      <Path pts={trace(f, normal(12, 2))} color={C.dim} />
-      <Path pts={trace(f, normal(10, 1))} color={col} opacity={0.5} />
-      <Path pts={trace(f, normal(10.4, sVH))} color={col} width={2.2} />
-      <Ref f={f} x={10.4} />
-      <Label x={px(f, 10.1)} y={py(f, 0.47)} s={t(b('合并：10.4，σ = 0.89', 'combined: 10.4, σ = 0.89'))} anchor="end" color={col} />
-      <Label x={px(f, 8.6)} y={py(f, 0.3)} s={t(b('视觉：10，σ = 1', 'vision: 10, σ = 1'))} anchor="end" color={col} />
-      <Label x={px(f, 13.6)} y={py(f, 0.2)} s={t(b('触觉：12，σ = 2', 'touch: 12, σ = 2'))} anchor="start" />
-    </Svg>
+    <>
+      <Svg id="f03mb0" w={380} h={202} label={t(b('视觉与触觉的估计按可靠性合并；视觉越不可靠，合并点越靠近触觉', 'Vision and touch combined by reliability: the less reliable vision is, the closer the combined point moves to touch'))}>
+        <Axes f={f} xTicks={[[4, '4'], [8, '8'], [10, '10'], [12, '12'], [16, '16']]} xLabel={t(b('物体宽度（厘米）', 'Object width (cm)'))} yLabel={t(b('估计的分布', 'Spread of the estimate'))} />
+        <Path pts={trace(f, normal(12, 2))} color={C.dim} />
+        <Path pts={trace(f, normal(10, sv))} color={col} opacity={0.5} />
+        <Path pts={trace(f, normal(c.m, c.sd))} color={col} width={2.2} />
+        <Ref f={f} x={c.m} />
+        {key(42, col, t(b(`视觉：10，σ = ${sv.toFixed(2)}`, `vision: 10, σ = ${sv.toFixed(2)}`)), 1.8, 0.5)}
+        {key(58, C.dim, t(b('触觉：12，σ = 2', 'touch: 12, σ = 2')))}
+        {key(74, col, t(b(`合并：${c.m.toFixed(1)}，σ = ${c.sd.toFixed(2)}`, `combined: ${c.m.toFixed(1)}, σ = ${c.sd.toFixed(2)}`)), 2.2)}
+      </Svg>
+      <FigSlider label={t(b('视觉的 $\\sigma_V$', 'Vision’s $\\sigma_V$'))} value={sv} min={0.5} max={4} step={0.05} onChange={setSv}
+        readout={readout(sv)} widest={[1, 3.95].map(readout)} />
+    </>
   )
 }
 
-/** How far a sound is pulled toward a visual flash at each offset: always merging pulls 0.8 × offset; causal inference
- * scales that by P(same source). P from Gaussian likelihoods with σ = 8.8° (one source), 30° (two) and p_c = 0.75,
- * chosen to match the worked example: P = 0.9 at 5°, 0.05 at 30°. */
+/** How far a sound is pulled toward a visual flash, interactive: drag the offset. Always merging pulls 0.8 × offset;
+ * causal inference scales that by P(same source). P from Gaussian likelihoods with σ = 8.8° (one source), 30° (two)
+ * and p_c = 0.75, chosen to match the worked example: P = 0.9 at 5°, 0.05 at 30°. Starts at 5°. */
 function CausalInferencePlot({ t }: FigProps) {
+  const [d, setD] = useState(5)
   const col = SIDE_COLOR.bio
   const f: Frame = { x: 40, y: 30, w: 300, h: 128, xr: [0, 40], yr: [0, 20] }
   const s1 = 8.8, s2 = 30, pc = 0.75
-  const P = (d: number) => { const l1 = pc * normal(0, s1)(d), l2 = (1 - pc) * normal(0, s2)(d); return l1 / (l1 + l2) }
-  const pull = (d: number) => P(d) * 0.8 * d
+  const P = (x: number) => { const l1 = pc * normal(0, s1)(x), l2 = (1 - pc) * normal(0, s2)(x); return l1 / (l1 + l2) }
+  const pull = (x: number) => P(x) * 0.8 * x
+  const readout = (x: number) => t(b(`错位 ${x.toFixed(1)}°：$P = ${P(x).toFixed(2)}$，拉动 ${pull(x).toFixed(1)}°`, `offset ${x.toFixed(1)}°: $P = ${P(x).toFixed(2)}$, pulled ${pull(x).toFixed(1)}°`))
   return (
-    <Svg id="f03mb1" w={380} h={202} label={t(b('因果推断：错位小时声音被画面拉走，错位大时几乎不动', 'Causal inference: a small offset pulls the sound toward the picture, a large one barely moves it'))}>
-      <Axes f={f} xTicks={[[0, '0'], [5, '5'], [10, '10'], [20, '20'], [30, '30'], [40, '40']]} yTicks={[[0, '0'], [10, '10'], [20, '20']]}
-        xLabel={t(b('画面与声音的错位（度）', 'Offset between picture and sound (°)'))} yLabel={t(b('听到的声音被拉动（度）', 'Pull on the heard sound (°)'))} grid />
-      <Path pts={trace(f, (d) => 0.8 * d, 0, 25, 2)} color={C.dim} dashed width={1.3} />
-      <Label x={px(f, 23)} y={py(f, 19.5)} s={t(b('总是合并', 'always merge'))} anchor="end" size={10} />
-      <Path pts={trace(f, pull)} color={col} />
-      <Dot f={f} x={5} y={pull(5)} color={col} />
-      <Dot f={f} x={30} y={pull(30)} color={col} />
-      <Label x={px(f, 5) + 6} y={py(f, pull(5)) + 12} s="3.6°" anchor="start" size={10} color={col} />
-      <Label x={px(f, 30) + 4} y={py(f, 5)} s={t(b('只拉动 1.2°', 'only 1.2°'))} anchor="start" size={10} color={col} />
-      <Label x={px(f, 16)} y={py(f, pull(16)) - 12} s={t(b('因果推断', 'causal inference'))} size={10} color={col} />
-    </Svg>
+    <>
+      <Svg id="f03mb1" w={380} h={202} label={t(b('因果推断：错位小时声音被画面拉走，错位大时几乎不动', 'Causal inference: a small offset pulls the sound toward the picture, a large one barely moves it'))}>
+        <Axes f={f} xTicks={[[0, '0'], [10, '10'], [20, '20'], [30, '30'], [40, '40']]} yTicks={[[0, '0'], [10, '10'], [20, '20']]}
+          xLabel={t(b('画面与声音的错位（度）', 'Offset between picture and sound (°)'))} yLabel={t(b('听到的声音被拉动（度）', 'Pull on the heard sound (°)'))} grid />
+        <Path pts={trace(f, (x) => 0.8 * x, 0, 25, 2)} color={C.dim} dashed width={1.3} />
+        <Label x={px(f, 23)} y={py(f, 19.5)} s={t(b('总是合并', 'always merge'))} anchor="end" size={10} />
+        <Path pts={trace(f, pull)} color={col} />
+        <Label x={px(f, 30)} y={py(f, 7)} s={t(b('因果推断', 'causal inference'))} anchor="start" size={10} color={col} />
+        <line x1={px(f, d)} x2={px(f, d)} y1={py(f, 0)} y2={py(f, pull(d))} stroke={col} strokeDasharray="3 3" />
+        <Dot f={f} x={d} y={pull(d)} color={col} r={4} />
+      </Svg>
+      <FigSlider label={t(b('错位', 'Offset'))} value={d} min={0} max={40} step={0.5} onChange={setD}
+        readout={readout(d)} widest={[15.5, 38.5].map(readout)} />
+    </>
   )
 }
 
@@ -181,8 +200,8 @@ export const MULTISENSORY_FIGS: TopicFigs = {
   arch: { brain: MultisensoryArch, ai: MultimodalModelArch },
   math: {
     bio: {
-      0: { Fig: CueCombinationPlot, cap: b('三条曲线是三个估计在多次测量中的分布。合并估计 $10.4$ 厘米落在两者之间、更靠近可靠的视觉，标准差 $0.89$ 比视觉单独的 $1$ 还小。视觉变模糊时它的曲线变宽，合并点就移向触觉。', 'Each curve is how an estimate spreads over repeated measurements. The combined estimate, $10.4$ cm, lies between the two and nearer the reliable vision, with a standard deviation of $0.89$, below vision’s $1$. When vision blurs its curve widens and the combined point moves toward touch.') },
-      1: { Fig: CausalInferencePlot, cap: b('虚线是总把两个感官合并时声音被拉动的距离。实线乘上了「同一来源」的概率 $P$：错位 $5°$ 时 $P \\approx 0.9$，拉动 $3.6°$；错位 $30°$ 时 $P \\approx 0.05$，只拉动 $1.2°$。拉动先增后减，大错位被判为两个来源。曲线由高斯似然算出，参数取为与小例子吻合。', 'The dashed line is how far the sound would be pulled if the senses were always merged. The solid line multiplies it by the probability $P$ of one source: at $5°$, $P \\approx 0.9$ and the pull is $3.6°$; at $30°$, $P \\approx 0.05$ and the pull is only $1.2°$. The pull rises then falls, as large offsets are judged two sources. The curve comes from Gaussian likelihoods with parameters chosen to match the worked example.') },
+      0: { Fig: CueCombinationPlot, cap: b('拖动滑块改变视觉的不确定性 $\\sigma_V$，例如光线变暗。触觉固定为 $12$ 厘米、$\\sigma = 2$。默认 $\\sigma_V = 1$ 时视觉权重 $0.8$，合并估计 $10.4$ 厘米，标准差 $0.89$ 比视觉单独的 $1$ 还小。$\\sigma_V$ 拖到 $2$，两者权重相等，合并点在正中间；再大，合并点就移向触觉。无论怎么拖，合并后的分布都比两个单独的窄。', 'Drag the slider to change vision’s uncertainty $\\sigma_V$, as in dimming light. Touch stays at $12$ cm with $\\sigma = 2$. At the default $\\sigma_V = 1$ vision weighs $0.8$, the combined estimate is $10.4$ cm, and its standard deviation of $0.89$ is below vision’s own $1$. At $\\sigma_V = 2$ the weights are equal and the combined point sits midway; beyond that it moves toward touch. However you drag, the combined distribution is narrower than either alone.') },
+      1: { Fig: CausalInferencePlot, cap: b('拖动滑块改变画面与声音的错位。虚线是总把两个感官合并时声音被拉动的距离；实线乘上了「同一来源」的概率 $P$。默认错位 $5°$，$P \\approx 0.9$，拉动 $3.6°$；拖到 $30°$，$P \\approx 0.05$，只拉动 $1.2°$。拉动在约 $16°$ 达到最大后回落，大错位被判为两个来源。曲线由高斯似然算出，参数取为与小例子吻合。', 'Drag the slider to change the offset between picture and sound. The dashed line is how far the sound would be pulled if the senses were always merged; the solid line multiplies it by the probability $P$ of one source. At the default $5°$, $P \\approx 0.9$ and the pull is $3.6°$; at $30°$, $P \\approx 0.05$ and the pull is only $1.2°$. The pull peaks near $16°$ and falls, as large offsets are judged two sources. The curve comes from Gaussian likelihoods with parameters chosen to match the worked example.') },
     },
     comp: {
       0: { Fig: ContrastivePlot, cap: b('左：一批三对的相似度，第一行取自小例子，其余为示意。损失要求每一行的对角线格子最大。右：对狗照片这一行做 softmax，$\\tau = 1$ 时正确文字只占约 $0.46$，$\\tau = 0.1$ 时占 $0.95$；训练会继续拉大 $0.9$ 与 $0.6$ 的差距。', 'Left: similarities in a batch of three pairs; the first row is from the worked example, the rest illustrative. The loss asks each row’s diagonal cell to be the largest. Right: softmax over the dog row gives the right text only about $0.46$ at $\\tau = 1$ but $0.95$ at $\\tau = 0.1$, and training keeps widening the gap between $0.9$ and $0.6$.') },
