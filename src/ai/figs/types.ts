@@ -19,7 +19,7 @@ export interface TopicFigs {
   /** left out while a figure is still to be drawn; the page shows an empty frame instead */
   arch?: { brain: ComponentType<FigProps>; ai: ComponentType<FigProps> }
   dynamics?: ComponentType<FigProps>
-  /** figures kept from the old system card, shown with the equation they illustrate (keyed by equation index) */
+  /** figures beside equations (keyed by equation index): plots of what the equation computes (plot.tsx), or a figure kept from an old system card */
   math?: { bio?: Record<number, MathFig>; comp?: Record<number, MathFig> }
 }
 

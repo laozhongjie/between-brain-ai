@@ -1,7 +1,7 @@
 import type { Bi } from '../../../data/types'
-import { Svg } from '../kit'
+import { C, Svg } from '../kit'
 import { Flow, Mod, Num, Region, Var } from '../grammar'
-import { legacyFig } from '../layer4'
+import { Axes, Bar, Dot, Label, Path, Ref, SIDE_COLOR, STEPS, px, py, trace, type Frame } from '../plot'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -66,20 +66,91 @@ function ActorCriticArch({ t }: FigProps) {
   )
 }
 
+/** The dopamine response in the worked example: before learning, after learning, and after learning with the reward left out. */
+function RpeTransferPlot({ t }: FigProps) {
+  const col = SIDE_COLOR.bio
+  const x0 = 104, x1 = 364, tr: [number, number] = [-0.4, 1.5]
+  const X = (s: number) => x0 + ((s - tr[0]) / (tr[1] - tr[0])) * (x1 - x0)
+  const rows: { y: number; label: string; cue: number; rew: number }[] = [
+    { y: 56, label: t(b('学习前', 'Before learning')), cue: 0, rew: 1 },
+    { y: 114, label: t(b('学习后', 'After learning')), cue: 1, rew: 0 },
+    { y: 172, label: t(b('学习后，\n奖赏没来', 'After learning,\nno reward')), cue: 1, rew: -1 },
+  ]
+  const bump = (s: number, at: number) => Math.exp(-((s - at) ** 2) / (2 * 0.045 ** 2))
+  const axis = 206
+  return (
+    <Svg id="f30mb0" w={380} h={242} label={t(b('多巴胺反应从奖赏转移到线索；奖赏没来时放电暂停', 'The dopamine response moves from the reward to the cue; a missing reward brings a pause'))}>
+      <Label x={X(0)} y={16} s={t(b('线索', 'Cue'))} color={C.ink} />
+      <Label x={X(1)} y={16} s={t(b('奖赏', 'Reward'))} color={C.ink} />
+      <line x1={X(0)} x2={X(0)} y1={26} y2={axis} stroke={C.dim} strokeDasharray="3 3" />
+      <line x1={X(1)} x2={X(1)} y1={26} y2={axis} stroke={C.dim} strokeDasharray="3 3" />
+      {rows.map((r) => (
+        <g key={r.y}>
+          <Label x={10} y={r.y} s={r.label} anchor="start" />
+          <Path pts={Array.from({ length: 241 }, (_, i) => { const s2 = tr[0] + ((tr[1] - tr[0]) * i) / 240; return [X(s2), r.y - 24 * (r.cue * bump(s2, 0) + r.rew * bump(s2, 1))] as [number, number] })} color={col} />
+          <Label x={X(0) + 8} y={r.y - (r.cue ? 18 : 9)} s={`δ = ${r.cue}`} anchor="start" size={10} color={r.cue ? col : C.dim} />
+          <Label x={X(1) + 8} y={r.y + (r.rew < 0 ? 18 : r.rew ? -18 : -9)} s={`δ = ${r.rew < 0 ? '−1' : r.rew}`} anchor="start" size={10} color={r.rew ? col : C.dim} />
+        </g>
+      ))}
+      <line x1={x0} x2={x1} y1={axis} y2={axis} stroke={C.dim} />
+      {[0, 1].map((s2) => <text key={s2} x={X(s2)} y={axis + 11} fontSize={10} textAnchor="middle" dominantBaseline="middle" fill={C.dim}>{s2}</text>)}
+      <Label x={(x0 + x1) / 2} y={axis + 27} s={t(b('时间（秒）', 'Time (s)'))} />
+    </Svg>
+  )
+}
+
+/** Rewards of 0 or 10, half the time each: a neuron with asymmetry τ settles where τ(10 − V) = (1 − τ)V, at V = 10τ. */
+function DistributionalPlot({ t }: FigProps) {
+  const col = SIDE_COLOR.bio
+  const f1: Frame = { x: 70, y: 26, w: 270, h: 44, xr: [-1, 11], yr: [0, 0.6] }
+  const f2: Frame = { x: 70, y: 100, w: 270, h: 96, xr: [-1, 11], yr: [0, 1] }
+  const taus = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+  return (
+    <Svg id="f30mb1" w={380} h={240} label={t(b('乐观与悲观的神经元学到奖赏分布的不同位置', 'Optimistic and pessimistic neurons learn different points of the reward distribution'))}>
+      <Label x={f1.x - 8} y={f1.y + f1.h / 2} s={t(b('奖赏\n分布', 'Reward\nodds'))} anchor="end" />
+      <line x1={f1.x} x2={f1.x + f1.w} y1={f1.y + f1.h} y2={f1.y + f1.h} stroke={C.dim} />
+      {[0, 10].map((r) => <Bar key={r} f={f1} x={r} v={0.5} w={0.7} color={C.dim} />)}
+      {[0, 10].map((r) => <Label key={r} x={px(f1, r)} y={py(f1, 0.5) - 8} s={t(b('一半', 'half'))} size={10} />)}
+      <Axes f={f2} xTicks={[[0, '0'], [2, '2'], [5, '5'], [8, '8'], [10, '10']]} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]}
+        xLabel={t(b('神经元学到的 V（奖赏）', 'V learned by the neuron (reward)'))} />
+      <Label x={f2.x - 8} y={f2.y - 16} s={t(b('τ 乐观程度', 'τ optimism'))} anchor="start" />
+      <Ref f={f2} x={5} />
+      <Path pts={trace(f2, (v) => v / 10, 0, 10, 2)} color={col} opacity={0.3} width={1} dashed />
+      {taus.map((tau) => <Dot key={tau} f={f2} x={10 * tau} y={tau} color={col} r={[0.2, 0.5, 0.8].includes(tau) ? 4 : 2.5} />)}
+      <Label x={px(f2, 2) + 8} y={py(f2, 0.2) + 2} s={t(b('悲观，V = 2', 'pessimistic, V = 2'))} anchor="start" color={col} />
+      <Label x={px(f2, 5) + 8} y={py(f2, 0.5) + 2} s={t(b('平均值 5', 'the mean, 5'))} anchor="start" color={col} />
+      <Label x={px(f2, 8) + 8} y={py(f2, 0.8) + 4} s={t(b('乐观，V = 8', 'optimistic, V = 8'))} anchor="start" color={col} />
+    </Svg>
+  )
+}
+
+/** The quantile (pinball) loss ρ_τ(u) = u(τ − 1{u < 0}) for three values of τ. */
+function PinballPlot({ t }: FigProps) {
+  const col = SIDE_COLOR.comp
+  const f: Frame = { x: 40, y: 28, w: 260, h: 138, xr: [-4, 4], yr: [0, 3.2] }
+  const rho = (tau: number) => (u: number) => u * (tau - (u < 0 ? 1 : 0))
+  return (
+    <Svg id="f30mc1" w={380} h={206} label={t(b('分位数损失：τ 决定低估与高估各罚多重', 'Quantile loss: τ sets how hard underestimates and overestimates are penalized'))}>
+      <Axes f={f} xTicks={[[-4, ''], [-2, '−2'], [0, '0'], [2, '2'], [4, '4']]} yTicks={[[0, '0'], [1, '1'], [2, '2'], [3, '3']]}
+        xLabel={t(b('误差 u = r − θ', 'Error u = r − θ'))} yLabel={t(b('损失', 'Loss'))} />
+      {[0.25, 0.5, 0.75].map((tau, i) => <Path key={tau} pts={trace(f, rho(tau), -4, 4, 2)} color={col} opacity={STEPS[i + 1]} />)}
+      {[0.25, 0.5, 0.75].map((tau) => <Label key={tau} x={f.x + f.w + 6} y={py(f, 4 * tau)} s={`τ = ${tau}`} anchor="start" color={col} />)}
+      <Label x={px(f, 0)} y={py(f, 2.85)} s={t(b('τ = 0.75 罚低估更重，\n输出被推向高处', 'τ = 0.75 penalizes underestimates\nmore, pushing its output up'))} />
+      <Label x={px(f, -3.1)} y={f.y + f.h + 27} s={t(b('估计偏高', 'estimate too high'))} size={10} />
+      <Label x={px(f, 3.1)} y={f.y + f.h + 27} s={t(b('估计偏低', 'estimate too low'))} size={10} />
+    </Svg>
+  )
+}
+
 export const REWARD_FIGS: TopicFigs = {
   arch: { brain: RewardBrainArch, ai: ActorCriticArch },
   math: {
     bio: {
-      0: {
-        ...legacyFig('sys-reward', 'brain'),
-        cap: b('奖赏：皮层提供状态，腹侧纹状体估计价值，背侧纹状体选择动作；中脑腹侧被盖区的多巴胺编码预测误差，广播回纹状体和皮层来更新两者。', 'Reward: cortex supplies the state, the ventral striatum estimates value and the dorsal striatum picks actions. Dopamine from the ventral tegmental area encodes the prediction error and is broadcast back to update both.'),
-      },
+      0: { Fig: RpeTransferPlot, cap: b('小例子的三种情况，曲线是预测误差 $\\delta$，也就是多巴胺放电相对基线的变化。学会之后，爆发从奖赏移到线索；预测的奖赏没来，奖赏时刻出现 $\\delta = -1$ 的暂停。', 'The three cases of the worked example. Each trace is the prediction error $\\delta$, the change in dopamine firing from baseline. After learning, the burst moves from the reward to the cue. When a predicted reward fails to come, a pause with $\\delta = -1$ appears at the reward time.') },
+      1: { Fig: DistributionalPlot, cap: b('奖赏一半是 $0$、一半是 $10$。不对称程度为 $\\tau$ 的神经元停在 $V = 10\\tau$，9 个神经元铺满 $0$ 到 $10$，合起来能看出奖赏分在两端；只学平均值的话，只有一个点停在 $5$。', 'Reward is $0$ half the time and $10$ the other half. A neuron with asymmetry $\\tau$ settles at $V = 10\\tau$, so nine neurons span $0$ to $10$ and together show the reward sits at two ends. Learning only the mean leaves a single point at $5$.') },
     },
     comp: {
-      0: {
-        ...legacyFig('sys-reward', 'ai'),
-        cap: b('行动者与评论家：评论家估计状态价值，行动者给出动作概率，环境返回奖励和新状态，时序差分误差同时更新两者。结构与基底节加多巴胺的分工相近。', 'Actor-critic: the critic estimates state value, the actor gives action probabilities, the environment returns reward and the next state, and the TD error updates both. The structure is close to the division of labor in the basal ganglia with dopamine.'),
-      },
+      1: { Fig: PinballPlot, cap: b('分位数损失是一个不对称的 V 形：低估（$u > 0$）的斜率为 $\\tau$，高估的斜率为 $1 - \\tau$。最小化它，输出就停在使两边加权误差平衡的位置，也就是第 $\\tau$ 分位点，与生物侧的乐观、悲观神经元相同。', 'The quantile loss is a lopsided V: the slope is $\\tau$ for underestimates, $u > 0$, and $1 - \\tau$ for overestimates. Minimizing it leaves the output where the weighted errors on both sides balance, the $\\tau$ quantile, like the optimistic and pessimistic neurons on the biological side.') },
     },
   },
 }

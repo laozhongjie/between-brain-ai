@@ -648,9 +648,9 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .formula-card h4 { margin: 0 0 6px; font-size: 16px; color: var(--text-h); font-weight: 600; }
 .formula-card h5 { margin: 12px 0 4px; font: 500 12.5px/1.4 var(--label); letter-spacing: 0.04em; color: var(--text-dim); text-transform: none; }
 .formula-card .formula { padding: 6px 12px 10px; }
-/* an equation with a figure: equation and symbols on the left, the figure on the right;
-   an equation too long for the left column spans the top instead (useWideFormula in TopicPage) */
-.formula-with-fig { display: grid; grid-template-columns: minmax(0, 1fr) clamp(260px, 40%, 400px); grid-template-rows: auto 1fr; grid-template-areas: "formula fig" "symbols fig"; gap: 0 20px; align-items: start; }
+/* an equation with a figure: equation and symbols on the left, the figure on the right at about half the width;
+   an equation too long for the left column spans the top instead (useFormulaLayout in TopicPage sets --fig-w) */
+.formula-with-fig { display: grid; grid-template-columns: minmax(0, 1fr) var(--fig-w, 50%); grid-template-rows: auto 1fr; grid-template-areas: "formula fig" "symbols fig"; gap: 0 20px; align-items: start; }
 .formula-with-fig.wide { grid-template-areas: "formula formula" "symbols fig"; }
 .formula-with-fig.wide > .formula { margin-bottom: 10px; }
 .formula-with-fig > .formula { grid-area: formula; }

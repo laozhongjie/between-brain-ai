@@ -33,7 +33,7 @@ describe('topic pages', () => {
         ...[...(page.dynamicsSteps?.biological ?? []), ...(page.dynamicsSteps?.computational ?? [])].flatMap((s) => [s.title, ...s.points]),
           ...[...page.bioMath, ...page.compMath].flatMap((f) => [f.title, ...f.symbols.map((x) => x.meaning), ...f.steps, ...(f.example ? [f.example] : []), ...f.consequences, ...f.limitations])]
         for (const text of texts) for (const part of plain(text[lang])) expect(html, part).toContain(escaped(part))
-        // the architecture figures (and the dynamics figure where the topic has one) render as SVG, each followed by its numbered explanation, plus any old figures kept by an equation
+        // the architecture figures (and the dynamics figure where the topic has one) render as SVG, each followed by its numbered explanation, plus any figure beside an equation
         const figs = TOPIC_FIGS[id]
         const frames = page.dynamicsSteps ? 3 : 2
         const kept = Object.keys(figs?.math?.bio ?? {}).length + Object.keys(figs?.math?.comp ?? {}).length

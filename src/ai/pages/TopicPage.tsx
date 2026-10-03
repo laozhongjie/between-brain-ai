@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState, type ComponentType } from 'react'
+import { useLayoutEffect, useRef, useState, type ComponentType, type CSSProperties } from 'react'
 import { TOUR_BY_ID } from '../../data/tours'
 import type { Bi } from '../../data/types'
 import { UI, useT } from '../../i18n'
@@ -98,24 +98,27 @@ function SymbolTable({ symbols, pairs }: { symbols: TopicFormula['symbols']; pai
   )
 }
 
-/** With a figure, the equation and its symbols sit left of the figure. An equation too long for the left column
- * takes the whole width above, with the symbols and the figure side by side below it. */
-function useWideFormula(fig: MathFig | undefined) {
+/** With a figure, the equation and its symbols sit left of the figure, which takes about half the width, a little
+ * less if the equation needs the room to stay on one line (down to FIG_MIN of half). An equation too long even for
+ * that takes the whole width above, with the symbols and a half-width figure side by side below it. */
+const FIG_MIN = 0.8
+function useFormulaLayout(fig: MathFig | undefined) {
   const ref = useRef<HTMLDivElement>(null)
-  const [wide, setWide] = useState(false)
+  const [layout, setLayout] = useState<{ wide: boolean; figW?: number }>({ wide: false })
   useLayoutEffect(() => {
     const grid = ref.current
     if (!fig || !grid) return
     const check = () => {
       const math = grid.querySelector('.formula .katex-html')
       const box = grid.querySelector<HTMLElement>('.formula')
-      const figure = grid.querySelector<HTMLElement>('.formula-fig')
-      if (!math || !box || !figure || getComputedStyle(grid).display !== 'grid') return setWide(false)
+      if (!math || !box || getComputedStyle(grid).display !== 'grid') return setLayout({ wide: false })
       const range = document.createRange()
       range.selectNodeContents(math)
       const pad = parseFloat(getComputedStyle(box).paddingLeft) + parseFloat(getComputedStyle(box).paddingRight)
-      const room = grid.clientWidth - figure.offsetWidth - parseFloat(getComputedStyle(grid).columnGap)
-      setWide(range.getBoundingClientRect().width + pad > room)
+      const gap = parseFloat(getComputedStyle(grid).columnGap)
+      const half = Math.floor((grid.clientWidth - gap) / 2)
+      const room = Math.floor(grid.clientWidth - gap - range.getBoundingClientRect().width - pad - 2)
+      setLayout(room >= FIG_MIN * half ? { wide: false, figW: Math.min(half, room) } : { wide: true, figW: half })
     }
     check()
     document.fonts?.ready.then(check)
@@ -123,17 +126,17 @@ function useWideFormula(fig: MathFig | undefined) {
     ro.observe(grid)
     return () => ro.disconnect()
   }, [fig])
-  return [ref, wide] as const
+  return [ref, layout] as const
 }
 
 function FormulaCard({ f, side, fig }: { f: TopicFormula; side: 'bio' | 'comp'; fig?: MathFig }) {
   const t = useT()
-  const [gridRef, wide] = useWideFormula(fig)
+  const [gridRef, { wide, figW }] = useFormulaLayout(fig)
   return (
     <article className={`formula-card ${side}`}>
       <h4><Rich text={t(f.title)} /></h4>
       {fig ? (
-        <div ref={gridRef} className={`formula-with-fig${wide ? ' wide' : ''}`}>
+        <div ref={gridRef} className={`formula-with-fig${wide ? ' wide' : ''}`} style={figW ? ({ '--fig-w': `${figW}px` } as CSSProperties) : undefined}>
           <div className="formula"><Tex tex={f.tex} /></div>
           <figure className="fig formula-fig">
             <fig.Fig t={t} />

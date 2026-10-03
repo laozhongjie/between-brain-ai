@@ -1,6 +1,7 @@
 import type { Bi } from '../../../data/types'
-import { Svg } from '../kit'
+import { C, Svg } from '../kit'
 import { Flow, Gap, Mod, Num } from '../grammar'
+import { Axes, Bar, Dot, Label, Path, Ref, SIDE_COLOR, gauss, px, py, rng, trace, type Frame } from '../plot'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -58,6 +59,105 @@ function CalibrationArch({ t }: FigProps) {
   )
 }
 
+/** Evidence accumulation with v = 1, σ = 1 and bounds at ±1, and confidence 1 / (1 + e^{−2v|x|/σ²}) at the decision. */
+function AccumulationPlot({ t }: FigProps) {
+  const col = SIDE_COLOR.bio
+  const f1: Frame = { x: 40, y: 30, w: 170, h: 130, xr: [0, 1.6], yr: [-1.25, 1.25] }
+  const f2: Frame = { x: 266, y: 30, w: 96, h: 130, xr: [0, 2], yr: [0.5, 1] }
+  // seeds picked for one fast correct, one slow correct and one wrong decision
+  const walk = (seed: number) => {
+    const u = rng(seed), dt = 0.01, pts: [number, number][] = [[0, 0]]
+    let x = 0, tm = 0
+    while (Math.abs(x) < 1 && tm < 1.6) { x += dt + Math.sqrt(dt) * gauss(u); tm += dt; pts.push([tm, Math.max(-1, Math.min(1, x))]) }
+    return pts
+  }
+  const paths = [walk(1), walk(30), walk(22)]
+  const conf = (x: number) => 1 / (1 + Math.exp(-2 * x))
+  return (
+    <Svg id="f24mb0" w={380} h={206} label={t(b('证据随时间累积到界限；做决定时证据越多，信心越高', 'Evidence accumulates to a bound; more evidence at the decision means higher confidence'))}>
+      <Axes f={f1} xTicks={[[0, '0'], [0.5, '0.5'], [1, '1'], [1.5, '1.5']]} yTicks={[[-1, '−B'], [0, '0'], [1, 'B']]}
+        xLabel={t(b('时间（秒）', 'Time (s)'))} yLabel={t(b('累积的证据 x', 'Accumulated evidence x'))} />
+      <line x1={f1.x} x2={f1.x + f1.w} y1={py(f1, 1)} y2={py(f1, 1)} stroke={col} strokeOpacity={0.5} />
+      <line x1={f1.x} x2={f1.x + f1.w} y1={py(f1, -1)} y2={py(f1, -1)} stroke={C.dim} />
+      <Label x={f1.x + f1.w - 2} y={py(f1, 1) - 8} s={t(b('选对', 'correct'))} anchor="end" size={10} color={col} />
+      <Label x={f1.x + f1.w - 2} y={py(f1, -1) - 8} s={t(b('选错', 'wrong'))} anchor="end" size={10} />
+      {paths.map((p, i) => {
+        const pts = p.map(([a, v]) => [px(f1, a), py(f1, v)] as [number, number])
+        const [ex, ey] = pts[pts.length - 1]
+        return (
+          <g key={i}>
+            <Path pts={pts} color={i === 2 ? C.dim : col} width={1.3} opacity={i === 2 ? 0.9 : 0.85} />
+            <circle cx={ex} cy={ey} r={2.6} fill={i === 2 ? C.dim : col} />
+          </g>
+        )
+      })}
+      <Axes f={f2} xTicks={[[0, '0'], [0.5, '0.5'], [1, '1'], [2, '2']]} yTicks={[[0.5, '0.5'], [0.75, '0.75'], [1, '1']]}
+        xLabel={t(b('做决定时的证据 |x|', 'Evidence at decision |x|'))} yLabel={t(b('信心', 'Confidence'))} />
+      <Path pts={trace(f2, conf)} color={col} />
+      <Dot f={f2} x={0.5} y={conf(0.5)} color={col} />
+      <Dot f={f2} x={1} y={conf(1)} color={col} />
+      <Label x={px(f2, 0.5) + 6} y={py(f2, conf(0.5)) + 10} s="0.73" anchor="start" size={10} color={col} />
+      <Label x={px(f2, 1) + 6} y={py(f2, conf(1)) + 10} s="0.88" anchor="start" size={10} color={col} />
+    </Svg>
+  )
+}
+
+/** Reliability diagram of the worked example: 40 answers at confidence 0.6 (0.6 right), 60 at 0.9 (0.7 right). */
+function ReliabilityPlot({ t }: FigProps) {
+  const col = SIDE_COLOR.comp
+  const f: Frame = { x: 44, y: 28, w: 160, h: 150, xr: [0, 1], yr: [0, 1] }
+  return (
+    <Svg id="f24mc0" w={380} h={214} label={t(b('可靠性图：高信心组的正确率低于信心，差距就是校准误差', 'Reliability diagram: the high-confidence group is right less often than it claims, and the gap is the calibration error'))}>
+      <Axes f={f} xTicks={[[0, '0'], [0.6, '0.6'], [0.9, '0.9']]} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]}
+        xLabel={t(b('平均置信度', 'Mean confidence'))} yLabel={t(b('实际正确率', 'Accuracy'))} grid />
+      <Path pts={[[px(f, 0), py(f, 0)], [px(f, 1), py(f, 1)]]} color={C.dim} width={1} dashed />
+      <Label x={px(f, 0.3) - 4} y={py(f, 0.3) - 12} s={t(b('完全校准', 'perfect calibration'))} size={10} anchor="end" />
+      <Bar f={f} x={0.6} v={0.6} w={0.16} color={col} />
+      <Bar f={f} x={0.9} v={0.7} w={0.16} color={col} />
+      <rect x={px(f, 0.82)} y={py(f, 0.9)} width={px(f, 0.98) - px(f, 0.82)} height={py(f, 0.7) - py(f, 0.9)} fill={C.lemonD} fillOpacity={0.18} stroke={C.lemonD} strokeDasharray="3 2" />
+      <Label x={px(f, 0.6)} y={py(f, 0.3)} s={t(b('40 个', '40'))} size={10} color={col} />
+      <Label x={px(f, 0.9)} y={py(f, 0.35)} s={t(b('60 个', '60'))} size={10} color={col} />
+      <Label x={226} y={70} s={t(b('高信心组\n信心 0.9，只对了 0.7\n差 0.2，占全部的 60%', 'High-confidence group\nconfidence 0.9, right 0.7\ngap 0.2, 60% of answers'))} anchor="start" color={C.lemonD} />
+      <Label x={226} y={128} s={t(b('低信心组\n信心与正确率都是 0.6', 'Low-confidence group\nconfidence and accuracy 0.6'))} anchor="start" color={col} />
+      <Label x={226} y={170} s="ECE = 0.6 × 0.2 = 0.12" anchor="start" color={C.ink} />
+    </Svg>
+  )
+}
+
+/** Softmax of scores (2, 0) at T = 1 and T = 2, against an accuracy of 73%. */
+function TemperaturePlot({ t }: FigProps) {
+  const col = SIDE_COLOR.comp
+  const f: Frame = { x: 44, y: 28, w: 210, h: 140, xr: [0.3, 4.7], yr: [0, 1] }
+  const sm = (T: number) => { const a = Math.exp(2 / T); return [a / (a + 1), 1 / (a + 1)] }
+  const groups = [[1, sm(1)], [2, sm(2)]] as const
+  return (
+    <Svg id="f24mc1" w={380} h={214} label={t(b('温度 T = 2 把较高答案的概率从 0.88 降到 0.73，与实际正确率一致', 'Temperature T = 2 lowers the top answer from 0.88 to 0.73, matching actual accuracy'))}>
+      <Axes f={f} xTicks={[[1, 'A'], [2, 'B'], [3, 'A'], [4, 'B']]} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]} yLabel={t(b('概率', 'Probability'))} grid />
+      <Ref f={f} y={0.73} color={C.lemonD} />
+      <Label x={f.x + f.w + 6} y={py(f, 0.73)} s={t(b('实际正确率\n73%', 'actual accuracy\n73%'))} anchor="start" color={C.lemonD} />
+      {groups.map(([T, [pa, pb]], g) => (
+        <g key={T}>
+          <Bar f={f} x={1 + 2 * g} v={pa} w={0.6} color={col} />
+          <Bar f={f} x={2 + 2 * g} v={pb} w={0.6} color={C.dim} />
+          <Label x={px(f, 1 + 2 * g)} y={py(f, pa) - 8} s={pa.toFixed(2)} size={10} color={col} />
+          <Label x={px(f, 2 + 2 * g)} y={py(f, pb) - 8} s={pb.toFixed(2)} size={10} />
+          <Label x={px(f, 1.5 + 2 * g)} y={f.y + f.h + 27} s={`T = ${T}`} color={C.ink} />
+        </g>
+      ))}
+      <Label x={f.x + f.w + 6} y={py(f, 0.2)} s={t(b('A 得分 2\nB 得分 0', 'A scores 2\nB scores 0'))} anchor="start" />
+    </Svg>
+  )
+}
+
 export const MONITORING_FIGS: TopicFigs = {
   arch: { brain: MonitoringBrainArch, ai: CalibrationArch },
+  math: {
+    bio: {
+      0: { Fig: AccumulationPlot, cap: b('左：三次决定，证据带着漂移 $v = 1$ 和噪声累积，碰到界限就做出选择，其中一次被噪声带到了错误的一边。右：做决定时的证据 $|x|$ 越多，信心越高，小例子中的 $0.5$ 和 $1$ 分别对应 $0.73$ 和 $0.88$。', 'Left: three decisions. Evidence accumulates with drift $v = 1$ plus noise until it hits a bound, and noise carries one of them to the wrong side. Right: more evidence $|x|$ at the decision means higher confidence; the worked example’s $0.5$ and $1$ give $0.73$ and $0.88$.') },
+    },
+    comp: {
+      0: { Fig: ReliabilityPlot, cap: b('可靠性图把回答按置信度分组，比较每组的置信度和实际正确率。落在对角线上就是校准良好；高信心组比对角线低 $0.2$，乘以它占的 60%，就是 $\\mathrm{ECE} = 0.12$。', 'A reliability diagram groups answers by confidence and compares each group’s confidence with its accuracy. On the diagonal means well calibrated. The high-confidence group sits $0.2$ below it, and times its 60% share that gives $\\mathrm{ECE} = 0.12$.') },
+      1: { Fig: TemperaturePlot, cap: b('同样的得分 $(2, 0)$，$T = 1$ 时较高答案的概率为 $0.88$，比实际正确率高出 $0.15$；$T = 2$ 把分布摊平到 $0.73$，与正确率一致。答案的排序不变，只是置信度变了。', 'With the same scores $(2, 0)$, the top answer gets $0.88$ at $T = 1$, $0.15$ above actual accuracy. $T = 2$ flattens the distribution to $0.73$, matching accuracy. The ranking of answers is unchanged; only the confidence moves.') },
+    },
+  },
 }
