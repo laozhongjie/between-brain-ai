@@ -1,6 +1,7 @@
 import type { Bi } from '../../../data/types'
-import { Svg } from '../kit'
+import { C, Svg } from '../kit'
 import { Flow, Gap, Mod, Num } from '../grammar'
+import { Axes, Bar, Label, SIDE_COLOR, Vec, px, py, type Frame } from '../plot'
 import type { FigProps, TopicFigs } from '../types'
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
@@ -57,6 +58,70 @@ function AffectiveComputingArch({ t }: FigProps) {
   )
 }
 
+/** The valence–arousal plane with the worked example's three emotions and a few others placed by convention. */
+function CircumplexPlot({ t }: FigProps) {
+  const col = SIDE_COLOR.bio
+  const cx = 120, cy = 100, R = 76
+  const pts: [number, number, string, boolean][] = [
+    [0.7, 0.7, t(b('兴奋', 'excited')), true], [0.6, -0.6, t(b('平静', 'calm')), true], [-0.7, 0.7, t(b('愤怒', 'angry')), true],
+    [-0.55, 0.85, t(b('恐惧', 'afraid')), false], [0.9, 0.15, t(b('高兴', 'happy')), false], [-0.75, -0.45, t(b('悲伤', 'sad')), false], [-0.2, -0.85, t(b('无聊', 'bored')), false],
+  ]
+  return (
+    <Svg id="f32mb0" w={380} h={200} label={t(b('情绪的二维空间：横轴愉快程度，纵轴激动程度；愤怒和恐惧挨得很近', 'The two-dimensional space of emotion: valence across, arousal up; anger and fear sit close together'))}>
+      <circle cx={cx} cy={cy} r={R} fill="none" stroke={C.line} strokeDasharray="2 3" />
+      <Vec x1={cx - R - 10} y1={cy} x2={cx + R + 14} y2={cy} color={C.dim} width={1.1} />
+      <Vec x1={cx} y1={cy + R + 10} x2={cx} y2={cy - R - 14} color={C.dim} width={1.1} />
+      <Label x={cx + R + 16} y={cy + 12} s={t(b('愉快 v', 'valence v'))} anchor="end" size={10} />
+      <Label x={cx + 6} y={cy - R - 10} s={t(b('激动 a', 'arousal a'))} anchor="start" size={10} />
+      {pts.map(([v, a, s, ex]) => (
+        <g key={s}>
+          <circle cx={cx + v * R} cy={cy - a * R} r={ex ? 4 : 3} fill={ex ? col : C.dim} />
+          <Label x={cx + v * R + (v >= 0 ? 7 : -7)} y={cy - a * R} s={s} anchor={v >= 0 ? 'start' : 'end'} size={10} color={ex ? col : C.dim} />
+        </g>
+      ))}
+      <Label x={236} y={56} s={t(b('粉点：小例子中的三种情绪', 'pink: from the example'))} anchor="start" size={10} color={col} />
+      <Label x={236} y={92} s={t(b('方向 φ 表示情绪的种类，\n距离 r 表示强度', 'the angle φ gives the kind,\nthe distance r the strength'))} anchor="start" size={10} />
+      <Label x={236} y={142} s={t(b('愤怒与恐惧都在左上方，\n只看激动程度分不开', 'anger and fear both sit up\nleft; arousal alone cannot\ntell them apart'))} anchor="start" size={10} />
+    </Svg>
+  )
+}
+
+/** Context sets the prior: an ambiguous tearful face is equally likely under sadness and joy, so the judgment follows the
+ * context: 0.9 sad at a funeral, 0.9 joy at a wedding. */
+function ContextPlot({ t }: FigProps) {
+  const col = SIDE_COLOR.bio
+  const f1: Frame = { x: 44, y: 34, w: 130, h: 110, xr: [0.4, 2.6], yr: [0, 1] }
+  const f2: Frame = { x: 228, y: 34, w: 130, h: 110, xr: [0.4, 2.6], yr: [0, 1] }
+  const panel = (f: Frame, title: string, sad: number) => (
+    <g>
+      <Axes f={f} xTicks={[[1, t(b('悲伤', 'sad'))], [2, t(b('喜悦', 'joy'))]]} yTicks={[[0, '0'], [0.5, '0.5'], [1, '1']]} grid />
+      <Label x={f.x + f.w / 2} y={f.y - 14} s={title} color={C.ink} />
+      <Bar f={f} x={0.8} v={0.5} w={0.32} color={C.dim} />
+      <Bar f={f} x={1.8} v={0.5} w={0.32} color={C.dim} />
+      <Bar f={f} x={1.2} v={sad} w={0.32} color={col} />
+      <Bar f={f} x={2.2} v={1 - sad} w={0.32} color={col} />
+      <Label x={px(f, 1.2)} y={py(f, sad) - 8} s={sad.toFixed(1)} size={10} color={col} />
+      <Label x={px(f, 2.2)} y={py(f, 1 - sad) - 8} s={(1 - sad).toFixed(1)} size={10} color={col} />
+    </g>
+  )
+  return (
+    <Svg id="f32mb1" w={380} h={196} label={t(b('情境决定判断：同一张含糊的流泪面孔，在葬礼上读成悲伤，在婚礼上读成喜极而泣', 'Context decides: the same ambiguous tearful face reads as sadness at a funeral and as tears of joy at a wedding'))}>
+      {panel(f1, t(b('葬礼', 'Funeral')), 0.9)}
+      {panel(f2, t(b('婚礼', 'Wedding')), 0.1)}
+      <rect x={60} y={178} width={10} height={10} fill={C.dim} fillOpacity={0.35} stroke={C.dim} />
+      <Label x={76} y={183} s={t(b('面孔本身：两种情绪一样可能', 'face alone: both equally likely'))} anchor="start" size={9.5} />
+      <rect x={250} y={178} width={10} height={10} fill={col} fillOpacity={0.35} stroke={col} />
+      <Label x={266} y={183} s={t(b('加上情境后的判断', 'judgment with context'))} anchor="start" size={9.5} color={col} />
+    </Svg>
+  )
+}
+
 export const EMOTION_UNDERSTANDING_FIGS: TopicFigs = {
   arch: { brain: EmpathyBrainArch, ai: AffectiveComputingArch },
+  math: {
+    bio: {
+      0: { Fig: CircumplexPlot, cap: b('每种情绪是愉快 × 激动平面上的一个点（位置按惯例示意）。小例子中兴奋在 $45°$、平静在 $-45°$、愤怒在 $135°$。愤怒和恐惧都在左上方，彼此很近，所以只看身体的唤醒很难区分，需要情境来解释。', 'Each emotion is a point on the valence × arousal plane (positions illustrative, by convention). In the worked example excitement sits at $45°$, calm at $-45°$ and anger at $135°$. Anger and fear are both up and to the left, close together, so bodily arousal alone hardly separates them and context has to interpret it.') },
+      1: { Fig: ContextPlot, cap: b('小例子：一张含糊的流泪面孔在悲伤和喜悦下出现的可能性相同（灰），所以判断完全由情境的先验决定（粉）：葬礼上悲伤 $0.9$，婚礼上喜悦 $0.9$。面孔越明确，灰柱差得越多，情境的作用就越小。', 'The worked example: an ambiguous tearful face is equally likely under sadness and joy (gray), so the judgment follows the context’s prior entirely (pink): $0.9$ sad at a funeral, $0.9$ joy at a wedding. The clearer the face, the more the gray bars differ and the less the context matters.') },
+    },
+  },
 }
