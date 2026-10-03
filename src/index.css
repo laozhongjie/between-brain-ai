@@ -433,16 +433,13 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .ai-drawer-tab {
   position: absolute; top: 14px; right: -26px; z-index: 1; display: grid; place-items: center; width: 26px; height: 44px; padding: 0;
   border: 1px solid var(--panel-border); border-left: 0; border-radius: 0 9px 9px 0; cursor: pointer; color: var(--text-dim);
-  background: rgba(10,14,21,0.45); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: color .2s, opacity .25s;
+  background: rgba(5, 7, 11, 0.88); transition: color .2s, opacity .25s;
 }
 .ai-drawer-tab svg { transition: transform .35s var(--ease); }
 .ai-drawer:hover .ai-drawer-tab, .ai-drawer:has(:focus-visible) .ai-drawer-tab, .ai-drawer.open .ai-drawer-tab { color: var(--accent); }
 .ai-drawer:hover .ai-drawer-tab svg, .ai-drawer:has(:focus-visible) .ai-drawer-tab svg, .ai-drawer.open .ai-drawer-tab svg { transform: rotate(180deg); }
-/* clear glass: no tint, only a blur so the page shows through */
-.ai-nav {
-  height: 100%; overflow-y: auto; padding: 10px 12px 24px 16px; background: none;
-  backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px);
-}
+/* a faint dark veil, no blur: the page stays visible behind, dimmed enough that the entries read */
+.ai-nav { height: 100%; overflow-y: auto; padding: 10px 12px 24px 16px; background: rgba(5, 7, 11, 0.88); }
 /* a plain hairline along the open side */
 .ai-drawer::before { content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 1px; pointer-events: none; background: var(--panel-border); }
 .ai-nav button { display: block; width: 100%; text-align: left; background: none; border: 0; border-radius: 5px; padding: 3px 8px; font-size: 12.5px; color: var(--text-dim); cursor: pointer; }
