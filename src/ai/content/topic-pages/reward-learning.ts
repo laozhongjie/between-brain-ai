@@ -27,7 +27,7 @@ export const REWARD_LEARNING: TopicContent = {
       dimension: b('从预测误差中学习', 'Learning from prediction error'),
       brain: b('多巴胺的爆发和暂停编码预测误差；用光遗传学在预期的奖赏时刻人为激活多巴胺神经元，就能让动物学会本来不会学的关联。', 'Dopamine bursts and pauses encode prediction error. Optogenetically activating dopamine neurons at the time of an expected reward makes animals learn an association they otherwise would not.'),
       ai: b('时序差分学习用同样的误差更新价值估计，是许多强化学习算法的核心。', 'Temporal-difference learning updates value estimates with the same error and is at the core of many reinforcement learning algorithms.'),
-      gap: b('两边使用同一个计算，生物侧还有因果实验的证据。', 'Both use the same computation, and the biological side has causal experimental evidence.'),
+      gap: b('两边使用同一个计算，大脑侧还有因果实验的证据。', 'Both use the same computation, and the brain side has causal experimental evidence.'),
     },
     {
       lead: 'even',
@@ -220,8 +220,8 @@ export const REWARD_LEARNING: TopicContent = {
         b('一组不同 $\\tau$ 的输出，共同描绘出整个奖赏分布。', 'A set of outputs with different $\\tau$ together traces the whole reward distribution.'),
       ],
       example: b(
-        '奖赏一半时候是 $0$、一半时候是 $10$。$\\tau = 0.25$ 的输出最终停在 $0$ 附近，$\\tau = 0.75$ 的停在 $10$ 附近，中间的分位点落在两者之间的某处。这与生物侧乐观、悲观神经元的例子相对应。',
-        'Reward is $0$ half the time and $10$ the other half. The $\\tau = 0.25$ output settles near $0$ and the $\\tau = 0.75$ output near $10$, with middle quantiles between. This matches the optimistic and pessimistic neurons on the biological side.'),
+        '奖赏一半时候是 $0$、一半时候是 $10$。$\\tau = 0.25$ 的输出最终停在 $0$ 附近，$\\tau = 0.75$ 的停在 $10$ 附近，中间的分位点落在两者之间的某处。这与大脑侧乐观、悲观神经元的例子相对应。',
+        'Reward is $0$ half the time and $10$ the other half. The $\\tau = 0.25$ output settles near $0$ and the $\\tau = 0.75$ output near $10$, with middle quantiles between. This matches the optimistic and pessimistic neurons on the brain side.'),
       consequences: [
         b('不对称的惩罚等价于对正负误差用不同的学习率，正是多巴胺分布式编码的机制。', 'Asymmetric penalties equal different learning rates for positive and negative errors, the very mechanism of distributional dopamine coding.'),
         b('学习完整分布让表示更丰富，在 Atari 等任务上提高了表现。', 'Learning the full distribution enriches the representation and improved performance on Atari and other tasks.'),

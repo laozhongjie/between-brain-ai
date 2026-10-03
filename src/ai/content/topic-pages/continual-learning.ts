@@ -206,7 +206,7 @@ export const CONTINUAL_LEARNING: TopicContent = {
         '设 $\\mathbf{g}_A = (1, 0.5)$、$\\mathbf{g}_B = (-1, 1)$、$\\eta = 0.1$。点积为 $-1 + 0.5 = -0.5$，所以学 B 的每一步让 A 的损失增加约 $0.1 \\times 0.5 = 0.05$。只训练 B 时，这种增加一步步累积，A 被逐渐覆盖。',
         'Let $\\mathbf{g}_A = (1, 0.5)$, $\\mathbf{g}_B = (-1, 1)$ and $\\eta = 0.1$. The dot product is $-1 + 0.5 = -0.5$, so each step on B raises A’s loss by about $0.1 \\times 0.5 = 0.05$. Training only on B accumulates these increases until A is overwritten.'),
       consequences: [
-        b('与生物侧的干扰公式是同一个道理：新旧内容共用参数、表示又相互重叠时，干扰最严重；海马的稀疏编码和让梯度互不冲突的方法，都是在减少这种重叠。', 'It is the same principle as the interference equation on the biological side: interference is worst when old and new content share parameters and overlap. Sparse coding in the hippocampus and methods that keep gradients from conflicting both reduce this overlap.'),
+        b('与大脑侧的干扰公式是同一个道理：新旧内容共用参数、表示又相互重叠时，干扰最严重；海马的稀疏编码和让梯度互不冲突的方法，都是在减少这种重叠。', 'It is the same principle as the interference equation on the brain side: interference is worst when old and new content share parameters and overlap. Sparse coding in the hippocampus and methods that keep gradients from conflicting both reduce this overlap.'),
         b('GEM 等方法在每次更新前检查这个点积，若为负，就把 $\\mathbf{g}_B$ 投影到不损害旧任务的方向。', 'Methods such as GEM check this dot product before each update and, if it is negative, project $\\mathbf{g}_B$ onto a direction that does not harm the old task.'),
       ],
       limitations: [

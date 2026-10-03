@@ -150,7 +150,7 @@ export const REWARD_FIGS: TopicFigs = {
       1: { Fig: DistributionalPlot, cap: b('奖赏一半是 $0$、一半是 $10$。不对称程度为 $\\tau$ 的神经元停在 $V = 10\\tau$，9 个神经元铺满 $0$ 到 $10$，合起来能看出奖赏分在两端；只学平均值的话，只有一个点停在 $5$。', 'Reward is $0$ half the time and $10$ the other half. A neuron with asymmetry $\\tau$ settles at $V = 10\\tau$, so nine neurons span $0$ to $10$ and together show the reward sits at two ends. Learning only the mean leaves a single point at $5$.') },
     },
     comp: {
-      1: { Fig: PinballPlot, cap: b('分位数损失是一个不对称的 V 形：低估（$u > 0$）的斜率为 $\\tau$，高估的斜率为 $1 - \\tau$。最小化它，输出就停在使两边加权误差平衡的位置，也就是第 $\\tau$ 分位点，与生物侧的乐观、悲观神经元相同。', 'The quantile loss is a lopsided V: the slope is $\\tau$ for underestimates, $u > 0$, and $1 - \\tau$ for overestimates. Minimizing it leaves the output where the weighted errors on both sides balance, the $\\tau$ quantile, like the optimistic and pessimistic neurons on the biological side.') },
+      1: { Fig: PinballPlot, cap: b('分位数损失是一个不对称的 V 形：低估（$u > 0$）的斜率为 $\\tau$，高估的斜率为 $1 - \\tau$。最小化它，输出就停在使两边加权误差平衡的位置，也就是第 $\\tau$ 分位点，与大脑侧的乐观、悲观神经元相同。', 'The quantile loss is a lopsided V: the slope is $\\tau$ for underestimates, $u > 0$, and $1 - \\tau$ for overestimates. Minimizing it leaves the output where the weighted errors on both sides balance, the $\\tau$ quantile, like the optimistic and pessimistic neurons on the brain side.') },
     },
   },
 }

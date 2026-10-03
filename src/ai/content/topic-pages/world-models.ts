@@ -224,7 +224,7 @@ export const WORLD_MODELS: TopicContent = {
         'Let $\\varepsilon = 0.01$ and $L = 1.2$. Over 5 imagined steps the bound is about $0.07$, over 15 about $0.72$, over 30 about $12$. A one percent error per step leaves the trajectory far off after 30 steps.'),
       consequences: [
         b('解释了 Dreamer 这类方法为什么只想象十几步：再长，想象的轨迹就与真实相去甚远。', 'It explains why methods like Dreamer imagine only about fifteen steps: longer trajectories drift far from reality.'),
-        b('生物侧的前向模型每一步都与实际的感觉反馈比较，用误差修正（见前向模型公式），所以在线运动中误差不会这样累积。', 'The forward model on the biological side is compared with actual sensory feedback at every step and corrected by the error (see the forward model equation), so in ongoing movement the error does not compound like this.'),
+        b('大脑侧的前向模型每一步都与实际的感觉反馈比较，用误差修正（见前向模型公式），所以在线运动中误差不会这样累积。', 'The forward model on the brain side is compared with actual sensory feedback at every step and corrected by the error (see the forward model equation), so in ongoing movement the error does not compound like this.'),
       ],
       limitations: [
         b('这是最坏情况的上界，实际误差常小于它，也取决于策略把状态带到了哪里。', 'This is a worst-case bound. Actual errors are often smaller and depend on where the policy takes the state.'),

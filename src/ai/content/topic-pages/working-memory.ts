@@ -236,8 +236,8 @@ export const WORKING_MEMORY: TopicContent = {
         b('新状态等于「保留的旧内容」加「写入的新内容」。门控本身是学到的，所以网络学会在合适的时候保持或更新。', 'The new state is the kept old content plus the written new content. The gates are learned, so the network learns when to hold and when to update.'),
       ],
       example: b(
-        '若遗忘门保持在 $0.99$、输入门为 $0$，100 步后旧内容剩 $0.99^{100} \\approx 0.37$；遗忘门为 $1$ 时则完全保持。这与生物侧的持续活动模型相同：$w$ 越接近 $1$，记忆越久。',
-        'With the forget gate at $0.99$ and the input gate at $0$, after 100 steps $0.99^{100} \\approx 0.37$ of the old content remains. With the forget gate at $1$ it is kept entirely. This matches the persistent activity model on the biological side: the closer $w$ is to $1$, the longer the memory.'),
+        '若遗忘门保持在 $0.99$、输入门为 $0$，100 步后旧内容剩 $0.99^{100} \\approx 0.37$；遗忘门为 $1$ 时则完全保持。这与大脑侧的持续活动模型相同：$w$ 越接近 $1$，记忆越久。',
+        'With the forget gate at $0.99$ and the input gate at $0$, after 100 steps $0.99^{100} \\approx 0.37$ of the old content remains. With the forget gate at $1$ it is kept entirely. This matches the persistent activity model on the brain side: the closer $w$ is to $1$, the longer the memory.'),
       consequences: [
         b('门控让网络选择性地写入和保持，与基底节闸门的功能相似。', 'Gating lets the network write and hold selectively, functionally like the basal ganglia gate.'),
         b('状态大小固定，内存不随序列长度增加。', 'The state has a fixed size, so memory does not grow with sequence length.'),

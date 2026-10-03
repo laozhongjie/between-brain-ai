@@ -185,7 +185,7 @@ function AttentionDilutionPlot({ t }: FigProps) {
 
 /** LSTM retention with the input gate closed, interactive: drag the forget gate f to see f^n (left) and the steps it
  * takes to fall to about 1/e, 1/(1 − f) (right, log scale). The same layout as persistent activity on the
- * biological side. Starts at the worked example's f = 0.99. */
+ * brain side. Starts at the worked example's f = 0.99. */
 function ForgetGatePlot({ t }: FigProps) {
   const [g, setG] = useState(0.99)
   const col = SIDE_COLOR.comp
@@ -226,7 +226,7 @@ export const WORKING_MEMORY_FIGS: TopicFigs = {
     },
     comp: {
       0: { Fig: AttentionDilutionPlot, cap: b('拖动滑块改变加入的无关词元数。查询与相关词元的点积为 $2$，与其余词元为 $0$。不加时（小例子的三个词元）相关词元得到 $0.79$；加入 100 个后，每个无关词元只分到约 $0.009$，合起来却拿走 $0.93$，相关词元只剩 $0.07$。', 'Drag the slider to change how many irrelevant tokens are added. The query’s dot product is $2$ with the relevant token and $0$ with the rest. With none added, the worked example’s three tokens, the relevant one gets $0.79$. With 100 added, each irrelevant token takes only about $0.009$, yet together they take $0.93$, leaving the relevant token $0.07$.') },
-      1: { Fig: ForgetGatePlot, cap: b('拖动滑块改变遗忘门 $f$，输入门为 $0$。左：旧内容按 $f^{\\,n}$ 衰减，圆点是降到 $1/e$ 的步数，右端是 300 步后还剩多少。右：所需步数约为 $1/(1 - f)$，纵轴为对数。与生物侧的持续活动对照：遗忘门 $f$ 的作用相当于循环强度 $w$，只是时间以步数计。', 'Drag the slider to change the forget gate $f$, with the input gate at $0$. Left: old content decays as $f^{\\,n}$; the dot marks the step where it reaches $1/e$, and the right end shows what is left after 300 steps. Right: the steps needed, about $1/(1 - f)$, on a log axis. Compare persistent activity on the biological side: the forget gate $f$ plays the role of the recurrent strength $w$, with time counted in steps.') },
+      1: { Fig: ForgetGatePlot, cap: b('拖动滑块改变遗忘门 $f$，输入门为 $0$。左：旧内容按 $f^{\\,n}$ 衰减，圆点是降到 $1/e$ 的步数，右端是 300 步后还剩多少。右：所需步数约为 $1/(1 - f)$，纵轴为对数。与大脑侧的持续活动对照：遗忘门 $f$ 的作用相当于循环强度 $w$，只是时间以步数计。', 'Drag the slider to change the forget gate $f$, with the input gate at $0$. Left: old content decays as $f^{\\,n}$; the dot marks the step where it reaches $1/e$, and the right end shows what is left after 300 steps. Right: the steps needed, about $1/(1 - f)$, on a log axis. Compare persistent activity on the brain side: the forget gate $f$ plays the role of the recurrent strength $w$, with time counted in steps.') },
     },
   },
 }
