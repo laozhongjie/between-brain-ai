@@ -1,107 +1,123 @@
-import { Rich } from '../../rich'
+import type { CSSProperties, ReactNode } from 'react'
+import { Rich, splitComparison } from '../../rich'
 import { UI, useT } from '../../i18n'
 import { go } from '../../route'
-import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_GROUPS, SCALES, TOPIC_CONTENT, crossHref, topicHref, topicsOfDomain } from '../content'
+import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_GROUPS, MECH_ORDER, SCALES, TOPIC_CONTENT, WRITTEN_TOPICS, crossHref, topicHref, topicsOfDomain } from '../content'
+import { REFS } from '../content/refs'
 import { LABS } from '../labs/registry'
-import type { Topic } from '../types'
-import { KindTags, Legend, RefList } from './common'
+import { Legend, RefList } from './common'
 import { Icon } from '../../ui/Icon'
-import { ComparisonText } from '../../ui/ComparisonText'
 
-/** A directory entry: opens its page, or shows that it is still being written. */
-function TopicChip({ topic }: { topic: Topic }) {
-  const t = useT()
-  const href = topicHref(topic)
+const pad = (n: number) => String(n).padStart(2, '0')
+
+/** A directory card: a title, then the brain and / or AI system it pairs (a coloured dot each) or a line of
+ * description. Opens its page, or shows that it is still being written. */
+function DirCard({ title, kicker, brain, ai, desc, status, href }: {
+  title: ReactNode; kicker?: ReactNode; brain?: string; ai?: string; desc?: string; status?: string; href: string | null
+}) {
   return (
-    <button className={`chip topic-chip ${href ? '' : 'pending'}`} disabled={!href} onClick={() => href && go(href)}>
-      <span>{t(topic.name)}</span>
-      {!TOPIC_CONTENT[topic.id] && <span className="chip-status">{t(href ? UI.statusLegacy : UI.statusDrafting)}</span>}
+    <button className={`dir-card ${href ? '' : 'pending'}`} disabled={!href} onClick={() => href && go(href)}>
+      {kicker && <span className="dir-card-kicker">{kicker}</span>}
+      <span className="dir-card-title">{title}</span>
+      {(brain || ai) && (
+        <span className="dir-card-pair">
+          {brain && <span className="bio"><Rich text={brain} /></span>}
+          {ai && <span className="comp"><Rich text={ai} /></span>}
+        </span>
+      )}
+      {desc && <span className="dir-card-desc"><Rich text={desc} /></span>}
+      {status && <span className="dir-card-status">{status}</span>}
+      <Icon name="chevron" size={15} className="dir-card-go" />
     </button>
+  )
+}
+
+/** One row of a directory: its name on the left, its cards filling the rest of the width (or `cols` equal columns). */
+function DirRow({ no, kicker, name, desc, cols, children }: { no?: string; kicker?: string; name: string; desc?: string; cols?: number; children: ReactNode }) {
+  return (
+    <section className="dir-row">
+      <header className="dir-head">
+        {(no || kicker) && <span className="dir-no">{no ?? kicker}</span>}
+        <h2>{name}</h2>
+        {desc && <p><Rich text={desc} /></p>}
+      </header>
+      <div className={`dir-cards ${cols ? `cols-${cols}` : ''}`} style={cols ? ({ '--cols': cols } as CSSProperties) : undefined}>{children}</div>
+    </section>
   )
 }
 
 export function AiHome() {
   const t = useT()
+  const stats: [number, string][] = [
+    [DOMAINS.length, t(UI.statDomains)], [WRITTEN_TOPICS().length, t(UI.statTopics)], [MECH_ORDER.length, t(UI.statMechanisms)],
+    [Object.keys(LABS).length, t(UI.statLabs)], [REFS.length, t(UI.statRefs)],
+  ]
   return (
-    <article className="ai-page">
-      <h1>{t(UI.aiTitle)}</h1>
-      <p className="lead">{t(UI.aiIntro)}</p>
-      <button className="chip concept-entry" onClick={() => go('/ai/concepts')}><Icon name="search" size={14} />{t(UI.conceptIndex)}</button>
+    <article className="ai-page ai-home">
+      <header className="ai-hero">
+        <div>
+          <h1>{t(UI.aiTitle)}</h1>
+          <p className="lead">{t(UI.aiIntro)}</p>
+          <button className="btn-sm concept-entry" onClick={() => go('/ai/concepts')}><Icon name="search" size={14} />{t(UI.conceptIndex)}</button>
+        </div>
+        <dl className="ai-stats">
+          {stats.map(([n, label]) => <div key={label}><dd>{pad(n)}</dd><dt>{label}</dt></div>)}
+        </dl>
+      </header>
+
       <h3>{t(UI.howToRead)}</h3>
       <Legend />
 
-      <h3>{t(UI.functionalDomains)}</h3>
-      <div className="ladder domain-directory">
-        {DOMAINS.map((domain) => (
-          <section key={domain.id} className="rung domain-rung">
-            <header>
-              <span className="rung-no">{domain.id.replace(/^D/, '')}</span>
-              <div>
-                <h2>{t(domain.name)}</h2>
-                <p><Rich text={t(domain.desc)} /></p>
-              </div>
-            </header>
-            <div className="rung-cards">
-              {topicsOfDomain(domain).map((topic) => <TopicChip key={topic.id} topic={topic} />)}
-            </div>
-          </section>
+      <h3 className="dir-title">{t(UI.functionalDomains)}</h3>
+      <div className="dir">
+        {DOMAINS.map((domain, i) => (
+          <DirRow key={domain.id} no={pad(i + 1)} name={t(domain.name)} desc={t(domain.desc)}>
+            {topicsOfDomain(domain).map((topic) => {
+              const href = topicHref(topic)
+              return (
+                <DirCard key={topic.id} href={href} title={t(topic.name)} brain={t(topic.systems.biological)} ai={t(topic.systems.computational)}
+                  status={TOPIC_CONTENT[topic.id] ? undefined : t(href ? UI.statusLegacy : UI.statusDrafting)} />
+              )
+            })}
+          </DirRow>
         ))}
       </div>
 
-      <h3>{t(UI.scaleIndex)}</h3>
+      <h3 className="dir-title">{t(UI.scaleIndex)}</h3>
       <p className="section-note">{t(UI.scaleIndexIntro)}</p>
-      <div className="ladder domain-directory">
-        {SCALES.map((scale) => (
-          <section key={scale.id} className="rung domain-rung">
-            <header>
-              <div><h2>{t(scale.name)}</h2></div>
-            </header>
-            {MECH_GROUPS.filter((g) => g.scale === scale.id).map((group) => (
-              <div key={group.id} className="mech-group">
-                <div className="mech-group-title"><span className="rung-no">{group.id}</span>{t(group.name)}</div>
-                <div className="rung-cards">
-                  {group.cards.map((id) => CARD_BY_ID[id]).map((c) => (
-                    <button key={c.id} className="chip" onClick={() => go(`/ai/card/${c.id}`)}>
-                      <ComparisonText text={t(c.title)} />
-                      <KindTags kinds={c.kinds} />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </section>
-        ))}
-      </div>
-
-      <h3>{t(UI.crossCuttingTopics)}</h3>
-      <div className="ladder domain-directory">
-        {CROSS_TOPICS.map((x) => {
-          const href = crossHref(x)
+      <div className="dir">
+        {SCALES.map((scale) => {
+          const groups = MECH_GROUPS.filter((g) => g.scale === scale.id)
+          const n = groups.reduce((k, g) => k + g.cards.length, 0)
+          // one row per scale, as many columns as cards (two even rows past five), so every row is filled
           return (
-            <section key={x.id} className="rung domain-rung">
-              <header>
-                <span className="rung-no">{x.id}</span>
-                <div><h2>{t(x.name)}</h2><p><Rich text={t(x.desc)} /></p></div>
-              </header>
-              <div className="rung-cards">
-                <button className={`chip topic-chip ${href ? '' : 'pending'}`} disabled={!href} onClick={() => href && go(href)}>
-                  <span>{t(UI.openTopic)}</span>
-                  {!x.route && <span className="chip-status">{t(href ? UI.statusLegacy : UI.statusDrafting)}</span>}
-                </button>
-              </div>
-            </section>
+            <DirRow key={scale.id} name={t(scale.name)} cols={n <= 5 ? n : Math.ceil(n / 2)}>
+              {groups.flatMap((g) => g.cards.map((id) => {
+                const c = CARD_BY_ID[id]
+                const [brain, ai] = splitComparison(t(c.title))
+                return <DirCard key={id} href={`/ai/card/${id}`} title={<Rich text={brain} />} ai={ai} />
+              }))}
+            </DirRow>
           )
         })}
       </div>
 
-      <h3>{t(UI.labs)}</h3>
-      <div className="rung-cards">
+      <h3 className="dir-title">{t(UI.crossCuttingTopics)}</h3>
+      <div className="dir-cards wide">
+        {CROSS_TOPICS.map((x) => {
+          const href = crossHref(x)
+          return <DirCard key={x.id} href={href} title={t(x.name)} desc={t(x.desc)} status={x.route ? undefined : t(href ? UI.statusLegacy : UI.statusDrafting)} />
+        })}
+      </div>
+
+      <h3 className="dir-title">{t(UI.labs)}</h3>
+      <div className="dir-cards wide">
         {Object.entries(LABS).map(([id, lab]) => (
-          <button key={id} className="chip" onClick={() => go(`/ai/lab/${id}`)}><Icon name="flask" size={14} /><Rich text={t(lab.title)} /></button>
+          <DirCard key={id} href={`/ai/lab/${id}`} kicker={<Icon name="flask" size={14} />} title={<Rich text={t(lab.title).replace(/^(实验：|Lab: )/, '')} />} />
         ))}
       </div>
 
-      <h3>{t(UI.furtherReading)}</h3>
+      <h3 className="dir-title">{t(UI.furtherReading)}</h3>
       <RefList ids={INTRO_REFS} />
     </article>
   )

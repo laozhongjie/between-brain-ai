@@ -512,18 +512,58 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .level-bar i { width: 10px; height: 8px; border-radius: 2px; border: 1px solid var(--line-hi); }
 .level-bar i.on { border-color: transparent; }
 .card-badges { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.ai-legend { display: flex; flex-direction: column; gap: 8px; font-size: 13px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 10px; padding: 10px 14px; }
+.ai-legend { display: flex; flex-direction: column; gap: 8px; font-size: 13px; background: rgba(170,195,230,0.02); border: 1px solid var(--panel-border); border-radius: 10px; padding: 10px 14px; }
 .ai-legend > div { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
 .ai-legend strong { min-width: 90px; color: var(--text-h); font-weight: 500; }
 .legend-item small { color: var(--text-dim); }
 
-.ladder { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; }
-.rung { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 12px; padding: 12px 16px; }
-.rung header { display: flex; gap: 12px; align-items: flex-start; }
+/* Overview: the intro beside the figures, then each directory as index rows (its name on the left, its cards
+   filling the rest of the width). Flat cards with a hairline edge; the edge lights up and an arrow slides in on hover */
+.ai-hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 56px; align-items: end; padding-bottom: 28px; border-bottom: 1px solid var(--panel-border); }
+.ai-page .ai-hero .lead { margin: 0 0 16px; }
+.concept-entry { padding: 6px 14px 6px 11px; font-size: 13px; color: var(--accent); }
+.ai-stats { display: flex; margin: 0 0 4px; }
+.ai-stats > div { padding: 0 22px; border-left: 1px solid var(--panel-border); }
+.ai-stats > div:first-child { padding-left: 0; border-left: 0; }
+.ai-stats > div:last-child { padding-right: 0; }
+.ai-stats dd { margin: 0; font: 300 40px/1 var(--label); letter-spacing: 0.02em; color: var(--text-h); font-variant-numeric: tabular-nums; }
+.ai-stats dt { margin-top: 10px; font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); white-space: nowrap; }
+.ai-page h3.dir-title { margin: 44px 0 6px; }
+.dir { border-bottom: 1px solid var(--panel-border); }
+.dir-row { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 32px; padding: 20px 0; border-top: 1px solid var(--panel-border); }
+.dir-head { display: flex; flex-direction: column; gap: 4px; }
+.dir-no { font: 400 12px/1.4 var(--label); letter-spacing: 0.14em; color: var(--accent); }
+.ai-page .dir-head h2 { margin: 0; font-size: 19px; line-height: 1.35; }
+.ai-page .dir-head p { margin: 2px 0 0; font-size: 13px; line-height: 1.5; color: var(--text-dim); }
+.dir-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; align-content: start; }
+.dir-cards[class*='cols-'] { grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); }
+.dir-cards.wide { margin-top: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.dir-card {
+  position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; min-height: 108px; padding: 14px 34px 14px 16px;
+  text-align: left; cursor: pointer; color: var(--text-h); background: rgba(170,195,230,0.025); border: 1px solid rgba(170,195,230,0.09); border-radius: 10px;
+  transition: border-color .25s, background .25s;
+}
+.dir-card:hover { border-color: var(--accent-line); background: rgba(125,211,252,0.045); }
+.dir-card-kicker { display: flex; font: 500 12px/1.4 var(--label); letter-spacing: 0.04em; color: var(--accent); }
+.dir-card-title { font-size: 15px; font-weight: 500; line-height: 1.45; text-wrap: balance; }
+.dir-card-pair { display: flex; flex-direction: column; gap: 3px; margin-top: auto; font-size: 12.5px; line-height: 1.45; color: var(--text-dim); }
+.dir-card-pair > span { position: relative; padding-left: 13px; text-wrap: balance; }
+.dir-card-pair > span::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 5px; height: 5px; border-radius: 50%; background: var(--pink); }
+.dir-card-pair > .comp::before { background: var(--accent); }
+.dir-card-desc { text-wrap: pretty; font-size: 13px; line-height: 1.5; color: var(--text-dim); }
+.dir-card-status { margin-top: auto; font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); }
+.dir-card-go { position: absolute; top: 15px; right: 12px; color: var(--accent); opacity: 0; transform: translateX(-4px); transition: opacity .25s, transform .25s var(--ease); }
+.dir-card:hover .dir-card-go { opacity: 1; transform: none; }
+.dir-card.pending { cursor: default; border-style: dashed; background: none; color: var(--text-dim); }
+.dir-card.pending .dir-card-go { display: none; }
+@media (max-width: 1000px) {
+  .ai-hero { grid-template-columns: 1fr; gap: 28px; }
+  .dir-cards[class*='cols-'] { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .dir-row { grid-template-columns: 1fr; gap: 12px; }
+}
+@media (max-width: 560px) { .ai-stats > div { padding: 0 12px; } .ai-stats dd { font-size: 28px; } }
+
 .rung-no { flex: none; width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-weight: 500; background: var(--accent-soft); color: var(--accent); }
-.rung h2 { margin: 0 0 2px; font-size: 18px; }
-.rung h2 small { font-weight: 400; color: var(--text-dim); font-size: 12px; margin-left: 6px; }
-.rung p { margin: 0 0 8px; font-size: 13px; color: var(--text-dim); }
 .rung-cards { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { display: inline-flex; align-items: center; gap: 10px; background: rgba(170,195,230,0.04); border: 1px solid var(--panel-border); border-radius: 8px; padding: 5px 10px; font-size: 13px; cursor: pointer; color: var(--text-h); text-align: left; }
 .chip:hover { border-color: var(--accent); background: var(--accent-soft); }
@@ -547,7 +587,6 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 /* AI concept index: an entry from AI vocabulary, each concept beside the brain mechanisms it meets */
 .ai-nav .ai-nav-concepts { display: flex; align-items: center; gap: 6px; }
-.concept-entry { margin: 4px 0 6px; color: var(--accent); }
 .concept-search { display: flex; align-items: center; gap: 8px; max-width: 600px; margin: 14px 0 4px; padding: 8px 12px; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(170,195,230,0.04); color: var(--text-dim); }
 .concept-search:focus-within { border-color: var(--accent); }
 .concept-search input { flex: 1; min-width: 0; background: none; border: 0; outline: none; color: var(--text-h); font: inherit; font-size: 14px; }
@@ -891,29 +930,29 @@ code, kbd, .tl-hour, .narr-time {
   font-family: var(--mono);
   font-weight: 400;
 }
-.tag, .badge, .step-no, .rung-no, .rung h2 small, .crumbs, .spark-label, .refs em {
+.tag, .badge, .step-no, .rung-no, .crumbs, .spark-label, .refs em {
   font-family: var(--label);
   font-weight: 400;
 }
 
 /* ── Dark observatory: glass hover, controls ── */
 /* Glass surfaces: a soft spotlight follows the cursor and the border lights up near it (--mx/--my set in main.tsx) */
-.panel::before, .panel::after, .rung::before, .rung::after, .col::before, .col::after, .lab-section::before, .lab-section::after {
+.panel::before, .panel::after, .col::before, .col::after, .lab-section::before, .lab-section::after {
   content: ''; position: absolute; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s var(--ease);
 }
-.panel::before, .rung::before, .col::before, .lab-section::before {
+.panel::before, .col::before, .lab-section::before {
   inset: 0; z-index: -1; background: radial-gradient(280px circle at var(--mx, -999px) var(--my, -999px), rgba(125,211,252,0.07), transparent 60%);
 }
-.panel::after, .rung::after, .col::after, .lab-section::after {
+.panel::after, .col::after, .lab-section::after {
   inset: -1px; padding: 1px;
   background: radial-gradient(220px circle at var(--mx, -999px) var(--my, -999px), rgba(125,211,252,0.55), transparent 65%);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude;
 }
-.panel:hover::before, .rung:hover::before, .rung:hover::after, .col:hover::before, .col:hover::after,
+.panel:hover::before, .col:hover::before, .col:hover::after,
 .lab-section:hover::before, .lab-section:hover::after { opacity: 1; }
 /* borderless panels: no lit edge on hover, only the soft spotlight inside */
-.rung, .col, .lab-section { position: relative; isolation: isolate; box-shadow: var(--shadow); }
+.col, .lab-section { position: relative; isolation: isolate; box-shadow: var(--shadow); }
 
 /* Range sliders: hairline track, gradient fill, glowing thumb (--v set in main.tsx) */
 input[type=range] { -webkit-appearance: none; appearance: none; height: 16px; background: transparent; cursor: pointer; --v: 50%; }
@@ -987,20 +1026,11 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 /* Page entrance: content rises in, ladder rungs one after another */
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
 .ai-enter > .ai-page > * { animation: rise .5s var(--ease) both; }
-.ai-enter .ladder > .rung { animation: rise .55s var(--ease) both; }
-.ai-enter .ladder > .rung:nth-child(1) { animation-delay: .05s; }
-.ai-enter .ladder > .rung:nth-child(2) { animation-delay: .12s; }
-.ai-enter .ladder > .rung:nth-child(3) { animation-delay: .19s; }
-.ai-enter .ladder > .rung:nth-child(4) { animation-delay: .26s; }
-.ai-enter .ladder > .rung:nth-child(5) { animation-delay: .33s; }
 .ai-enter .two-col > .col:nth-child(2) { animation: rise .5s .08s var(--ease) both; }
 
 .chip { position: relative; overflow: hidden; transition: border-color .25s, background .25s; }
 .chip:hover { border-color: var(--accent-line); background: rgba(125,211,252,0.07); }
-.rung { transition: border-color .3s, transform .3s var(--ease); }
-.rung:hover { border-color: rgba(125,211,252,0.18); }
 .rung-no { transition: box-shadow .3s, color .3s, background .3s; }
-.rung:hover .rung-no { background: rgba(125,211,252,0.16); color: var(--text-h); box-shadow: inset 0 0 0 1px var(--accent), 0 0 16px rgba(125,211,252,0.35); }
 .fig { transition: border-color .3s, box-shadow .3s; }
 .fig:hover { border-color: var(--accent-line); box-shadow: 0 0 24px -10px rgba(125,211,252,0.5); }
 .ai-legend .badge, .card-badges .badge { transition: border-color .2s, box-shadow .2s; }
