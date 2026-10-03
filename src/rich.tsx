@@ -74,9 +74,11 @@ const NUMERIC = /^(?:[0-9.,\s]|\\times|\\approx|\\%|\\,)+$/
 const numberText = (tex: string) =>
   tex.trim().replace(/\\times/g, '×').replace(/\\approx/g, '≈').replace(/\\%/g, '%').replace(/\\,/g, ' ')
 
+type Seg = { tex: boolean; s: string }
+
 /** Split plain text into text and TeX segments: explicit $…$ plus auto-detected symbols. */
-export function toSegments(text: string): { tex: boolean; s: string }[] {
-  const out: { tex: boolean; s: string }[] = []
+export function toSegments(text: string): Seg[] {
+  const out: Seg[] = []
   text.split(/\$([^$]+)\$/g).forEach((part, k) => {
     if (k % 2) return out.push(NUMERIC.test(part) ? { tex: false, s: numberText(part) } : { tex: true, s: part })
     let last = 0
@@ -95,24 +97,55 @@ export function toSegments(text: string): { tex: boolean; s: string }[] {
 /** In-site cross-reference: `[label](card:id)` or `[label](topic:id)` links to a card or topic page. */
 export const XREF = /\[([^\]]+)\]\((card|topic):([a-z0-9-]+)\)/g
 
-function Segments({ text }: { text: string }) {
-  const segs = useMemo(() => toSegments(text), [text])
+/** Chinese text keeps its last few characters on one line (a nowrap tail), so a paragraph never ends on a line of one
+ * or two characters; English is left to `text-wrap: pretty` in index.css. Letters and digits count one each, a formula
+ * two, punctuation nothing. Returns the head and the tail; text too short to split comes back whole as the tail. */
+const TAIL = 4
+const CJK = /[\u3400-\u9fff]/
+export function splitTail(segs: Seg[]): [Seg[], Seg[]] {
+  let n = 0
+  for (let i = segs.length - 1; i >= 0; i--) {
+    const p = segs[i]
+    if (p.tex) {
+      n += 2
+      if (n >= TAIL) return [segs.slice(0, i), segs.slice(i)]
+      continue
+    }
+    const chars = [...p.s]
+    for (let j = chars.length - 1; j >= 0; j--) {
+      if (/[\p{L}\p{N}]/u.test(chars[j])) n++
+      if (n >= TAIL) return [[...segs.slice(0, i), { tex: false, s: chars.slice(0, j).join('') }], [{ tex: false, s: chars.slice(j).join('') }, ...segs.slice(i + 1)]]
+    }
+  }
+  return [[], segs]
+}
+
+const renderSegs = (segs: Seg[], key: string) =>
+  segs.map((p, i) =>
+    p.tex ? (
+      <span key={key + i} className="tex-inline" dangerouslySetInnerHTML={{ __html: katex.renderToString(p.s, { throwOnError: false }) }} />
+    ) : (
+      <Fragment key={key + i}>{p.s}</Fragment>
+    ),
+  )
+
+function Segments({ text, tail }: { text: string; tail?: boolean }) {
+  const [head, end] = useMemo(() => {
+    const segs = toSegments(text)
+    return tail && CJK.test(text) ? splitTail(segs) : [segs, []]
+  }, [text, tail])
   return (
     <>
-      {segs.map((p, i) =>
-        p.tex ? (
-          <span key={i} className="tex-inline" dangerouslySetInnerHTML={{ __html: katex.renderToString(p.s, { throwOnError: false }) }} />
-        ) : (
-          <Fragment key={i}>{p.s}</Fragment>
-        ),
-      )}
+      {renderSegs(head, 'h')}
+      {/* Chrome does not break at the edge of a nowrap span on its own: mark the opportunity */}
+      {end.length > 0 && <><wbr /><span className="nobr">{renderSegs(end, 't')}</span></>}
     </>
   )
 }
 
 /** Text with math: $…$ segments and stray symbols (→, α, x₁, Wᵀ, …) are rendered by KaTeX; cross-references become links. */
 export function Rich({ text }: { text: string }) {
-  if (!text.includes('](')) return <Segments text={text} />
+  if (!text.includes('](')) return <Segments text={text} tail />
   const out = []
   let last = 0
   for (const m of text.matchAll(XREF)) {
@@ -120,6 +153,6 @@ export function Rich({ text }: { text: string }) {
     out.push(<a key={`a${m.index}`} className="xref" href={`#/ai/${m[2]}/${m[3]}`}><Segments text={m[1]} /></a>)
     last = m.index! + m[0].length
   }
-  if (last < text.length) out.push(<Segments key={`t${last}`} text={text.slice(last)} />)
+  if (last < text.length) out.push(<Segments key={`t${last}`} text={text.slice(last)} tail />)
   return <>{out}</>
 }

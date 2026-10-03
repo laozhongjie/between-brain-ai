@@ -63,7 +63,7 @@ function CapabilityDuel({ rows, bio, comp, short }: { rows: TopicCapability[]; b
       {rows.map((r, i) => (
         <div key={i} className={`duel-row lead-${r.lead}`} role="row">
           <div className="duel-side bio" role="cell" title={verdict(r.lead)}><Rich text={t(r.brain)} /></div>
-          <div className="duel-dim" role="rowheader">{t(r.dimension)}</div>
+          <div className="duel-dim" role="rowheader"><Rich text={t(r.dimension)} /></div>
           <div className="duel-side comp" role="cell" title={verdict(r.lead)}><Rich text={t(r.ai)} /></div>
           <span className="sr-only">{verdict(r.lead)}</span>
           <p className="duel-gap"><Rich text={t(r.gap)} /></p>

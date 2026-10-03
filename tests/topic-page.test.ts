@@ -14,6 +14,8 @@ vi.mock('../src/i18n', async (importOriginal) => ({
 }))
 
 const escaped = (text: string) => renderToStaticMarkup(createElement('span', null, text)).slice(6, -7)
+/** Rich keeps the last characters of Chinese text in a nowrap span; drop its opening so text can be found whole */
+const untail = (html: string) => html.replaceAll('<wbr/><span class="nobr">', '')
 /** Rich text turns $…$ into KaTeX, so only check the plain parts of a string. */
 const plain = (text: string) => text.replace(/\[([^\]]+)\]\((?:card|topic):[a-z0-9-]+\)/g, '\n').split(/\$[^$]+\$|\n/).map((s) => s.trim()).filter((s) => s.length > 3)
 
@@ -23,7 +25,7 @@ describe('topic pages', () => {
       it(`renders every part of the template: ${id} / ${lang}`, () => {
         language.current = lang
         const topic = TOPIC_BY_ID[id]
-        const html = renderToStaticMarkup(createElement(TopicPage, { topic }))
+        const html = untail(renderToStaticMarkup(createElement(TopicPage, { topic })))
         const texts: Bi[] = [topic.name, topic.systems.biological, topic.systems.computational,
           page.thesis.biological, page.thesis.computational, page.thesis.gap, page.asOf,
           ...[...page.limits.biological, ...page.limits.computational].flatMap((l) => [l.title, l.text]), ...page.limits.misreadings.flatMap((m) => [m.claim, m.fact, ...(m.source ? [m.source] : [])]),
