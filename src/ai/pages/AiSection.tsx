@@ -4,7 +4,6 @@ import { UI, useT } from '../../i18n'
 import { go } from '../../route'
 import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, MECH_GROUPS, SCALES, TOPIC_BY_ID, TOPIC_CONTENT, crossHref, topicHref, topicsOfDomain } from '../content'
 import { LABS } from '../labs/registry'
-import { Blueprint } from './Blueprint'
 import { ConceptIndex } from './ConceptIndex'
 import { Icon } from '../../ui/Icon'
 import { CardPage } from './CardPage'
@@ -29,7 +28,8 @@ export function AiSection({ route }: { route: string[] }) {
   let content
   if (page === 'topic' && id && TOPIC_CONTENT[id]) content = <TopicPage topic={TOPIC_BY_ID[id]} />
   else if (page === 'card' && id && CARD_BY_ID[id]) content = <CardPage card={CARD_BY_ID[id]} />
-  else if (page === 'blueprint') content = <Blueprint moduleId={id} />
+  // the old blueprint page is now the X03 topic page
+  else if (page === 'blueprint') content = <TopicPage topic={TOPIC_BY_ID['agent-blueprint']} />
   else if (page === 'concepts') content = <ConceptIndex />
   else if (page === 'lab' && id && LABS[id]) content = <LabPage id={id} />
   else content = <AiHome />

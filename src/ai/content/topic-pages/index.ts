@@ -27,6 +27,7 @@ import { AUDITORY_SCENE } from './auditory-scene'
 import { VISUAL_RECOGNITION } from './visual-recognition'
 import { SLEEP_OFFLINE } from './sleep-offline'
 import { EFFICIENCY } from './efficiency'
+import { AGENT_BLUEPRINT } from './agent-blueprint'
 
 /** Topics (functional and cross-domain) that have their own page, keyed by topic id. The rest still open their old card or are in progress. */
 export const TOPIC_CONTENT: Record<string, TopicContent> = {
@@ -58,4 +59,5 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   'developmental-stages': DEVELOPMENTAL_STAGES,
   'sleep-offline': SLEEP_OFFLINE,
   'efficiency': EFFICIENCY,
+  'agent-blueprint': AGENT_BLUEPRINT,
 }

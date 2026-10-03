@@ -81,7 +81,6 @@ export const REFS: Ref[] = [
   { id: 'schrittwieser2020', authors: 'Schrittwieser, J. et al.', year: 2020, title: 'Mastering Atari, Go, chess and shogi by planning with a learned model (MuZero)', venue: 'Nature 588, 604–609', url: doi('10.1038/s41586-020-03051-4') },
   { id: 'friston2010', authors: 'Friston, K.', year: 2010, title: 'The free-energy principle: a unified brain theory?', venue: 'Nature Reviews Neuroscience 11, 127–138', url: doi('10.1038/nrn2787') },
   { id: 'dehaene2011', authors: 'Dehaene, S. & Changeux, J.-P.', year: 2011, title: 'Experimental and theoretical approaches to conscious processing', venue: 'Neuron 70(2), 200–227', url: doi('10.1016/j.neuron.2011.03.018') },
-  { id: 'hawkins2019', authors: 'Hawkins, J., Lewis, M., Klukas, M., Purdy, S. & Ahmad, S.', year: 2019, title: 'A framework for intelligence and cortical function based on grid cells in the neocortex', venue: 'Frontiers in Neural Circuits 12, 121', url: doi('10.3389/fncir.2018.00121') },
   { id: 'tononi2014', authors: 'Tononi, G. & Cirelli, C.', year: 2014, title: 'Sleep and the price of plasticity: from synaptic and cellular homeostasis to memory consolidation and integration', venue: 'Neuron 81(1), 12–34', url: doi('10.1016/j.neuron.2013.12.025') },
   { id: 'hinton1995', authors: 'Hinton, G. E., Dayan, P., Frey, B. J. & Neal, R. M.', year: 1995, title: 'The “wake-sleep” algorithm for unsupervised neural networks', venue: 'Science 268(5214), 1158–1161', url: doi('10.1126/science.7761831') },
   { id: 'wilson1994', authors: 'Wilson, M. A. & McNaughton, B. L.', year: 1994, title: 'Reactivation of hippocampal ensemble memories during sleep', venue: 'Science 265(5172), 676–679', url: doi('10.1126/science.8036517') },
@@ -456,6 +455,12 @@ export const REFS: Ref[] = [
   { id: 'davies2018', authors: 'Davies, M. et al.', year: 2018, title: 'Loihi: a neuromorphic manycore processor with on-chip learning', venue: 'IEEE Micro 38(1), 82–99', url: doi('10.1109/MM.2018.112130359') },
   { id: 'dettmers2022', authors: 'Dettmers, T., Lewis, M., Belkada, Y. & Zettlemoyer, L.', year: 2022, title: 'LLM.int8(): 8-bit matrix multiplication for transformers at scale', venue: 'NeurIPS 2022', url: arxiv('2208.07339') },
   { id: 'dao2022', authors: 'Dao, T., Fu, D. Y., Ermon, S., Rudra, A. & Ré, C.', year: 2022, title: 'FlashAttention: fast and memory-efficient exact attention with IO-awareness', venue: 'NeurIPS 2022', url: arxiv('2205.14135') },
+  // ── X03 Blueprint for a humanlike agent ──
+  { id: 'yao2022', authors: 'Yao, S. et al.', year: 2022, title: 'ReAct: synergizing reasoning and acting in language models', venue: 'ICLR 2023', url: arxiv('2210.03629') },
+  { id: 'park2023', authors: 'Park, J. S. et al.', year: 2023, title: 'Generative agents: interactive simulacra of human behavior', venue: 'UIST 2023', url: arxiv('2304.03442') },
+  { id: 'sumers2023', authors: 'Sumers, T. R., Yao, S., Narasimhan, K. & Griffiths, T. L.', year: 2023, title: 'Cognitive architectures for language agents', venue: 'Transactions on Machine Learning Research', url: arxiv('2309.02427') },
+  { id: 'kwa2025', authors: 'Kwa, T. et al.', year: 2025, title: 'Measuring AI ability to complete long software tasks', venue: 'arXiv', url: arxiv('2503.14499') },
+  { id: 'bjorck2025', authors: 'NVIDIA, Bjorck, J. et al.', year: 2025, title: 'GR00T N1: an open foundation model for generalist humanoid robots', venue: 'arXiv', url: arxiv('2503.14734') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

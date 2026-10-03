@@ -1,4 +1,4 @@
-import { EVIDENCE_INFO, KIND_INFO, LEVEL_COLORS, NO_KIND } from '../content'
+import { EVIDENCE_INFO, KIND_INFO, NO_KIND } from '../content'
 import { REF_BY_ID } from '../content/refs'
 import { UI, useT } from '../../i18n'
 import { ComparisonText } from '../../ui/ComparisonText'
@@ -6,19 +6,6 @@ import { Icon } from '../../ui/Icon'
 import type { Evidence, Kind } from '../types'
 
 /** Ordinal level bar (0–3) with a text label, so meaning never relies on colour alone. */
-export function LevelBar({ level, label }: { level: number; label: string }) {
-  return (
-    <span className="level">
-      <span className="level-bar" aria-hidden>
-        {[1, 2, 3].map((i) => (
-          <i key={i} style={{ background: i <= level ? LEVEL_COLORS[level] : 'transparent' }} className={i <= level ? 'on' : ''} />
-        ))}
-      </span>
-      {label}
-    </span>
-  )
-}
-
 /** Correspondence types of a card: in which sense the two sides are comparable. */
 export function KindTags({ kinds }: { kinds: Kind[] }) {
   const t = useT()

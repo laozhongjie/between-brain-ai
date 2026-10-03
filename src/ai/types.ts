@@ -59,8 +59,6 @@ export interface CrossTopic extends Topic {
   desc: Bi
   /** functional topics it draws on */
   topics: string[]
-  /** a page of its own outside the topic template, while it has one */
-  route?: string
 }
 
 export interface Formula {
@@ -162,23 +160,6 @@ export interface CardMechanism {
 
 export interface Card extends CardMechanism {
   guide: CardGuide
-}
-
-/** Layer-5 robot-brain module. */
-export interface Module {
-  id: string
-  name: Bi
-  /** 0 absent … 3 strong */
-  coverage: 0 | 1 | 2 | 3
-  brain: Bi
-  ai: Bi
-  gaps: Bi
-  directions: Bi
-  /** related cards */
-  cards: string[]
-  refs: string[]
-  /** grid placement in the blueprint (column, row) */
-  pos: [number, number]
 }
 
 /** An equation on a topic page, taught step by step. */

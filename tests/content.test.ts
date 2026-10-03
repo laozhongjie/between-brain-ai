@@ -1,6 +1,5 @@
 import katex from 'katex'
 import { describe, expect, it } from 'vitest'
-import { MODULES } from '../src/ai/content/blueprint'
 import { CARDS, CARD_BY_ID, CONCEPTS, CONCEPT_GROUPS, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_BY_ID, MECH_GROUPS, TOPICS, TOPIC_BY_ID, TOPIC_CONTENT, aiLinkForTour } from '../src/ai/content/index'
 import { REF_BY_ID, REFS } from '../src/ai/content/refs'
 import { LABS } from '../src/ai/labs/registry'
@@ -29,7 +28,6 @@ describe('AI correspondence content', () => {
     expect(new Set(TOPICS.map((t) => t.id)).size).toBe(TOPICS.length)
     expect(new Set(TOPICS.map((t) => t.code)).size).toBe(TOPICS.length)
     expect(new Set(REFS.map((r) => r.id)).size).toBe(REFS.length)
-    expect(new Set(MODULES.map((m) => m.id)).size).toBe(MODULES.length)
   })
 
   it('the domains list every topic exactly once', () => {
@@ -81,7 +79,6 @@ describe('AI correspondence content', () => {
   it('every cited reference exists and every reference is cited', () => {
     const cited = new Set<string>(INTRO_REFS)
     for (const c of CARDS) c.refs.forEach((r) => cited.add(r))
-    for (const m of MODULES) m.refs.forEach((r) => cited.add(r))
     for (const page of Object.values(TOPIC_CONTENT)) [...page.refs.neuro, ...page.refs.models, ...page.refs.ai].forEach((r) => cited.add(r))
     for (const r of cited) expect(REF_BY_ID[r], r).toBeDefined()
     for (const r of REFS) expect(cited.has(r.id), `unused ref ${r.id}`).toBe(true)
@@ -92,7 +89,6 @@ describe('AI correspondence content', () => {
       if (c.lab) expect(LABS[c.lab], c.lab).toBeDefined()
       if (c.tour) expect(TOUR_BY_ID[c.tour], c.tour).toBeDefined()
     }
-    for (const m of MODULES) for (const id of m.cards) expect(CARD_BY_ID[id], `${m.id} → ${id}`).toBeDefined()
     // every functional-system tour links to an AI comparison
     for (const id of Object.keys(TOUR_BY_ID)) expect(aiLinkForTour(id), id).toBeDefined()
   })
@@ -142,7 +138,7 @@ describe('AI correspondence content', () => {
   })
 
   it('every cross-reference in the content points to an existing page', () => {
-    const text = JSON.stringify([CARDS, TOPIC_CONTENT, MODULES])
+    const text = JSON.stringify([CARDS, TOPIC_CONTENT])
     for (const m of text.matchAll(/\]\((card|topic):([a-z0-9-]+)\)/g)) {
       if (m[1] === 'card') expect(CARD_BY_ID[m[2]], m[0]).toBeDefined()
       else expect(TOPIC_CONTENT[m[2]], m[0]).toBeDefined()
@@ -164,10 +160,5 @@ describe('AI correspondence content', () => {
         expect(names.some((n) => text.includes(n)), `${c.id} is not mentioned on ${l.to}`).toBe(true)
       }
     }
-  })
-
-  it('blueprint cells do not overlap', () => {
-    const cells = MODULES.map((m) => m.pos.join(','))
-    expect(new Set(cells).size).toBe(cells.length)
   })
 })

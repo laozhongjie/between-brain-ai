@@ -41,7 +41,7 @@ export const MECH_ORDER: Card[] = MECH_GROUPS.flatMap((g) => g.cards.map((id) =>
 export const topicHref = (topic: Topic) => (TOPIC_CONTENT[topic.id] ? `/ai/topic/${topic.id}` : topic.legacy ? `/ai/card/${topic.legacy}` : null)
 /** Topics with a page of their own, in directory order, cross-domain topics last (for prev / next paging). */
 export const WRITTEN_TOPICS = (): Topic[] => [...DOMAINS.flatMap((d) => d.topics), ...CROSS_TOPICS.map((x) => x.id)].filter((id) => TOPIC_CONTENT[id]).map((id) => TOPIC_BY_ID[id])
-export const crossHref = (x: CrossTopic) => (TOPIC_CONTENT[x.id] ? topicHref(x) : x.route ?? topicHref(x))
+export const crossHref = (x: CrossTopic) => topicHref(x)
 /** Topics this old card still stands in for (an old system card can stand in for several). */
 export const topicsOfLegacy = (cardId: string) => TOPICS.filter((t) => t.legacy === cardId && !TOPIC_CONTENT[t.id])
 
@@ -72,5 +72,3 @@ export const EVIDENCE_INFO: Record<Evidence, { name: Bi; icon: string }> = {
   speculative: { name: b('推测', 'Speculative'), icon: '○' },
 }
 
-/** Ordinal ramp for blueprint coverage (0 = absent … 3 = strong). */
-export const LEVEL_COLORS = ['transparent', '#2c4a63', '#4f8db3', '#7dd3fc'] as const

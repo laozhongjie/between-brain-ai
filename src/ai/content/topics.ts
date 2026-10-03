@@ -135,9 +135,9 @@ export const CROSS_TOPICS: CrossTopic[] = [
     mechanisms: ['M05', 'M08'],
     topics: ['attention-gating', 'language', 'continual-learning'] },
   { id: 'agent-blueprint', code: 'X03', name: b('类人智能体蓝图', 'Blueprint for a humanlike agent'),
-    desc: b('一个完整的智能体需要哪些模块，当今 AI 在每个模块上的覆盖程度与缺口。', 'The modules a complete agent needs, and how well today’s AI covers each one.'),
+    desc: b('一个完整的智能体需要哪些模块，大脑怎样协调它们，当今 LLM 智能体有哪些对应部分和缺口。', 'The modules a complete agent needs, how the brain coordinates them, and what today’s LLM agents have and lack.'),
     systems: sys(b('大脑整体功能架构', 'Whole-brain functional architecture'), b('LLM 智能体架构', 'LLM agent architectures')),
-    mechanisms: ['M09'], route: '/ai/blueprint',
+    mechanisms: ['M09'],
     topics: ['working-memory', 'episodic-memory', 'world-models', 'planning', 'metacognitive-control', 'reward-learning', 'interoception', 'motor-control'] },
 ]
 
