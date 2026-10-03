@@ -1,5 +1,3 @@
-// Noto Serif SC for page and section titles in this section only, so the landing page and atlas never load it
-import '@fontsource-variable/noto-serif-sc'
 import { Rich, splitComparison } from '../../rich'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { UI, useT } from '../../i18n'
