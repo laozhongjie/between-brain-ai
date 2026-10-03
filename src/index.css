@@ -425,11 +425,32 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .ai-mode { overflow: hidden; }
 .ai-section { position: absolute; top: 58px; left: 0; right: 0; bottom: 0; }
 /* Directory drawer: hidden past the left edge, slides out over the page when the pointer reaches the edge or its tab */
-.ai-drawer { position: absolute; top: 0; bottom: 0; left: 0; z-index: 20; width: min(290px, 86vw); transform: translateX(-100%); transition: transform .35s var(--ease) .15s; }
+.ai-drawer { position: absolute; top: 0; bottom: 0; left: 0; z-index: 20; width: min(290px, 86vw); transform: translateX(-100%); transition: transform .3s cubic-bezier(.4, 0, 1, 1) .15s; }
 /* English titles run longer: wide enough that the longest stays on one line with the hover indent */
 :root[lang='en'] .ai-drawer { width: min(370px, 86vw); }
 .ai-drawer::after { content: ''; position: absolute; top: 0; bottom: 0; right: -14px; width: 14px; }
-.ai-drawer:hover, .ai-drawer:has(:focus-visible), .ai-drawer.open { transform: none; transition-delay: 0s; }
+.ai-drawer:hover, .ai-drawer:has(:focus-visible), .ai-drawer.open { transform: none; transition: transform .6s cubic-bezier(.16, 1, .3, 1); }
+/* opening: the entries arrive top to bottom, each easing in from the left; closing: they fade at once */
+.ai-nav > button, .ai-nav-layer-title, .ai-nav-domain, .ai-nav-layer > button { opacity: 0; transform: translateX(-12px); transition: opacity .15s, transform .15s; }
+:is(.ai-drawer:hover, .ai-drawer:has(:focus-visible), .ai-drawer.open) :is(.ai-nav > button, .ai-nav-layer-title, .ai-nav-domain, .ai-nav-layer > button) {
+  opacity: 1; transform: none;
+  transition: opacity .4s ease var(--d, .5s), transform .55s cubic-bezier(.16, 1, .3, 1) var(--d, .5s), color .2s, background .25s, padding-left .25s var(--ease);
+}
+.ai-nav > button:nth-child(1) { --d: .08s; }
+.ai-nav > button:nth-child(2) { --d: .12s; }
+.ai-nav > .ai-nav-layer:nth-child(3) > .ai-nav-layer-title { --d: .16s; }
+.ai-nav > .ai-nav-layer:nth-child(3) > .ai-nav-domain:nth-child(2) { --d: .2s; }
+.ai-nav > .ai-nav-layer:nth-child(3) > .ai-nav-domain:nth-child(3) { --d: .24s; }
+.ai-nav > .ai-nav-layer:nth-child(3) > .ai-nav-domain:nth-child(4) { --d: .28s; }
+.ai-nav > .ai-nav-layer:nth-child(3) > .ai-nav-domain:nth-child(5) { --d: .32s; }
+.ai-nav > .ai-nav-layer:nth-child(3) > .ai-nav-domain:nth-child(6) { --d: .36s; }
+.ai-nav > .ai-nav-layer:nth-child(3) > .ai-nav-domain:nth-child(7) { --d: .4s; }
+.ai-nav > .ai-nav-layer:nth-child(3) > .ai-nav-domain:nth-child(8) { --d: .44s; }
+.ai-nav > .ai-nav-layer:nth-child(3) > .ai-nav-domain:nth-child(9) { --d: .48s; }
+.ai-nav > .ai-nav-layer:nth-child(3) > .ai-nav-domain:nth-child(10) { --d: .52s; }
+@media (prefers-reduced-motion: reduce) {
+  .ai-drawer, .ai-nav > button, .ai-nav-layer-title, .ai-nav-domain, .ai-nav-layer > button { transition: none !important; }
+}
 .ai-drawer-tab {
   position: absolute; top: 14px; right: -26px; z-index: 1; display: grid; place-items: center; width: 26px; height: 44px; padding: 0;
   border: 1px solid var(--panel-border); border-left: 0; border-radius: 0 9px 9px 0; cursor: pointer; color: var(--text-dim);
