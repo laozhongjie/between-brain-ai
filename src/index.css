@@ -640,15 +640,18 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .grammar-legend li { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
 /* Capabilities as a face-off: dimension on the spine, the two systems facing each other, a pointer to the side ahead */
 .duel { margin-top: 6px; }
-.duel-head, .duel-row { display: grid; grid-template-columns: 1fr 8.5em 1fr; column-gap: 22px; }
+.duel-head, .duel-row { display: grid; grid-template-columns: 1fr 10em 1fr; column-gap: 22px; }
+/* English dimensions run longer: a wider spine keeps them to two lines */
+:root[lang='en'] :is(.duel-head, .duel-row) { grid-template-columns: 1fr 13em 1fr; }
 .duel-head { padding: 0 0 8px; border-bottom: 1px solid var(--panel-border); font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); }
 .duel-head > span:nth-child(2) { text-align: center; }
 .duel-head .bio { text-align: right; padding-right: 14px; color: var(--pink); }
 .duel-head .comp { padding-left: 14px; color: var(--accent); }
 .duel-row { row-gap: 8px; padding: 14px 0 12px; border-bottom: 1px solid rgba(170,195,230,0.08); }
-/* both sides ragged right: justified Chinese would stretch the line above a kept-together last line */
-.duel-side { font-size: 15px; line-height: 1.8; color: var(--text); }
-.duel-dim { align-self: center; text-align: center; padding: 7px 10px; border: 1px solid var(--panel-border); border-radius: 999px; font-size: 14px; font-weight: 600; color: var(--text-h); background: rgba(170,195,230,0.04); }
+/* both sides justified; the brain side's last line hugs the spine */
+.duel-side { font-size: 15px; line-height: 1.8; color: var(--text); text-align: justify; }
+.duel-side.bio { text-align-last: right; }
+.duel-dim { align-self: center; text-align: center; padding: 7px 10px; border: 1px solid var(--panel-border); border-radius: 999px; font-size: 14px; font-weight: 600; color: var(--text-h); background: rgba(170,195,230,0.04); text-wrap: balance; }
 /* the side ahead is tinted in its own color, with a line on the spine side */
 .duel-side { padding: 8px 12px; border-radius: 8px; border: 0 solid transparent; transition: background .2s; }
 .lead-bio .duel-side.bio, .lead-mixed .duel-side.bio { background: rgba(255,143,168,0.07); border-right: 2px solid var(--pink); }
@@ -672,7 +675,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .arch-notes { align-self: start; padding: 10px 12px 4px; border-radius: 8px; background: var(--well); }
 .arch-notes h5 { margin: 0 0 6px; font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); }
 .arch-notes ul { margin: 0; padding-left: 16px; }
-.ai-page .arch-notes li { font-size: 13px; line-height: 1.7; color: var(--text-dim); margin-bottom: 6px; }
+.ai-page .arch-notes li { font-size: 13px; line-height: 1.7; color: var(--text-dim); margin-bottom: 6px; text-align: justify; }
 @media (max-width: 760px) { .arch-grid { grid-template-columns: 1fr; grid-template-rows: none; gap: 16px; } .arch-col { grid-row: auto; grid-template-rows: none; } }
 .fig-steps { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 14px; }
 .fig-steps > li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; }
@@ -712,7 +715,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .fig-slider output { display: grid; justify-items: start; color: var(--text-h); font-size: 13px; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .fig-slider output > span { grid-area: 1 / 1; }
 .fig-slider-sizer { visibility: hidden; }
-.formula-fig figcaption { margin: 4px 4px 0; font-size: 13px; line-height: 1.6; color: var(--text-dim); }
+.formula-fig figcaption { margin: 4px 4px 0; font-size: 13px; line-height: 1.6; color: var(--text-dim); text-align: justify; }
 .formula-card .formula .katex-display { font-size: 1.3em; }
 .symbols .katex { font-size: 1.08em; }
 .formula-card ol, .formula-card ul { margin: 0; padding-left: 20px; }
@@ -879,13 +882,6 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 h1 .tex-inline .katex, h2 .tex-inline .katex { font-size: 0.95em; }
 
 /* Type scale: headings 500, body 400 (Inter + MiSans) */
-/* No orphaned last lines (one or two characters, or one short word, alone on a line): running text
-   re-breaks its last lines, headings balance all their lines. Balance misplaces breaks around the
-   nowrap tail below, so text rendered through Rich (which adds it) uses pretty */
-p, li, dd, td, figcaption, .duel-side, .duel-dim { text-wrap: pretty; }
-h1, h2, h3, h4, h5 { text-wrap: balance; }
-/* Chinese text: its last few characters never break apart (splitTail in rich.tsx) */
-.nobr { white-space: nowrap; }
 h1, h2, h3, h4, strong, b { font-weight: 500; }
 h1, h2, .topbar h1 { letter-spacing: -0.01em; }
 .ai-page h1, .ai-page h2 { letter-spacing: 0.01em; }
