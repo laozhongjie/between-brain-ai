@@ -24,7 +24,9 @@ export interface ConceptGroup {
   concepts: AiConcept[]
 }
 
-/** The AI concept index: an entry into the atlas in the vocabulary of AI work, grouped by area. */
+/** The AI concept index: an entry into the atlas in the vocabulary of AI work, grouped by area in the order a system
+ * is built and judged (architecture, training, ..., reliability and evaluation last). Within a group the page sorts
+ * terms alphabetically, so their order here does not matter. */
 export const CONCEPT_GROUPS: ConceptGroup[] = [
   {
     id: 'architecture', name: b('网络架构', 'Architectures'),
@@ -228,37 +230,6 @@ export const CONCEPT_GROUPS: ConceptGroup[] = [
     ],
   },
   {
-    id: 'reliability', name: b('可靠性与评测', 'Reliability and evaluation'),
-    concepts: [
-      { id: 'calibration', term: b('置信度校准（温度缩放、ECE）', 'Confidence calibration (temperature scaling, ECE)'), aka: ['校准', '温度缩放', 'calibration'], links: [
-        { to: 'topic:metacognitive-monitoring', brain: b('信心与元认知监测', 'Confidence and metacognitive monitoring') },
-      ] },
-      { id: 'abstention', term: b('拒答与选择性回答', 'Abstention and selective prediction'), aka: ['拒答', '选择性回答', 'abstain'], links: [
-        { to: 'topic:metacognitive-control', brain: b('没把握时求助或放弃', 'Asking for help or giving up when unsure') },
-      ] },
-      { id: 'adversarial', term: b('对抗样本', 'Adversarial examples'), aka: ['对抗', '扰动', 'adversarial'], links: [
-        { to: 'topic:visual-recognition', brain: b('依靠形状、反馈和眼动的稳健识别', 'Robust recognition through shape, feedback and eye movements') },
-      ] },
-      { id: 'hallucination', term: b('幻觉', 'Hallucination'), aka: ['幻觉', 'hallucinat'], links: [
-        { to: 'topic:multisensory', brain: b('判断信号是否来自同一来源', 'Judging whether signals share a source') },
-        { to: 'topic:auditory-scene', brain: b('听觉通路与听觉皮层', 'The auditory pathway and cortex') },
-      ] },
-      { id: 'linear-probe', term: b('线性探针', 'Linear probes'), aka: ['线性探针', '线性读出', '线性分类器', 'linear probe', 'linear readout'], links: [
-        { to: 'topic:visual-recognition', brain: b('IT 群体的线性读出', 'Linear readout of IT populations') },
-        { to: 'topic:cognitive-maps', brain: b('从神经活动中读出地图', 'Reading a map out of neural activity') },
-      ] },
-      { id: 'brain-encoding', term: b('脑编码模型', 'Brain encoding models'), aka: ['编码模型', 'encoding model'], links: [
-        { to: 'topic:language', brain: b('语言网络的反应', 'Responses of the language network') },
-      ] },
-      { id: 'tom-bench', term: b('心智理论测试', 'Theory-of-mind benchmarks'), aka: ['心智理论', 'theory of mind'], links: [
-        { to: 'topic:social-inference', brain: b('心智理论网络', 'The theory-of-mind network') },
-      ] },
-      { id: 'eq-bench', term: b('情绪智力测试', 'Emotional intelligence tests'), aka: ['情绪智力', 'emotional intelligence'], links: [
-        { to: 'topic:emotion-understanding', brain: b('情绪识别与共情', 'Emotion recognition and empathy') },
-      ] },
-    ],
-  },
-  {
     id: 'embodied', name: b('多模态与具身', 'Multimodal and embodied AI'),
     concepts: [
       { id: 'multimodal', term: b('多模态融合（ImageBind、Flamingo）', 'Multimodal fusion (ImageBind, Flamingo)'), aka: ['多模态', 'ImageBind', 'Flamingo', 'multimodal'], links: [
@@ -305,6 +276,37 @@ export const CONCEPT_GROUPS: ConceptGroup[] = [
       ] },
       { id: 'tomnet', term: b('机器心智理论（ToMnet）', 'Machine theory of mind (ToMnet)'), aka: ['ToMnet', '机器心智理论'], links: [
         { to: 'topic:social-inference', brain: b('逆向规划：从行为推断目标', 'Inverse planning: inferring goals from behavior') },
+      ] },
+    ],
+  },
+  {
+    id: 'reliability', name: b('可靠性与评测', 'Reliability and evaluation'),
+    concepts: [
+      { id: 'calibration', term: b('置信度校准（温度缩放、ECE）', 'Confidence calibration (temperature scaling, ECE)'), aka: ['校准', '温度缩放', 'calibration'], links: [
+        { to: 'topic:metacognitive-monitoring', brain: b('信心与元认知监测', 'Confidence and metacognitive monitoring') },
+      ] },
+      { id: 'abstention', term: b('拒答与选择性回答', 'Abstention and selective prediction'), aka: ['拒答', '选择性回答', 'abstain'], links: [
+        { to: 'topic:metacognitive-control', brain: b('没把握时求助或放弃', 'Asking for help or giving up when unsure') },
+      ] },
+      { id: 'adversarial', term: b('对抗样本', 'Adversarial examples'), aka: ['对抗', '扰动', 'adversarial'], links: [
+        { to: 'topic:visual-recognition', brain: b('依靠形状、反馈和眼动的稳健识别', 'Robust recognition through shape, feedback and eye movements') },
+      ] },
+      { id: 'hallucination', term: b('幻觉', 'Hallucination'), aka: ['幻觉', 'hallucinat'], links: [
+        { to: 'topic:multisensory', brain: b('判断信号是否来自同一来源', 'Judging whether signals share a source') },
+        { to: 'topic:auditory-scene', brain: b('听觉通路与听觉皮层', 'The auditory pathway and cortex') },
+      ] },
+      { id: 'linear-probe', term: b('线性探针', 'Linear probes'), aka: ['线性探针', '线性读出', '线性分类器', 'linear probe', 'linear readout'], links: [
+        { to: 'topic:visual-recognition', brain: b('IT 群体的线性读出', 'Linear readout of IT populations') },
+        { to: 'topic:cognitive-maps', brain: b('从神经活动中读出地图', 'Reading a map out of neural activity') },
+      ] },
+      { id: 'brain-encoding', term: b('脑编码模型', 'Brain encoding models'), aka: ['编码模型', 'encoding model'], links: [
+        { to: 'topic:language', brain: b('语言网络的反应', 'Responses of the language network') },
+      ] },
+      { id: 'tom-bench', term: b('心智理论测试', 'Theory-of-mind benchmarks'), aka: ['心智理论', 'theory of mind'], links: [
+        { to: 'topic:social-inference', brain: b('心智理论网络', 'The theory-of-mind network') },
+      ] },
+      { id: 'eq-bench', term: b('情绪智力测试', 'Emotional intelligence tests'), aka: ['情绪智力', 'emotional intelligence'], links: [
+        { to: 'topic:emotion-understanding', brain: b('情绪识别与共情', 'Emotion recognition and empathy') },
       ] },
     ],
   },

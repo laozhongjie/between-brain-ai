@@ -593,16 +593,52 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .mech-group-title .rung-no { width: 34px; height: 24px; font-size: 11.5px; }
 .ai-page .section-note { margin: -4px 0 10px; font-size: 13px; color: var(--text-dim); }
 
-/* AI concept index: an entry from AI vocabulary, each concept beside the brain mechanisms it meets */
+/* AI concept index: a search bar across the page, a sticky directory of areas on the left, and each area's concepts
+   as cards (term, then every brain mechanism it is compared with as a row that opens its page) */
 .ai-nav .ai-nav-concepts { display: flex; align-items: center; gap: 6px; }
-.concept-search { display: flex; align-items: center; gap: 8px; max-width: 600px; margin: 14px 0 4px; padding: 8px 12px; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(170,195,230,0.04); color: var(--text-dim); }
-.concept-search:focus-within { border-color: var(--accent); }
-.concept-search input { flex: 1; min-width: 0; background: none; border: 0; outline: none; color: var(--text-h); font: inherit; font-size: 14px; }
-.concept-row { display: grid; grid-template-columns: minmax(0, 15em) minmax(0, 1fr); gap: 8px 18px; align-items: start; padding: 9px 0; border-bottom: 1px solid rgba(170,195,230,0.06); }
-.concept-term { padding-top: 6px; font-size: 14px; font-weight: 500; color: var(--text-h); }
-.concept-target { flex-direction: column; align-items: flex-start; gap: 1px; }
-.concept-page { font-size: 11.5px; color: var(--text-dim); }
-@media (max-width: 760px) { .concept-row { grid-template-columns: 1fr; } }
+.ci-search { display: flex; align-items: center; gap: 12px; margin: 22px 0 0; padding: 0 18px; height: 54px; border: 1px solid var(--line-hi); border-radius: 12px; background: rgba(170,195,230,0.025); color: var(--text-dim); transition: border-color .25s, box-shadow .25s; }
+.ci-search:focus-within { border-color: var(--accent-line); box-shadow: 0 0 0 3px rgba(125,211,252,0.08); color: var(--accent); }
+.ci-search input { flex: 1; min-width: 0; height: 100%; background: none; border: 0; outline: none; color: var(--text-h); font: inherit; font-size: 15px; }
+.ci-search input::placeholder { color: var(--text-faint); }
+.ci-search input::-webkit-search-cancel-button { display: none; }
+.ci-clear { display: grid; place-items: center; width: 26px; height: 26px; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--text-dim); cursor: pointer; transition: color .2s, background .2s; }
+.ci-clear:hover { color: var(--text-h); background: rgba(170,195,230,0.08); }
+.ci-count { flex: none; font: 500 12px/1 var(--label); letter-spacing: 0.06em; color: var(--text-dim); white-space: nowrap; }
+.ci-count b { font: 300 18px/1 var(--label); color: var(--text-h); letter-spacing: 0.02em; margin-right: 2px; }
+.ci-layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 40px; margin-top: 28px; }
+.ci-nav { position: sticky; top: 0; align-self: start; display: flex; flex-direction: column; gap: 2px; padding-top: 4px; }
+.ai-page .ci-nav-note { margin: 0 0 12px; font-size: 12px; line-height: 1.5; color: var(--text-faint); text-wrap: pretty; }
+.ci-nav-item { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; align-items: baseline; gap: 6px 10px; padding: 7px 10px; border: 0; border-radius: 8px; background: none; text-align: left; cursor: pointer; color: var(--text-dim); transition: color .2s, background .2s; }
+.ci-nav-item:hover:not(:disabled) { color: var(--text-h); background: rgba(170,195,230,0.05); }
+.ci-nav-item:disabled { cursor: default; opacity: 0.35; }
+.ci-nav-no { font: 400 11px/1 var(--label); letter-spacing: 0.1em; color: var(--accent); }
+.ci-nav-name { font-size: 13px; line-height: 1.4; text-wrap: pretty; }
+.ci-nav-n { font: 400 12px/1 var(--label); color: var(--text-faint); font-variant-numeric: tabular-nums; }
+.ci-results { min-width: 0; }
+.ci-none { margin: 4px 0; color: var(--text-dim); }
+.concept-index mark { padding: 0 1px; border-radius: 3px; color: var(--accent); background: rgba(125,211,252,0.14); }
+.ci-group { scroll-margin-top: 12px; padding: 4px 0 26px; }
+.ci-group + .ci-group { padding-top: 22px; border-top: 1px solid var(--panel-border); }
+.ci-group-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; }
+.ai-page .ci-group-head h2 { margin: 0; font-size: 19px; }
+.ci-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.ci-card { display: flex; flex-direction: column; padding: 14px 8px 8px 16px; border: 1px solid rgba(170,195,230,0.09); border-radius: 10px; background: rgba(170,195,230,0.025); }
+.ci-card-head { display: flex; align-items: baseline; gap: 10px; padding-right: 8px; margin-bottom: 8px; }
+.ci-letter { flex: none; width: 14px; font: 400 12px/1 var(--label); letter-spacing: 0.04em; color: var(--accent); }
+.ci-term { font-size: 15px; font-weight: 500; line-height: 1.45; color: var(--text-h); text-wrap: balance; }
+:root[lang='en'] .ci-term { font-size: 14px; text-wrap: pretty; }
+.ci-links { list-style: none; margin: 0; padding: 0 0 0 24px; }
+.ai-page .ci-links li { margin: 0; font-size: inherit; line-height: inherit; }
+.ci-link { position: relative; display: flex; flex-direction: column; gap: 1px; width: 100%; padding: 6px 28px 6px 14px; border: 0; border-radius: 6px; background: none; text-align: left; cursor: pointer; transition: background .2s; }
+.ci-link::before { content: ''; position: absolute; left: 2px; top: 13px; width: 5px; height: 5px; border-radius: 50%; background: var(--pink); }
+.ci-link:hover { background: rgba(125,211,252,0.06); }
+.ci-brain { font-size: 13.5px; line-height: 1.45; color: var(--text); }
+.ci-page { font-size: 12px; line-height: 1.45; color: var(--text-faint); }
+.ci-link:hover .ci-brain { color: var(--text-h); }
+.ci-go { position: absolute; right: 8px; top: 50%; color: var(--accent); opacity: 0; transform: translate(-4px, -50%); transition: opacity .2s, transform .2s var(--ease); }
+.ci-link:hover .ci-go { opacity: 1; transform: translate(0, -50%); }
+@media (max-width: 1000px) { .ci-layout { grid-template-columns: 1fr; gap: 20px; } .ci-nav { position: static; flex-direction: row; flex-wrap: wrap; } .ci-nav-note { width: 100%; } .ci-nav-item { grid-template-columns: auto auto auto; } }
+@media (max-width: 760px) { .ci-grid { grid-template-columns: 1fr; } }
 .legacy-note { margin: -4px 0 12px; }
 
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
