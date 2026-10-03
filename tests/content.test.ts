@@ -58,7 +58,13 @@ describe('AI correspondence content', () => {
       for (const m of t.mechanisms) expect(MECH_BY_ID[m], `${t.id} → ${m}`).toBeDefined()
       for (const side of [t.systems.biological, t.systems.computational, t.name]) expect(side.zh && side.en, t.id).toBeTruthy()
     }
-    for (const x of CROSS_TOPICS) if (x.legacy) expect(CARD_BY_ID[x.legacy], x.id).toBeDefined()
+    for (const x of CROSS_TOPICS) {
+      if (x.legacy) expect(CARD_BY_ID[x.legacy], x.id).toBeDefined()
+      if (x.tour) expect(TOUR_BY_ID[x.tour], `${x.id} tour`).toBeDefined()
+      for (const m of x.mechanisms) expect(MECH_BY_ID[m], `${x.id} → ${m}`).toBeDefined()
+      for (const id of x.topics) expect(TOPICS.some((t) => t.id === id), `${x.id} → ${id}`).toBe(true)
+      expect(TOPICS.some((t) => t.id === x.id || t.code === x.code), x.id).toBe(false)
+    }
     expect(TOPIC_BY_ID['episodic-memory']).toBeDefined()
   })
 

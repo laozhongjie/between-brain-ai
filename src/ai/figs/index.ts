@@ -28,6 +28,7 @@ import { PLANNING_FIGS } from './topics/planning'
 import { ATTENTION_FIGS } from './topics/attention-gating'
 import { MONITORING_FIGS } from './topics/metacognitive-monitoring'
 import { CONTROL_FIGS } from './topics/metacognitive-control'
+import { SLEEP_OFFLINE_FIGS } from './topics/sleep-offline'
 import type { FigPair, TopicFigs } from './types'
 
 export const FIGS: Record<string, FigPair> = { ...LAYER1_FIGS, ...LAYER2_FIGS, ...LAYER3_FIGS, ...LAYER4_FIGS }
@@ -60,4 +61,5 @@ export const TOPIC_FIGS: Record<string, TopicFigs> = {
   'social-inference': SOCIAL_FIGS,
   'innate-constraints': INNATE_FIGS,
   'developmental-stages': DEVELOPMENT_FIGS,
+  'sleep-offline': SLEEP_OFFLINE_FIGS,
 }

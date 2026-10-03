@@ -106,7 +106,7 @@ export function AiHome() {
       <div className="dir-cards wide">
         {CROSS_TOPICS.map((x) => {
           const href = crossHref(x)
-          return <DirCard key={x.id} href={href} title={t(x.name)} desc={t(x.desc)} status={x.route ? undefined : t(href ? UI.statusLegacy : UI.statusDrafting)} />
+          return <DirCard key={x.id} href={href} title={t(x.name)} desc={t(x.desc)} status={TOPIC_CONTENT[x.id] || x.route ? undefined : t(href ? UI.statusLegacy : UI.statusDrafting)} />
         })}
       </div>
 

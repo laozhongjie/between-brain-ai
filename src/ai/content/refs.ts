@@ -429,6 +429,19 @@ export const REFS: Ref[] = [
   { id: 'achille2017', authors: 'Achille, A., Rovere, M. & Soatto, S.', year: 2017, title: 'Critical learning periods in deep neural networks', venue: 'arXiv (ICLR 2019)', url: arxiv('1711.08856') },
   { id: 'wu2020', authors: 'Wu, X., Dyer, E. & Neyshabur, B.', year: 2020, title: 'When do curricula work?', venue: 'arXiv (ICLR 2021)', url: arxiv('2012.03107') },
   { id: 'warstadt2023', authors: 'Warstadt, A. et al.', year: 2023, title: 'Call for papers: the BabyLM challenge: sample-efficient pretraining on a developmentally plausible corpus', venue: 'arXiv', url: arxiv('2301.11796') },
+  // ── X01 Sleep, arousal and offline processing ──
+  { id: 'scammell2017', authors: 'Scammell, T. E., Arrigoni, E. & Lipton, J. O.', year: 2017, title: 'Neural circuitry of wakefulness and sleep', venue: 'Neuron 93(4), 747–765', url: doi('10.1016/j.neuron.2017.01.014') },
+  { id: 'borbely2016', authors: 'Borbély, A. A., Daan, S., Wirz-Justice, A. & Deboer, T.', year: 2016, title: 'The two-process model of sleep regulation: a reappraisal', venue: 'Journal of Sleep Research 25(2), 131–143', url: doi('10.1111/jsr.12371') },
+  { id: 'astonjones2005', authors: 'Aston-Jones, G. & Cohen, J. D.', year: 2005, title: 'An integrative theory of locus coeruleus-norepinephrine function: adaptive gain and optimal performance', venue: 'Annual Review of Neuroscience 28, 403–450', url: doi('10.1146/annurev.neuro.28.061604.135709') },
+  { id: 'xie2013', authors: 'Xie, L. et al.', year: 2013, title: 'Sleep drives metabolite clearance from the adult brain', venue: 'Science 342(6156), 373–377', url: doi('10.1126/science.1241224') },
+  { id: 'miao2024', authors: 'Miao, A. et al.', year: 2024, title: 'Brain clearance is reduced during sleep and anesthesia', venue: 'Nature Neuroscience 27, 1046–1050', url: doi('10.1038/s41593-024-01638-y') },
+  { id: 'fultz2019', authors: 'Fultz, N. E. et al.', year: 2019, title: 'Coupled electrophysiological, hemodynamic, and cerebrospinal fluid oscillations in human sleep', venue: 'Science 366(6465), 628–631', url: doi('10.1126/science.aax5440') },
+  { id: 'vandongen2003', authors: 'Van Dongen, H. P. A., Maislin, G., Mullington, J. M. & Dinges, D. F.', year: 2003, title: 'The cumulative cost of additional wakefulness: dose-response effects on neurobehavioral functions and sleep physiology from chronic sleep restriction and total sleep deprivation', venue: 'Sleep 26(2), 117–126', url: doi('10.1093/sleep/26.2.117') },
+  { id: 'phillips2007', authors: 'Phillips, A. J. K. & Robinson, P. A.', year: 2007, title: 'A quantitative model of sleep-wake dynamics based on the physiology of the brainstem ascending arousal system', venue: 'Journal of Biological Rhythms 22(2), 167–179', url: doi('10.1177/0748730406297512') },
+  { id: 'tadros2022', authors: 'Tadros, T., Krishnan, G. P., Ramyaa, R. & Bazhenov, M.', year: 2022, title: 'Sleep-like unsupervised replay reduces catastrophic forgetting in artificial neural networks', venue: 'Nature Communications 13, 7742', url: doi('10.1038/s41467-022-34938-7') },
+  { id: 'vandeven2020', authors: 'van de Ven, G. M., Siegelmann, H. T. & Tolias, A. S.', year: 2020, title: 'Brain-inspired replay for continual learning with artificial neural networks', venue: 'Nature Communications 11, 4069', url: doi('10.1038/s41467-020-17866-2') },
+  { id: 'lin2025', authors: 'Lin, K. et al.', year: 2025, title: 'Sleep-time compute: beyond inference scaling at test-time', venue: 'arXiv', url: arxiv('2504.13171') },
+  { id: 'hayes2021', authors: 'Hayes, T. L. et al.', year: 2021, title: 'Replay in deep learning: current approaches and missing biological elements', venue: 'Neural Computation 33(11), 2908–2950', url: doi('10.1162/neco_a_01433') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

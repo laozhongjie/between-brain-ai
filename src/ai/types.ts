@@ -54,13 +54,12 @@ export interface MechGroup {
   cards: string[]
 }
 
-/** A cross-domain topic page. */
-export interface CrossTopic {
-  id: string
-  name: Bi
+/** A cross-domain topic: compared like a functional topic, but drawing on several domains. */
+export interface CrossTopic extends Topic {
   desc: Bi
-  /** where it opens: an old card for now, a route of its own, or nothing yet */
-  legacy?: string
+  /** functional topics it draws on */
+  topics: string[]
+  /** a page of its own outside the topic template, while it has one */
   route?: string
 }
 

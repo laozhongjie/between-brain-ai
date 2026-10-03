@@ -31,27 +31,26 @@ export const DOMAINS: AtlasDomain[] = [
 
 export const DOMAIN_BY_ID: Record<string, AtlasDomain> = Object.fromEntries(DOMAINS.map((d) => [d.id, d]))
 export const topicsOfDomain = (domain: AtlasDomain) => domain.topics.map((id) => TOPIC_BY_ID[id])
-export const domainOfTopic = (topicId: string) => DOMAINS.find((d) => d.topics.includes(topicId))!
+/** The domain of a functional topic; cross-domain topics have none. */
+export const domainOfTopic = (topicId: string) => DOMAINS.find((d) => d.topics.includes(topicId))
 
 /** Mechanism entries in index order, for prev / next paging. */
 export const MECH_ORDER: Card[] = MECH_GROUPS.flatMap((g) => g.cards.map((id) => CARD_BY_ID[id]))
 
 /** Where a topic opens today: its own page once written, else its old card, else nowhere yet. */
 export const topicHref = (topic: Topic) => (TOPIC_CONTENT[topic.id] ? `/ai/topic/${topic.id}` : topic.legacy ? `/ai/card/${topic.legacy}` : null)
-/** Topics with a page of their own, in directory order (for prev / next paging). */
-export const WRITTEN_TOPICS = (): Topic[] => DOMAINS.flatMap((d) => d.topics).filter((id) => TOPIC_CONTENT[id]).map((id) => TOPIC_BY_ID[id])
-export const crossHref = (x: CrossTopic) => x.route ?? (x.legacy ? `/ai/card/${x.legacy}` : null)
+/** Topics with a page of their own, in directory order, cross-domain topics last (for prev / next paging). */
+export const WRITTEN_TOPICS = (): Topic[] => [...DOMAINS.flatMap((d) => d.topics), ...CROSS_TOPICS.map((x) => x.id)].filter((id) => TOPIC_CONTENT[id]).map((id) => TOPIC_BY_ID[id])
+export const crossHref = (x: CrossTopic) => (TOPIC_CONTENT[x.id] ? topicHref(x) : x.route ?? topicHref(x))
 /** Topics this old card still stands in for (an old system card can stand in for several). */
 export const topicsOfLegacy = (cardId: string) => TOPICS.filter((t) => t.legacy === cardId && !TOPIC_CONTENT[t.id])
 
 /** The AI comparison an atlas tour links to: the topic for that brain system, or the old card. */
 export function aiLinkForTour(tour: string): { href: string; title: Bi } | undefined {
-  const topic = TOPICS.find((t) => t.tour === tour)
+  const topic = [...TOPICS, ...CROSS_TOPICS].find((t) => t.tour === tour)
   const href = topic && topicHref(topic)
   if (topic && href) return { href, title: topic.name }
   const card = CARDS.find((c) => c.tour === tour)
-  const x = CROSS_TOPICS.find((c) => c.legacy === card?.id)
-  if (x) return { href: crossHref(x)!, title: x.name }
   return card && { href: `/ai/card/${card.id}`, title: card.title }
 }
 

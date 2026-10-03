@@ -124,17 +124,25 @@ export const MECH_GROUPS: MechGroup[] = [
 ]
 
 export const CROSS_TOPICS: CrossTopic[] = [
-  { id: 'X01', name: b('睡眠、觉醒与离线处理', 'Sleep, arousal and offline processing'),
+  { id: 'sleep-offline', code: 'X01', name: b('睡眠、觉醒与离线处理', 'Sleep, arousal and offline processing'),
     desc: b('回放、巩固、节律和生理调节在睡眠中如何配合，以及离线训练能借鉴到什么程度。', 'How replay, consolidation, rhythms and physiological regulation work together in sleep, and how far offline training compares.'),
-    legacy: 'sys-sleep' },
-  { id: 'X02', name: b('效率、资源与物理实现', 'Efficiency, resources and physical implementation'),
-    desc: b('能耗、时间、存储、精度与任务表现之间的取舍，区分训练与推理、大脑与设备的测量边界。', 'Trade-offs between energy, time, storage, precision and task performance, with the measurement limits of training versus inference and brains versus devices.') },
-  { id: 'X03', name: b('类人智能体蓝图', 'Blueprint for a humanlike agent'),
+    systems: sys(b('睡眠觉醒周期', 'Sleep and wake cycle'), b('离线训练阶段', 'Offline training phases')),
+    legacy: 'sys-sleep', tour: 'sleep', mechanisms: ['M03', 'M09'],
+    topics: ['consolidation-replay', 'continual-learning', 'interoception', 'attention-gating'] },
+  { id: 'efficiency', code: 'X02', name: b('效率、资源与物理实现', 'Efficiency, resources and physical implementation'),
+    desc: b('能耗、时间、存储、精度与任务表现之间的取舍，区分训练与推理、大脑与设备的测量边界。', 'Trade-offs between energy, time, storage, precision and task performance, with the measurement limits of training versus inference and brains versus devices.'),
+    systems: sys(b('大脑的能量预算', 'The brain’s energy budget'), b('GPU 与神经形态芯片', 'GPUs and neuromorphic chips')),
+    mechanisms: ['M05', 'M08'],
+    topics: ['attention-gating', 'language', 'continual-learning'] },
+  { id: 'agent-blueprint', code: 'X03', name: b('类人智能体蓝图', 'Blueprint for a humanlike agent'),
     desc: b('一个完整的智能体需要哪些模块，当今 AI 在每个模块上的覆盖程度与缺口。', 'The modules a complete agent needs, and how well today’s AI covers each one.'),
-    route: '/ai/blueprint' },
+    systems: sys(b('大脑整体功能架构', 'Whole-brain functional architecture'), b('LLM 智能体架构', 'LLM agent architectures')),
+    mechanisms: ['M09'], route: '/ai/blueprint',
+    topics: ['working-memory', 'episodic-memory', 'world-models', 'planning', 'metacognitive-control', 'reward-learning', 'interoception', 'motor-control'] },
 ]
 
-export const TOPIC_BY_ID: Record<string, Topic> = Object.fromEntries(TOPICS.map((t) => [t.id, t]))
+/** Functional and cross-domain topics by id: both open on the topic page once written. */
+export const TOPIC_BY_ID: Record<string, Topic> = Object.fromEntries([...TOPICS, ...CROSS_TOPICS].map((t) => [t.id, t]))
 export const MECH_BY_ID: Record<string, MechGroup> = Object.fromEntries(MECH_GROUPS.map((m) => [m.id, m]))
 /** The mechanism group a card belongs to, if it is a mechanism entry. */
 export const mechOfCard = (cardId: string) => MECH_GROUPS.find((m) => m.cards.includes(cardId))

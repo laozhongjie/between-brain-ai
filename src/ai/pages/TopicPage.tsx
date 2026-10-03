@@ -5,7 +5,7 @@ import { UI, useT } from '../../i18n'
 import { go } from '../../route'
 import { enterFocus } from '../../sim/focus'
 import { useStore } from '../../store'
-import { CARD_BY_ID, MECH_BY_ID, TOPIC_CONTENT, WRITTEN_TOPICS, domainOfTopic } from '../content'
+import { CARD_BY_ID, CROSS_TOPICS, MECH_BY_ID, TOPIC_BY_ID, TOPIC_CONTENT, WRITTEN_TOPICS, domainOfTopic, topicHref } from '../content'
 import { TOPIC_FIGS } from '../figs'
 import { GRAMMAR_LEGEND, LegendMark } from '../figs/grammar'
 import type { FigProps, MathFig } from '../figs/types'
@@ -264,13 +264,14 @@ export function TopicPage({ topic }: { topic: Topic }) {
   const c = TOPIC_CONTENT[topic.id]
   const figs = TOPIC_FIGS[topic.id] ?? {}
   const domain = domainOfTopic(topic.id)
+  const cross = CROSS_TOPICS.find((x) => x.id === topic.id)
   const bio = t(topic.systems.biological)
   const comp = t(topic.systems.computational)
   const written = WRITTEN_TOPICS()
   const idx = written.findIndex((x) => x.id === topic.id)
   const prev = written[idx - 1]
   const next = written[idx + 1]
-  const label = (x: Topic) => { const d = domainOfTopic(x.id); return `${d.id} · ${t(d.name)}` }
+  const label = (x: Topic) => { const d = domainOfTopic(x.id); return d ? `${d.id} · ${t(d.name)}` : `${x.code} · ${t(UI.crossCuttingTopics)}` }
 
   const openInAtlas = () => {
     useStore.getState().setViewMode('3d')
@@ -282,7 +283,7 @@ export function TopicPage({ topic }: { topic: Topic }) {
     <article className="ai-page card-page topic-page">
       <div className="crumbs">
         <button className="btn-sm crumb-back" onClick={() => go('/ai')}><Icon name="arrow-left" />{t(UI.backToLadder)}</button>
-        <span>{t(UI.functionalDomains)} · {t(domain.name)}</span>
+        <span>{domain ? `${t(UI.functionalDomains)} · ${t(domain.name)}` : `${t(UI.crossCuttingTopics)} · ${topic.code}`}</span>
       </div>
       <span className="topic-kicker">{t(topic.name)}</span>
       <h1><ComparisonText text={`${bio} ↔ ${comp}`} /></h1>
@@ -382,6 +383,23 @@ export function TopicPage({ topic }: { topic: Topic }) {
               </div>
             </div>
           ))}
+        </section>
+      )}
+
+      {cross && (
+        <section aria-labelledby="topic-related-topics">
+          <h2 id="topic-related-topics">{t(UI.relatedTopics)}</h2>
+          <div className="rung-cards">
+            {cross.topics.map((id) => TOPIC_BY_ID[id]).map((x) => {
+              const href = topicHref(x)
+              return (
+                <button key={x.id} className={`chip topic-chip ${href ? '' : 'pending'}`} disabled={!href} onClick={() => href && go(href)}>
+                  <span>{t(x.name)}</span>
+                  {!href && <span className="chip-status">{t(UI.statusDrafting)}</span>}
+                </button>
+              )
+            })}
+          </div>
         </section>
       )}
 
