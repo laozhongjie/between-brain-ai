@@ -9,7 +9,7 @@ import { DAY } from '../src/data/scenario'
 import { TOURS } from '../src/data/tours'
 import { UI } from '../src/i18n'
 import { CHAPTERS } from '../src/home/chapters'
-import { splitTail, tokenToTex, toSegments } from '../src/rich'
+import { tokenToTex, toSegments } from '../src/rich'
 
 /** Collect every string reachable from an object (bilingual texts, captions, …). */
 function strings(x: unknown, out: string[] = []): string[] {
@@ -55,19 +55,5 @@ describe('site text', () => {
     for (const s of ALL)
       for (const seg of toSegments(s))
         if (seg.tex) expect(() => katex.renderToString(seg.s, { throwOnError: true }), `${seg.s} in ${s.slice(0, 40)}`).not.toThrow()
-  })
-})
-
-describe('Chinese line endings', () => {
-  const tail = (text: string) => splitTail(toSegments(text))[1].map((p) => p.s).join('|')
-  it('keeps the last four characters together, with trailing punctuation', () => {
-    expect(tail('识别还依赖反馈和眼动，在噪声下依然稳健。')).toBe('依然稳健。')
-    expect(tail('再转送到初级视觉皮层 V1。')).toBe('皮层 V1。')
-  })
-  it('counts a formula as two characters', () => {
-    expect(tail('遗忘门保持在 $0.99$ 附近时的 $f$。')).toBe('时的 |f|。')
-  })
-  it('returns short text whole', () => {
-    expect(tail('稳健。')).toBe('稳健。')
   })
 })

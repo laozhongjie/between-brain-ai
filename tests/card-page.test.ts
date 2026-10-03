@@ -14,15 +14,13 @@ vi.mock('../src/i18n', async (importOriginal) => ({
 }))
 
 const escaped = (text: string) => renderToStaticMarkup(createElement('span', null, text)).slice(6, -7)
-/** Rich keeps the last characters of Chinese text in a nowrap span; drop its opening so text can be found whole */
-const untail = (html: string) => html.replaceAll('<wbr/><span class="nobr">', '')
 
 describe('bilingual comparison cards', () => {
   for (const lang of ['zh', 'en'] as const) {
     for (const card of CARDS) {
       it(`renders paired comparisons: ${card.id} / ${lang}`, () => {
         language.current = lang
-        const html = untail(renderToStaticMarkup(createElement(CardPage, { card })))
+        const html = renderToStaticMarkup(createElement(CardPage, { card }))
         if (card.guide.review) {
           const review = card.guide.review
           expect(html).toContain(escaped(review.thesis[lang]))
