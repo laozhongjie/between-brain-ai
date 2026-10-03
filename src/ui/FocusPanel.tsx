@@ -60,7 +60,7 @@ export function FocusPanel() {
       <div className="focus-body">
         <button className="step-nav" disabled={step === 0} onClick={() => setFocusStep(step - 1)} aria-label="previous">◀</button>
         <div className="focus-text" key={step}>
-          <DecodeText className="focus-line" trail={12} text={`${t(UI.step)} ${step + 1} / ${n} · ${t(cur.title)}  ${t(cur.text)}`} />
+          <DecodeText className="focus-line" trail={4} text={`${t(UI.step)} ${step + 1} / ${n} · ${t(cur.title)}  ${t(cur.text)}`} />
         </div>
         <button className="step-nav" disabled={step === n - 1} onClick={() => setFocusStep(step + 1)} aria-label="next">▶</button>
       </div>
