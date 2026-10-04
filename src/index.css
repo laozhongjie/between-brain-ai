@@ -312,7 +312,11 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .focus-steps button.on::after { border-color: var(--c); }
 .focus-steps button.done { color: var(--text); }
 .focus-steps button.on { border-color: var(--c); color: var(--text-h); background: color-mix(in srgb, var(--c) 20%, transparent); }
-.step-no { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; background: rgba(170,195,230,0.09); }
+.focus-steps .step-title { display: inline-block; max-width: 32em; overflow: hidden; white-space: nowrap; transition: max-width .45s var(--ease), opacity .3s var(--ease); }
+.focus-steps.compact button { transition: color .25s var(--ease), background .25s var(--ease), padding .45s var(--ease), gap .45s var(--ease); }
+.focus-steps.compact button:not(.on, :hover, :focus-visible) { gap: 0; padding-right: 3px; }
+.focus-steps.compact button:not(.on, :hover, :focus-visible) .step-title { max-width: 0; opacity: 0; }
+.step-no { flex: none; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; background: rgba(170,195,230,0.09); }
 .focus-steps button.on .step-no { background: var(--ci); color: var(--bg); }
 .focus-body { display: grid; grid-template-columns: 36px 1fr 36px; gap: 16px; align-items: center; padding-inline: 6px; }
 .step-nav { width: 100%; max-width: 60px; aspect-ratio: 1; height: auto; border-radius: 50%; border: 1px solid var(--panel-border); background: rgba(170,195,230,0.05); cursor: pointer; font-size: 14px; }
