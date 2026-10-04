@@ -769,16 +769,10 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 }
 
 /* Architecture: two columns whose rows (name, figure, flow, notes) line up across the columns */
-.arch-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, auto); gap: 0 16px; }
-.arch-col { min-width: 0; display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 12px; padding: 12px 16px 16px; border: 1px solid var(--panel-border); border-top: 2px solid var(--side); border-radius: 10px; background: rgba(170,195,230,0.025); }
-.arch-col > h3 { margin: 4px 0 0; color: var(--side); font-size: 14px; letter-spacing: 0; }
-.arch-col .fig { margin: 0; }
-.arch-col .fig-steps { margin: 0; align-self: start; }
 .arch-notes { align-self: start; padding: 10px 12px 4px; border-radius: 8px; background: var(--well); }
 .arch-notes h5 { margin: 0 0 6px; font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); }
 .arch-notes ul { margin: 0; padding-left: 16px; }
 .ai-page .arch-notes li { font-size: 13px; line-height: 1.5; color: var(--text-dim); margin-bottom: 4px; text-align: justify; }
-@media (max-width: 760px) { .arch-grid { grid-template-columns: 1fr; grid-template-rows: none; gap: 16px; } .arch-col { grid-row: auto; grid-template-rows: none; } }
 .fig-steps { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 12px; }
 .fig-steps > li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; }
 .step-num { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; margin-top: 1px; font: 600 12px/1 var(--mono); color: var(--side); border: 1.4px solid var(--side); }
@@ -902,6 +896,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 /* Mechanism entries (lean template) */
 .mech-arch { --side: var(--pink); display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 18px; align-items: start; padding: 14px 16px 16px; border: 1px solid var(--panel-border); border-top: 2px solid var(--side); border-radius: 10px; background: rgba(170,195,230,0.025); }
+.mech-arch > h3 { grid-column: 1 / -1; margin: 0 0 -6px; color: var(--side); font-size: 14px; letter-spacing: 0; }
+.arch-stack { display: grid; gap: 16px; }
 .mech-arch-fig { display: grid; gap: 12px; min-width: 0; }
 .mech-arch-fig .fig { margin: 0; }
 .mech-arch .fig-steps { margin: 0; }

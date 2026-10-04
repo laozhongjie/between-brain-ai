@@ -316,16 +316,18 @@ export function TopicPage({ topic }: { topic: Topic }) {
         <ul className="grammar-legend">
           {GRAMMAR_LEGEND.map((g) => <li key={g.key}><LegendMark k={g.key} />{t(g.label)}</li>)}
         </ul>
-        <div className="arch-grid">
+        <div className="arch-stack">
           {([['bio', bio, figs.arch?.brain, c.archSteps.biological, c.archNotes.biological], ['comp', comp, figs.arch?.ai, c.archSteps.computational, c.archNotes.computational]] as const).map(([side, name, Fig, steps, notes]) => (
-            <section key={side} className={`arch-col ${side}`}>
+            <section key={side} className={`mech-arch ${side}`}>
               <h3>{name}</h3>
-              <Figure Fig={Fig} />
+              <div className="mech-arch-fig">
+                <Figure Fig={Fig} />
+                <aside className="arch-notes">
+                  <h5>{t(UI.archNotes)}</h5>
+                  <ul>{notes.map((n, i) => <li key={i}><Rich text={t(n)} /></li>)}</ul>
+                </aside>
+              </div>
               <Steps steps={steps} side={side} anchor={`arch-${side}`} />
-              <aside className="arch-notes">
-                <h5>{t(UI.archNotes)}</h5>
-                <ul>{notes.map((n, i) => <li key={i}><Rich text={t(n)} /></li>)}</ul>
-              </aside>
             </section>
           ))}
         </div>
