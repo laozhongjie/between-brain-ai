@@ -8,7 +8,7 @@ const t = String.raw
 export const LAYER3: CardMechanism[] = [
   {
     id: 'normalization', layer: 3,
-    title: b('除法归一化与侧抑制 ↔ Softmax / LayerNorm', 'Divisive normalization & lateral inhibition ↔ softmax / LayerNorm'),
+    title: b('除法归一化 ↔ Softmax 与 LayerNorm', 'Divisive normalization ↔ softmax and LayerNorm'),
     brain: b(
       '从视网膜到皮层，神经元的响应普遍受到除法归一化：它的驱动输入被一个邻近群体的加权总活动相除。这实现了对比度不变性、增益控制、赢者通吃式竞争，也被用来解释注意对响应的调节（Carandini & Heeger 2012）。',
       'From retina to cortex, responses are divisively normalized: a neuron’s drive is divided by the weighted activity of a neighboring pool. This yields contrast invariance, gain control and winner-take-all competition, and also explains attentional modulation (Carandini & Heeger 2012).'),
@@ -20,7 +20,7 @@ export const LAYER3: CardMechanism[] = [
   },
   {
     id: 'feedback-predictive', layer: 3,
-    title: b('反馈连接与预测编码 ↔ 以前馈为主的网络 / JEPA', 'Feedback & predictive coding ↔ mostly-feedforward nets / JEPA'),
+    title: b('反馈连接与预测编码 ↔ 前馈网络与 JEPA', 'Feedback and predictive coding ↔ feedforward networks and JEPA'),
     brain: b(
       '感觉皮层有双向连接。预测编码模型提出：高层预测低层输入，低层把实际输入与预测比较，再用误差修正表征（Rao & Ballard 1999）。这样，感知被建模为反复寻找能解释输入的原因。这个模型如何对应真实细胞和通路仍有争议；自由能框架进一步把类似思想用于行动（Friston 2010）。',
       'Sensory cortex has bidirectional connections. Predictive-coding models propose that higher levels predict lower-level input and errors revise representations (Rao & Ballard 1999). Perception is modeled as iteratively finding causes that explain the input. The mapping to cells and pathways remains debated; free-energy accounts extend related ideas to action (Friston 2010).'),
@@ -47,7 +47,7 @@ export const LAYER3: CardMechanism[] = [
   },
   {
     id: 'expansion', layer: 3,
-    title: b('扩展编码 ↔ Transformer 前馈层 / 随机特征', 'Expansion coding ↔ Transformer FFN / random features'),
+    title: b('扩展编码 ↔ Transformer 前馈层与随机特征', 'Expansion coding ↔ Transformer feedforward layers and random features'),
     brain: b(
       '小脑的数百亿颗粒细胞（约占全脑神经元的一半以上）从少量苔藓纤维接收输入，每个颗粒细胞只有约 4 个输入，形成高维、稀疏的「扩展表示」；浦肯野细胞再对其做可学习的线性读出。理论分析表明这种低入度的稀疏连接能最优化可分性（Litwin-Kumar 2017）。',
       'The cerebellum’s tens of billions of granule cells (over half of all neurons) receive input from relatively few mossy fibers, each granule cell with only ~4 inputs, forming a high-dimensional sparse expansion; Purkinje cells learn a linear read-out. Theory shows such low in-degree sparse wiring optimizes separability (Litwin-Kumar 2017).'),

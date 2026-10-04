@@ -1,5 +1,6 @@
 import type { MechFigs } from '../types'
 import { ATTRACTOR_FIGS } from './attractors'
+import { EI_FIGS, EXPANSION_FIGS, NORM_FIGS, PREDICTIVE_FIGS, SPARSE_FIGS } from './circuits'
 import { DENDRITE_FIGS, NEURON_MODEL_FIGS, NOISE_FIGS, SPIKE_FIGS } from './neurons'
 import { CONSOLIDATION_FIGS, STDP_FIGS, STP_FIGS, SYNAPSE_WEIGHT_FIGS, THREE_FACTOR_FIGS } from './synapses'
 
@@ -14,5 +15,10 @@ export const MECH_FIGS: Record<string, MechFigs> = {
   dendrites: DENDRITE_FIGS,
   spikes: SPIKE_FIGS,
   noise: NOISE_FIGS,
+  'ei-celltypes': EI_FIGS,
+  normalization: NORM_FIGS,
   attractors: ATTRACTOR_FIGS,
+  'feedback-predictive': PREDICTIVE_FIGS,
+  expansion: EXPANSION_FIGS,
+  'energy-sparsity': SPARSE_FIGS,
 }

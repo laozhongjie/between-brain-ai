@@ -68,7 +68,7 @@ export const LAYER2: CardMechanism[] = [
   },
   {
     id: 'ei-celltypes', layer: 2,
-    title: b('兴奋/抑制与细胞类型多样性 ↔ 同质单元 + 归一化', 'Excitation/inhibition & cell-type diversity ↔ uniform units + normalization'),
+    title: b('兴奋、抑制与细胞类型 ↔ 同质单元与归一化', 'Excitation, inhibition and cell types ↔ uniform units and normalization'),
     brain: b(
       '皮层中大约 80% 是兴奋性锥体神经元，约 20% 是抑制性中间神经元（比例因物种和脑区而异），后者又分为 PV（快速抑制、同步振荡）、SST（抑制树突、调节输入）、VIP（抑制其他抑制神经元，即「去抑制」，打开信息通道）等类型。兴奋与抑制保持动态平衡，使网络既灵敏又不失控。',
       'Roughly 80% of cortical neurons are excitatory pyramidal cells and ~20% inhibitory interneurons (varying by species and area): PV (fast inhibition, gamma oscillations), SST (dendritic inhibition, input control), VIP (inhibiting other interneurons, i.e. disinhibition that opens a channel), and more. Excitation and inhibition stay dynamically balanced, keeping the network sensitive but stable.'),
@@ -98,7 +98,7 @@ export const LAYER2: CardMechanism[] = [
   },
   {
     id: 'energy-sparsity', layer: 2,
-    title: b('能耗与稀疏编码 ↔ 稠密计算 / MoE', 'Energy & sparse coding ↔ dense compute / MoE'),
+    title: b('稀疏编码 ↔ L1 正则化与稀疏激活', 'Sparse coding ↔ L1 regularization and sparse activations'),
     brain: b(
       '信号传递（动作电位与突触传递）占据了大脑能量预算的主要部分（Attwell & Laughlin 2001），因此大脑倾向于稀疏放电：用少数活跃神经元表示信息。Olshausen & Field（1996）表明，只要要求编码稀疏，就能从自然图像中自动学出与 V1 简单细胞相似的感受野。',
       'Signaling (spikes and synaptic transmission) dominates the brain’s energy budget (Attwell & Laughlin 2001), so the brain favors sparse firing: few active neurons per representation. Olshausen & Field (1996) showed that demanding sparsity alone makes V1-like simple-cell receptive fields emerge from natural images.'),

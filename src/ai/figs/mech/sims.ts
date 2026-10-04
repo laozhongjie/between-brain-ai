@@ -46,3 +46,25 @@ export function feedbackAlignment(steps = 3000, every = 100, eta = 0.02) {
   }
   return { bp: run('bp'), fa: run('fa'), frozen: run('frozen') }
 }
+
+/** A sparse coding toy: 8 unit-length dictionary atoms in 6 dimensions, an input made of atoms 2 and 5 (weights 1 and
+ * 0.6) plus a little noise, and the coefficients ISTA finds for a sparsity weight λ. */
+export function sparseCode(lambda: number, iters = 400) {
+  const u = seeded(5)
+  const d = 6, k = 8
+  const atoms = Array.from({ length: k }, () => { const v = Array.from({ length: d }, () => normal(u)); const n = Math.hypot(...v); return v.map((x) => x / n) })
+  const x = Array.from({ length: d }, (_, i) => 1 * atoms[2][i] + 0.6 * atoms[5][i] + 0.03 * normal(u))
+  const recon = (a: number[]) => Array.from({ length: d }, (_, i) => atoms.reduce((s, at, j) => s + a[j] * at[i], 0))
+  // step size from the largest eigenvalue of ΦᵀΦ, by power iteration
+  let v = Array(k).fill(1)
+  for (let r = 0; r < 50; r++) { const y = recon(v); const g = atoms.map((at) => at.reduce((s, w, i) => s + w * y[i], 0)); const n = Math.hypot(...g); v = g.map((q) => q / n) }
+  const L = Math.hypot(...atoms.map((at) => at.reduce((s, w, i) => s + w * recon(v)[i], 0)))
+  const eta = 1 / L
+  let a = Array(k).fill(0)
+  for (let it = 0; it < iters; it++) {
+    const res = recon(a).map((y, i) => x[i] - y)
+    a = a.map((aj, j) => { const z = aj + eta * atoms[j].reduce((s, w, i) => s + w * res[i], 0); return Math.sign(z) * Math.max(Math.abs(z) - eta * lambda, 0) })
+  }
+  const err = Math.hypot(...recon(a).map((y, i) => x[i] - y)) / Math.hypot(...x)
+  return { a, err, active: a.filter((q) => Math.abs(q) > 1e-3).length }
+}

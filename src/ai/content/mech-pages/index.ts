@@ -2,8 +2,13 @@ import type { MechEntry } from '../../types'
 import { ATTRACTORS } from './attractors'
 import { CONSOLIDATION } from './consolidation'
 import { DENDRITES } from './dendrites'
+import { EI_CELLTYPES } from './ei-celltypes'
+import { ENERGY_SPARSITY } from './energy-sparsity'
+import { EXPANSION } from './expansion'
+import { FEEDBACK_PREDICTIVE } from './feedback-predictive'
 import { NEURON_MODELS } from './neuron-models'
 import { NOISE } from './noise'
+import { NORMALIZATION } from './normalization'
 import { SHORT_TERM_PLASTICITY } from './short-term-plasticity'
 import { SPIKES } from './spikes'
 import { STDP } from './stdp'
@@ -21,5 +26,10 @@ export const MECH_CONTENT: Record<string, MechEntry> = {
   dendrites: DENDRITES,
   spikes: SPIKES,
   noise: NOISE,
+  'ei-celltypes': EI_CELLTYPES,
+  normalization: NORMALIZATION,
   attractors: ATTRACTORS,
+  'feedback-predictive': FEEDBACK_PREDICTIVE,
+  expansion: EXPANSION,
+  'energy-sparsity': ENERGY_SPARSITY,
 }
