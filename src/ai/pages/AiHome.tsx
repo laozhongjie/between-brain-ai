@@ -4,7 +4,6 @@ import { UI, useT } from '../../i18n'
 import { go } from '../../route'
 import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_GROUPS, MECH_ORDER, TOPIC_CONTENT, mechCode, WRITTEN_TOPICS, crossHref, topicHref, topicsOfDomain } from '../content'
 import { REFS } from '../content/refs'
-import { LABS } from '../labs/registry'
 import { Legend, RefList } from './common'
 import { Icon } from '../../ui/Icon'
 
@@ -53,7 +52,7 @@ export function AiHome() {
   // each figure opens what it counts: a section of this page, or the reference list
   const stats: [number, string, string][] = [
     [DOMAINS.length, t(UI.statDomains), '/ai/at/domains'], [WRITTEN_TOPICS().length, t(UI.statTopics), '/ai/at/domains'],
-    [MECH_ORDER.length, t(UI.statMechanisms), '/ai/at/mechanisms'], [Object.keys(LABS).length, t(UI.statLabs), '/ai/at/labs'], [REFS.length, t(UI.statRefs), '/ai/refs'],
+    [MECH_ORDER.length, t(UI.statMechanisms), '/ai/at/mechanisms'], [REFS.length, t(UI.statRefs), '/ai/refs'],
   ]
   const open = (href: string) => {
     const anchor = href.match(/^\/ai\/at\/(.+)$/)?.[1]
@@ -102,7 +101,7 @@ export function AiHome() {
           <DirRow key={g.id} id={g.id} name={t(g.name)} desc={t(g.desc)} cols={g.cards.length}>
             {g.cards.map((id) => {
               const [brain, ai] = splitComparison(t(CARD_BY_ID[id].title))
-              return <DirCard key={id} href={`/ai/card/${id}`} kicker={mechCode(id)} title={<Rich text={brain} />} ai={ai} />
+              return <DirCard key={id} href={`/ai/card/${id}`} kicker={<>{mechCode(id)}{CARD_BY_ID[id].lab && <span className="dir-card-lab" title={t(UI.hasLab)} aria-label={t(UI.hasLab)}><Icon name="flask" size={13} /></span>}</>} title={<Rich text={brain} />} ai={ai} />
             })}
           </DirRow>
         ))}
@@ -114,13 +113,6 @@ export function AiHome() {
           const href = crossHref(x)
           return <DirCard key={x.id} href={href} title={t(x.name)} desc={t(x.desc)} status={TOPIC_CONTENT[x.id] ? undefined : t(href ? UI.statusLegacy : UI.statusDrafting)} />
         })}
-      </div>
-
-      <h3 className="dir-title" id={sectionId('labs')}>{t(UI.labs)}</h3>
-      <div className="dir-cards wide">
-        {Object.entries(LABS).map(([id, lab]) => (
-          <DirCard key={id} href={`/ai/lab/${id}`} kicker={<Icon name="flask" size={14} />} title={<Rich text={t(lab.title).replace(/^(实验：|Lab: )/, '')} />} />
-        ))}
       </div>
 
       <h3 className="dir-title">{t(UI.furtherReading)}</h3>

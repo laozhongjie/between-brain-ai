@@ -554,7 +554,8 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 }
 .dir-card:not(.pending):active { transform: perspective(900px) translateY(-1px) scale(0.985); transition-duration: .12s; }
 @media (prefers-reduced-motion: reduce) { .dir-card:not(.pending):is(:hover, :active) { transform: none; } }
-.dir-card-kicker { display: flex; font: 500 12px/1.4 var(--label); letter-spacing: 0.04em; color: var(--accent); }
+.dir-card-lab { display: inline-flex; margin-left: 6px; opacity: 0.75; }
+.dir-card-kicker { display: flex; align-items: center; font: 500 12px/1.4 var(--label); letter-spacing: 0.04em; color: var(--accent); }
 .dir-card-title { font-size: 15px; font-weight: 500; line-height: 1.45; text-wrap: balance; }
 .dir-card-pair { display: flex; flex-direction: column; gap: 3px; margin-top: auto; font-size: 12.5px; line-height: 1.45; color: var(--text-dim); }
 .dir-card-pair > span { position: relative; padding-left: 13px; text-wrap: balance; }

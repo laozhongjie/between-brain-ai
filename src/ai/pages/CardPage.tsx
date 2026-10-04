@@ -327,7 +327,7 @@ export function CardPage({ card }: { card: Card }) {
         : guide?.review ? <ReviewCardContent card={card} figs={figs} /> : <MechanismContent card={card} figs={figs} />}
 
       {Lab && (
-        <section className="lab-section">
+        <section id="lab" className="lab-section">
           <h2><Icon name="flask" /><span>{t(UI.secLab)} · <Rich text={t(Lab.title)} /></span></h2>
           <Lab.component />
         </section>

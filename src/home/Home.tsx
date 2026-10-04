@@ -120,7 +120,7 @@ function Hero({ g }: { g: ReturnType<typeof heroGeom> }) {
         <p className="hero-lede zh">探索人脑与人工智能的异同</p>
       </div>
 
-      <div className="hero-foot left">09 DOMAINS · 26 TOPICS · 17 MECHANISMS · 05 LABS</div>
+      <div className="hero-foot left">09 DOMAINS · 26 TOPICS · 17 MECHANISMS</div>
       <div className="hero-foot right">SCROLL TO OPEN</div>
     </div>
   )

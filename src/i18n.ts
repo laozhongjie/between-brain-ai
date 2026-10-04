@@ -98,7 +98,6 @@ export const UI = {
   statDomains: b('功能领域', 'Domains'),
   statTopics: b('功能主题', 'Topics'),
   statMechanisms: b('机制条目', 'Mechanisms'),
-  statLabs: b('交互实验', 'Labs'),
   statRefs: b('参考文献', 'References'),
   refIndex: b('参考文献', 'References'),
   refIntro: b('本站引用的全部文献，按第一作者的首字母排列。每篇后面列出引用它的页面；DOI 和 arXiv 编号都逐条核对过。', 'Every reference cited on this site, by the first author’s initial. Each one lists the pages that cite it, and every DOI and arXiv id has been checked.'),
@@ -155,7 +154,7 @@ export const UI = {
   secCompare: b('对照', 'Comparison'),
   correspondence: b('对应类型', 'Correspondence type'),
   evidence: b('神经科学证据', 'Neuroscience evidence'),
-  labs: b('交互实验', 'Interactive labs'),
+  hasLab: b('含交互实验', 'Has an interactive lab'),
   furtherReading: b('延伸阅读（综述）', 'Further reading (reviews)'),
   secBrain: b('生物机制', 'Biological mechanism'),
   secAi: b('计算对应', 'Computational counterpart'),
@@ -179,7 +178,6 @@ export const UI = {
   viewInAtlas: b('在 3D 图谱中单独查看这个系统', 'View this system on its own in the 3D atlas'),
   aiLink: b('AI 对照', 'AI comparison'),
   backToLadder: b('返回总览', 'Back to overview'),
-  relatedCards: b('相关卡片', 'Related cards'),
   dimension: b('维度', 'Dimension'),
 }
 
