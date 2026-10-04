@@ -4,7 +4,7 @@ import { UI, useT } from '../../i18n'
 import { go } from '../../route'
 import { enterFocus } from '../../sim/focus'
 import { useStore } from '../../store'
-import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, MECH_CONTENT, MECH_ORDER, SCALES, TOPIC_BY_ID, mechOfCard, topicHref, topicsOfLegacy, topicsOfMech } from '../content'
+import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, MECH_CONTENT, MECH_ORDER, TOPIC_BY_ID, mechCode, mechOfCard, topicHref, topicsOfLegacy } from '../content'
 import { FIGS, MECH_FIGS } from '../figs'
 import type { MechFigs } from '../figs/types'
 import { LABS } from '../labs/registry'
@@ -264,8 +264,7 @@ function useCardPlace(card: Card) {
   const t = useT()
   const group = mechOfCard(card.id)
   if (group) {
-    const scale = SCALES.find((sc) => sc.id === group.scale)!
-    return { crumb: `${t(UI.scaleIndex)} · ${t(scale.name)} · ${t(group.name)}`, group, topics: [] as ReturnType<typeof topicsOfLegacy> }
+    return { crumb: `${t(UI.scaleIndex)} · ${t(group.name)} · ${mechCode(card.id)}`, group, topics: [] as ReturnType<typeof topicsOfLegacy> }
   }
   const topics = topicsOfLegacy(card.id)
   const domain = topics[0] && DOMAINS.find((d) => d.topics.includes(topics[0].id))
@@ -284,10 +283,8 @@ export function CardPage({ card }: { card: Card }) {
   const idx = place.group ? MECH_ORDER.findIndex((c) => c.id === card.id) : -1
   const prev = idx > 0 ? MECH_ORDER[idx - 1] : undefined
   const next = idx >= 0 ? MECH_ORDER[idx + 1] : undefined
-  const groupLabel = (c: Card) => { const g = mechOfCard(c.id)!; return `${g.id} · ${t(g.name)}` }
+  const groupLabel = (c: Card) => `${mechCode(c.id)} · ${t(mechOfCard(c.id)!.name)}`
   const entry = MECH_CONTENT[card.id]
-  // a rewritten entry lists where it works itself
-  const related = place.group && !entry ? topicsOfMech(place.group.id) : []
 
   const openInAtlas = () => {
     useStore.getState().setViewMode('3d')
@@ -336,22 +333,6 @@ export function CardPage({ card }: { card: Card }) {
         </section>
       )}
 
-      {related.length > 0 && (
-        <section aria-labelledby="card-related-title">
-          <h2 id="card-related-title">{t(UI.relatedTopics)}</h2>
-          <div className="rung-cards">
-            {related.map((topic) => {
-              const href = topicHref(topic)
-              return (
-                <button key={topic.id} className={`chip topic-chip ${href ? '' : 'pending'}`} disabled={!href} onClick={() => href && go(href)}>
-                  <span>{t(topic.name)}</span>
-                  {!href && <span className="chip-status">{t(UI.statusDrafting)}</span>}
-                </button>
-              )
-            })}
-          </div>
-        </section>
-      )}
 
       <section>
         <h2><Icon name="library" />{t(UI.secRefs)}</h2>

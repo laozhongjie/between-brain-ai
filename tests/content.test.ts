@@ -1,6 +1,6 @@
 import katex from 'katex'
 import { describe, expect, it } from 'vitest'
-import { CARDS, CARD_BY_ID, CONCEPTS, CONCEPT_GROUPS, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_BY_ID, MECH_CONTENT, MECH_GROUPS, TOPICS, TOPIC_BY_ID, TOPIC_CONTENT, aiLinkForTour, mechOfCard } from '../src/ai/content/index'
+import { CARDS, CARD_BY_ID, CONCEPTS, CONCEPT_GROUPS, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_CONTENT, MECH_GROUPS, TOPICS, TOPIC_BY_ID, TOPIC_CONTENT, aiLinkForTour, mechOfCard } from '../src/ai/content/index'
 import { REF_BY_ID, REFS } from '../src/ai/content/refs'
 import { LABS } from '../src/ai/labs/registry'
 import { TOUR_BY_ID } from '../src/data/tours'
@@ -54,13 +54,11 @@ describe('AI correspondence content', () => {
     for (const t of TOPICS) {
       if (t.legacy) expect(CARD_BY_ID[t.legacy], `${t.id} legacy`).toBeDefined()
       if (t.tour) expect(TOUR_BY_ID[t.tour], `${t.id} tour`).toBeDefined()
-      for (const m of t.mechanisms) expect(MECH_BY_ID[m], `${t.id} → ${m}`).toBeDefined()
       for (const side of [t.systems.biological, t.systems.computational, t.name]) expect(side.zh && side.en, t.id).toBeTruthy()
     }
     for (const x of CROSS_TOPICS) {
       if (x.legacy) expect(CARD_BY_ID[x.legacy], x.id).toBeDefined()
       if (x.tour) expect(TOUR_BY_ID[x.tour], `${x.id} tour`).toBeDefined()
-      for (const m of x.mechanisms) expect(MECH_BY_ID[m], `${x.id} → ${m}`).toBeDefined()
       for (const id of x.topics) expect(TOPICS.some((t) => t.id === id), `${x.id} → ${id}`).toBe(true)
       expect(TOPICS.some((t) => t.id === x.id || t.code === x.code), x.id).toBe(false)
     }

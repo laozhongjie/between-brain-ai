@@ -105,7 +105,7 @@ export const UI = {
   conceptNone: b('没有找到匹配的概念。', 'No matching concept.'),
   crossCuttingTopics: b('综合专题', 'Cross-domain topics'),
   scaleIndex: b('机制索引', 'Mechanism index'),
-  scaleIndexIntro: b('按空间尺度收录可复用的计算过程。每个条目解释机制、公式和成立边界，并链接到相关的功能主题。', 'Reusable computations, grouped by spatial scale. Each entry explains the mechanism, its equations and where it holds, and links to related functional topics.'),
+  scaleIndexIntro: b('按计算功能收录可复用的计算过程，共五组、十七个条目。每个条目解释机制、公式和成立条件，并链接到它起作用的功能主题。', 'Reusable computations in five groups by what they compute, seventeen entries in all. Each entry explains the mechanism, its equations and the conditions where it holds, and links to the topics where it does its work.'),
   secCapabilities: b('能力对照', 'Capabilities'),
   secDynamics: b('动态机制', 'Dynamics'),
   secMath: b('数学模型', 'Mathematical models'),

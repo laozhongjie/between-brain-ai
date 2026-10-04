@@ -39,18 +39,14 @@ export interface Topic {
   legacy?: string
   /** atlas tour of the matching brain system */
   tour?: string
-  /** related mechanism groups */
-  mechanisms: string[]
 }
 
-/** Spatial scale of a mechanism group. */
-export type Scale = 'synapse' | 'neuron' | 'circuit' | 'cross'
-
-/** A group of mechanism entries (the old layer 1 to 3 cards) in the scale index. */
+/** A group of mechanism entries in the mechanism index, by what the mechanism computes. */
 export interface MechGroup {
   id: string
   name: Bi
-  scale: Scale
+  /** what the group covers, and the AI notion it lines up with */
+  desc: Bi
   cards: string[]
 }
 

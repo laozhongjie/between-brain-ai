@@ -2,7 +2,7 @@ import { Rich, splitComparison } from '../../rich'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { UI, useT } from '../../i18n'
 import { go } from '../../route'
-import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, MECH_GROUPS, SCALES, TOPIC_BY_ID, TOPIC_CONTENT, crossHref, topicHref, topicsOfDomain } from '../content'
+import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, MECH_GROUPS, TOPIC_BY_ID, TOPIC_CONTENT, crossHref, topicHref, topicsOfDomain } from '../content'
 import { LABS } from '../labs/registry'
 import { ConceptIndex } from './ConceptIndex'
 import { Icon } from '../../ui/Icon'
@@ -58,10 +58,10 @@ export function AiSection({ route }: { route: string[] }) {
         </div>
         <div className="ai-nav-layer ai-nav-domains">
           <div className="ai-nav-layer-title">{t(UI.scaleIndex)}</div>
-          {SCALES.map((scale) => (
-            <div key={scale.id} className="ai-nav-domain">
-              <div className="ai-nav-domain-title">{t(scale.name)}</div>
-              {MECH_GROUPS.filter((g) => g.scale === scale.id).flatMap((g) => g.cards).map((cid) =>
+          {MECH_GROUPS.map((g) => (
+            <div key={g.id} className="ai-nav-domain">
+              <div className="ai-nav-domain-title">{t(g.name)}</div>
+              {g.cards.map((cid) =>
                 link(`/ai/card/${cid}`, <Rich text={splitComparison(t(CARD_BY_ID[cid].title))[0]} />, cid))}
             </div>
           ))}

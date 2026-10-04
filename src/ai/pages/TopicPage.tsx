@@ -5,7 +5,7 @@ import { UI, useT } from '../../i18n'
 import { go } from '../../route'
 import { enterFocus } from '../../sim/focus'
 import { useStore } from '../../store'
-import { CARD_BY_ID, CROSS_TOPICS, MECH_BY_ID, TOPIC_BY_ID, TOPIC_CONTENT, WRITTEN_TOPICS, domainOfTopic, topicHref } from '../content'
+import { CROSS_TOPICS, TOPIC_BY_ID, TOPIC_CONTENT, WRITTEN_TOPICS, domainOfTopic, mechCode, mechanismsOfTopic, topicHref } from '../content'
 import { TOPIC_FIGS } from '../figs'
 import { GRAMMAR_LEGEND, LegendMark } from '../figs/grammar'
 import type { FigProps, MathFig } from '../figs/types'
@@ -265,6 +265,7 @@ export function TopicPage({ topic }: { topic: Topic }) {
   const figs = TOPIC_FIGS[topic.id] ?? {}
   const domain = domainOfTopic(topic.id)
   const cross = CROSS_TOPICS.find((x) => x.id === topic.id)
+  const mechanisms = mechanismsOfTopic(topic.id)
   const bio = t(topic.systems.biological)
   const comp = t(topic.systems.computational)
   const written = WRITTEN_TOPICS()
@@ -367,22 +368,18 @@ export function TopicPage({ topic }: { topic: Topic }) {
         </div>
       </section>
 
-      {topic.mechanisms.length > 0 && (
+      {mechanisms.length > 0 && (
         <section aria-labelledby="topic-related">
           <h2 id="topic-related">{t(UI.relatedMechanisms)}</h2>
-          {topic.mechanisms.map((m) => MECH_BY_ID[m]).map((g) => (
-            <div key={g.id} className="mech-group">
-              <div className="mech-group-title"><span className="rung-no">{g.id}</span>{t(g.name)}</div>
-              <div className="rung-cards">
-                {g.cards.map((id) => CARD_BY_ID[id]).map((card) => (
-                  <button key={card.id} className="chip" onClick={() => go(`/ai/card/${card.id}`)}>
-                    <ComparisonText text={t(card.title)} />
-                    <KindTags kinds={card.kinds} />
-                  </button>
-                ))}
-              </div>
-            </div>
-          ))}
+          <div className="rung-cards">
+            {mechanisms.map((card) => (
+              <button key={card.id} className="chip" onClick={() => go(`/ai/card/${card.id}`)}>
+                <span className="rung-no">{mechCode(card.id)}</span>
+                <ComparisonText text={t(card.title)} />
+                <KindTags kinds={card.kinds} />
+              </button>
+            ))}
+          </div>
         </section>
       )}
 

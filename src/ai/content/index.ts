@@ -35,8 +35,12 @@ export const topicsOfDomain = (domain: AtlasDomain) => domain.topics.map((id) =>
 /** The domain of a functional topic; cross-domain topics have none. */
 export const domainOfTopic = (topicId: string) => DOMAINS.find((d) => d.topics.includes(topicId))
 
-/** Mechanism entries in index order, for prev / next paging. */
+/** Mechanism entries in index order, for numbering and prev / next paging. */
 export const MECH_ORDER: Card[] = MECH_GROUPS.flatMap((g) => g.cards.map((id) => CARD_BY_ID[id]))
+/** The number of a mechanism entry, M01 to M17, from its place in the index. */
+export const mechCode = (cardId: string) => `M${String(MECH_ORDER.findIndex((c) => c.id === cardId) + 1).padStart(2, '0')}`
+/** Mechanism entries that name a topic among the places where they do their work, in index order. */
+export const mechanismsOfTopic = (topicId: string) => MECH_ORDER.filter((c) => MECH_CONTENT[c.id]?.uses.some((u) => u.to === `topic:${topicId}`))
 
 /** Where a topic opens today: its own page once written, else its old card, else nowhere yet. */
 export const topicHref = (topic: Topic) => (TOPIC_CONTENT[topic.id] ? `/ai/topic/${topic.id}` : topic.legacy ? `/ai/card/${topic.legacy}` : null)

@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import { Rich, splitComparison } from '../../rich'
 import { UI, useT } from '../../i18n'
 import { go } from '../../route'
-import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_GROUPS, MECH_ORDER, SCALES, TOPIC_CONTENT, WRITTEN_TOPICS, crossHref, topicHref, topicsOfDomain } from '../content'
+import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_GROUPS, MECH_ORDER, TOPIC_CONTENT, mechCode, WRITTEN_TOPICS, crossHref, topicHref, topicsOfDomain } from '../content'
 import { REFS } from '../content/refs'
 import { LABS } from '../labs/registry'
 import { Legend, RefList } from './common'
@@ -86,20 +86,15 @@ export function AiHome() {
       <h3 className="dir-title">{t(UI.scaleIndex)}</h3>
       <p className="section-note">{t(UI.scaleIndexIntro)}</p>
       <div className="dir">
-        {SCALES.map((scale) => {
-          const groups = MECH_GROUPS.filter((g) => g.scale === scale.id)
-          const n = groups.reduce((k, g) => k + g.cards.length, 0)
-          // one row per scale, as many columns as cards (two even rows past five), so every row is filled
-          return (
-            <DirRow key={scale.id} name={t(scale.name)} cols={n <= 5 ? n : Math.ceil(n / 2)}>
-              {groups.flatMap((g) => g.cards.map((id) => {
-                const c = CARD_BY_ID[id]
-                const [brain, ai] = splitComparison(t(c.title))
-                return <DirCard key={id} href={`/ai/card/${id}`} title={<Rich text={brain} />} ai={ai} />
-              }))}
-            </DirRow>
-          )
-        })}
+        {MECH_GROUPS.map((g) => (
+          // one row per group, one column per entry, so every row is filled
+          <DirRow key={g.id} name={t(g.name)} desc={t(g.desc)} cols={g.cards.length}>
+            {g.cards.map((id) => {
+              const [brain, ai] = splitComparison(t(CARD_BY_ID[id].title))
+              return <DirCard key={id} href={`/ai/card/${id}`} kicker={mechCode(id)} title={<Rich text={brain} />} ai={ai} />
+            })}
+          </DirRow>
+        ))}
       </div>
 
       <h3 className="dir-title">{t(UI.crossCuttingTopics)}</h3>
