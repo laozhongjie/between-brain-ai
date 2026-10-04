@@ -470,6 +470,15 @@ export const REFS: Ref[] = [
   { id: 'gardner2022', authors: 'Gardner, R. J. et al.', year: 2022, title: 'Toroidal topology of population activity in grid cells', venue: 'Nature 602, 123–128', url: doi('10.1038/s41586-021-04268-7') },
   { id: 'khona2022', authors: 'Khona, M. & Fiete, I. R.', year: 2022, title: 'Attractor and integrator networks in the brain', venue: 'Nature Reviews Neuroscience 23, 744–766', url: doi('10.1038/s41583-022-00642-0') },
   { id: 'maheswaranathan2019', authors: 'Maheswaranathan, N., Williams, A. H., Golub, M. D., Ganguli, S. & Sussillo, D.', year: 2019, title: 'Reverse engineering recurrent networks for sentiment classification reveals line attractor dynamics', venue: 'NeurIPS 2019', url: arxiv('1906.10720') },
+  // ── Mechanism entries: synapses ──
+  { id: 'delcastillo1954', authors: 'del Castillo, J. & Katz, B.', year: 1954, title: 'Quantal components of the end-plate potential', venue: 'Journal of Physiology 124(3), 560–573', url: doi('10.1113/jphysiol.1954.sp005129') },
+  { id: 'branco2009', authors: 'Branco, T. & Staras, K.', year: 2009, title: 'The probability of neurotransmitter release: variability and feedback control at single synapses', venue: 'Nature Reviews Neuroscience 10, 373–383', url: doi('10.1038/nrn2634') },
+  { id: 'abbott1997', authors: 'Abbott, L. F., Varela, J. A., Sen, K. & Nelson, S. B.', year: 1997, title: 'Synaptic depression and cortical gain control', venue: 'Science 275(5297), 220–224', url: doi('10.1126/science.275.5297.221') },
+  { id: 'markram1998', authors: 'Markram, H., Wang, Y. & Tsodyks, M.', year: 1998, title: 'Differential signaling via the same axon of neocortical pyramidal neurons', venue: 'PNAS 95(9), 5323–5328', url: doi('10.1073/pnas.95.9.5323') },
+  { id: 'zucker2002', authors: 'Zucker, R. S. & Regehr, W. G.', year: 2002, title: 'Short-term synaptic plasticity', venue: 'Annual Review of Physiology 64, 355–405', url: doi('10.1146/annurev.physiol.64.092501.114547') },
+  { id: 'diehl2015', authors: 'Diehl, P. U. & Cook, M.', year: 2015, title: 'Unsupervised learning of digit recognition using spike-timing-dependent plasticity', venue: 'Frontiers in Computational Neuroscience 9, 99', url: doi('10.3389/fncom.2015.00099') },
+  { id: 'sjostrom2001', authors: 'Sjöström, P. J., Turrigiano, G. G. & Nelson, S. B.', year: 2001, title: 'Rate, timing, and cooperativity jointly determine cortical synaptic plasticity', venue: 'Neuron 32(6), 1149–1164', url: doi('10.1016/S0896-6273(01)00542-6') },
+  { id: 'redondo2011', authors: 'Redondo, R. L. & Morris, R. G. M.', year: 2011, title: 'Making memories last: the synaptic tagging and capture hypothesis', venue: 'Nature Reviews Neuroscience 12, 17–30', url: doi('10.1038/nrn2963') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

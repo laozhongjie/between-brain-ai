@@ -8,7 +8,7 @@ const t = String.raw
 export const LAYER1: CardMechanism[] = [
   {
     id: 'synapse-weight', layer: 1,
-    title: b('突触强度 ↔ 权重', 'Synaptic efficacy ↔ weights'),
+    title: b('突触传递 ↔ 连接权重', 'Synaptic transmission ↔ connection weights'),
     brain: b(
       '化学突触通过递质释放，把突触前脉冲转成突触后电流。受体数量、释放概率和近期活动都会影响传递强度。许多神经元保持相对稳定的递质类型，但实际兴奋或抑制效应还取决于受体与生理状态。连接也并非任意存在，其分布受细胞类型、空间和活动历史影响。',
       'Chemical synapses convert presynaptic spikes into postsynaptic currents through transmitter release. Receptor count, release probability and recent activity affect transmission strength. Many neurons retain relatively stable transmitter identities, but actual excitatory or inhibitory effects also depend on receptors and physiological state. Wiring depends on cell type, space and activity history.'),
@@ -25,7 +25,7 @@ export const LAYER1: CardMechanism[] = [
   },
   {
     id: 'short-term-plasticity', layer: 1,
-    title: b('短时可塑性 ↔ 快权重 / 线性注意力', 'Short-term plasticity ↔ fast weights / linear attention'),
+    title: b('短时可塑性 ↔ 快权重与线性注意力', 'Short-term plasticity ↔ fast weights and linear attention'),
     brain: b(
       '连续放电时，有的突触因为囊泡耗尽而越来越弱（短时抑制），有的因为残余钙而越来越强（短时易化），在几百毫秒到几秒内恢复。于是突触变成了一个随时间变化的滤波器：抑制型突触对「变化」敏感，易化型突触对「连发」敏感。这也是一种不需要改变长期权重的短时记忆。',
       'During repeated firing some synapses weaken as vesicles deplete (short-term depression) and others strengthen via residual calcium (facilitation), recovering over hundreds of ms to seconds. The synapse becomes a time-varying filter: depressing synapses detect change, facilitating ones detect bursts, a short-term memory that leaves long-term weights untouched.'),
@@ -46,7 +46,7 @@ export const LAYER1: CardMechanism[] = [
   },
   {
     id: 'stdp', layer: 1,
-    title: b('Hebb 学习与 STDP ↔ 局部无监督学习', 'Hebbian learning & STDP ↔ local unsupervised learning'),
+    title: b('Hebb 学习与 STDP ↔ 局部无监督学习', 'Hebbian learning and STDP ↔ local unsupervised learning'),
     brain: b(
       'Hebb（1949）提出，共同活动可以增强细胞间的连接。经典 STDP 实验进一步发现，突触前后放电的相对时刻会影响增强或削弱，时间窗常在几十毫秒范围。经典模型常把突触前先放电对应为增强，但方向、时间窗和调节因素会随细胞及实验条件变化；先后顺序本身也不能证明因果。',
       'Hebb (1949) proposed that joint activity can strengthen connections. Classical STDP experiments found that relative spike timing affects strengthening or weakening, often over tens of milliseconds. Classical models commonly associate pre-before-post firing with strengthening, but direction, timing windows and modulation vary by cell and experimental conditions; order alone does not prove causation.'),
@@ -64,7 +64,7 @@ export const LAYER1: CardMechanism[] = [
   },
   {
     id: 'three-factor', layer: 1,
-    title: b('三因子学习与信用分配 ↔ 反向传播', 'Three-factor learning & credit assignment ↔ backpropagation'),
+    title: b('三因子学习 ↔ 反向传播与反馈对齐', 'Three-factor learning ↔ backpropagation and feedback alignment'),
     brain: b(
       '一个流行的理论是「三因子规则」：突触前活动 × 突触后活动先留下一个会慢慢衰减的「资格迹」，几秒后到来的第三个信号（多巴胺等神经调质，表示奖赏或意外）决定这个迹是否被写成真正的权重变化。这样就把行为时间尺度（秒）的结果分配给毫秒级的突触事件。此外，还有假说认为树突顶端的「爆发式放电」携带了类似误差的信号。',
       'A leading theory is the three-factor rule: pre × post activity leaves a decaying eligibility trace, and a third signal arriving seconds later (dopamine or another neuromodulator signaling reward or surprise) decides whether it becomes a weight change, bridging behavioral (s) and synaptic (ms) timescales. Other proposals have apical-dendrite bursts carrying error-like signals.'),
@@ -84,7 +84,7 @@ export const LAYER1: CardMechanism[] = [
   },
   {
     id: 'consolidation', layer: 1,
-    title: b('突触巩固 ↔ 持续学习（EWC 等）', 'Synaptic consolidation ↔ continual learning (EWC, …)'),
+    title: b('突触巩固 ↔ EWC 与快慢权重', 'Synaptic consolidation ↔ EWC and fast and slow weights'),
     brain: b(
       '一个突触不只有一个「强度」，还有多个在不同时间尺度上变化的内部状态（分子级联、突触标记与捕获）。新的变化先存在快变量里，只有被重复或被标记为重要的才逐渐转移到慢变量中。理论工作表明，这种多变量级联可以让记忆容量随突触数量近乎线性增长，同时保持长时间保存（Benna & Fusi 2016）。',
       'A synapse has not one strength but several internal states on different timescales (molecular cascades, synaptic tagging and capture). Changes land in fast variables and only repeated or tagged ones migrate to slow ones. Theory shows such cascades let memory capacity scale nearly linearly with synapse count while retaining memories for long (Benna & Fusi 2016).'),
