@@ -8,7 +8,7 @@ const t = String.raw
 export const LAYER2: CardMechanism[] = [
   {
     id: 'neuron-models', layer: 2,
-    title: b('神经元的抽象层次 ↔ 人工神经元', 'Levels of neuron abstraction ↔ the artificial neuron'),
+    title: b('神经元模型 ↔ 人工神经元与状态空间模型', 'Neuron models ↔ artificial neurons and state-space models'),
     brain: b(
       '真实神经元的膜电位随时间积分输入，达到阈值后发放动作电位并重置。Hodgkin–Huxley 方程用离子通道精确描述这一过程；LIF 模型只保留「漏电积分 + 阈值」；Izhikevich 模型用两个变量就能重现规则放电、爆发、快速放电等数十种放电模式。神经元还有适应（持续刺激下放电变慢），因此自带短时记忆。',
       'A real neuron integrates input over time in its membrane potential and fires a spike at threshold, then resets. Hodgkin–Huxley describes this with ion channels; the LIF model keeps just leaky integration + threshold; the Izhikevich model reproduces dozens of firing patterns (regular, bursting, fast spiking…) with two variables. Neurons also adapt (firing slows under constant drive), giving each cell a built-in short-term memory.'),
@@ -30,7 +30,7 @@ export const LAYER2: CardMechanism[] = [
   },
   {
     id: 'dendrites', layer: 2,
-    title: b('树突计算 ↔ 门控与多层单元', 'Dendritic computation ↔ gating and multi-layer units'),
+    title: b('树突计算 ↔ 门控单元与主动树突', 'Dendritic computation ↔ gated units and active dendrites'),
     brain: b(
       '树突不是被动的导线：各分支有自己的非线性（NMDA 尖峰、钙尖峰），同一分支上聚集的输入会被超线性放大。Poirazi 等（2003）表明锥体神经元可近似为两层网络；Beniaguev 等（2021）发现要拟合一个皮层神经元的输入输出，需要 5–8 层的时序卷积网络。人类 L2/3 神经元的树突钙峰对输入强度呈非单调响应，单个神经元就能计算异或（Gidon 2020）。顶树突接收反馈和上下文，基底树突接收前馈输入，两者同时到达时触发爆发放电（Larkum 2013）。',
       'Dendrites are not passive wires: branches have their own nonlinearities (NMDA and calcium spikes), and inputs clustered on a branch are amplified supralinearly. Poirazi et al. (2003) showed a pyramidal neuron ≈ a two-layer network; Beniaguev et al. (2021) needed a 5–8-layer temporal convolutional network to fit one cortical neuron. Human L2/3 dendritic calcium spikes respond non-monotonically, letting a single neuron compute XOR (Gidon 2020). Apical dendrites receive feedback/context and basal dendrites feedforward input; coincidence triggers bursts (Larkum 2013).'),
@@ -51,7 +51,7 @@ export const LAYER2: CardMechanism[] = [
   },
   {
     id: 'spikes', layer: 2,
-    title: b('脉冲与时间编码 ↔ 连续激活 / 脉冲神经网络', 'Spikes & temporal coding ↔ continuous activations / SNNs'),
+    title: b('脉冲与时间编码 ↔ 脉冲神经网络', 'Spikes and temporal coding ↔ spiking neural networks'),
     brain: b(
       '神经元之间传递的是全或无的动作电位。信息可以编码在频率里，也可以编码在精确时间、首个脉冲潜伏期、相对于振荡的相位或群体同步中。只有发生变化时才发送事件，这使得通信高度稀疏、节能。',
       'Neurons exchange all-or-none spikes. Information can be carried by rate, precise timing, first-spike latency, phase relative to oscillations or population synchrony. Events are sent only when something happens, making communication sparse and energy-efficient.'),
@@ -84,7 +84,7 @@ export const LAYER2: CardMechanism[] = [
   },
   {
     id: 'noise', layer: 2,
-    title: b('噪声与随机性 ↔ Dropout / 采样', 'Noise & stochasticity ↔ dropout / sampling'),
+    title: b('神经噪声 ↔ Dropout 与采样', 'Neural noise ↔ Dropout and sampling'),
     brain: b(
       '离子通道开闭、递质释放、突触整合都是随机的，同一刺激引起的放电每次不同。这种变异性可能被用于概率推断（放电模式代表后验分布的样本）和行为探索，而神经调质（如去甲肾上腺素）会改变这种变异性。',
       'Channel gating, transmitter release and synaptic integration are all stochastic; the same stimulus evokes different spikes each time. This variability may serve probabilistic inference (activity as samples from a posterior) and behavioral exploration, and neuromodulators such as noradrenaline alter it.'),

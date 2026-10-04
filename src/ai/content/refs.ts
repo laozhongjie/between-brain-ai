@@ -479,6 +479,18 @@ export const REFS: Ref[] = [
   { id: 'diehl2015', authors: 'Diehl, P. U. & Cook, M.', year: 2015, title: 'Unsupervised learning of digit recognition using spike-timing-dependent plasticity', venue: 'Frontiers in Computational Neuroscience 9, 99', url: doi('10.3389/fncom.2015.00099') },
   { id: 'sjostrom2001', authors: 'Sjöström, P. J., Turrigiano, G. G. & Nelson, S. B.', year: 2001, title: 'Rate, timing, and cooperativity jointly determine cortical synaptic plasticity', venue: 'Neuron 32(6), 1149–1164', url: doi('10.1016/S0896-6273(01)00542-6') },
   { id: 'redondo2011', authors: 'Redondo, R. L. & Morris, R. G. M.', year: 2011, title: 'Making memories last: the synaptic tagging and capture hypothesis', venue: 'Nature Reviews Neuroscience 12, 17–30', url: doi('10.1038/nrn2963') },
+  // ── Mechanism entries: neurons ──
+  { id: 'gerstner2014', authors: 'Gerstner, W., Kistler, W. M., Naud, R. & Paninski, L.', year: 2014, title: 'Neuronal dynamics: from single neurons to networks and models of cognition', venue: 'Cambridge University Press', url: doi('10.1017/CBO9781107447615') },
+  { id: 'london2005', authors: 'London, M. & Häusser, M.', year: 2005, title: 'Dendritic computation', venue: 'Annual Review of Neuroscience 28, 503–532', url: doi('10.1146/annurev.neuro.28.061604.135703') },
+  { id: 'larkum1999', authors: 'Larkum, M. E., Zhu, J. J. & Sakmann, B.', year: 1999, title: 'A new cellular mechanism for coupling inputs arriving at different cortical layers', venue: 'Nature 398, 338–341', url: doi('10.1038/18686') },
+  { id: 'zohary1994', authors: 'Zohary, E., Shadlen, M. N. & Newsome, W. T.', year: 1994, title: 'Correlated neuronal discharge rate and its implications for psychophysical performance', venue: 'Nature 370, 140–143', url: doi('10.1038/370140a0') },
+  { id: 'shadlen1998', authors: 'Shadlen, M. N. & Newsome, W. T.', year: 1998, title: 'The variable discharge of cortical neurons: implications for connectivity, computation, and information coding', venue: 'Journal of Neuroscience 18(10), 3870–3896', url: doi('10.1523/JNEUROSCI.18-10-03870.1998') },
+  { id: 'averbeck2006', authors: 'Averbeck, B. B., Latham, P. E. & Pouget, A.', year: 2006, title: 'Neural correlations, population coding and computation', venue: 'Nature Reviews Neuroscience 7, 358–366', url: doi('10.1038/nrn1888') },
+  { id: 'mainen1995', authors: 'Mainen, Z. F. & Sejnowski, T. J.', year: 1995, title: 'Reliability of spike timing in neocortical neurons', venue: 'Science 268(5216), 1503–1506', url: doi('10.1126/science.7770778') },
+  { id: 'okeefe1993', authors: 'O’Keefe, J. & Recce, M. L.', year: 1993, title: 'Phase relationship between hippocampal place units and the EEG theta rhythm', venue: 'Hippocampus 3(3), 317–330', url: doi('10.1002/hipo.450030307') },
+  { id: 'cohen2009', authors: 'Cohen, M. R. & Maunsell, J. H. R.', year: 2009, title: 'Attention improves performance primarily by reducing interneuronal correlations', venue: 'Nature Neuroscience 12, 1594–1600', url: doi('10.1038/nn.2439') },
+  { id: 'morenobote2014', authors: 'Moreno-Bote, R. et al.', year: 2014, title: 'Information-limiting correlations', venue: 'Nature Neuroscience 17, 1410–1417', url: doi('10.1038/nn.3807') },
+  { id: 'vanrullen2005', authors: 'VanRullen, R., Guyonneau, R. & Thorpe, S. J.', year: 2005, title: 'Spike times make sense', venue: 'Trends in Neurosciences 28(1), 1–4', url: doi('10.1016/j.tins.2004.10.010') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))
