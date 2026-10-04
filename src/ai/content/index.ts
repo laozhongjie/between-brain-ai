@@ -7,10 +7,11 @@ import { LAYER4 } from './layer4'
 import { CARD_GUIDES } from './guides'
 import { CROSS_TOPICS, MECH_GROUPS, TOPICS, TOPIC_BY_ID } from './topics'
 import { TOPIC_CONTENT } from './topic-pages'
+import { MECH_CONTENT } from './mech-pages'
 
 export * from './topics'
 export * from './concepts'
-export { TOPIC_CONTENT }
+export { TOPIC_CONTENT, MECH_CONTENT }
 
 const b = (zh: string, en: string): Bi => ({ zh, en })
 

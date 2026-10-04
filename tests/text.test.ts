@@ -1,7 +1,7 @@
 import katex from 'katex'
 import { describe, expect, it } from 'vitest'
-import { CARDS, CONCEPT_GROUPS, CROSS_TOPICS, DOMAINS, MECH_GROUPS, SCALES, TOPICS, TOPIC_CONTENT } from '../src/ai/content/index'
-import { TOPIC_FIGS } from '../src/ai/figs'
+import { CARDS, CONCEPT_GROUPS, CROSS_TOPICS, DOMAINS, MECH_CONTENT, MECH_GROUPS, SCALES, TOPICS, TOPIC_CONTENT } from '../src/ai/content/index'
+import { MECH_FIGS, TOPIC_FIGS } from '../src/ai/figs'
 import { GRAMMAR_LEGEND } from '../src/ai/figs/grammar'
 import { REGIONS } from '../src/data/regions'
 import { DAY } from '../src/data/scenario'
@@ -18,7 +18,7 @@ function strings(x: unknown, out: string[] = []): string[] {
   return out
 }
 
-const ALL = strings([CARDS, CONCEPT_GROUPS, TOPICS, DOMAINS, MECH_GROUPS, SCALES, CROSS_TOPICS, TOPIC_CONTENT, TOPIC_FIGS, GRAMMAR_LEGEND, REGIONS, DAY, TOURS, UI, CHAPTERS])
+const ALL = strings([CARDS, CONCEPT_GROUPS, TOPICS, DOMAINS, MECH_GROUPS, SCALES, CROSS_TOPICS, TOPIC_CONTENT, TOPIC_FIGS, MECH_CONTENT, MECH_FIGS, GRAMMAR_LEGEND, REGIONS, DAY, TOURS, UI, CHAPTERS])
 
 describe('site text', () => {
   it('uses no dashes (破折号 / em dash)', () => {

@@ -28,3 +28,10 @@ export interface MathFig {
   Fig: ComponentType<FigProps>
   cap: Bi
 }
+
+/** Figures of a mechanism entry: the mechanism figure, explained by the entry's numbered steps, and any figures beside
+ * its equations (keyed by equation index). */
+export interface MechFigs {
+  mech?: ComponentType<FigProps>
+  math?: Record<number, MathFig>
+}

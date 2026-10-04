@@ -461,6 +461,15 @@ export const REFS: Ref[] = [
   { id: 'sumers2023', authors: 'Sumers, T. R., Yao, S., Narasimhan, K. & Griffiths, T. L.', year: 2023, title: 'Cognitive architectures for language agents', venue: 'Transactions on Machine Learning Research', url: arxiv('2309.02427') },
   { id: 'kwa2025', authors: 'Kwa, T. et al.', year: 2025, title: 'Measuring AI ability to complete long software tasks', venue: 'arXiv', url: arxiv('2503.14499') },
   { id: 'bjorck2025', authors: 'NVIDIA, Bjorck, J. et al.', year: 2025, title: 'GR00T N1: an open foundation model for generalist humanoid robots', venue: 'arXiv', url: arxiv('2503.14734') },
+  // ── M07 Attractor networks ──
+  { id: 'zhang1996', authors: 'Zhang, K.', year: 1996, title: 'Representation of spatial orientation by the intrinsic dynamics of the head-direction cell ensemble: a theory', venue: 'Journal of Neuroscience 16(6), 2112–2126', url: doi('10.1523/JNEUROSCI.16-06-02112.1996') },
+  { id: 'benyishai1995', authors: 'Ben-Yishai, R., Bar-Or, R. L. & Sompolinsky, H.', year: 1995, title: 'Theory of orientation tuning in visual cortex', venue: 'PNAS 92(9), 3844–3848', url: doi('10.1073/pnas.92.9.3844') },
+  { id: 'seung1996', authors: 'Seung, H. S.', year: 1996, title: 'How the brain keeps the eyes still', venue: 'PNAS 93(23), 13339–13344', url: doi('10.1073/pnas.93.23.13339') },
+  { id: 'wimmer2014', authors: 'Wimmer, K., Nykamp, D. Q., Constantinidis, C. & Compte, A.', year: 2014, title: 'Bump attractor dynamics in prefrontal cortex explains behavioral precision in spatial working memory', venue: 'Nature Neuroscience 17(3), 431–439', url: doi('10.1038/nn.3645') },
+  { id: 'kim2017', authors: 'Kim, S. S., Rouault, H., Druckmann, S. & Jayaraman, V.', year: 2017, title: 'Ring attractor dynamics in the Drosophila central brain', venue: 'Science 356(6340), 849–853', url: doi('10.1126/science.aal4835') },
+  { id: 'gardner2022', authors: 'Gardner, R. J. et al.', year: 2022, title: 'Toroidal topology of population activity in grid cells', venue: 'Nature 602, 123–128', url: doi('10.1038/s41586-021-04268-7') },
+  { id: 'khona2022', authors: 'Khona, M. & Fiete, I. R.', year: 2022, title: 'Attractor and integrator networks in the brain', venue: 'Nature Reviews Neuroscience 23, 744–766', url: doi('10.1038/s41583-022-00642-0') },
+  { id: 'maheswaranathan2019', authors: 'Maheswaranathan, N., Williams, A. H., Golub, M. D., Ganguli, S. & Sussillo, D.', year: 2019, title: 'Reverse engineering recurrent networks for sentiment classification reveals line attractor dynamics', venue: 'NeurIPS 2019', url: arxiv('1906.10720') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

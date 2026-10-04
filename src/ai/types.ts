@@ -238,3 +238,33 @@ export interface TopicContent {
     ai: string[]
   }
 }
+
+/** Where a mechanism does its work: a topic or card link and the role it plays there. */
+export interface MechUse {
+  /** `topic:<id>` or `card:<id>` */
+  to: string
+  role: Bi
+}
+
+/** A mechanism entry in the scale index (the lean template). The name and its computational counterpart come from
+ * the card title; kinds, evidence and lab stay on the card. */
+export interface MechEntry {
+  /** what it is, physical form first */
+  definition: Bi
+  scale: Bi
+  timescale: Bi
+  /** numbered steps under the mechanism figure */
+  steps: FigStep[]
+  /** background: history, numbers, related systems */
+  notes: Bi[]
+  /** the closest computational counterpart, in a few points */
+  counterpart: Bi[]
+  /** equations taught on this page */
+  math: TopicFormula[]
+  /** equations of this mechanism that another page already teaches: linked, not repeated */
+  elsewhere: { title: Bi; to: string }[]
+  /** assumptions, where it holds and what is debated */
+  conditions: Bi[]
+  uses: MechUse[]
+  refs: string[]
+}

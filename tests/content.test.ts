@@ -1,10 +1,10 @@
 import katex from 'katex'
 import { describe, expect, it } from 'vitest'
-import { CARDS, CARD_BY_ID, CONCEPTS, CONCEPT_GROUPS, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_BY_ID, MECH_GROUPS, TOPICS, TOPIC_BY_ID, TOPIC_CONTENT, aiLinkForTour } from '../src/ai/content/index'
+import { CARDS, CARD_BY_ID, CONCEPTS, CONCEPT_GROUPS, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_BY_ID, MECH_CONTENT, MECH_GROUPS, TOPICS, TOPIC_BY_ID, TOPIC_CONTENT, aiLinkForTour, mechOfCard } from '../src/ai/content/index'
 import { REF_BY_ID, REFS } from '../src/ai/content/refs'
 import { LABS } from '../src/ai/labs/registry'
 import { TOUR_BY_ID } from '../src/data/tours'
-import { FIGS, TOPIC_FIGS } from '../src/ai/figs'
+import { FIGS, MECH_FIGS, TOPIC_FIGS } from '../src/ai/figs'
 import { CARD_GUIDES } from '../src/ai/content/guides'
 
 describe('AI correspondence content', () => {
@@ -70,7 +70,7 @@ describe('AI correspondence content', () => {
     for (const c of CARDS)
       for (const f of [...(c.brainMath ?? []), ...(c.aiMath ?? [])])
         expect(() => katex.renderToString(f.tex, { throwOnError: true }), `${c.id}: ${f.tex}`).not.toThrow()
-    for (const [id, page] of Object.entries(TOPIC_CONTENT))
+    for (const [id, page] of Object.entries({ ...TOPIC_CONTENT, ...Object.fromEntries(Object.entries(MECH_CONTENT).map(([k, e]) => [k, { bioMath: e.math, compMath: [] }])) }))
       for (const f of [...page.bioMath, ...page.compMath])
         for (const tex of [f.tex, ...f.symbols.map((s) => s.tex)])
           expect(() => katex.renderToString(tex, { throwOnError: true }), `${id}: ${tex}`).not.toThrow()
@@ -80,6 +80,7 @@ describe('AI correspondence content', () => {
     const cited = new Set<string>(INTRO_REFS)
     for (const c of CARDS) c.refs.forEach((r) => cited.add(r))
     for (const page of Object.values(TOPIC_CONTENT)) [...page.refs.neuro, ...page.refs.models, ...page.refs.ai].forEach((r) => cited.add(r))
+    for (const entry of Object.values(MECH_CONTENT)) entry.refs.forEach((r) => cited.add(r))
     for (const r of cited) expect(REF_BY_ID[r], r).toBeDefined()
     for (const r of REFS) expect(cited.has(r.id), `unused ref ${r.id}`).toBe(true)
   })
@@ -138,7 +139,7 @@ describe('AI correspondence content', () => {
   })
 
   it('every cross-reference in the content points to an existing page', () => {
-    const text = JSON.stringify([CARDS, TOPIC_CONTENT])
+    const text = JSON.stringify([CARDS, TOPIC_CONTENT, MECH_CONTENT])
     for (const m of text.matchAll(/\]\((card|topic):([a-z0-9-]+)\)/g)) {
       if (m[1] === 'card') expect(CARD_BY_ID[m[2]], m[0]).toBeDefined()
       else expect(TOPIC_CONTENT[m[2]], m[0]).toBeDefined()
@@ -154,11 +155,29 @@ describe('AI correspondence content', () => {
       const names = [c.term.zh, c.term.en, ...c.aka].map((s) => s.toLowerCase())
       for (const l of c.links) {
         const [kind, id] = l.to.split(':')
-        const page = kind === 'topic' ? TOPIC_CONTENT[id] && [TOPIC_CONTENT[id], TOPIC_BY_ID[id]] : kind === 'card' ? CARD_BY_ID[id] : undefined
+        const page = kind === 'topic' ? TOPIC_CONTENT[id] && [TOPIC_CONTENT[id], TOPIC_BY_ID[id]] : kind === 'card' ? CARD_BY_ID[id] && (MECH_CONTENT[id] ? [CARD_BY_ID[id].title, MECH_CONTENT[id]] : CARD_BY_ID[id]) : undefined
         expect(page, `${c.id} -> ${l.to}`).toBeDefined()
         const text = JSON.stringify(page).toLowerCase()
         expect(names.some((n) => text.includes(n)), `${c.id} is not mentioned on ${l.to}`).toBe(true)
       }
     }
+  })
+
+  it('every mechanism entry is complete and its links resolve', () => {
+    const resolves = (to: string) => { const [kind, id] = to.split(':'); return kind === 'topic' ? !!TOPIC_CONTENT[id] : kind === 'card' && !!CARD_BY_ID[id] }
+    for (const [id, e] of Object.entries(MECH_CONTENT)) {
+      expect(mechOfCard(id), id).toBeDefined()
+      expect(e.steps.length && e.steps.every((s) => s.points.length), id).toBeTruthy()
+      expect(e.notes.length && e.counterpart.length && e.conditions.length && e.uses.length && e.refs.length, id).toBeTruthy()
+      expect(e.math.length || e.elsewhere.length, id).toBeTruthy()
+      for (const f of e.math) expect(f.symbols.length && f.steps.length && f.consequences.length && f.limitations.length, `${id}: ${f.tex}`).toBeTruthy()
+      for (const to of [...e.uses.map((u) => u.to), ...e.elsewhere.map((x) => x.to)]) expect(resolves(to), `${id} → ${to}`).toBe(true)
+      const fields = [e.definition, e.scale, e.timescale, ...e.notes, ...e.counterpart, ...e.conditions, ...e.steps.flatMap((s) => [s.title, ...s.points]),
+        ...e.elsewhere.map((x) => x.title), ...e.uses.map((u) => u.role),
+        ...e.math.flatMap((f) => [f.title, ...f.symbols.map((x) => x.meaning), ...f.steps, ...(f.example ? [f.example] : []), ...f.consequences, ...f.limitations])]
+      for (const f of fields) expect(f.zh.trim() && f.en.trim(), id).toBeTruthy()
+      for (const i of Object.keys(MECH_FIGS[id]?.math ?? {})) expect(Number(i) < e.math.length, `${id}: figure ${i}`).toBe(true)
+    }
+    for (const id of Object.keys(MECH_FIGS)) expect(MECH_CONTENT[id], id).toBeDefined()
   })
 })

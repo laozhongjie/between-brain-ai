@@ -16,14 +16,14 @@ import { Icon } from '../../ui/Icon'
 import { ComparisonText } from '../../ui/ComparisonText'
 
 /** A figure, or an empty frame while it is still to be drawn. */
-function Figure({ Fig, wide }: { Fig?: ComponentType<FigProps>; wide?: boolean }) {
+export function Figure({ Fig, wide }: { Fig?: ComponentType<FigProps>; wide?: boolean }) {
   const t = useT()
   if (!Fig) return <figure className={`fig fig-pending${wide ? ' wide' : ''}`}><span>{t(UI.figPending)}</span></figure>
   return <figure className="fig"><Fig t={t} /></figure>
 }
 
 /** The numbered explanation under a figure; each number matches a marker in the figure. */
-function Steps({ steps, side, anchor }: { steps: FigStep[]; side: 'bio' | 'comp'; anchor?: string }) {
+export function Steps({ steps, side, anchor }: { steps: FigStep[]; side: 'bio' | 'comp'; anchor?: string }) {
   const t = useT()
   return (
     <ol className={`fig-steps ${side}`}>
@@ -151,7 +151,7 @@ function useFormulaLayout(tex: string) {
   return [ref, layout] as const
 }
 
-function FormulaCard({ f, side, fig }: { f: TopicFormula; side: 'bio' | 'comp'; fig?: MathFig }) {
+export function FormulaCard({ f, side, fig }: { f: TopicFormula; side: 'bio' | 'comp'; fig?: MathFig }) {
   const t = useT()
   const parts = useMemo(() => splitTex(f.tex), [f.tex])
   const [cardRef, { wide, figW, lines }] = useFormulaLayout(f.tex)

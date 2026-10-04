@@ -35,7 +35,7 @@ export const LAYER3: CardMechanism[] = [
   },
   {
     id: 'attractors', layer: 3,
-    title: b('吸引子网络与联想记忆 ↔ Hopfield 网络 / 注意力', 'Attractor networks & associative memory ↔ Hopfield nets / attention'),
+    title: b('吸引子网络 ↔ Hopfield 网络与 RNN 吸引子', 'Attractor networks ↔ Hopfield networks and RNN attractors'),
     brain: b(
       '海马 CA3 等区域有大量循环兴奋连接，被认为能实现模式补全：给出部分线索，网络活动会滑向最近的存储模式（吸引子）。持续放电的吸引子也被用来解释前额叶的工作记忆。',
       'Regions like hippocampal CA3 have dense recurrent excitation thought to perform pattern completion: from a partial cue, activity settles into the nearest stored pattern (an attractor). Persistent-activity attractors are also a leading account of prefrontal working memory.'),

@@ -879,6 +879,26 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .pager button { background: rgba(170,195,230,0.04); border: 1px solid var(--panel-border); border-radius: 8px; padding: 8px 12px; cursor: pointer; font-size: 13px; max-width: 48%; text-align: left; }
 .pager button:hover { border-color: var(--accent); }
 
+/* Mechanism entries (lean template) */
+.mech-arch { --side: var(--pink); display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 18px; align-items: start; padding: 14px 16px 16px; border: 1px solid var(--panel-border); border-top: 2px solid var(--side); border-radius: 10px; background: rgba(170,195,230,0.025); }
+.mech-arch-fig { display: grid; gap: 12px; min-width: 0; }
+.mech-arch-fig .fig { margin: 0; }
+.mech-arch .fig-steps { margin: 0; }
+.mech-counterpart { --side: var(--accent); padding: 10px 16px 6px; border-left: 2px solid var(--side); border-radius: 0 10px 10px 0; background: rgba(125,211,252,0.04); }
+.mech-counterpart h3 { margin: 2px 0 6px; font-size: 14px; letter-spacing: 0; color: var(--side); }
+.mech-counterpart ul, .mech-conditions { margin: 0 0 6px; padding-left: 18px; }
+.mech-counterpart li, .mech-conditions li { margin-bottom: 6px; line-height: 1.6; }
+.mech-elsewhere { margin-top: 6px; padding: 10px 16px; border-radius: 10px; background: var(--well); }
+.mech-elsewhere h3 { margin: 0 0 8px; font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); }
+.mech-elsewhere ul, .mech-uses { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.mech-elsewhere li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 14px; font-size: 14px; }
+.mech-uses li { display: grid; grid-template-columns: minmax(150px, 220px) 1fr; gap: 14px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--panel-border); }
+.mech-uses li:last-child { border-bottom: none; }
+.mech-uses .chip { justify-self: start; }
+.mech-uses p { margin: 0; line-height: 1.6; }
+.mech-tag { display: inline-flex; gap: 6px; align-items: baseline; padding: 3px 9px; border: 1px solid var(--panel-border); border-radius: 999px; font-size: 12px; color: var(--text); }
+.mech-tag b { font: 500 11px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); }
+
 /* Labs */
 .lab-section { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 12px; padding: 4px 16px 14px; margin-top: 22px; }
 .lab-intro { font-size: 13.5px !important; color: var(--text-dim); }
@@ -917,6 +937,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .lab-table td.bad { color: var(--danger); }
 
 @media (max-width: 900px) {
+  .mech-arch, .mech-uses li { grid-template-columns: 1fr; }
   .ai-main { padding: 14px 16px 60px; }
   .two-col, .architecture-grid, .lab-grid, .lab-grid.two { grid-template-columns: 1fr; }
   .architecture-meta { grid-template-columns: 1fr; gap: 10px; }

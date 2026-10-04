@@ -4,15 +4,17 @@ import { UI, useT } from '../../i18n'
 import { go } from '../../route'
 import { enterFocus } from '../../sim/focus'
 import { useStore } from '../../store'
-import { CROSS_TOPICS, DOMAINS, MECH_ORDER, SCALES, mechOfCard, topicHref, topicsOfLegacy, topicsOfMech } from '../content'
-import { FIGS } from '../figs'
+import { CARD_BY_ID, CROSS_TOPICS, DOMAINS, MECH_CONTENT, MECH_ORDER, SCALES, TOPIC_BY_ID, mechOfCard, topicHref, topicsOfLegacy, topicsOfMech } from '../content'
+import { FIGS, MECH_FIGS } from '../figs'
+import type { MechFigs } from '../figs/types'
 import { LABS } from '../labs/registry'
 import { Rich, Tex } from '../Tex'
-import type { Card, Formula } from '../types'
+import type { Card, Formula, MechEntry } from '../types'
 import { EvidenceBadge, KindTags, PagerLink, RefList } from './common'
 import { Icon } from '../../ui/Icon'
 import { ComparisonText } from '../../ui/ComparisonText'
 import { splitComparison } from '../../rich'
+import { Figure as TopicFigure, FormulaCard, Steps } from './TopicPage'
 
 function Figure({ Fig, cap }: { Fig: import('../figs/types').FigPair['brain']; cap: import('../../data/types').Bi }) {
   const t = useT()
@@ -176,6 +178,87 @@ function MechanismContent({ card, figs }: { card: Card; figs?: import('../figs/t
   )
 }
 
+/** Where a `topic:<id>` or `card:<id>` link goes, and the name to show for it. */
+function linkTarget(to: string): { href: string | null; name: Bi } {
+  const [kind, id] = to.split(':')
+  if (kind === 'topic') return { href: topicHref(TOPIC_BY_ID[id]), name: TOPIC_BY_ID[id].name }
+  const title = CARD_BY_ID[id].title
+  return { href: `/ai/card/${id}`, name: { zh: splitComparison(title.zh)[0], en: splitComparison(title.en)[0] } }
+}
+
+/** A mechanism entry in the lean template: the mechanism figure with its numbered steps, the computational
+ * counterpart, taught equations (and links to those taught elsewhere), conditions, and where it does its work. */
+function MechEntryContent({ card, entry, figs }: { card: Card; entry: MechEntry; figs?: MechFigs }) {
+  const t = useT()
+  const counterpart = splitComparison(t(card.title))[1]
+  return (
+    <>
+      <section aria-labelledby="mech-figure-title">
+        <h2 id="mech-figure-title">{t(UI.secMechFigure)}</h2>
+        <div className="mech-arch bio">
+          <div className="mech-arch-fig">
+            <TopicFigure Fig={figs?.mech} />
+            <aside className="arch-notes">
+              <h5>{t(UI.archNotes)}</h5>
+              <ul>{entry.notes.map((n, i) => <li key={i}><Rich text={t(n)} /></li>)}</ul>
+            </aside>
+          </div>
+          <Steps steps={entry.steps} side="bio" anchor="mech-bio" />
+        </div>
+      </section>
+
+      <section aria-labelledby="mech-counterpart-title">
+        <h2 id="mech-counterpart-title">{t(UI.secCounterpart)}</h2>
+        <div className="mech-counterpart comp">
+          {counterpart && <h3><Rich text={counterpart} /></h3>}
+          <ul>{entry.counterpart.map((p, i) => <li key={i}><Rich text={t(p)} /></li>)}</ul>
+        </div>
+      </section>
+
+      <section aria-labelledby="mech-math-title">
+        <h2 id="mech-math-title">{t(UI.secMath)}</h2>
+        {entry.math.map((f, i) => <FormulaCard key={i} f={f} side="bio" fig={figs?.math?.[i]} />)}
+        {entry.elsewhere.length > 0 && (
+          <div className="mech-elsewhere">
+            <h3>{t(UI.mathElsewhere)}</h3>
+            <ul>
+              {entry.elsewhere.map((e, i) => {
+                const target = linkTarget(e.to)
+                return (
+                  <li key={i}>
+                    <span><Rich text={t(e.title)} /></span>
+                    <button className="chip topic-chip" disabled={!target.href} onClick={() => target.href && go(target.href)}>{t(target.name)}</button>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        )}
+      </section>
+
+      <section aria-labelledby="mech-conditions-title">
+        <h2 id="mech-conditions-title">{t(UI.secConditions)}</h2>
+        <ul className="mech-conditions">{entry.conditions.map((c, i) => <li key={i}><Rich text={t(c)} /></li>)}</ul>
+      </section>
+
+      <section aria-labelledby="mech-uses-title">
+        <h2 id="mech-uses-title">{t(UI.secUses)}</h2>
+        <ul className="mech-uses">
+          {entry.uses.map((u, i) => {
+            const target = linkTarget(u.to)
+            return (
+              <li key={i}>
+                <button className="chip topic-chip" disabled={!target.href} onClick={() => target.href && go(target.href)}>{t(target.name)}</button>
+                <p><Rich text={t(u.role)} /></p>
+              </li>
+            )
+          })}
+        </ul>
+      </section>
+    </>
+  )
+}
+
 /** Where a card sits in the new structure: a mechanism group, or the topics an old system card stands in for. */
 function useCardPlace(card: Card) {
   const t = useT()
@@ -202,7 +285,9 @@ export function CardPage({ card }: { card: Card }) {
   const prev = idx > 0 ? MECH_ORDER[idx - 1] : undefined
   const next = idx >= 0 ? MECH_ORDER[idx + 1] : undefined
   const groupLabel = (c: Card) => { const g = mechOfCard(c.id)!; return `${g.id} · ${t(g.name)}` }
-  const related = place.group ? topicsOfMech(place.group.id) : []
+  const entry = MECH_CONTENT[card.id]
+  // a rewritten entry lists where it works itself
+  const related = place.group && !entry ? topicsOfMech(place.group.id) : []
 
   const openInAtlas = () => {
     useStore.getState().setViewMode('3d')
@@ -211,7 +296,7 @@ export function CardPage({ card }: { card: Card }) {
   }
 
   return (
-    <article className="ai-page card-page">
+    <article className={`ai-page card-page${entry ? ' topic-page mech-page' : ''}`}>
       <div className="crumbs">
         <button className="btn-sm crumb-back" onClick={() => go('/ai')}><Icon name="arrow-left" />{t(UI.backToLadder)}</button>
         {place.crumb && <span>{place.crumb}</span>}
@@ -225,17 +310,24 @@ export function CardPage({ card }: { card: Card }) {
             <h2>{t(guide.review.thesis)}</h2>
           </>
         ) : (
-          <p className="lead"><Rich text={t(guide.answer)} /></p>
+          <p className="lead"><Rich text={t(entry ? entry.definition : guide.answer)} /></p>
         )}
       </div>
       <div className="card-badges">
         <KindTags kinds={card.kinds} />
         <EvidenceBadge ev={card.evidence} />
+        {entry && (
+          <>
+            <span className="mech-tag"><b>{t(UI.tagScale)}</b>{t(entry.scale)}</span>
+            <span className="mech-tag"><b>{t(UI.tagTimescale)}</b>{t(entry.timescale)}</span>
+          </>
+        )}
         {card.tour && (
           <button className="btn-sm" onClick={openInAtlas}><Icon name="brain" />{t(UI.viewInAtlas)}{t({ zh: '：', en: ': ' })}{t(TOUR_BY_ID[card.tour].name)}</button>
         )}
       </div>
-      {guide.review ? <ReviewCardContent card={card} figs={figs} /> : <MechanismContent card={card} figs={figs} />}
+      {entry ? <MechEntryContent card={card} entry={entry} figs={MECH_FIGS[card.id]} />
+        : guide.review ? <ReviewCardContent card={card} figs={figs} /> : <MechanismContent card={card} figs={figs} />}
 
       {Lab && (
         <section className="lab-section">
@@ -263,7 +355,7 @@ export function CardPage({ card }: { card: Card }) {
 
       <section>
         <h2><Icon name="library" />{t(UI.secRefs)}</h2>
-        <RefList ids={card.refs} />
+        <RefList ids={entry ? entry.refs : card.refs} />
       </section>
 
       {place.group && (

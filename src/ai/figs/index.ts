@@ -67,3 +67,4 @@ export const TOPIC_FIGS: Record<string, TopicFigs> = {
   'efficiency': EFFICIENCY_FIGS,
   'agent-blueprint': AGENT_BLUEPRINT_FIGS,
 }
+export { MECH_FIGS } from './mech'
