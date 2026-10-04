@@ -1089,6 +1089,21 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 .checks label:hover input::before { --p: 100%; }
 .controls .row .seg button.on::after { border-color: var(--accent-line); }
 .checks input:checked::before { border-color: var(--accent); }
+/* The same sweep on the reset button and the timeline controls: prev / next draw a circle, play (already
+   ringed in accent) sweeps a bright ring on top, the speed toggle sweeps its outer frame only */
+.controls > .btn, .tl-controls .icon-btn, .play-btn, .tl-controls .seg { position: relative; }
+.tl-controls .icon-btn { border-radius: 50%; padding: 6px; }
+.controls > .btn::after, .tl-controls .icon-btn::after, .play-btn::after, .tl-controls .seg::after {
+  content: ''; position: absolute; inset: -1px; border-radius: inherit; border: 1px solid var(--line-hi); pointer-events: none;
+  -webkit-mask: conic-gradient(from 270deg, #000 var(--p), transparent 0); mask: conic-gradient(from 270deg, #000 var(--p), transparent 0);
+  transition: --p .5s var(--ease), border-color .25s var(--ease);
+}
+.play-btn::after { border-color: var(--accent); }
+.controls > .btn:hover { border-color: transparent; background: none; }
+.tl-controls .icon-btn:hover { border-color: transparent; background: none; }
+.play-btn:hover { background: var(--accent-soft); border-color: var(--accent-line); }
+.tl-controls .seg:hover { border-color: transparent; }
+.controls > .btn:hover::after, .tl-controls .icon-btn:hover::after, .play-btn:hover::after, .tl-controls .seg:hover::after { --p: 100%; }
 
 /* ── Brain ↔ AI: motion ── */
 /* Navigation: an accent bar slides in on hover and stays lit on the current page */
