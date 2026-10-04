@@ -250,7 +250,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .level-tip {
   position: fixed; z-index: 60; width: 260px; transform: translateY(-50%); pointer-events: none;
   padding: 10px 13px 11px; border-radius: 10px; border: 1px solid var(--panel-border); border-left: 2px solid var(--c);
-  background: rgba(12,17,26,0.94); box-shadow: 0 14px 34px -14px rgba(0,0,0,0.8); backdrop-filter: blur(8px);
+  background: rgba(12,17,26,0.72); box-shadow: 0 14px 34px -14px rgba(0,0,0,0.6);
   animation: level-tip-in .22s var(--ease) both;
 }
 .level-tip strong { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; color: var(--text-h); }
