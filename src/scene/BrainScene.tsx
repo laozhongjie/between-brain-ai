@@ -1,6 +1,6 @@
-import { Canvas, useThree } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Bloom, EffectComposer, Vignette } from '@react-three/postprocessing'
-import { Suspense, useEffect, useLayoutEffect } from 'react'
+import { Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { useStore } from '../store'
 import { BrainModel } from './BrainModel'
@@ -45,9 +45,23 @@ function FrameAboveTimeline() {
   return null
 }
 
+/** Mounts with the brain (same Suspense boundary) and reports once two frames have been drawn, so the shader
+ * compile stall of the first frame is over before the scene is revealed. */
+function ReadyAfterFrames({ onReady }: { onReady: () => void }) {
+  const n = useRef(0)
+  useFrame(() => {
+    if (++n.current === 3) onReady()
+  })
+  return null
+}
+
 export function BrainScene() {
+  // hidden until the brain is drawn, then revealed from the centre (index.css .brain-canvas)
+  const [phase, setPhase] = useState<'loading' | 'reveal' | 'shown'>('loading')
   return (
     <Canvas
+      className={`brain-canvas ${phase}`}
+      onAnimationEnd={(e) => e.target === e.currentTarget && setPhase('shown')}
       camera={{ fov: 40, near: 0.05, far: 60, position: [-3, 1.3, -2] }}
       gl={{ antialias: true, toneMapping: THREE.NeutralToneMapping }}
       onCreated={({ gl }) => (gl.localClippingEnabled = true)}
@@ -68,6 +82,7 @@ export function BrainScene() {
       <Medium />
       <Suspense fallback={null}>
         <BrainModel />
+        <ReadyAfterFrames onReady={() => setPhase('reveal')} />
       </Suspense>
       <Markers />
       <Pathways />

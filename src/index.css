@@ -63,7 +63,17 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   from { opacity: 0.45; transform: scale(1.04); }
   to { opacity: 1; transform: scale(0.98); }
 }
-.label-layer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.label-layer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; transition: opacity .8s var(--ease) .5s; }
+/* The 3D scene appears once the brain is drawn: a disc opening from the centre, as on the landing page */
+@property --reveal { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
+.brain-canvas.loading { opacity: 0; }
+.stage:has(.brain-canvas.loading) .label-layer { opacity: 0; transition: none; }
+.brain-canvas.reveal {
+  -webkit-mask: radial-gradient(ellipse at 50% 45%, #000 var(--reveal), transparent calc(var(--reveal) + 22%));
+  mask: radial-gradient(ellipse at 50% 45%, #000 var(--reveal), transparent calc(var(--reveal) + 22%));
+  animation: scene-reveal 1.6s cubic-bezier(.45,.05,.25,1) both;
+}
+@keyframes scene-reveal { from { --reveal: 0%; opacity: 0; } 40% { opacity: 1; } to { --reveal: 100%; opacity: 1; } }
 
 .label {
   position: absolute; left: 0; top: 0; white-space: nowrap; pointer-events: none; /* the node underneath takes hover and click */
