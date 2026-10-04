@@ -1,6 +1,6 @@
 import katex from 'katex'
 import { describe, expect, it } from 'vitest'
-import { CARDS, CARD_BY_ID, CONCEPTS, CONCEPT_GROUPS, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_CONTENT, MECH_GROUPS, TOPICS, TOPIC_BY_ID, TOPIC_CONTENT, aiLinkForTour, mechOfCard } from '../src/ai/content/index'
+import { CARDS, CARD_BY_ID, CITATIONS, CONCEPTS, CONCEPT_GROUPS, CROSS_TOPICS, DOMAINS, INTRO_REFS, MECH_CONTENT, MECH_GROUPS, TOPICS, TOPIC_BY_ID, TOPIC_CONTENT, aiLinkForTour, mechOfCard } from '../src/ai/content/index'
 import { REF_BY_ID, REFS } from '../src/ai/content/refs'
 import { LABS } from '../src/ai/labs/registry'
 import { TOUR_BY_ID } from '../src/data/tours'
@@ -82,6 +82,18 @@ describe('AI correspondence content', () => {
     for (const entry of Object.values(MECH_CONTENT)) entry.refs.forEach((r) => cited.add(r))
     for (const r of cited) expect(REF_BY_ID[r], r).toBeDefined()
     for (const r of REFS) expect(cited.has(r.id), `unused ref ${r.id}`).toBe(true)
+  })
+
+  it('every reference lists at least one citing page, and each citing page exists', () => {
+    for (const r of REFS) {
+      expect(CITATIONS[r.id]?.length, r.id).toBeGreaterThan(0)
+      for (const c of CITATIONS[r.id]) {
+        const [, , kind, id] = c.href.split('/')
+        if (kind === 'topic') expect(TOPIC_CONTENT[id], c.href).toBeDefined()
+        else if (kind === 'card') expect(CARD_BY_ID[id], c.href).toBeDefined()
+        else expect(c.href).toBe('/ai')
+      }
+    }
   })
 
   it('links to labs, tours and cards resolve', () => {

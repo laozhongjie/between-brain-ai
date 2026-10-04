@@ -50,10 +50,17 @@ function DirRow({ id, no, kicker, name, desc, cols, children }: { id?: string; n
 
 export function AiHome() {
   const t = useT()
-  const stats: [number, string][] = [
-    [DOMAINS.length, t(UI.statDomains)], [WRITTEN_TOPICS().length, t(UI.statTopics)], [MECH_ORDER.length, t(UI.statMechanisms)],
-    [Object.keys(LABS).length, t(UI.statLabs)], [REFS.length, t(UI.statRefs)],
+  // each figure opens what it counts: a section of this page, or the reference list
+  const stats: [number, string, string][] = [
+    [DOMAINS.length, t(UI.statDomains), '/ai/at/domains'], [WRITTEN_TOPICS().length, t(UI.statTopics), '/ai/at/domains'],
+    [MECH_ORDER.length, t(UI.statMechanisms), '/ai/at/mechanisms'], [Object.keys(LABS).length, t(UI.statLabs), '/ai/at/labs'], [REFS.length, t(UI.statRefs), '/ai/refs'],
   ]
+  const open = (href: string) => {
+    const anchor = href.match(/^\/ai\/at\/(.+)$/)?.[1]
+    // already there: the hash would not change, so scroll directly
+    if (anchor && window.location.hash === `#${href}`) document.getElementById(sectionId(anchor))?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    else go(href)
+  }
   return (
     <article className="ai-page ai-home">
       <header className="ai-hero">
@@ -62,9 +69,11 @@ export function AiHome() {
           <p className="lead">{t(UI.aiIntro)}</p>
           <button className="btn-sm concept-entry" onClick={() => go('/ai/concepts')}><Icon name="search" size={14} />{t(UI.conceptIndex)}</button>
         </div>
-        <dl className="ai-stats">
-          {stats.map(([n, label]) => <div key={label}><dd>{pad(n)}</dd><dt>{label}</dt></div>)}
-        </dl>
+        <nav className="ai-stats">
+          {stats.map(([n, label, href]) => (
+            <button key={label} onClick={() => open(href)}><span className="ai-stat-n">{pad(n)}</span><span className="ai-stat-label">{label}</span></button>
+          ))}
+        </nav>
       </header>
 
       <h3>{t(UI.howToRead)}</h3>

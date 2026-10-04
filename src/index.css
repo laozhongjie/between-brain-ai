@@ -523,11 +523,13 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .ai-page .ai-hero .lead { margin: 0 0 16px; }
 .concept-entry { padding: 6px 14px 6px 11px; font-size: 13px; color: var(--accent); }
 .ai-stats { display: flex; margin: 0 0 4px; }
-.ai-stats > div { padding: 0 22px; border-left: 1px solid var(--panel-border); }
-.ai-stats > div:first-child { padding-left: 0; border-left: 0; }
-.ai-stats > div:last-child { padding-right: 0; }
-.ai-stats dd { margin: 0; font: 300 40px/1 var(--label); letter-spacing: 0.02em; color: var(--text-h); font-variant-numeric: tabular-nums; }
-.ai-stats dt { margin-top: 10px; font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); white-space: nowrap; }
+.ai-stats > button { display: flex; flex-direction: column; align-items: flex-start; padding: 0 22px; border: 0; border-left: 1px solid var(--panel-border); background: none; cursor: pointer; text-align: left; }
+.ai-stats > button:first-child { padding-left: 0; border-left: 0; }
+.ai-stats > button:last-child { padding-right: 0; }
+.ai-stat-n { font: 300 40px/1 var(--label); letter-spacing: 0.02em; color: var(--text-h); font-variant-numeric: tabular-nums; transition: color .2s; }
+.ai-stat-label { margin-top: 10px; font: 500 12px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-dim); white-space: nowrap; transition: color .2s; }
+.ai-stats > button:hover .ai-stat-n, .ai-stats > button:focus-visible .ai-stat-n { color: var(--accent); }
+.ai-stats > button:hover .ai-stat-label { color: var(--text); }
 .ai-page h3.dir-title { margin: 44px 0 6px; }
 .dir { border-bottom: 1px solid var(--panel-border); }
 .dir-row { display: grid; grid-template-columns: 310px minmax(0, 1fr); gap: 32px; padding: 20px 0; border-top: 1px solid var(--panel-border); }
@@ -569,7 +571,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .dir-cards[class*='cols-'] { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
   .dir-row { grid-template-columns: 1fr; gap: 12px; }
 }
-@media (max-width: 560px) { .ai-stats > div { padding: 0 12px; } .ai-stats dd { font-size: 28px; } }
+@media (max-width: 560px) { .ai-stats > button { padding: 0 12px; } .ai-stat-n { font-size: 28px; } }
 
 .rung-no { flex: none; width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-weight: 500; background: var(--accent-soft); color: var(--accent); }
 .rung-cards { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -596,6 +598,21 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 /* AI concept index: a search bar across the page, a sticky directory of areas on the left, and each area's concepts
    as cards (term, then every brain mechanism it is compared with as a row that opens its page) */
 .ai-nav .ai-nav-concepts { display: flex; align-items: center; gap: 6px; }
+.ri-letters { display: flex; flex-wrap: wrap; gap: 2px; margin: 18px 0 6px; }
+.ri-letters button { width: 30px; height: 30px; padding: 0; border: 0; border-radius: 7px; background: none; cursor: pointer; font: 400 13px/1 var(--label); color: var(--accent); transition: background .2s; }
+.ri-letters button:hover:not(:disabled) { background: var(--accent-soft); }
+.ri-letters button:disabled { color: var(--text-faint); opacity: 0.4; cursor: default; }
+.ri-group { scroll-margin-top: 12px; padding: 10px 0 6px; border-top: 1px solid var(--panel-border); display: grid; grid-template-columns: 60px minmax(0, 1fr); gap: 0 12px; }
+.ai-page .ri-letter { align-self: start; position: sticky; top: 8px; margin: 6px 0 0; font: 300 26px/1 var(--label); color: var(--accent); }
+.ri-list { list-style: none; margin: 0; padding: 0; }
+.ri-list > li { padding: 10px 0; border-bottom: 1px solid rgba(170,195,230,0.06); }
+.ri-list > li:last-child { border-bottom: 0; }
+.ai-page .ri-ref { margin: 0 0 6px; font-size: 14px; line-height: 1.55; color: var(--text); }
+.ri-ref em { color: var(--text-dim); }
+.ri-cited { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
+.ri-cited > span { font: 500 11px/1.4 var(--label); letter-spacing: 0.06em; color: var(--text-faint); margin-right: 2px; }
+.ri-cited .chip { padding: 2px 8px; font-size: 12px; border-radius: 6px; }
+@media (max-width: 560px) { .ri-group { grid-template-columns: 1fr; } }
 .ci-search { display: flex; align-items: center; gap: 12px; margin: 22px 0 0; padding: 0 18px; height: 54px; border: 1px solid var(--line-hi); border-radius: 12px; background: rgba(170,195,230,0.025); color: var(--text-dim); transition: border-color .25s, box-shadow .25s; }
 .ci-search:focus-within { border-color: var(--accent-line); box-shadow: 0 0 0 3px rgba(125,211,252,0.08); color: var(--accent); }
 .ci-search input { flex: 1; min-width: 0; height: 100%; background: none; border: 0; outline: none; color: var(--text-h); font: inherit; font-size: 15px; }

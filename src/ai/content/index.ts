@@ -77,3 +77,16 @@ export const EVIDENCE_INFO: Record<Evidence, { name: Bi; icon: string }> = {
   speculative: { name: b('推测', 'Speculative'), icon: '○' },
 }
 
+
+/** Every page that cites a reference: functional and cross-domain topics, mechanism entries, old system cards and the
+ * overview's further reading, in that order. */
+export const CITATIONS: Record<string, { href: string; name: Bi }[]> = (() => {
+  const out: Record<string, { href: string; name: Bi }[]> = {}
+  const add = (ids: string[], href: string, name: Bi) => ids.forEach((r) => { if (!(out[r] ??= []).some((c) => c.href === href)) out[r].push({ href, name }) })
+  for (const [id, page] of Object.entries(TOPIC_CONTENT)) add([...page.refs.neuro, ...page.refs.models, ...page.refs.ai], `/ai/topic/${id}`, TOPIC_BY_ID[id].name)
+  const short = (c: Card): Bi => ({ zh: c.title.zh.split(' ↔ ')[0], en: c.title.en.split(' ↔ ')[0] })
+  for (const c of MECH_ORDER) add(MECH_CONTENT[c.id]?.refs ?? [], `/ai/card/${c.id}`, short(c))
+  for (const c of CARDS) if (!MECH_CONTENT[c.id]) add(c.refs ?? [], `/ai/card/${c.id}`, short(c))
+  add(INTRO_REFS, '/ai', b('总览：延伸阅读', 'Overview: further reading'))
+  return out
+})()
