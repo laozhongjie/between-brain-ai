@@ -14,13 +14,16 @@ import { startSimulation } from './sim/loop'
 startSimulation()
 
 // Glass surfaces light up around the cursor: publish its position relative to the hovered surface
-const GLASS = '.panel, .rung, .col, .lab-section'
+const GLASS = '.panel, .rung, .col, .lab-section, .dir-card'
 document.addEventListener('pointermove', (e) => {
   const el = (e.target as Element | null)?.closest?.(GLASS) as HTMLElement | null
   if (!el) return
   const r = el.getBoundingClientRect()
   el.style.setProperty('--mx', `${e.clientX - r.left}px`)
   el.style.setProperty('--my', `${e.clientY - r.top}px`)
+  // and as a fraction of its size, for the cards that tilt toward the cursor
+  el.style.setProperty('--px', `${(e.clientX - r.left) / r.width}`)
+  el.style.setProperty('--py', `${(e.clientY - r.top) / r.height}`)
 }, { passive: true })
 
 createRoot(document.getElementById('root')!).render(
