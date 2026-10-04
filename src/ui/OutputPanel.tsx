@@ -1,3 +1,5 @@
+import { useState, type CSSProperties } from 'react'
+import { createPortal } from 'react-dom'
 import { UI, useT } from '../i18n'
 import { useScenario } from '../sim/director'
 import { engine } from '../sim/engine'
@@ -16,9 +18,27 @@ const LEVELS = [
   ['adenosine', '#9aa6b8'],
 ] as const
 
+const TIP_W = 260
+
+/**
+ * Where a level's explanation goes: beside the panel on the side with room (the panel sits in the left or
+ * the right column), or under the row when neither side has room. Fixed to the viewport and portalled to
+ * the body, since the panel's blur and scrolling would clip it.
+ */
+function tipPlace(row: HTMLElement): CSSProperties {
+  const r = row.getBoundingClientRect()
+  const panel = (row.closest('.panel') ?? row).getBoundingClientRect()
+  const gap = 12
+  const top = Math.min(Math.max(r.top + r.height / 2, 90), innerHeight - 90)
+  if (innerWidth - panel.right >= TIP_W + gap * 2) return { left: panel.right + gap, top, '--dx': '-6px' } as CSSProperties
+  if (panel.left >= TIP_W + gap * 2) return { left: panel.left - gap - TIP_W, top, '--dx': '6px' } as CSSProperties
+  return { left: Math.max(gap, Math.min(r.left, innerWidth - TIP_W - gap)), top: r.bottom + 6, transform: 'none' }
+}
+
 export function OutputPanel() {
   const t = useT()
   useTicker(100)
+  const [tip, setTip] = useState<{ k: (typeof LEVELS)[number][0]; color: string; style: CSSProperties } | null>(null)
   const { speech, action, body } = useScenario()
   const st = engine.state
   const stage = st.stage
@@ -56,12 +76,23 @@ export function OutputPanel() {
       <h3>{t(UI.modulators)}</h3>
       <ul className="levels">
         {LEVELS.map(([k, color]) => (
-          <li key={k} style={{ '--c': color } as React.CSSProperties}>
+          <li
+            key={k} style={{ '--c': color } as React.CSSProperties} tabIndex={0} aria-describedby={tip?.k === k ? 'level-tip' : undefined}
+            onMouseEnter={(e) => setTip({ k, color, style: tipPlace(e.currentTarget) })} onMouseLeave={() => setTip(null)}
+            onFocus={(e) => setTip({ k, color, style: tipPlace(e.currentTarget) })} onBlur={() => setTip(null)}
+          >
             <span className={k === 'adenosine' ? 'adenosine-label' : undefined}>{t(UI[k])}</span>
             <div className="bar"><div style={{ width: `${(st.levels[k] * 100).toFixed(0)}%` }} /></div>
           </li>
         ))}
       </ul>
+      {tip && createPortal(
+        <div id="level-tip" role="tooltip" key={tip.k} className="level-tip" style={{ ...tip.style, '--c': tip.color } as CSSProperties}>
+          <strong>{t(UI[tip.k]).replace('\n', ' ')}</strong>
+          <p>{t(UI[`${tip.k}Info`])}</p>
+        </div>,
+        document.body,
+      )}
     </aside>
   )
 }
