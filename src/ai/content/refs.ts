@@ -508,6 +508,20 @@ export const REFS: Ref[] = [
   { id: 'daubechies2004', authors: 'Daubechies, I., Defrise, M. & De Mol, C.', year: 2004, title: 'An iterative thresholding algorithm for linear inverse problems with a sparsity constraint', venue: 'Communications on Pure and Applied Mathematics 57(11), 1413–1457', url: doi('10.1002/cpa.20042') },
   { id: 'cunningham2023', authors: 'Cunningham, H., Ewart, A., Riggs, L., Huben, R. & Sharkey, L.', year: 2023, title: 'Sparse autoencoders find highly interpretable features in language models', venue: 'arXiv (ICLR 2024)', url: arxiv('2309.08600') },
   { id: 'li2022lazy', authors: 'Li, Z. et al.', year: 2022, title: 'The lazy neuron phenomenon: on emergence of activation sparsity in transformers', venue: 'arXiv (ICLR 2023)', url: arxiv('2210.06313') },
+  // ── Mechanism entries: structure and support ──
+  { id: 'chklovskii2004', authors: 'Chklovskii, D. B., Mel, B. W. & Svoboda, K.', year: 2004, title: 'Cortical rewiring and information storage', venue: 'Nature 431, 782–788', url: doi('10.1038/nature03012') },
+  { id: 'stepanyants2002', authors: 'Stepanyants, A., Hof, P. R. & Chklovskii, D. B.', year: 2002, title: 'Geometry and structural plasticity of synaptic connectivity', venue: 'Neuron 34(2), 275–288', url: doi('10.1016/S0896-6273(02)00652-9') },
+  { id: 'holtmaat2005', authors: 'Holtmaat, A. J. G. D. et al.', year: 2005, title: 'Transient and persistent dendritic spines in the neocortex in vivo', venue: 'Neuron 45(2), 279–291', url: doi('10.1016/j.neuron.2005.01.003') },
+  { id: 'hayashitakagi2015', authors: 'Hayashi-Takagi, A. et al.', year: 2015, title: 'Labelling and optical erasure of synaptic memory traces in the motor cortex', venue: 'Nature 525, 333–338', url: doi('10.1038/nature15257') },
+  { id: 'xu2009', authors: 'Xu, T. et al.', year: 2009, title: 'Rapid formation and selective stabilization of synapses for enduring motor memories', venue: 'Nature 462, 915–919', url: doi('10.1038/nature08389') },
+  { id: 'mocanu2018', authors: 'Mocanu, D. C. et al.', year: 2018, title: 'Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science', venue: 'Nature Communications 9, 2383', url: doi('10.1038/s41467-018-04316-3') },
+  { id: 'evci2020', authors: 'Evci, U., Gale, T., Menick, J., Castro, P. S. & Elsen, E.', year: 2020, title: 'Rigging the lottery: making all tickets winners', venue: 'ICML 2020', url: arxiv('1911.11134') },
+  { id: 'schafer2012', authors: 'Schafer, D. P. et al.', year: 2012, title: 'Microglia sculpt postnatal neural circuits in an activity and complement-dependent manner', venue: 'Neuron 74(4), 691–705', url: doi('10.1016/j.neuron.2012.03.026') },
+  { id: 'bushong2002', authors: 'Bushong, E. A., Martone, M. E., Jones, Y. Z. & Ellisman, M. H.', year: 2002, title: 'Protoplasmic astrocytes in CA1 stratum radiatum occupy separate anatomical domains', venue: 'Journal of Neuroscience 22(1), 183–192', url: doi('10.1523/JNEUROSCI.22-01-00183.2002') },
+  { id: 'fiacco2018', authors: 'Fiacco, T. A. & McCarthy, K. D.', year: 2018, title: 'Multiple lines of evidence indicate that gliotransmission does not occur under physiological conditions', venue: 'Journal of Neuroscience 38(1), 3–13', url: doi('10.1523/JNEUROSCI.0016-17.2017') },
+  { id: 'mckenzie2014', authors: 'McKenzie, I. A. et al.', year: 2014, title: 'Motor skill learning requires active central myelination', venue: 'Science 346(6207), 318–322', url: doi('10.1126/science.1254960') },
+  { id: 'fields2015', authors: 'Fields, R. D.', year: 2015, title: 'A new mechanism of nervous system plasticity: activity-dependent myelination', venue: 'Nature Reviews Neuroscience 16, 756–767', url: doi('10.1038/nrn4023') },
+  { id: 'kozachkov2023', authors: 'Kozachkov, L., Kastanenka, K. V. & Krotov, D.', year: 2023, title: 'Building transformers from neurons and astrocytes', venue: 'PNAS 120(34), e2219150120', url: doi('10.1073/pnas.2219150120') },
 ]
 
 export const REF_BY_ID: Record<string, Ref> = Object.fromEntries(REFS.map((r) => [r.id, r]))

@@ -2,6 +2,7 @@ import type { MechFigs } from '../types'
 import { ATTRACTOR_FIGS } from './attractors'
 import { EI_FIGS, EXPANSION_FIGS, NORM_FIGS, PREDICTIVE_FIGS, SPARSE_FIGS } from './circuits'
 import { DENDRITE_FIGS, NEURON_MODEL_FIGS, NOISE_FIGS, SPIKE_FIGS } from './neurons'
+import { GLIA_FIGS, STRUCTURAL_FIGS } from './structure'
 import { CONSOLIDATION_FIGS, STDP_FIGS, STP_FIGS, SYNAPSE_WEIGHT_FIGS, THREE_FACTOR_FIGS } from './synapses'
 
 /** Figures of the mechanism entries, keyed by card id. */
@@ -21,4 +22,6 @@ export const MECH_FIGS: Record<string, MechFigs> = {
   'feedback-predictive': PREDICTIVE_FIGS,
   expansion: EXPANSION_FIGS,
   'energy-sparsity': SPARSE_FIGS,
+  'structural-plasticity': STRUCTURAL_FIGS,
+  glia: GLIA_FIGS,
 }

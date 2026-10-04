@@ -8,10 +8,11 @@ import { FIGS, MECH_FIGS, TOPIC_FIGS } from '../src/ai/figs'
 import { CARD_GUIDES } from '../src/ai/content/guides'
 
 describe('AI correspondence content', () => {
-  it('every card has a complete bilingual guide without orphaned entries', () => {
-    expect(Object.keys(CARD_GUIDES).sort()).toEqual(CARDS.map((card) => card.id).sort())
-    for (const card of CARDS) {
-      const guide = card.guide
+  it('every old system card has a complete bilingual guide, and every mechanism card an entry', () => {
+    expect(Object.keys(CARD_GUIDES).sort()).toEqual(CARDS.filter((c) => !MECH_CONTENT[c.id]).map((card) => card.id).sort())
+    for (const c of CARDS.filter((card) => card.layer <= 3)) expect(MECH_CONTENT[c.id], c.id).toBeDefined()
+    for (const card of CARDS.filter((c) => !MECH_CONTENT[c.id])) {
+      const guide = card.guide!
       expect(guide, card.id).toBeDefined()
       expect(guide.comparisons.length, card.id).toBeGreaterThanOrEqual(2)
       const fields = [guide.answer, guide.scope, guide.boundary, ...guide.comparisons.flatMap((row) => [row.dimension, row.brain, row.ai])]
@@ -78,7 +79,7 @@ describe('AI correspondence content', () => {
 
   it('every cited reference exists and every reference is cited', () => {
     const cited = new Set<string>(INTRO_REFS)
-    for (const c of CARDS) c.refs.forEach((r) => cited.add(r))
+    for (const c of CARDS) (c.refs ?? []).forEach((r) => cited.add(r))
     for (const page of Object.values(TOPIC_CONTENT)) [...page.refs.neuro, ...page.refs.models, ...page.refs.ai].forEach((r) => cited.add(r))
     for (const entry of Object.values(MECH_CONTENT)) entry.refs.forEach((r) => cited.add(r))
     for (const r of cited) expect(REF_BY_ID[r], r).toBeDefined()
@@ -94,8 +95,8 @@ describe('AI correspondence content', () => {
     for (const id of Object.keys(TOUR_BY_ID)) expect(aiLinkForTour(id), id).toBeDefined()
   })
 
-  it('every card has a brain-structure figure and an AI-architecture figure', () => {
-    for (const c of CARDS) {
+  it('every old system card has a brain-structure figure and an AI-architecture figure', () => {
+    for (const c of CARDS.filter((card) => !MECH_CONTENT[card.id])) {
       const f = FIGS[c.id]
       expect(f, c.id).toBeDefined()
       expect(f.brain && f.ai && f.brainCap.zh && f.aiCap.en, c.id).toBeTruthy()

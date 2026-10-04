@@ -143,15 +143,16 @@ export interface CardMechanism {
   id: string
   layer: Layer
   title: Bi
-  /** what the brain does */
-  brain: Bi
+  /** what the brain does (old system cards; mechanism entries keep their text in MECH_CONTENT) */
+  brain?: Bi
   brainMath?: Formula[]
   /** the closest AI counterpart(s) */
-  ai: Bi
+  ai?: Bi
   aiMath?: Formula[]
   kinds: Kind[]
   evidence: Evidence
-  refs: string[]
+  /** references of an old system card; mechanism entries list theirs in MECH_CONTENT */
+  refs?: string[]
   /** interactive lab id */
   lab?: string
   /** atlas functional-system tour id (layer 4) */
@@ -159,7 +160,8 @@ export interface CardMechanism {
 }
 
 export interface Card extends CardMechanism {
-  guide: CardGuide
+  /** old system cards only */
+  guide?: CardGuide
 }
 
 /** An equation on a topic page, taught step by step. */

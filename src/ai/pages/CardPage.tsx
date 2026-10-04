@@ -65,7 +65,7 @@ function ReviewTable({ rows, systems, gap }: { rows: { dimension: Bi; brain: Bi;
 
 function ReviewCardContent({ card, figs }: { card: Card; figs?: import('../figs/types').FigPair }) {
   const t = useT()
-  const review = card.guide.review!
+  const review = card.guide!.review!
   return (
     <>
       <section aria-labelledby="card-capabilities-title">
@@ -102,12 +102,12 @@ function ReviewCardContent({ card, figs }: { card: Card; figs?: import('../figs/
         <div className="two-col review-mechanisms">
           <section className="col brain-col">
             <h3>{t(review.systems.biological)}</h3>
-            <p><Rich text={t(card.brain)} /></p>
+            {card.brain && <p><Rich text={t(card.brain)} /></p>}
             <Formulas list={card.brainMath} />
           </section>
           <section className="col ai-col">
             <h3>{t(review.systems.computational)}</h3>
-            <p><Rich text={t(card.ai)} /></p>
+            {card.ai && <p><Rich text={t(card.ai)} /></p>}
             <Formulas list={card.aiMath} />
           </section>
         </div>
@@ -125,10 +125,10 @@ function ReviewCardContent({ card, figs }: { card: Card; figs?: import('../figs/
   )
 }
 
-/** Lean template for mechanism entries (and old system cards until they are rewritten). */
+/** The old card layout, still used by the system cards that topic pages have not replaced. */
 function MechanismContent({ card, figs }: { card: Card; figs?: import('../figs/types').FigPair }) {
   const t = useT()
-  const guide = card.guide
+  const guide = card.guide!
   // The two sides are named in the title: "biological ↔ computational"
   const [bioName, compName] = splitComparison(t(card.title))
   const left = bioName ?? t(UI.secBrain)
@@ -141,13 +141,13 @@ function MechanismContent({ card, figs }: { card: Card; figs?: import('../figs/t
           <section className="col brain-col">
             <h3><Icon name="brain" /><Rich text={left} /></h3>
             {figs && <Figure Fig={figs.brain} cap={figs.brainCap} />}
-            <p><Rich text={t(card.brain)} /></p>
+            {card.brain && <p><Rich text={t(card.brain)} /></p>}
             <Formulas list={card.brainMath} />
           </section>
           <section className="col ai-col">
             <h3><Icon name="cpu" /><Rich text={right} /></h3>
             {figs && <Figure Fig={figs.ai} cap={figs.aiCap} />}
-            <p><Rich text={t(card.ai)} /></p>
+            {card.ai && <p><Rich text={t(card.ai)} /></p>}
             <Formulas list={card.aiMath} />
           </section>
         </div>
@@ -304,13 +304,13 @@ export function CardPage({ card }: { card: Card }) {
       <h1><ComparisonText text={t(card.title)} /></h1>
       {!place.group && <p className="card-note legacy-note">{t(UI.legacyNote)}</p>}
       <div className="card-intro">
-        {guide.review ? (
+        {guide?.review ? (
           <>
             <span className="card-kicker">{t(UI.secThesis)}</span>
             <h2>{t(guide.review.thesis)}</h2>
           </>
         ) : (
-          <p className="lead"><Rich text={t(entry ? entry.definition : guide.answer)} /></p>
+          <p className="lead"><Rich text={t(entry ? entry.definition : guide!.answer)} /></p>
         )}
       </div>
       <div className="card-badges">
@@ -327,7 +327,7 @@ export function CardPage({ card }: { card: Card }) {
         )}
       </div>
       {entry ? <MechEntryContent card={card} entry={entry} figs={MECH_FIGS[card.id]} />
-        : guide.review ? <ReviewCardContent card={card} figs={figs} /> : <MechanismContent card={card} figs={figs} />}
+        : guide?.review ? <ReviewCardContent card={card} figs={figs} /> : <MechanismContent card={card} figs={figs} />}
 
       {Lab && (
         <section className="lab-section">
@@ -355,7 +355,7 @@ export function CardPage({ card }: { card: Card }) {
 
       <section>
         <h2><Icon name="library" />{t(UI.secRefs)}</h2>
-        <RefList ids={entry ? entry.refs : card.refs} />
+        <RefList ids={entry ? entry.refs : card.refs ?? []} />
       </section>
 
       {place.group && (

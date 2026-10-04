@@ -31,7 +31,7 @@ describe('mechanism entries', () => {
         for (const text of texts) for (const part of plain(text[lang])) expect(html, part).toContain(escaped(part))
         // the old two-column comparison is gone
         expect(html).not.toContain('<table class="card-comparison">')
-        expect(html).not.toContain(escaped(card.guide.boundary[lang]))
+        
         // the mechanism figure (or its pending frame) and any equation figures
         const figs = MECH_FIGS[id]
         expect(html.match(/<svg[^>]*class="fig-svg"/g) ?? []).toHaveLength((figs?.mech ? 1 : 0) + Object.keys(figs?.math ?? {}).length)
@@ -49,8 +49,8 @@ describe('bilingual comparison cards', () => {
       it(`renders paired comparisons: ${card.id} / ${lang}`, () => {
         language.current = lang
         const html = renderToStaticMarkup(createElement(CardPage, { card }))
-        if (card.guide.review) {
-          const review = card.guide.review
+        if (card.guide!.review) {
+          const review = card.guide!.review
           expect(html).toContain(escaped(review.thesis[lang]))
           expect(html).toContain(escaped(review.systems.biological[lang]))
           expect(html).toContain(escaped(review.systems.computational[lang]))
@@ -62,21 +62,21 @@ describe('bilingual comparison cards', () => {
           for (const text of [review.limits.biological, review.limits.computational, review.limits.evidence]) expect(html).toContain(escaped(text[lang]))
           expect(html).toContain(escaped(UI.secArchitecture[lang]))
         } else {
-          expect(html).toContain(escaped(card.guide.answer[lang]))
+          expect(html).toContain(escaped(card.guide!.answer[lang]))
           const table = html.match(/<table class="card-comparison">(.*?)<\/table>/)?.[1]
           expect(table).toBeDefined()
           const rows = [...table!.matchAll(/<tr>(.*?)<\/tr>/g)].slice(1).map((match) => match[1])
-          expect(rows).toHaveLength(card.guide.comparisons.length)
-          card.guide.comparisons.forEach((row, index) => {
+          expect(rows).toHaveLength(card.guide!.comparisons.length)
+          card.guide!.comparisons.forEach((row, index) => {
             expect(rows[index]).toContain('scope="row"')
             expect(rows[index]).toContain(escaped(row.dimension[lang]))
             expect(rows[index]).toContain(escaped(row.brain[lang]))
             expect(rows[index]).toContain(escaped(row.ai[lang]))
           })
-          expect(html).toContain(escaped(card.guide.boundary[lang]))
+          expect(html).toContain(escaped(card.guide!.boundary[lang]))
           // the old teaching-style sections are gone
-          for (const text of card.guide.experiments.map((idea) => idea.title)) expect(html).not.toContain(escaped(text[lang]))
-          expect(html).not.toContain(escaped(card.guide.borrow[lang]))
+          for (const text of card.guide!.experiments.map((idea) => idea.title)) expect(html).not.toContain(escaped(text[lang]))
+          expect(html).not.toContain(escaped(card.guide!.borrow[lang]))
         }
         const formulaGroups = [card.brainMath, card.aiMath].filter((group) => group?.length).length
         expect(html.match(/<div class="card-math">/g) ?? []).toHaveLength(formulaGroups)
