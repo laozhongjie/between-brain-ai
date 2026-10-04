@@ -131,12 +131,12 @@ export function Timeline() {
   return (
     <div className={`panel timeline ${outline ? 'has-tab' : ''}`} ref={panel}>
       {outline && (
-        // Same glass as the panels: the outline clips a backdrop blur and is filled with the panel tint
+        // Clear glass, no blur: the outline is filled with a translucent dark tint (like the level tips)
         <svg className="tl-shape" style={{ top: outline.top, width: outline.w, height: outline.h, clipPath: `path('${outline.d}')` }} viewBox={`0 0 ${outline.w} ${outline.h}`} aria-hidden>
           <defs>
             <linearGradient id="tl-glass" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="rgb(150,175,210)" stopOpacity="0.035" />
-              <stop offset="1" stopColor="rgb(150,175,210)" stopOpacity="0.012" />
+              <stop offset="0" stopColor="rgb(16,22,33)" stopOpacity="0.62" />
+              <stop offset="1" stopColor="rgb(10,14,22)" stopOpacity="0.62" />
             </linearGradient>
           </defs>
           <path d={outline.d} />
