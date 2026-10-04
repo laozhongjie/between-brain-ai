@@ -9,6 +9,8 @@ import { Legend, RefList } from './common'
 import { Icon } from '../../ui/Icon'
 
 const pad = (n: number) => String(n).padStart(2, '0')
+/** The element id of an overview section, the target of a directory title (see AiSection). */
+export const sectionId = (anchor: string) => `ai-sec-${anchor}`
 
 /** A directory card: a title, then the brain and / or AI system it pairs (a coloured dot each) or a line of
  * description. Opens its page, or shows that it is still being written. */
@@ -33,9 +35,9 @@ function DirCard({ title, kicker, brain, ai, desc, status, href }: {
 }
 
 /** One row of a directory: its name on the left, its cards filling the rest of the width (or `cols` equal columns). */
-function DirRow({ no, kicker, name, desc, cols, children }: { no?: string; kicker?: string; name: string; desc?: string; cols?: number; children: ReactNode }) {
+function DirRow({ id, no, kicker, name, desc, cols, children }: { id?: string; no?: string; kicker?: string; name: string; desc?: string; cols?: number; children: ReactNode }) {
   return (
-    <section className="dir-row">
+    <section className="dir-row" id={id && sectionId(id)}>
       <header className="dir-head">
         {(no || kicker) && <span className="dir-no">{no ?? kicker}</span>}
         <h2>{name}</h2>
@@ -68,10 +70,10 @@ export function AiHome() {
       <h3>{t(UI.howToRead)}</h3>
       <Legend />
 
-      <h3 className="dir-title">{t(UI.functionalDomains)}</h3>
+      <h3 className="dir-title" id={sectionId('domains')}>{t(UI.functionalDomains)}</h3>
       <div className="dir">
         {DOMAINS.map((domain, i) => (
-          <DirRow key={domain.id} no={pad(i + 1)} name={t(domain.name)} desc={t(domain.desc)}>
+          <DirRow key={domain.id} id={domain.id} no={pad(i + 1)} name={t(domain.name)} desc={t(domain.desc)}>
             {topicsOfDomain(domain).map((topic) => {
               const href = topicHref(topic)
               return (
@@ -83,12 +85,12 @@ export function AiHome() {
         ))}
       </div>
 
-      <h3 className="dir-title">{t(UI.scaleIndex)}</h3>
+      <h3 className="dir-title" id={sectionId('mechanisms')}>{t(UI.scaleIndex)}</h3>
       <p className="section-note">{t(UI.scaleIndexIntro)}</p>
       <div className="dir">
         {MECH_GROUPS.map((g) => (
           // one row per group, one column per entry, so every row is filled
-          <DirRow key={g.id} name={t(g.name)} desc={t(g.desc)} cols={g.cards.length}>
+          <DirRow key={g.id} id={g.id} name={t(g.name)} desc={t(g.desc)} cols={g.cards.length}>
             {g.cards.map((id) => {
               const [brain, ai] = splitComparison(t(CARD_BY_ID[id].title))
               return <DirCard key={id} href={`/ai/card/${id}`} kicker={mechCode(id)} title={<Rich text={brain} />} ai={ai} />
@@ -97,7 +99,7 @@ export function AiHome() {
         ))}
       </div>
 
-      <h3 className="dir-title">{t(UI.crossCuttingTopics)}</h3>
+      <h3 className="dir-title" id={sectionId('cross')}>{t(UI.crossCuttingTopics)}</h3>
       <div className="dir-cards wide">
         {CROSS_TOPICS.map((x) => {
           const href = crossHref(x)
@@ -105,7 +107,7 @@ export function AiHome() {
         })}
       </div>
 
-      <h3 className="dir-title">{t(UI.labs)}</h3>
+      <h3 className="dir-title" id={sectionId('labs')}>{t(UI.labs)}</h3>
       <div className="dir-cards wide">
         {Object.entries(LABS).map(([id, lab]) => (
           <DirCard key={id} href={`/ai/lab/${id}`} kicker={<Icon name="flask" size={14} />} title={<Rich text={t(lab.title).replace(/^(实验：|Lab: )/, '')} />} />

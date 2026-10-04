@@ -488,7 +488,11 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .ai-nav-layer-title { font-size: 11px; letter-spacing: 0.05em; color: var(--accent); margin: 0 0 3px 8px; }
 .ai-nav-domain { margin: 8px 0 10px; }
 .ai-nav-domain-title { margin: 0 0 2px 8px; color: var(--text-h); font-size: 11px; }
-.ai-nav-domain button { padding-left: 16px; font-size: 12px; }
+.ai-nav-domain button:not(.ai-nav-domain-title) { padding-left: 16px; font-size: 12px; }
+/* section and group titles jump to their part of the overview */
+.ai-nav button.ai-nav-layer-title { margin: 0 0 1px; padding: 3px 8px; font-size: 11.5px; letter-spacing: 0.05em; color: var(--accent); }
+.ai-nav button.ai-nav-domain-title { margin: 0 0 1px; padding: 3px 8px; font-size: 11px; color: var(--text-h); }
+.ai-nav button.ai-nav-layer-title:hover, .ai-nav button.ai-nav-domain-title:hover { color: var(--accent); background: rgba(170,195,230,0.06); }
 .ai-main { position: absolute; inset: 0; overflow-y: auto; padding: 18px 48px 60px; }
 .ai-page { max-width: 1180px; margin: 0 auto; }
 /* Type in this section: light Jost / MiSans titles (as the landing page's Brain / AI); body 15, secondary 13, labels 12 */
