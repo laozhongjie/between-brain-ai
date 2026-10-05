@@ -1427,3 +1427,24 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
 
 /* top bar brand links home */
 .brand h1 { cursor: pointer; }
+
+@media (max-width: 760px) {
+  .topbar { top: 10px; left: 12px; right: 12px; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 4px 6px; z-index: 10; }
+  .topbar .brand, .topbar .top-actions { display: contents; }
+  .topbar h1 { order: 1; flex: none; }
+  .topbar .nav-tabs { order: 2; margin-left: 0; }
+  .topbar .lang { order: 3; margin-left: auto; }
+  .atlas .topbar::after { content: ''; order: 4; flex-basis: 100%; }
+  .topbar .view-toggle { order: 5; margin-right: auto; }
+  .topbar .mobile-toggle { order: 6; width: 32px; height: 32px; }
+  .topbar :is(.nav-tabs, .view-toggle, .lang) button { padding: 4px 10px; font-size: 12px; letter-spacing: 0; }
+  .atlas .systems.compact { top: 90px; }
+  .atlas .left-col { top: 138px; }
+  .ai-section { top: 52px; }
+  .ai-drawer-tab { top: 64px; }
+}
+
+@media (max-width: 519px) {
+  .topbar .wordmark { display: none; }
+  .topbar :is(.nav-tabs, .view-toggle, .lang) button { padding-inline: 8px; }
+}
