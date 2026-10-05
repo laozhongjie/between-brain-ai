@@ -37,12 +37,16 @@ const SMOOTH_MS = 110 // the stage eases toward the scroll position, so mouse-wh
 const CTA_LINES = ['between what we understand', 'and what we can build']
 
 /** Hero geometry from the stage size: disc radius and how far out the two labels sit. */
-const heroGeom = (w: number, h: number) => ({
-  r: Math.round(Math.max(38, Math.min(70, Math.min(w, h) * 0.075))),
-  d: Math.round(Math.max(150, Math.min(440, w * 0.29))),
-  w,
-  h,
-})
+const heroGeom = (w: number, h: number) => {
+  // Portrait opening keeps the two labels closer to the centre seam; the panels stack only after the disc opens.
+  const portrait = h > w
+  return {
+    r: Math.round(Math.max(38, Math.min(70, Math.min(w, h) * 0.075))),
+    d: Math.round(portrait ? Math.max(96, Math.min(180, h * 0.23)) : Math.max(150, Math.min(440, w * 0.29))),
+    w,
+    h,
+  }
+}
 
 function Mark() {
   return (
