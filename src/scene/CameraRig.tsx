@@ -18,19 +18,23 @@ export function CameraRig() {
   const selected = useStore((s) => s.selected)
   const resetTick = useStore((s) => s.resetTick)
   const aspect = useThree((s) => s.size.width / s.size.height)
+  const size = useThree((s) => s.size)
+  const camera = useThree((s) => s.camera)
+  const mobile = size.width <= 760
   const focus = useStore((s) => s.focus)
 
   useEffect(() => {
     const c = ref.current
     if (!c) return
     // On narrow (portrait) screens back off so the whole brain fits horizontally
-    const dist = Math.max(HOME_DIST, 0.95 / (Math.tan((20 * Math.PI) / 180) * aspect))
+    const framedAspect = mobile ? (camera as THREE.PerspectiveCamera).aspect : aspect
+    const dist = Math.max(mobile ? 3.2 : HOME_DIST, 0.95 / (Math.tan((20 * Math.PI) / 180) * framedAspect))
     const p = BRAIN_CENTER.clone().addScaledVector(HOME_DIR, dist)
     c.setLookAt(p.x, p.y, p.z, BRAIN_CENTER.x, BRAIN_CENTER.y, BRAIN_CENTER.z, resetTick > 0)
     // Portrait: lift the brain above the bottom panels
-    c.setFocalOffset(0, aspect < 0.8 ? 0.12 * dist : 0, 0, resetTick > 0)
+    c.setFocalOffset(0, !mobile && aspect < 0.8 ? 0.12 * dist : 0, 0, resetTick > 0)
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-home on reset, not on every resize
-  }, [resetTick])
+  }, [resetTick, mobile, mobile ? size.width : 0, mobile ? size.height : 0])
 
   useEffect(() => {
     const c = ref.current
@@ -64,7 +68,8 @@ export function CameraRig() {
     if (!pts.length) return
     const center = pts.reduce((a, p) => a.add(p), new THREE.Vector3()).divideScalar(pts.length)
     const r = Math.max(0.35, ...pts.map((p) => p.distanceTo(center))) + 0.15
-    const halfFov = Math.atan(Math.tan((20 * Math.PI) / 180) * Math.min(1, aspect))
+    const framedAspect = mobile ? (camera as THREE.PerspectiveCamera).aspect : aspect
+    const halfFov = Math.atan(Math.tan((20 * Math.PI) / 180) * Math.min(1, framedAspect))
     const dir = c.camera.position.clone().sub(center).normalize()
     const p = center.clone().addScaledVector(dir, (1.5 * r) / Math.sin(halfFov))
     c.setLookAt(p.x, p.y, p.z, center.x, center.y, center.z, true)

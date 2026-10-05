@@ -35,7 +35,7 @@ function tipPlace(row: HTMLElement): CSSProperties {
   return { left: Math.max(gap, Math.min(r.left, innerWidth - TIP_W - gap)), top: r.bottom + 6, transform: 'none' }
 }
 
-export function OutputPanel() {
+export function OutputPanel({ onClose }: { onClose?: () => void }) {
   const t = useT()
   useTicker(100)
   const [tip, setTip] = useState<{ k: (typeof LEVELS)[number][0]; color: string; style: CSSProperties } | null>(null)
@@ -48,6 +48,7 @@ export function OutputPanel() {
 
   return (
     <aside className="panel output-panel">
+      {onClose && <button className="icon-btn drawer-close" onClick={onClose} aria-label={t(UI.close)}><Icon name="x" /></button>}
       <header className="output-head">
         <h3>{t(UI.output)}</h3>
         <span className={`stage-chip stage-${stage}`}>{t(stageLabel)}</span>

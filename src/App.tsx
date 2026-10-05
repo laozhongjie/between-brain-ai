@@ -1,5 +1,5 @@
 import { useProgress } from '@react-three/drei'
-import { Suspense, lazy, useEffect, useState, useSyncExternalStore } from 'react'
+import { Suspense, lazy, useEffect, useLayoutEffect, useState, useSyncExternalStore } from 'react'
 import { TAGLINES, UI, useT } from './i18n'
 import { go, useRoute } from './route'
 import { Schematic } from './schematic/Schematic'
@@ -50,6 +50,14 @@ const subscribeWide = (cb: () => void) => {
 }
 const useWide = () => useSyncExternalStore(subscribeWide, () => matchMedia(WIDE).matches)
 
+const MOBILE = '(max-width: 760px)'
+const subscribeMobile = (callback: () => void) => {
+  const media = matchMedia(MOBILE)
+  media.addEventListener('change', callback)
+  return () => media.removeEventListener('change', callback)
+}
+const useMobile = () => useSyncExternalStore(subscribeMobile, () => matchMedia(MOBILE).matches)
+
 function Loader() {
   const t = useT()
   const { active, progress } = useProgress()
@@ -75,8 +83,22 @@ export default function App() {
   const route = useRoute()
   // Desktop 3D: body & outputs join the narration on the left, the view controls take the right column
   const swap = useWide() && viewMode === '3d'
+  const mobile = useMobile()
   // #/ → landing page, #/atlas → the atlas, #/ai/… → the Brain ↔ AI section
   const section = route[0] === 'ai' ? 'ai' : route[0] === 'atlas' ? 'atlas' : 'home'
+  useLayoutEffect(() => {
+    const app = document.querySelector<HTMLElement>('.atlas')
+    const bottom = app?.querySelector('.bottom')
+    if (!mobile || !app || !bottom) return
+    const measure = () => app.style.setProperty('--mobile-bottom', `${app.getBoundingClientRect().bottom - bottom.getBoundingClientRect().top + 8}px`)
+    const observer = new ResizeObserver(measure)
+    observer.observe(bottom)
+    observer.observe(app)
+    measure()
+    return () => { observer.disconnect(); app.style.removeProperty('--mobile-bottom') }
+  }, [mobile, section, focus])
+
+  const closePanel = mobile ? () => setPanel('none') : undefined
 
   const topbar = (
     <header className="topbar">
@@ -96,8 +118,8 @@ export default function App() {
               <button className={viewMode === '3d' ? 'on' : ''} onClick={() => setViewMode('3d')}>{t(UI.view3d)}</button>
               <button className={viewMode === 'schematic' ? 'on' : ''} onClick={() => setViewMode('schematic')}>{t(UI.viewSchematic)}</button>
             </div>
-            <button className="mobile-toggle" onClick={() => toggle('controls')} aria-label={t(UI.view)}><Icon name="sliders" /></button>
-            <button className="mobile-toggle" onClick={() => toggle('output')} aria-label={t(UI.output)}><Icon name="activity" /></button>
+            <button className="mobile-toggle" onClick={() => toggle('controls')} aria-label={t(UI.view)} aria-expanded={panel === 'controls'}><Icon name="sliders" /></button>
+            <button className="mobile-toggle" onClick={() => toggle('output')} aria-label={t(UI.output)} aria-expanded={panel === 'output'}><Icon name="activity" /></button>
           </>
         )}
         <div className="seg lang">
@@ -148,15 +170,16 @@ export default function App() {
       <div className="left-col">
         {/* the narration takes the left column, mirroring the output panel; in 3D it shares it with the
             output panel (desktop) or the view controls (small screens, toggled from the top bar) */}
-        {swap ? <OutputPanel /> : viewMode === '3d' && <Controls />}
-        {selected ? <RegionPanel /> : <Narration />}
+        {swap ? <OutputPanel /> : viewMode === '3d' && <Controls onClose={closePanel} />}
+        {selected && !mobile ? <RegionPanel /> : <Narration />}
+        {selected && mobile && <RegionPanel />}
       </div>
       <div className="right-col">
-        {swap ? <Controls /> : <OutputPanel />}
+        {swap ? <Controls /> : <OutputPanel onClose={closePanel} />}
       </div>
       <div className="bottom">
         {focus ? <FocusPanel /> : <Timeline />}
-        <footer className="hint">{t(viewMode === '3d' ? UI.hint : UI.hintSchematic)} · {t(UI.disclaimer)}</footer>
+        <footer className="hint"><span>{t(mobile ? viewMode === '3d' ? UI.hintTouch : UI.hintSchematicTouch : viewMode === '3d' ? UI.hint : UI.hintSchematic)}</span>{mobile ? <span>{t(UI.disclaimer)}</span> : <> · {t(UI.disclaimer)}</>}</footer>
       </div>
     </div>
   )

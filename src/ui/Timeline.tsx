@@ -5,6 +5,7 @@ import { DAY_START, EVENTS, director, useScenario } from '../sim/director'
 import { onFrame } from '../sim/loop'
 import { DecodeText } from './DecodeText'
 import { Icon } from './Icon'
+import { eventLanes } from './timelineLayout'
 
 const SPEEDS = [1, 2, 4]
 const pct = (tl: number) => `${(tl / 1440) * 100}%`
@@ -102,6 +103,17 @@ export function Timeline() {
   /** the time axis: the track minus a half-height inset at each rounded end */
   const span = useRef<HTMLDivElement>(null)
   const marks = useRef<(HTMLButtonElement | null)[]>([])
+  const [mobileWidth, setMobileWidth] = useState(0)
+  useLayoutEffect(() => {
+    const element = span.current!
+    const measure = () => setMobileWidth(matchMedia('(max-width: 760px)').matches ? element.clientWidth : 0)
+    const observer = new ResizeObserver(measure)
+    observer.observe(element)
+    measure()
+    return () => observer.disconnect()
+  }, [])
+  const lanes = mobileWidth ? eventLanes(EVENTS.map(event => event.tl), mobileWidth) : []
+  const rows = lanes.length ? Math.max(...lanes) + 1 : 1
 
   // Playhead, fill and marker hits follow the director every frame (the React state is throttled)
   useEffect(() => {
@@ -161,6 +173,7 @@ export function Timeline() {
       </div>
       <div
         className="tl-bar"
+        style={mobileWidth ? { height: `${rows * 24 + 4}px` } : undefined}
         ref={bar}
         onPointerDown={(e) => {
           e.currentTarget.setPointerCapture(e.pointerId)
@@ -174,15 +187,15 @@ export function Timeline() {
           <div className="tl-fill" ref={fill} />
         </div>
         <div className="tl-span" ref={span}>
-        {hours.map((h) => (
-          <span key={h} className="tl-hour" style={{ left: pct(h) }}>{fmtClock(DAY_START + h)}</span>
+        {hours.map((h, index) => (
+          <span key={h} className={`tl-hour ${index % 2 ? 'minor' : ''}`} style={{ left: pct(h) }}>{fmtClock(DAY_START + h)}</span>
         ))}
         {EVENTS.map((e, i) => (
           <button
             key={e.index}
             ref={(el) => { marks.current[i] = el }}
             className={`tl-event ${current === e.index ? 'on' : ''}`}
-            style={{ left: pct(e.tl), marginTop: crowded(i) ? (i % 2 ? -15 : 15) : 0 }}
+            style={{ left: pct(e.tl), marginTop: mobileWidth ? (lanes[i] - (rows - 1) / 2) * 24 : crowded(i) ? (i % 2 ? -15 : 15) : 0 }}
             title={`${DAY[e.index].time} ${t(DAY[e.index].title)}`}
             onPointerDown={(x) => {
               x.stopPropagation()

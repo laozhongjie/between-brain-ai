@@ -29,19 +29,27 @@ function FrameAboveTimeline() {
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera
   const size = useThree((s) => s.size)
   const gl = useThree((s) => s.gl)
+  const focus = useStore((s) => s.focus)
   useLayoutEffect(() => {
-    const bottom = document.querySelector('.atlas .bottom')?.getBoundingClientRect()
-    const top = gl.domElement.getBoundingClientRect().top
-    const h = size.width > 1100 && bottom ? Math.max(240, Math.min(size.height, bottom.top - top)) : size.height
-    if (h < size.height) {
-      camera.aspect = size.width / h
-      camera.setViewOffset(size.width, h, 0, 0, size.width, size.height)
-    } else {
-      camera.aspect = size.width / size.height
-      camera.clearViewOffset()
+    const app = document.querySelector('.atlas')
+    const bottom = app?.querySelector('.bottom')
+    const narration = app?.querySelector('.narration')
+    const picker = app?.querySelector('.systems.compact')
+    const measure = () => {
+      const top = gl.domElement.getBoundingClientRect().top
+      const mobile = size.width <= 760
+      const start = mobile ? Math.max(narration?.getBoundingClientRect().bottom ?? 0, picker?.getBoundingClientRect().bottom ?? 0) - top + 8 : 0
+      const end = (size.width > 1100 || mobile) && bottom ? Math.min(size.height, bottom.getBoundingClientRect().top - top - (mobile ? 8 : 0)) : size.height
+      const height = Math.max(mobile ? 100 : 240, end - start)
+      if (height < size.height) camera.setViewOffset(size.width, height, 0, -start, size.width, size.height)
+      else { camera.aspect = size.width / size.height; camera.clearViewOffset() }
+      camera.updateProjectionMatrix()
     }
-    camera.updateProjectionMatrix()
-  }, [camera, size, gl])
+    const observer = new ResizeObserver(measure)
+    for (const element of [bottom, narration, picker]) if (element) observer.observe(element)
+    measure()
+    return () => observer.disconnect()
+  }, [camera, size, gl, focus])
   return null
 }
 

@@ -78,6 +78,7 @@ export function Schematic() {
     const el = box.current!
     const fit = () => {
       if (!el.clientWidth || !el.clientHeight) return
+      if (matchMedia('(max-width: 760px)').matches) { setK(1); return }
       const target = (W * el.clientHeight) / el.clientWidth // viewBox height matching the panel's aspect
       const next = Math.round(Math.min(1.8, Math.max(1, (target - 30) / (BASE_H - 30))) * 50) / 50
       setK(next)
@@ -201,12 +202,19 @@ export function Schematic() {
     }
     // Narrow screens start zoomed in on the input side; users pan/pinch from there
     const home = () => {
+      if (matchMedia('(max-width: 760px)').matches) {
+        Object.assign(vb, { x: 0, y: 0, w: H * panel.clientWidth / Math.max(1, panel.clientHeight), h: H })
+        commit()
+        return
+      }
       const narrow = el.clientWidth < 600
       Object.assign(vb, narrow ? { x: 0, y: 30, w: W / 2.2, h: H / 2.2 } : { x: 0, y: 0, w: W, h: H })
       commit()
     }
     const reset = home
     home()
+    const resize = new ResizeObserver(() => { if (matchMedia('(max-width: 760px)').matches) home() })
+    resize.observe(panel)
     el.addEventListener('wheel', onWheel, { passive: false })
     el.addEventListener('pointerdown', onDown)
     window.addEventListener('pointermove', onMove)
@@ -214,6 +222,7 @@ export function Schematic() {
     window.addEventListener('pointercancel', onUp)
     el.addEventListener('dblclick', reset)
     return () => {
+      resize.disconnect()
       el.removeEventListener('wheel', onWheel)
       el.removeEventListener('pointerdown', onDown)
       window.removeEventListener('pointermove', onMove)

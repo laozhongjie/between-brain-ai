@@ -22,7 +22,7 @@ const CLIPS: [ClipAxis, keyof typeof UI][] = [
   ['axial', 'clipAxial'],
 ]
 
-export function Controls() {
+export function Controls({ onClose }: { onClose?: () => void }) {
   const t = useT()
   const view = useStore((s) => s.view)
   const setView = useStore((s) => s.setView)
@@ -30,6 +30,7 @@ export function Controls() {
 
   return (
     <div className="panel controls">
+      {onClose && <button className="icon-btn drawer-close" onClick={onClose} aria-label={t(UI.close)}><Icon name="x" /></button>}
       <h3>{t(UI.view)}</h3>
       <label className="row">
         <span>{t(UI.cortexOpacity)}</span>

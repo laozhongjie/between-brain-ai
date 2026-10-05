@@ -45,6 +45,8 @@ export const UI = {
   legend: b('图例', 'Legend'),
   hint: b('左键拖动平移 · 右键拖动旋转 · 滚轮缩放 · 双击空白复位 · 点击脑区查看详情', 'Left-drag to pan · right-drag to rotate · scroll to zoom · double-click empty space to reset · click a region for details'),
   hintSchematic: b('拖动平移 · 滚轮缩放 · 双击复位 · 点击节点查看详情', 'Drag to pan · scroll to zoom · double-click to reset · click a node for details'),
+  hintTouch: b('单指旋转 · 双指缩放 · 点脑区查看详情', 'One finger to rotate · pinch to zoom · tap a region'),
+  hintSchematicTouch: b('单指平移 · 双指缩放 · 双击复位', 'Drag to pan · pinch to zoom · double-tap to reset'),
   disclaimer: b('教学用示意性模拟，并非经过验证的科研模型。', 'Illustrative teaching simulation, not a validated research model.'),
   close: b('关闭', 'Close'),
   loading: b('正在加载大脑模型…', 'Loading brain model…'),
