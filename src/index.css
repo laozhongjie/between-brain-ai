@@ -1448,3 +1448,25 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   .topbar .wordmark { display: none; }
   .topbar :is(.nav-tabs, .view-toggle, .lang) button { padding-inline: 8px; }
 }
+
+@media (max-width: 760px) {
+  .ai-page { min-width: 0; overflow-wrap: anywhere; }
+  .ai-page .btn-sm { max-width: 100%; white-space: normal; text-align: left; }
+  .ai-page .btn-sm svg { flex: none; }
+  .ai-page .comparison-join { left: 0; top: 0; }
+  .ai-mode .ai-page .dir-row { grid-template-columns: minmax(0, 1fr); }
+  .ai-page :is(.duel-side, .mech-arch > *, .formula-card, .arch-stack, .lab-controls > *) { min-width: 0; max-width: 100%; }
+  .fig-slider { grid-template-columns: minmax(0, 1fr) minmax(80px, 1fr); gap: 6px 10px; }
+  .fig-slider output { grid-column: 1 / -1; min-width: 0; width: 100%; white-space: normal; overflow-wrap: anywhere; }
+  .fig-slider output > span { min-width: 0; max-width: 100%; }
+  .ai-page .formula { min-width: 0; max-width: 100%; }
+  .ai-page .tex { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; mask-image: linear-gradient(to right, #000 calc(100% - 16px), transparent); }
+  .ai-page .tex .katex-display { width: max-content; min-width: 100%; padding-right: 16px; }
+  .ai-page .formula-measure .tex { max-width: none; overflow: visible; mask-image: none; }
+  .ai-page .formula-measure .katex-display { padding-right: 0; }
+  .ai-page .symbols { display: block; max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
+  :root:lang(zh) .ai-page :is(.duel-side, .arch-notes li, .formula-fig figcaption) { text-align: left; }
+  .lab-slider { width: 100%; grid-template-columns: minmax(80px, 1fr) auto; }
+  .lab-slider > span { grid-column: 1 / -1; }
+  .lab-seg { flex-wrap: wrap; }
+}

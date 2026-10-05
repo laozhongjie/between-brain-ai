@@ -1,8 +1,16 @@
 import type { CSSProperties, ReactNode } from 'react'
+import { useSyncExternalStore } from 'react'
 import { Rich } from '../Tex'
 import { FONT_MONO } from '../../theme'
 import { C } from './kit'
 import type { Side } from './grammar'
+
+const LANDSCAPE_PHONE = '(min-width: 761px) and (max-width: 900px) and (max-height: 560px)'
+const subscribeLandscape = (callback: () => void) => {
+  const media = matchMedia(LANDSCAPE_PHONE)
+  media.addEventListener('change', callback)
+  return () => media.removeEventListener('change', callback)
+}
 
 /* Plot grammar for the figures beside equations: they show what an equation computes (a curve, a time course, a
  * distribution), drawn from the equation itself with the numbers of the card's worked example.
@@ -160,12 +168,13 @@ export function Vec({ x1, y1, x2, y2, color, width = 1.6, opacity = 1, dashed }:
 export function FigSlider({ label, value, min, max, step, onChange, readout, widest = [] }: {
   label: string; value: number; min: number; max: number; step: number; onChange: (v: number) => void; readout: string; widest?: string[]
 }) {
+  const landscape = useSyncExternalStore(subscribeLandscape, () => matchMedia(LANDSCAPE_PHONE).matches, () => false)
   return (
-    <label className="fig-slider">
+    <label className="fig-slider" style={landscape ? { gridTemplateColumns: 'minmax(0, 1fr) minmax(80px, 1fr)' } : undefined}>
       <span><Rich text={label} /></span>
       <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(+e.target.value)}
         style={{ '--v': `${((value - min) / (max - min)) * 100}%` } as CSSProperties} />
-      <output>
+      <output style={landscape ? { gridColumn: '1 / -1', minWidth: 0, whiteSpace: 'normal' } : undefined}>
         {widest.map((w, i) => <span key={i} className="fig-slider-sizer" aria-hidden="true"><Rich text={w} /></span>)}
         <span><Rich text={readout} /></span>
       </output>
