@@ -46,10 +46,11 @@ export function HomeAI() {
 
       // geometry: the network sits in the middle of the panel
       // while the disc opens the network hugs the slit (this panel's left edge), then settles in the middle
-      const shift = (1 - homeState.open) * w * 0.3
+      const portrait = matchMedia('(max-width: 760px) and (orientation: portrait)').matches
+      const shift = portrait ? 0 : (1 - homeState.open) * w * 0.3
       const x0 = w * 0.2 - shift
       const x1 = w * 0.8 - shift
-      const cy = h * 0.5
+      const cy = h * 0.5 - (portrait ? (1 - homeState.open) * h * 0.4 : 0)
       const span = Math.min(h * 0.46, w * 0.62)
       const px = (l: number) => x0 + ((x1 - x0) * l) / (LAYERS.length - 1)
       const py = (l: number, i: number) => cy + (i - (LAYERS[l] - 1) / 2) * (span / 8)

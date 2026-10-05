@@ -14,8 +14,10 @@ function OrbitCamera() {
   const s = useRef({ az: -2.1, dist: 4.6 }).current
   useFrame(({ camera, size }, dt) => {
     const ch = CHAPTERS[Math.max(0, homeState.chapter)]
+    const portrait = matchMedia('(max-width: 760px) and (orientation: portrait)').matches
+    const distance = portrait ? Math.max(ch.dist * 0.9, 0.95 / (Math.tan(17 * Math.PI / 180) * Math.min(1, size.width / size.height))) : ch.dist
     s.az += dt * 0.12
-    s.dist += (ch.dist - s.dist) * Math.min(1, dt * 1.6)
+    s.dist += (distance - s.dist) * Math.min(1, dt * 1.6)
     const el = 0.28
     camera.position.set(
       BRAIN_CENTER.x + s.dist * Math.cos(el) * Math.sin(s.az),
@@ -24,9 +26,9 @@ function OrbitCamera() {
     )
     camera.lookAt(BRAIN_CENTER)
     // While the disc opens, keep the brain near the slit (right edge of this panel) so it shows through
-    const shift = (1 - homeState.open) * size.width * 0.42
+    const shift = (1 - homeState.open) * (portrait ? size.height : size.width) * 0.42
     const cam = camera as THREE.PerspectiveCamera
-    cam.setViewOffset(size.width, size.height, -shift, 0, size.width, size.height)
+    cam.setViewOffset(size.width, size.height, portrait ? 0 : -shift, portrait ? -shift - size.height * 0.04 * homeState.open : 0, size.width, size.height)
     cam.updateProjectionMatrix()
   })
   return null

@@ -38,11 +38,10 @@ const CTA_LINES = ['between what we understand', 'and what we can build']
 
 /** Hero geometry from the stage size: disc radius and how far out the two labels sit. */
 const heroGeom = (w: number, h: number) => {
-  // Portrait opening keeps the two labels closer to the centre seam; the panels stack only after the disc opens.
-  const portrait = h > w
+  const portrait = w <= 760 && h > w
   return {
     r: Math.round(Math.max(38, Math.min(70, Math.min(w, h) * 0.075))),
-    d: Math.round(portrait ? Math.max(96, Math.min(180, h * 0.23)) : Math.max(150, Math.min(440, w * 0.29))),
+    d: Math.round(portrait ? w * 0.24 : Math.max(150, Math.min(440, w * 0.29))),
     w,
     h,
   }
@@ -185,12 +184,15 @@ export function Home() {
       const fill = 1 - clamp((p - FILL[0]) / (FILL[1] - FILL[0]))
       const open = ease(clamp((p - OPEN[0]) / (OPEN[1] - OPEN[0])))
       const g = heroGeom(st.clientWidth, st.clientHeight)
+      const portrait = st.clientWidth <= 760 && st.clientHeight > st.clientWidth
       const cover = Math.hypot(st.clientWidth / 2, st.clientHeight / 2) + PANEL_GAP
       const cta = clamp((p - CTA) / CTA_RAMP)
       for (const el of [sc, st]) el.style.setProperty('--hero', h.toFixed(3))
       st.style.setProperty('--fill', fill.toFixed(3))
       st.style.setProperty('--reveal', (1 - fill).toFixed(3))
       st.style.setProperty('--open', open.toFixed(3))
+      if (portrait) st.style.setProperty('--disc-angle', `${-90 * (1 - ease(clamp((p - at(3)) / at(17))))}deg`)
+      else st.style.removeProperty('--disc-angle')
       st.style.setProperty('--half-gap', `${g.r * MARK_GAP_RATIO * (1 - open) + PANEL_GAP / 2 * open}px`)
       st.style.setProperty('--r', `${(g.r + open * open * (cover - g.r)).toFixed(1)}px`)
       st.style.setProperty('--cta', cta.toFixed(3))

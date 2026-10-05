@@ -1522,20 +1522,25 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   .home-half, .hero-fill { left: 0; right: 0; width: auto; height: calc(50% - var(--half-gap)); }
   .home-half.left, .hero-fill.left { top: 0; bottom: auto; clip-path: circle(var(--r) at 50% calc(100% + var(--half-gap))); }
   .home-half.right, .hero-fill.right { top: auto; bottom: 0; clip-path: circle(var(--r) at 50% calc(0px - var(--half-gap))); }
-  .hero-fill.left { animation-name: fill-in-t; }
-  .hero-fill.right { animation-name: fill-in-b; }
-  @keyframes fill-in-t { from { transform: translateY(-46px); opacity: 0; filter: blur(6px); } }
-  @keyframes fill-in-b { from { transform: translateY(46px); opacity: 0; filter: blur(6px); } }
+  .hero-fill { animation: none; transform: rotate(var(--disc-angle, -90deg)); }
+  .hero-fill.left { transform-origin: 50% calc(100% + var(--half-gap)); }
+  .hero-fill.right { transform-origin: 50% calc(0px - var(--half-gap)); }
   .home-caption { bottom: 22px; padding-inline: 18px; }
   .home-caption p { min-height: 1.6em; }
   .home-chapter { top: 58px; width: calc(100% - 32px); }
-  .home-steps { right: 8px; bottom: 24px; top: auto; transform: none; }
-  .hero-label.left { right: auto !important; left: 18px; top: 28% !important; align-items: flex-start; text-align: left; }
-  .hero-label.right { left: auto !important; right: 18px; top: 66% !important; align-items: flex-end; text-align: right; }
-  .hero-copy { top: 46% !important; }
+  .home-steps { right: 0; left: 0; bottom: 6px; top: auto; transform: none; flex-direction: row; justify-content: center; gap: 14px; }
+  .home-steps button { padding-block: 4px; }
+  .home-steps button::before { width: 8px; }
+  .home-steps button.on::before { width: 12px; }
   .hero-foot.right { right: 14px; bottom: 18px; padding-right: 0; font-size: 9px; }
   .hero-foot.right::after { display: none; }
   .home-head { padding-inline: 14px; }
   .home-head-r { gap: 8px; }
   .home-head-r .home-explore { font-size: 10px; letter-spacing: .1em; }
+  .home-head .lang button { padding: 5px 10px; font-size: 12px; }
+  .home-head .wordmark { font-size: 14px; }
+  .hero-lede { font-size: 12px; }
+  .hero-lede.zh { font-size: 11px; letter-spacing: .16em; }
+  .home-cta { padding-inline: 16px; }
+  .cta-line { font-size: clamp(20px, 6vw, 26px); }
 }
