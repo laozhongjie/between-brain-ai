@@ -1491,9 +1491,17 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   .atlas .region-panel { overflow-wrap: anywhere; }
   .atlas .bottom { left: 12px; right: 12px; bottom: max(6px, env(safe-area-inset-bottom)); gap: 6px; }
   .atlas .timeline { padding: 10px 12px; border-radius: 18px; }
-  .atlas .tl-controls { gap: 6px; }
+  /* clock at the left, speed at the right, previous / play / next centred between (equal side columns) */
+  .atlas .tl-controls { display: grid; grid-template-columns: 1fr auto auto auto 1fr; align-items: center; gap: 6px 4px; }
+  .atlas .tl-controls > * { grid-row: 1; align-self: center; }
+  .atlas .tl-controls > .icon-btn:first-child { grid-column: 2; }
+  .atlas .tl-controls > .play-btn { grid-column: 3; }
+  .atlas .tl-controls > .icon-btn:nth-child(3) { grid-column: 4; }
+  .atlas .tl-controls > .seg { grid-column: 5; justify-self: end; }
+  .atlas .tl-controls > .clock { grid-column: 1; justify-self: start; }
+  .atlas .tl-controls > .tl-title { grid-row: 2; grid-column: 1 / -1; }
   .atlas .tl-controls .seg button { padding-inline: 8px; font-size: 12px; }
-  .atlas .clock { margin-left: auto; font-size: 20px; }
+  .atlas .clock { margin-left: 0; font-size: 20px; }
   .atlas .play-btn { width: 32px; height: 32px; }
   .atlas .tl-title { flex-basis: 100%; min-width: 0; font-size: 12px; }
   .atlas .tl-title > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
