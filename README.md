@@ -31,7 +31,7 @@
   <img src="https://img.shields.io/badge/React-19-61dafb?style=flat-square&labelColor=0b1019" alt="React 19">
   <img src="https://img.shields.io/badge/three.js-r186-ffffff?style=flat-square&labelColor=0b1019" alt="three.js r186">
   <img src="https://img.shields.io/badge/TypeScript-6-7dd3fc?style=flat-square&labelColor=0b1019" alt="TypeScript 6">
-  <img src="https://img.shields.io/badge/references-386%2C%20machine--checked-5ee0b5?style=flat-square&labelColor=0b1019" alt="386 references, machine-checked">
+  <img src="https://img.shields.io/badge/references-471%2C%20machine--checked-5ee0b5?style=flat-square&labelColor=0b1019" alt="471 references, machine-checked">
   <img src="https://img.shields.io/badge/UI-中文%20%2F%20English-a9b4f5?style=flat-square&labelColor=0b1019" alt="Chinese and English UI">
 </p>
 
@@ -53,29 +53,28 @@ BETWEEN is a client-side web application for studying how biological and artific
 | Section | What it is | Route |
 | --- | --- | --- |
 | **Brain atlas** | A live neural-mass simulation of the whole brain, shown as a 3D anatomical model or as a 2D circuit schematic, driven by a narrated day in the life | `#/atlas` |
-| **Brain & AI** | A comparison library: each topic sets one biological system against one computational system, with matched architecture diagrams, equations, limits and evidence levels | `#/ai` |
+| **Brain & AI** | A comparison library: each topic sets one biological system against one computational system, with architecture diagrams, equations, limits and evidence levels | `#/ai` |
 
-Every page is available in Chinese and English, every formula is typeset with KaTeX, and every scientific claim in the comparison library points to a reference whose DOI or arXiv identifier is verified automatically.
+The landing page (`#/`) opens the split-disc mark into the two worlds and steps through five chapters, one scroll, swipe or key press per chapter. Every page is available in Chinese and English and works on desktop and phones, every formula is typeset with KaTeX, and every scientific claim in the comparison library points to a reference whose DOI or arXiv identifier is verified automatically.
 
 ### At a glance
 
 | | |
 | --- | --- |
 | Functional domains / topics | **9** domains, **26** written topic pages |
-| Mechanism index | **9** groups, **17** mechanism cards, from synapses to circuits |
-| Cross-domain topics | **3**, including sleep, resource limits and a whole-agent blueprint |
-| Agent blueprint | **14** modules, each describing the brain's solution, today's AI, the gap and a coverage rating |
+| Mechanism index | **17** entries (M01 to M17) in **5** groups by what the mechanism computes, from synapses to circuits |
+| Cross-domain topics | **3**: sleep and offline processing, efficiency and physical resources, a blueprint for a humanlike agent |
 | AI concept index | **72** AI terms (attention, KV cache, RAG, RLHF, …) mapped back to brain mechanisms |
-| Interactive labs | **5**: neuron models, dendritic XOR, STDP, short-term plasticity, three-factor learning |
-| References | **386**, identifiers checked against Crossref and arXiv |
+| Interactive labs | **5**, inside their mechanism entries: neuron models, dendritic XOR, STDP, short-term plasticity, three-factor learning |
+| References | **471**, in a searchable reference index, identifiers checked against Crossref and arXiv |
 | Simulation graph | **118** nodes, **63** pathway definitions (**111** directed pathways after expanding hemispheres) |
 | Guided content | **11** system tours, a **17**-event narrated day |
 
 ## Brain atlas
 
-<p align="center"><img src="docs/screenshots/atlas-3d.jpg" alt="3D brain atlas at 07:04: the alarm event sends pulses along auditory and motor pathways while the body panel reports heart rate and neuromodulator levels"></p>
+<p align="center"><img src="docs/screenshots/atlas-3d.jpg" alt="3D brain atlas at 07:03: the alarm event sends pulses along auditory and motor pathways while the body panel reports heart rate and neuromodulator levels"></p>
 
-<p align="center"><sub>3D anatomy at 07:04, as the alarm goes off: pulses run along the auditory and motor pathways, the body panel tracks heart rate, breathing and neuromodulators.</sub></p>
+<p align="center"><sub>3D anatomy at 07:03, as the alarm goes off: pulses run along the auditory and motor pathways, the body panel tracks heart rate, breathing and neuromodulators.</sub></p>
 
 <p align="center"><img src="docs/screenshots/schematic.jpg" alt="2D schematic: senses on the left, the brain's processing loop in the middle grouped into functional lanes, body outputs on the right"></p>
 
@@ -87,6 +86,7 @@ Every page is available in Chinese and English, every formula is typeset with Ka
 - **Focus mode.** Eleven tours (vision, hearing, touch, movement, language, memory, fear, reward, homeostasis, sleep, attention) isolate one system and walk through it step by step.
 - **Controls.** Cortex opacity, hemisphere separation, sagittal / coronal / axial sections, anatomy or function colouring, layer toggles, playback speed and a clickable timeline.
 - **Schematic.** Every edge is routed orthogonally (feedforward into a node's left edge, feedback along the bottom) and a test audits each route so that no line crosses a node.
+- **Phones.** The brain is framed between the narration and the timeline, the view controls and body panel open as drawers from the top bar, the timeline becomes a thin scrubber of event dots, and the scene follows touch (one finger rotates, two fingers zoom).
 
 ## Brain & AI
 
@@ -96,7 +96,7 @@ Each topic page follows the same structure, so any two topics can be read the sa
 
 1. **Core finding.** One paragraph per side and the key gap between them.
 2. **Capabilities.** A face-off on concrete dimensions; a tint marks the side that does better on each.
-3. **Architecture and information flow.** Two matched diagrams with numbered steps that line up across the columns.
+3. **Architecture and information flow.** Each system as a diagram beside its numbered steps, the brain first, then the AI system, with a shared legend for feedforward, feedback and memory access.
 4. **Mathematical models.** The governing equations, a symbol table, worked examples and, where useful, an interactive figure.
 5. **Limits and popular claims.** What each side cannot do, and common claims checked against the evidence.
 6. **Evidence.** Grouped references, each correspondence labelled by type (behaviour, representation, algorithm, math, implementation) and by evidence level (established, debated, speculative).
@@ -108,7 +108,7 @@ Each topic page follows the same structure, so any two topics can be read the sa
   </tr>
   <tr>
     <td align="center"><sub>Core finding and capability face-off</sub></td>
-    <td align="center"><sub>Matched architecture diagrams</sub></td>
+    <td align="center"><sub>Architecture: diagram beside numbered steps</sub></td>
   </tr>
 </table>
 
@@ -116,17 +116,37 @@ Each topic page follows the same structure, so any two topics can be read the sa
 
 <p align="center"><sub>A model card: equation, symbols, an interactive tuning curve and a worked example.</sub></p>
 
+The seventeen **mechanism entries** (connections and transmission, learning rules, single neurons, circuit computations, population codes) use a leaner template: a definition with its scale and timescale, a figure with numbered steps, the closest computational counterpart, the equations with small simulations behind the worked examples, the conditions under which it holds, and the topics where it does its work. Equations another page already teaches are linked rather than repeated, and the five interactive labs live inside the entries they illustrate. A **reference index** (`#/ai/refs`) lists every source and where it is cited.
+
 ### Routes
 
 ```text
-#/ai                       overview and directories
-#/ai/concepts              searchable AI concept index
-#/ai/topic/:id             functional topic page
-#/ai/card/:id              mechanism card
-#/ai/blueprint             whole-agent blueprint
-#/ai/blueprint/:moduleId   selected blueprint module
-#/ai/lab/:id               interactive lab
+#/ai                 overview and directories
+#/ai/at/:section     overview scrolled to a domain, group or section
+#/ai/topic/:id       functional or cross-domain topic page
+#/ai/card/:id        mechanism entry
+#/ai/concepts        searchable AI concept index
+#/ai/refs            reference index
+#/ai/blueprint       the humanlike agent blueprint (topic X03)
+#/ai/lab/:id         the mechanism entry that holds this lab, at the lab
 ```
+
+## On phones
+
+<table>
+  <tr>
+    <td width="33%"><img src="docs/screenshots/phone-home.jpg" alt="Landing page on a phone: the first chapter, between synapses and weights, with the brain window above and the AI network below"></td>
+    <td width="33%"><img src="docs/screenshots/phone-atlas.jpg" alt="3D atlas on a phone: narration above the brain, playback controls and a thin event timeline below"></td>
+    <td width="33%"><img src="docs/screenshots/phone-ai.jpg" alt="Topic page on a phone: core findings for the ventral and dorsal streams and for CNNs and ViTs, stacked"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Landing page: brain above, AI below</sub></td>
+    <td align="center"><sub>3D atlas with a thin event timeline</sub></td>
+    <td align="center"><sub>Topic pages stack their two sides</sub></td>
+  </tr>
+</table>
+
+On a portrait phone the landing page's mark turns a quarter and opens into a brain window above an AI window. The atlas keeps both views, with drawers for the view controls and body panel; the Brain & AI pages stack their two columns, scroll wide formulas sideways and keep the directory in a drawer at the left edge.
 
 ## Architecture
 
@@ -225,14 +245,15 @@ npm run compress-model
 BETWEEN 是一个中英双语的交互式图谱，把大脑和当前的 AI 系统放在一起对照。
 
 - **大脑图谱**：基于 FreeSurfer `fsaverage` 的 3D 大脑和同一网络的 2D 电路示意图，共用一个实时运行的 Wilson–Cowan 神经质量模型。一天的剧本从黎明前的梦境开始，事件触发通路上的信号脉冲，旁白逐条解释正在发生什么；11 个系统导览可以单独查看视觉、听觉、记忆、恐惧等系统。
-- **大脑与 AI**：9 个功能领域、26 个功能主题，每个主题把一个具体的生物系统和一个具体的计算系统逐项对照，包括核心结论、能力对照、架构与信息流、数学模型、局限与常见误读、证据等级。另有机制索引、72 个 AI 概念的反查入口、类人智能体蓝图和 5 个交互实验。全部 386 条参考文献的 DOI / arXiv 编号由脚本自动核验。
+- **大脑与 AI**：9 个功能领域、26 个功能主题，每个主题把一个具体的生物系统和一个具体的计算系统逐项对照，包括核心结论、能力对照、架构与信息流、数学模型、局限与常见误读、证据等级。另有 17 个机制条目（5 个交互实验嵌在其中）、3 个综合专题（含类人智能体蓝图）、72 个 AI 概念的反查入口和文献索引。全部 471 条参考文献的 DOI / arXiv 编号由脚本自动核验。
+- **首页与手机**：首页从分裂圆盘商标展开，一次滚动或滑动翻一章。网站适配手机竖屏：首页改为上下两个窗口，图谱的面板改为抽屉，时间轴变成细长的进度条。
 
 在线访问：<https://laozhongjie.github.io/between-brain-ai/>
 
 ## Credits and licences
 
 - **Brain data:** FreeSurfer `fsaverage` via MNE-Python, under the [FreeSurfer Software License](https://surfer.nmr.mgh.harvard.edu/fswiki/FreeSurferSoftwareLicense). Check its terms before commercial use.
-- **Fonts:** [Inter](https://rsms.me/inter/), [Jost](https://indestructibletype.com/Jost.html), [JetBrains Mono](https://www.jetbrains.com/lp/mono/) and [Noto Serif SC](https://fonts.google.com/noto/specimen/Noto+Serif+SC) under the SIL Open Font License; [MiSans](https://hyperos.mi.com/font/) under the MiSans Font IP License Agreement.
+- **Fonts:** [Inter](https://rsms.me/inter/), [Jost](https://indestructibletype.com/Jost.html) and [JetBrains Mono](https://www.jetbrains.com/lp/mono/) under the SIL Open Font License; [MiSans](https://hyperos.mi.com/font/) under the MiSans Font IP License Agreement.
 - **Icons:** [lucide](https://lucide.dev) (ISC).
 
 <br>
