@@ -14,25 +14,29 @@ const MARK_GAP_RATIO = 0.11
 const clamp = (x: number) => Math.max(0, Math.min(1, x))
 const ease = (x: number) => x * x * (3 - 2 * x)
 
-// Scroll timeline, laid out in vh of scroll distance and used as fractions of it. Each chapter gets about
-// one and a half screens, so a light trackpad flick does not carry past it.
-const OPENING_VH = 211
-const CHAPTER_VH = 153
-const CLOSING_VH = 66
-const SCROLL_VH = OPENING_VH + CHAPTERS.length * CHAPTER_VH + CLOSING_VH // the track is this plus one screen
-const at = (vh: number) => vh / SCROLL_VH
-const HERO_END = at(59) // the hero's labels, lines and wordmark fade away
-const FILL = [at(13), at(86)] // the white disc turns into a window onto brain | AI
-const OPEN = [at(20), at(OPENING_VH)] // the disc grows until it fills the screen
-const CH = [at(OPENING_VH), at(OPENING_VH + CHAPTERS.length * CHAPTER_VH)] // five chapters
-const CTA = CH[1] // closing call to action
-const CTA_RAMP = at(46)
-const chapterAt = (i: number) => CH[0] + ((i + 0.5) / CHAPTERS.length) * (CH[1] - CH[0])
-/** Where the arrow keys step: the top, each chapter's centre, the closing view. */
-const KEY_STOPS = [0, ...CHAPTERS.map((_, i) => chapterAt(i)), 1]
-// ease-out: the glide answers the key press at once and settles softly
-const easeOut = (k: number, n: number) => 1 - (1 - k) ** n
-const SMOOTH_MS = 110 // the stage eases toward the scroll position, so mouse-wheel steps glide like a trackpad
+// The page moves in steps: the mark, the five chapters, the closing view. One wheel gesture, swipe or key
+// press moves one step, starting on the next frame; the rest of that gesture (trackpad momentum included)
+// is ignored, so a strong flick never carries past a chapter. The opening (the mark growing into the first
+// chapter) and the closing view are timed tweens; between chapters the switch is immediate and the text
+// and camera animate themselves.
+// Opening choreography, as fractions of the opening (o = 0 the mark, 1 the first chapter)
+const OPENING = 211 // the opening's length in the units below
+const op = (x: number) => x / OPENING
+const HERO_END = op(59) // the hero's labels, lines and wordmark fade away
+const FILL = [op(13), op(86)] // the white disc turns into a window onto brain | AI
+const OPEN = [op(20), 1] // the disc grows until it fills the screen
+const DISC_TURN = [op(3), op(20)] // portrait: the mark turns a quarter so its halves stack
+const CHAPTER_SHOW = 0.82 // the chapter's title and captions come in this far through the opening
+const OPEN_MS = 2600
+const CLOSE_MS = 1900
+const CTA_MS = 1100
+// ease-out: moves on the first frame and settles softly
+const easeOut = (k: number) => 1 - (1 - k) ** 2
+const GESTURE_GAP = 120 // ms without wheel events that end a wheel gesture
+const STEP_COOLDOWN = 250 // ms after a step before rising or reversed deltas can count as a new swipe
+const TOUCH_SLOP = 12 // px a finger moves before a touch counts as a swipe
+/** Steps: -1 the mark, 0 … n-1 the chapters, n the closing view. */
+const LAST = CHAPTERS.length
 /** Closing headline, one entry per line; its words rise in one after another (see .cta-word). */
 const CTA_LINES = ['between what we understand', 'and what we can build']
 
@@ -161,58 +165,138 @@ export function Home() {
   const setLang = useStore((s) => s.setLang)
   const scroller = useRef<HTMLDivElement>(null)
   const stage = useRef<HTMLDivElement>(null)
-  const keyGlide = useRef(false) // an arrow-key glide is already smooth: the stage follows it without easing
   const [chapter, setChapter] = useState(-1)
   const [geom, setGeom] = useState(() => heroGeom(window.innerWidth, window.innerHeight))
+  // set by the effect below: jump to a chapter, or back to the mark
+  const nav = useRef({ toChapter: (_i: number) => {}, toTop: () => {} })
 
-  // Scroll drives CSS variables directly (no re-render per frame); only the chapter index is React state
+  // Steps and tweens drive CSS variables directly (no re-render per frame); only the chapter index is React state
   useEffect(() => {
     const sc = scroller.current!
     const st = stage.current!
     let raf = 0
-    let p = -1 // displayed progress; -1 until the first frame, which jumps straight to the scroll position
-    let last = 0
+    /** A value eased toward a target over a fixed time; retargeting starts from where it is. */
+    const tween = (v: number) => ({ v, from: v, to: v, t0: 0, dur: 0 })
+    const o = tween(0) // opening
+    const cta = tween(0) // closing view
+    let step = -1
+    let chapterIdx = 0
+    const aim = (tw: ReturnType<typeof tween>, to: number, ms: number) => {
+      if (tw.to === to) return
+      Object.assign(tw, { from: tw.v, to, t0: performance.now(), dur: ms * Math.abs(to - tw.v) })
+    }
+    const advance = (tw: ReturnType<typeof tween>, now: number) => {
+      const k = tw.dur > 0 ? clamp((now - tw.t0) / tw.dur) : 1
+      tw.v = tw.from + (tw.to - tw.from) * easeOut(k)
+      return k < 1
+    }
+    const kick = () => { if (!raf) raf = requestAnimationFrame(update) }
+    const goTo = (k: number) => {
+      step = Math.max(-1, Math.min(LAST, k))
+      if (step >= 0 && step < LAST) chapterIdx = step
+      if (step < 0) chapterIdx = 0
+      aim(o, step < 0 ? 0 : 1, o.to === 1 && step < 0 ? CLOSE_MS : OPEN_MS)
+      aim(cta, step === LAST ? 1 : 0, CTA_MS)
+      kick()
+    }
+
     const update = (now: number) => {
       raf = 0
-      const max = sc.scrollHeight - sc.clientHeight
-      const target = max > 0 ? sc.scrollTop / max : 0
-      const dt = last ? Math.min(64, Math.max(0, now - last)) : 16
-      p = p < 0 || keyGlide.current ? target : p + (target - p) * (1 - Math.exp(-dt / SMOOTH_MS))
-      if (Math.abs(target - p) < 1e-4) p = target
-      last = p === target ? 0 : now
-      const h = clamp(p / HERO_END)
-      const fill = 1 - clamp((p - FILL[0]) / (FILL[1] - FILL[0]))
-      const open = ease(clamp((p - OPEN[0]) / (OPEN[1] - OPEN[0])))
+      const moving = [advance(o, now), advance(cta, now)].some(Boolean)
+      const h = clamp(o.v / HERO_END)
+      const fill = 1 - clamp((o.v - FILL[0]) / (FILL[1] - FILL[0]))
+      const open = ease(clamp((o.v - OPEN[0]) / (OPEN[1] - OPEN[0])))
       const g = heroGeom(st.clientWidth, st.clientHeight)
       const portrait = st.clientWidth <= 760 && st.clientHeight > st.clientWidth
       const cover = Math.hypot(st.clientWidth / 2, st.clientHeight / 2) + PANEL_GAP
-      const cta = clamp((p - CTA) / CTA_RAMP)
       for (const el of [sc, st]) el.style.setProperty('--hero', h.toFixed(3))
       st.style.setProperty('--fill', fill.toFixed(3))
       st.style.setProperty('--reveal', (1 - fill).toFixed(3))
       st.style.setProperty('--open', open.toFixed(3))
-      if (portrait) st.style.setProperty('--disc-angle', `${-90 * (1 - ease(clamp((p - at(3)) / at(17))))}deg`)
+      if (portrait) st.style.setProperty('--disc-angle', `${-90 * (1 - ease(clamp((o.v - DISC_TURN[0]) / (DISC_TURN[1] - DISC_TURN[0]))))}deg`)
       else st.style.removeProperty('--disc-angle')
       st.style.setProperty('--half-gap', `${g.r * MARK_GAP_RATIO * (1 - open) + PANEL_GAP / 2 * open}px`)
       st.style.setProperty('--r', `${(g.r + open * open * (cover - g.r)).toFixed(1)}px`)
-      st.style.setProperty('--cta', cta.toFixed(3))
-      st.classList.toggle('cta-on', cta > 0.5)
+      st.style.setProperty('--cta', cta.v.toFixed(3))
+      st.classList.toggle('cta-on', cta.to === 1 && cta.v > 0.15)
       homeState.hero = h
       homeState.reveal = 1 - fill
-      const c = p < CH[0] ? -1 : Math.min(CHAPTERS.length - 1, Math.floor(((p - CH[0]) / (CH[1] - CH[0])) * CHAPTERS.length))
+      const c = o.v >= CHAPTER_SHOW ? chapterIdx : -1
       homeState.chapter = c
       homeState.open = open
       setChapter(c)
-      if (p !== target) raf = requestAnimationFrame(update)
+      if (moving) raf = requestAnimationFrame(update)
     }
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update) }
-    const onResize = () => { setGeom(heroGeom(st.clientWidth, st.clientHeight)); onScroll() }
-    sc.addEventListener('scroll', onScroll, { passive: true })
+
+    // Wheel: the first event of a gesture steps at once; the rest of it is ignored, so trackpad momentum never
+    // carries past a chapter. A new gesture starts after a short pause, on a change of direction, or when
+    // the deltas climb again while the last swipe's momentum is still dying away (a new swipe on top of it),
+    // so the next step never waits for the momentum to run out
+    let lastWheel = 0
+    let lastSign = 0
+    let stepAt = 0
+    const recent: number[] = [] // |deltaY| of the current gesture's last few events
+    const mean = (xs: number[]) => xs.reduce((a, x) => a + x, 0) / xs.length
+    const onWheel = (e: WheelEvent) => {
+      if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX)) return // pinch zoom, sideways swipes
+      const now = performance.now()
+      const d = Math.abs(e.deltaY)
+      const sign = Math.sign(e.deltaY)
+      if (!sign) return
+      const paused = now - lastWheel > GESTURE_GAP
+      lastWheel = now
+      if (paused) recent.length = 0
+      recent.push(d)
+      if (recent.length > 8) recent.shift()
+      const settled = now - stepAt > STEP_COOLDOWN
+      const reversed = settled && sign !== lastSign && d > 2
+      const rising = settled && recent.length >= 6 && mean(recent.slice(-3)) > Math.max(6, 1.5 * mean(recent.slice(0, -3)))
+      lastSign = sign
+      if (!paused && !reversed && !rising) return
+      stepAt = now
+      recent.length = 0
+      goTo(step + sign)
+    }
+    let touchY: number | null = null
+    const onTouchStart = (e: TouchEvent) => { touchY = e.touches.length === 1 ? e.touches[0].clientY : null }
+    const onTouchMove = (e: TouchEvent) => {
+      if (touchY === null) return
+      const dy = touchY - e.touches[0].clientY // positive: swiping up, i.e. forward
+      if (Math.abs(dy) < TOUCH_SLOP) return
+      touchY = null // one step per swipe
+      goTo(step + Math.sign(dy))
+    }
+    const onTouchEnd = () => { touchY = null }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.altKey || e.ctrlKey || e.metaKey) return
+      const k = e.key
+      const dir = k === 'ArrowDown' || k === 'PageDown' || (k === ' ' && !e.shiftKey) ? 1
+        : k === 'ArrowUp' || k === 'PageUp' || (k === ' ' && e.shiftKey) ? -1 : 0
+      if (k === 'Home' || k === 'End') { e.preventDefault(); goTo(k === 'Home' ? -1 : LAST); return }
+      if (!dir || e.repeat) return
+      e.preventDefault()
+      goTo(step + dir)
+    }
+
+    nav.current = { toChapter: (i) => goTo(i), toTop: () => goTo(-1) }
+
+    const onResize = () => { setGeom(heroGeom(st.clientWidth, st.clientHeight)); kick() }
+    sc.addEventListener('wheel', onWheel, { passive: true })
+    sc.addEventListener('touchstart', onTouchStart, { passive: true })
+    sc.addEventListener('touchmove', onTouchMove, { passive: true })
+    sc.addEventListener('touchend', onTouchEnd, { passive: true })
+    sc.addEventListener('touchcancel', onTouchEnd, { passive: true })
     window.addEventListener('resize', onResize)
+    window.addEventListener('keydown', onKey)
     update(performance.now())
     return () => {
-      sc.removeEventListener('scroll', onScroll)
+      sc.removeEventListener('wheel', onWheel)
+      sc.removeEventListener('touchstart', onTouchStart)
+      sc.removeEventListener('touchmove', onTouchMove)
+      sc.removeEventListener('touchend', onTouchEnd)
+      sc.removeEventListener('touchcancel', onTouchEnd)
       window.removeEventListener('resize', onResize)
+      window.removeEventListener('keydown', onKey)
       cancelAnimationFrame(raf)
       homeState.chapter = -1
       homeState.open = 0
@@ -231,59 +315,12 @@ export function Home() {
     useStore.getState().setView({ colorMode: CHAPTERS[chapter].systems ? 'system' : 'anatomy' })
   }, [chapter])
 
-  const toChapter = (i: number) => {
-    const sc = scroller.current!
-    sc.scrollTo({ top: chapterAt(i) * (sc.scrollHeight - sc.clientHeight), behavior: 'smooth' })
-  }
-
-  // Arrow up / down glide one stop (our own eased tween: a browser smooth scroll rushes the long opening).
-  // Presses during a glide count from where it is heading; any other input (wheel, touch, click) stops it
-  useEffect(() => {
-    const sc = scroller.current!
-    let aim: number | null = null
-    let glide = 0
-    const stop = () => { cancelAnimationFrame(glide); glide = 0; aim = null; keyGlide.current = false }
-    const onKey = (e: KeyboardEvent) => {
-      if ((e.key !== 'ArrowDown' && e.key !== 'ArrowUp') || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
-      const max = sc.scrollHeight - sc.clientHeight
-      if (max <= 0) return
-      e.preventDefault()
-      const from = aim ?? sc.scrollTop / max
-      const to = e.key === 'ArrowDown' ? KEY_STOPS.find((s) => s > from + 1e-3) : KEY_STOPS.findLast((s) => s < from - 1e-3)
-      if (to === undefined) return
-      cancelAnimationFrame(glide)
-      aim = to
-      const y0 = sc.scrollTop
-      const y1 = to * max
-      // through the opening: longer and a softer curve, so the unfold is spread out rather than front-loaded
-      const opening = Math.min(from, to) < CH[0]
-      const dur = opening ? 2600 : 900
-      const n = opening ? 2 : 3
-      const t0 = performance.now()
-      const step = (now: number) => {
-        const k = Math.min(1, (now - t0) / dur)
-        sc.scrollTop = y0 + (y1 - y0) * easeOut(k, n)
-        if (k < 1) glide = requestAnimationFrame(step)
-        else { glide = 0; aim = null; keyGlide.current = false }
-      }
-      keyGlide.current = true
-      glide = requestAnimationFrame(step)
-    }
-    window.addEventListener('keydown', onKey)
-    for (const t of ['wheel', 'touchstart', 'pointerdown'] as const) window.addEventListener(t, stop, { passive: true })
-    return () => {
-      cancelAnimationFrame(glide)
-      window.removeEventListener('keydown', onKey)
-      for (const t of ['wheel', 'touchstart', 'pointerdown'] as const) window.removeEventListener(t, stop)
-    }
-  }, [])
-
   const ch = chapter >= 0 ? CHAPTERS[chapter] : null
 
   return (
     <div className="home" ref={scroller}>
       <header className="home-head">
-        <button className="home-brand" onClick={() => scroller.current?.scrollTo({ top: 0, behavior: 'smooth' })}>
+        <button className="home-brand" onClick={() => nav.current.toTop()}>
           <Mark /><span className="wordmark">BETWEEN</span>
         </button>
         <div className="home-head-r">
@@ -295,7 +332,7 @@ export function Home() {
         </div>
       </header>
 
-      <div className="home-track" style={{ height: `${SCROLL_VH + 100}vh` }}>
+      <div className="home-track">
         <div className="home-stage" ref={stage}>
           {/* the two worlds, seen through the split disc */}
           <div className="home-half left">
@@ -328,7 +365,7 @@ export function Home() {
 
           <nav className="home-steps" aria-label="chapters">
             {CHAPTERS.map((c, i) => (
-              <button key={i} className={i === chapter ? 'on' : ''} onClick={() => toChapter(i)} title={t(c.title)}>
+              <button key={i} className={i === chapter ? 'on' : ''} onClick={() => nav.current.toChapter(i)} title={t(c.title)}>
                 <span>{String(i + 1).padStart(2, '0')}</span>
               </button>
             ))}
