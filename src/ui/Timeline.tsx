@@ -5,7 +5,6 @@ import { DAY_START, EVENTS, director, useScenario } from '../sim/director'
 import { onFrame } from '../sim/loop'
 import { DecodeText } from './DecodeText'
 import { Icon } from './Icon'
-import { eventLanes } from './timelineLayout'
 
 const SPEEDS = [1, 2, 4]
 const pct = (tl: number) => `${(tl / 1440) * 100}%`
@@ -38,6 +37,8 @@ const SKY_GRADIENT = (() => {
 const HIT_BEFORE = 12
 const HIT_AFTER = 17
 const isHit = (dxPx: number) => dxPx > -HIT_BEFORE && dxPx < HIT_AFTER
+/** Phones: a tap on the track within this many px of an event's dot seeks to that event. */
+const SNAP_PX = 14
 
 const crowded = (i: number) =>
   (i > 0 && EVENTS[i].tl - EVENTS[i - 1].tl < 35) || (i + 1 < EVENTS.length && EVENTS[i + 1].tl - EVENTS[i].tl < 35)
@@ -112,8 +113,6 @@ export function Timeline() {
     measure()
     return () => observer.disconnect()
   }, [])
-  const lanes = mobileWidth ? eventLanes(EVENTS.map(event => event.tl), mobileWidth) : []
-  const rows = lanes.length ? Math.max(...lanes) + 1 : 1
 
   // Playhead, fill and marker hits follow the director every frame (the React state is throttled)
   useEffect(() => {
@@ -132,9 +131,15 @@ export function Timeline() {
     return onFrame(frame)
   }, [])
 
-  const seekFromPointer = (e: React.PointerEvent) => {
+  const seekFromPointer = (e: React.PointerEvent, snap = false) => {
     const r = span.current!.getBoundingClientRect()
-    director.seek(Math.max(0, Math.min(1439, ((e.clientX - r.left) / r.width) * 1440)))
+    let to = Math.max(0, Math.min(1439, ((e.clientX - r.left) / r.width) * 1440))
+    // phones: the markers are small dots, so a tap close to one lands on its event
+    if (snap && mobileWidth) {
+      const near = EVENTS.reduce((a, ev) => (Math.abs(ev.tl - to) < Math.abs(a.tl - to) ? ev : a))
+      if ((Math.abs(near.tl - to) / 1440) * r.width < SNAP_PX) to = near.tl
+    }
+    director.seek(to)
   }
 
   const ev = current >= 0 ? DAY[current] : null
@@ -173,11 +178,10 @@ export function Timeline() {
       </div>
       <div
         className="tl-bar"
-        style={mobileWidth ? { height: `${rows * 24 + 4}px` } : undefined}
         ref={bar}
         onPointerDown={(e) => {
           e.currentTarget.setPointerCapture(e.pointerId)
-          seekFromPointer(e)
+          seekFromPointer(e, true)
         }}
         onPointerMove={(e) => e.buttons && seekFromPointer(e)}
       >
@@ -195,7 +199,7 @@ export function Timeline() {
             key={e.index}
             ref={(el) => { marks.current[i] = el }}
             className={`tl-event ${current === e.index ? 'on' : ''}`}
-            style={{ left: pct(e.tl), marginTop: mobileWidth ? (lanes[i] - (rows - 1) / 2) * 24 : crowded(i) ? (i % 2 ? -15 : 15) : 0 }}
+            style={{ left: pct(e.tl), marginTop: !mobileWidth && crowded(i) ? (i % 2 ? -15 : 15) : 0 }}
             title={`${DAY[e.index].time} ${t(DAY[e.index].title)}`}
             onPointerDown={(x) => {
               x.stopPropagation()

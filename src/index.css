@@ -1498,10 +1498,15 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   .atlas .tl-title { flex-basis: 100%; min-width: 0; font-size: 12px; }
   .atlas .tl-title > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .atlas .tl-title svg { flex: none; }
-  .atlas .tl-bar { --tl-pad: 14px; margin: 6px 4px 18px; }
-  .atlas .tl-event { width: 20px; height: 20px; }
-  .atlas .tl-event svg { width: 11px; height: 11px; }
-  .atlas .tl-event.hit, .atlas .tl-event.hit:hover { transform: translate(-50%, -50%) scale(1.1); }
+  /* a thin scrubber: each event is a dot (its icon and title show in the line above), so all fit on one row */
+  .atlas .tl-bar { height: 30px; --tl-pad: 15px; margin: 6px 4px 18px; }
+  .atlas .tl-event { width: 7px; height: 7px; border: 0; background: rgba(200,215,235,0.55); }
+  .atlas .tl-event::before { content: ''; position: absolute; inset: -6px; border-radius: 50%; }
+  .atlas .tl-event svg { display: none; }
+  /* the playhead's pop window spans several close dots here, so passing only brightens; the current event grows */
+  .atlas .tl-event.hit, .atlas .tl-event.hit:hover { transform: translate(-50%, -50%); background: rgba(200,225,250,0.9); }
+  .atlas .tl-event.on, .atlas .tl-event.on.hit { transform: translate(-50%, -50%) scale(1.7); background: var(--accent); box-shadow: 0 0 8px var(--accent); z-index: 3; }
+  .atlas .tl-event:hover { transform: translate(-50%, -50%) scale(1.4); background: var(--accent); }
   .atlas .tl-hour.minor { display: none; }
   .atlas .focus-panel { border-radius: 18px; padding: 10px 12px; min-width: 0; }
   .atlas .focus-name { min-width: 0; flex-basis: 100%; }
