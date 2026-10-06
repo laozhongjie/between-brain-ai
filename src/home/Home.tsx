@@ -25,7 +25,9 @@ const op = (x: number) => x / OPENING
 const HERO_END = op(59) // the hero's labels, lines and wordmark fade away
 const FILL = [op(13), op(86)] // the white disc turns into a window onto brain | AI
 const OPEN = [op(20), 1] // the disc grows until it fills the screen
-const DISC_TURN = [op(3), op(20)] // portrait: the mark turns a quarter so its halves stack
+// portrait: the mark turns a quarter so its halves stack, done before the white fades (FILL[0]): the stacked
+// windows only show once the halves line up with them, so nothing leaks through a slanted slit
+const DISC_TURN = [0, FILL[0]]
 const CHAPTER_SHOW = 0.82 // the chapter's title and captions come in this far through the opening
 const OPEN_MS = 2600
 const CLOSE_MS = 1900
