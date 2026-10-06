@@ -211,7 +211,8 @@ export function Home() {
       const cover = Math.hypot(st.clientWidth / 2, st.clientHeight / 2) + PANEL_GAP
       for (const el of [sc, st]) el.style.setProperty('--hero', h.toFixed(3))
       st.style.setProperty('--fill', fill.toFixed(3))
-      st.style.setProperty('--reveal', (1 - fill).toFixed(3))
+      // the windows stay hidden until the white starts to fade, so nothing shows through the slit before then
+      st.style.setProperty('--shown', fill < 1 ? '1' : '0')
       st.style.setProperty('--open', open.toFixed(3))
       if (portrait) st.style.setProperty('--disc-angle', `${-90 * (1 - ease(clamp((o.v - DISC_TURN[0]) / (DISC_TURN[1] - DISC_TURN[0]))))}deg`)
       else st.style.removeProperty('--disc-angle')
