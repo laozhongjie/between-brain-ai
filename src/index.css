@@ -1443,7 +1443,9 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   .atlas .systems.compact { top: 90px; }
   .atlas .left-col { top: 138px; }
   .ai-section { top: 52px; }
-  .ai-drawer-tab { top: 64px; }
+  /* the directory tab gets its own gutter at the left edge, so scrolled text never runs under it */
+  .ai-drawer-tab { top: 64px; right: -18px; width: 18px; height: 40px; }
+  .ai-main { padding-left: 28px; }
 }
 
 @media (max-width: 519px) {
