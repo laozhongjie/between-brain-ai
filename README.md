@@ -250,6 +250,12 @@ BETWEEN 是一个中英双语的交互式图谱，把大脑和当前的 AI 系�
 
 在线访问：<https://laozhongjie.github.io/between-brain-ai/>
 
+## Licence
+
+The code is released under the [MIT License](LICENSE). The written content and figures (topic pages, mechanism entries, diagrams, narration and screenshots) are released under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/): share and adapt them for non-commercial purposes with credit. [LICENSE-CONTENT.md](LICENSE-CONTENT.md) lists exactly what is covered and the third-party parts that keep their own terms.
+
+代码采用 MIT 许可证；专题文字、示意图、旁白和截图采用 CC BY-NC 4.0，可在注明出处的前提下非商业转载与改编。
+
 ## Credits and licences
 
 - **Brain data:** FreeSurfer `fsaverage` via MNE-Python, under the [FreeSurfer Software License](https://surfer.nmr.mgh.harvard.edu/fswiki/FreeSurferSoftwareLicense). Check its terms before commercial use.
