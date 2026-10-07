@@ -261,6 +261,11 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .bar > div { height: 100%; border-radius: 3px; transition: width 0.3s; background: linear-gradient(90deg, color-mix(in srgb, var(--c) 25%, transparent), var(--c)) !important; box-shadow: 0 0 10px var(--c); }
 
 .top-actions { display: flex; gap: 6px; align-items: center; }
+/* GitHub mark linking to the source (ui/RepoLink.tsx) */
+.repo-link { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 999px; color: var(--text-dim); transition: color .25s var(--ease); }
+.repo-link:hover { color: var(--text-h); }
+.home-repo { color: #c9ced6; }
+.home-repo:hover { color: #f2f4f7; }
 .mobile-toggle { display: none; place-items: center; background: rgba(0,0,0,0.3); border: 1px solid var(--panel-border); border-radius: 8px; width: 30px; height: 28px; cursor: pointer; color: var(--text-dim); }
 .mobile-toggle:hover { color: var(--text-h); border-color: var(--line-hi); }
 
@@ -1438,6 +1443,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border: 0; bord
   .topbar h1 { order: 1; flex: none; }
   .topbar .nav-tabs { order: 2; margin-left: 0; }
   .topbar .lang { order: 3; margin-left: auto; }
+  .topbar .repo-link { order: 3; width: 28px; height: 28px; }
   .atlas .topbar::after { content: ''; order: 4; flex-basis: 100%; }
   .topbar .view-toggle { order: 5; margin-right: auto; }
   .topbar .mobile-toggle { order: 6; width: 32px; height: 32px; }

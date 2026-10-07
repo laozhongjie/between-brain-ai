@@ -15,6 +15,7 @@ import { SystemPicker } from './ui/SystemPicker'
 import { Timeline } from './ui/Timeline'
 import { DecodeText } from './ui/DecodeText'
 import { Icon } from './ui/Icon'
+import { RepoLink } from './ui/RepoLink'
 
 // The Brain ↔ AI section (with KaTeX) loads on demand so the atlas starts faster
 const AiSection = lazy(() => import('./ai/pages/AiSection').then((m) => ({ default: m.AiSection })))
@@ -126,6 +127,7 @@ export default function App() {
           <button className={lang === 'zh' ? 'on' : ''} onClick={() => setLang('zh')}>中文</button>
           <button className={lang === 'en' ? 'on' : ''} onClick={() => setLang('en')}>EN</button>
         </div>
+        <RepoLink />
       </div>
     </header>
   )

@@ -4,6 +4,7 @@ import { go } from '../route'
 import { useStore } from '../store'
 import { DecodeText } from '../ui/DecodeText'
 import { ComparisonText } from '../ui/ComparisonText'
+import { RepoLink } from '../ui/RepoLink'
 import { CHAPTERS, homeState } from './chapters'
 import { HomeAI } from './HomeAI'
 import { HeroField } from './HeroField'
@@ -331,6 +332,7 @@ export function Home() {
             <button className={lang === 'zh' ? 'on' : ''} onClick={() => setLang('zh')}>中文</button>
             <button className={lang === 'en' ? 'on' : ''} onClick={() => setLang('en')}>EN</button>
           </div>
+          <RepoLink className="home-repo" />
           <button className="home-explore" onClick={() => go('/atlas')}>EXPLORE</button>
         </div>
       </header>
