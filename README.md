@@ -33,6 +33,8 @@
   <img src="https://img.shields.io/badge/TypeScript-6-7dd3fc?style=flat-square&labelColor=0b1019" alt="TypeScript 6">
   <img src="https://img.shields.io/badge/references-471%2C%20machine--checked-5ee0b5?style=flat-square&labelColor=0b1019" alt="471 references, machine-checked">
   <img src="https://img.shields.io/badge/UI-中文%20%2F%20English-a9b4f5?style=flat-square&labelColor=0b1019" alt="Chinese and English UI">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/code-MIT-f5c451?style=flat-square&labelColor=0b1019" alt="Code: MIT License"></a>
+  <a href="LICENSE-CONTENT.md"><img src="https://img.shields.io/badge/content-CC%20BY--NC%204.0-ef9a6c?style=flat-square&labelColor=0b1019" alt="Content: CC BY-NC 4.0"></a>
 </p>
 
 <br>
